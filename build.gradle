@@ -10,12 +10,12 @@ plugins {
   id 'org.sonarqube' version '2.8'
 }
 
-group = 'uk.gov.hmcts.reform'
+group = 'uk.gov.hmcts.ethos.ecm'
 version = '0.0.1'
 
 allprojects {
-  sourceCompatibility = '11'
-  targetCompatibility = '11'
+  sourceCompatibility = '1.8'
+  targetCompatibility = '1.8'
 }
 
 sourceSets {
@@ -112,8 +112,8 @@ project.tasks['sonarqube'].dependsOn jacocoTestReport
 
 sonarqube {
   properties {
-    property "sonar.projectName", "Reform :: spring-boot-template"
-    property "sonar.projectKey", "uk.gov.hmcts.reform:spring-boot-template"
+    property "sonar.projectName", "Ethos :: ecm-consumer"
+    property "sonar.projectKey", "ecm-consumer"
     property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
   }
 }
@@ -157,6 +157,7 @@ repositories {
   mavenLocal()
   jcenter()
   mavenCentral()
+  maven { url "https://dl.bintray.com/hmcts/hmcts-maven" }
 }
 
 def versions = [
@@ -183,7 +184,7 @@ dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json'
   implementation group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: '0.0.5'
-
+  implementation group: 'uk.gov.hmcts.reform', name: 'ecm-common', version: '0.0.6'
   implementation group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
 
   implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.reformLogging
@@ -209,7 +210,7 @@ mainClassName = 'uk.gov.hmcts.reform.demo.Application'
 
 bootJar {
   getArchiveFileName().set(provider {
-    'spring-boot-template.jar'
+    'ecm-consumer.jar'
   })
 
   manifest {

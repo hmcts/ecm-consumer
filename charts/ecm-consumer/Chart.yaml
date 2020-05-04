@@ -1,0 +1,8 @@
+apiVersion: v1
+name: ecm-consumer
+home: https://github.com/hmcts/ecm-consumer
+version: 0.0.1
+description: HMCTS ECM Consumer Updates Queue Service
+maintainers:
+  - name: HMCTS ETHOS Team
+    email: javier.carretero@hmcts.net
