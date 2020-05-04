@@ -41,7 +41,7 @@ module "ecm-consumer" {
 resource "azurerm_key_vault_secret" "AZURE_APPINSGHTS_KEY" {
   name         = "AppInsightsInstrumentationKey"
   value        = "${azurerm_application_insights.appinsights.instrumentation_key}"
-  key_vault_id = "${module.key-vault.key_vault_id}"
+  key_vault_id = "${data.azurerm_key_vault.ethos_key_vault.id}"
 }
 
 resource "azurerm_application_insights" "appinsights" {
@@ -61,17 +61,4 @@ data "azurerm_key_vault" "ethos_key_vault" {
 data "azurerm_key_vault_secret" "ecm-consumer-s2s-secret" {
   name = "ecm-consumer-s2s-secret"
   key_vault_id = "${data.azurerm_key_vault.ethos_key_vault.id}"
-}
-
-module "key-vault" {
-  source                  = "git@github.com:hmcts/cnp-module-key-vault?ref=master"
-  product                 = "${var.product}"
-  env                     = "${var.env}"
-  tenant_id               = "${var.tenant_id}"
-  object_id               = "${var.jenkins_AAD_objectId}"
-  resource_group_name     = "${local.vaultGroupName}"
-  # dcd_group_ethos_v2 group object ID
-  product_group_object_id = "414c132d-5160-42b3-bbff-43a2e1daafcf"
-  common_tags             = "${var.common_tags}"
-  managed_identity_object_id = "${var.managed_identity_object_id}"
 }
