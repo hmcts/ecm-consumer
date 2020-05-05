@@ -3,8 +3,6 @@ provider "azurerm" {
 }
 
 locals {
-  app = "ecm-consumer"
-
   previewVaultNameAndGroup = "${var.product}-shared-aat"
   nonPreviewVaultNameAndGroup = "${var.product}-shared-${var.env}"
   vaultNameAndGroup = "${var.env == "preview" ? local.previewVaultNameAndGroup : local.nonPreviewVaultNameAndGroup}"
