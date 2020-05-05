@@ -40,18 +40,10 @@ variable "enable_ase" {
   default = false
 }
 
-variable "ilbIp"{}
-
 variable "tenant_id" {}
 
 variable "capacity" {
   default = "1"
-}
-
-variable "autoheal" {
-  description = "Enabling Proactive Auto Heal for Webapps"
-  type        = "string"
-  default     = "True"
 }
 
 variable "s2s_url" {
