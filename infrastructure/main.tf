@@ -4,15 +4,11 @@ provider "azurerm" {
 
 locals {
   app = "ecm-consumer"
-  create_api = "${var.env != "preview" && var.env != "spreview"}"
 
-  previewVaultName = "${var.product}-aat"
-  nonPreviewVaultName = "${var.product}-${var.env}"
-  vaultName = "${var.env == "preview" ? local.previewVaultName : local.nonPreviewVaultName}"
+  previewVaultNameAndGroup = "${var.product}-shared-aat"
+  nonPreviewVaultNameAndGroup = "${var.product}-shared-${var.env}"
+  vaultNameAndGroup = "${var.env == "preview" ? local.previewVaultNameAndGroup : local.nonPreviewVaultNameAndGroup}"
   vaultUri = "${data.azurerm_key_vault.ethos_key_vault.vault_uri}"
-  previewVaultGroupName = "${var.product}-${local.app}-aat"
-  nonPreviewVaultGroupName = "${var.product}-${local.app}-${var.env}"
-  vaultGroupName = "${var.env == "preview" ? local.previewVaultGroupName : local.nonPreviewVaultGroupName}"
 
 }
 
@@ -47,15 +43,15 @@ resource "azurerm_key_vault_secret" "AZURE_APPINSGHTS_KEY" {
 resource "azurerm_application_insights" "appinsights" {
   name                = "${var.product}-${var.component}-appinsights-${var.env}"
   location            = "${var.appinsights_location}"
-  resource_group_name = "${local.vaultGroupName}"
+  resource_group_name = "${local.vaultNameAndGroup}"
   application_type    = "Web"
 
   tags = "${var.common_tags}"
 }
 
 data "azurerm_key_vault" "ethos_key_vault" {
-  name                = "${local.vaultName}"
-  resource_group_name = "${local.vaultGroupName}"
+  name                = "${local.vaultNameAndGroup}"
+  resource_group_name = "${local.vaultNameAndGroup}"
 }
 
 data "azurerm_key_vault_secret" "ecm-consumer-s2s-secret" {
