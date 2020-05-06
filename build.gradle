@@ -23,9 +23,9 @@ sourceSets {
     java {
       compileClasspath += main.output
       runtimeClasspath += main.output
-      srcDir file('src/functionalTest/java')
+      srcDir file('src/test/java')
     }
-    resources.srcDir file('src/functionalTest/resources')
+    resources.srcDir file('src/test/resources')
   }
 
   integrationTest {
@@ -179,6 +179,10 @@ ext.libraries = [
 ]
 
 dependencies {
+
+  compileOnly 'org.projectlombok:lombok:1.18.4'
+  annotationProcessor 'org.projectlombok:lombok:1.18.4'
+
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
