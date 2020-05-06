@@ -5,6 +5,6 @@ java:
   ingressHost: ${SERVICE_FQDN}
   keyVaults:
     ethos:
-      resourceGroup: ecm-consumer
+      resourceGroup: ethos
       secrets:
         - ecm-consumer-s2s-secret

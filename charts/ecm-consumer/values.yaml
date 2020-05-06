@@ -5,7 +5,7 @@ java:
   aadIdentityName: ethos
   keyVaults:
     ethos:
-      resourceGroup: ecm-consumer
+      resourceGroup: ethos
       secrets:
         - AppInsightsInstrumentationKey
         - ecm-consumer-s2s-secret
