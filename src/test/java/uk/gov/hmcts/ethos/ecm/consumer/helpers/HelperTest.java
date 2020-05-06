@@ -1,6 +1,6 @@
 package uk.gov.hmcts.ethos.ecm.consumer.helpers;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Helper;
 
 import static org.junit.Assert.assertEquals;
