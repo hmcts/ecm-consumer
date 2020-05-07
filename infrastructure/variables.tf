@@ -1,7 +1,7 @@
 variable "product" {}
 
 variable "component" {
-  type = "string"
+  type = string
 }
 
 variable "location" {
@@ -15,7 +15,7 @@ variable "subscription" {}
 variable "deployment_namespace" {}
 
 variable "common_tags" {
-  type = "map"
+  type = map(string)
 }
 
 variable "micro_service" {
@@ -31,7 +31,7 @@ variable "idam_api_url" {
 }
 
 variable "appinsights_location" {
-  type        = "string"
+  type        = string
   default     = "West Europe"
   description = "Location for Application Insights"
 }
@@ -51,6 +51,6 @@ variable "s2s_url" {
 }
 
 variable "jenkins_AAD_objectId" {
-  type                        = "string"
+  type                        = string
   description                 = "(Required) The Azure AD object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies."
 }
