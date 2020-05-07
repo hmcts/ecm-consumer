@@ -2,7 +2,6 @@ java:
   image: 'hmctspublic.azurecr.io/ethos/ecm-consumer:latest'
   applicationPort: 4550
   ingressHost: ecm-consumer-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-  aadIdentityName: ethos
   keyVaults:
     ethos:
       resourceGroup: ethos
