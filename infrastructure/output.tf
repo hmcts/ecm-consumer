@@ -4,7 +4,7 @@ output "app_namespace" {
 }
 
 output "vaultName" {
-  value = "${local.vaultNameAndGroup}"
+  value = "${local.vaultName}"
 }
 
 output "vaultUri" {
