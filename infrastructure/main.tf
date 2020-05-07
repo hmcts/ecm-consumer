@@ -10,7 +10,8 @@ locals {
   previewRG = "${var.product}-aat"
   nonPreviewRG = "${var.product}-${var.env}"
   resourceGroup = var.env == "preview" ? local.previewRG : local.nonPreviewRG
-
+  localEnv = var.env == "preview" ? "aat" : var.env
+  s2sRG  = "rpe-service-auth-provider-${local.localEnv}"
 }
 
 resource "azurerm_key_vault_secret" "AZURE_APPINSGHTS_KEY" {
@@ -33,7 +34,12 @@ data "azurerm_key_vault" "ethos_key_vault" {
   resource_group_name = local.resourceGroup
 }
 
+data "azurerm_key_vault" "s2s_key_vault" {
+  name                = "s2s-${local.localEnv}"
+  resource_group_name = local.s2sRG
+}
+
 data "azurerm_key_vault_secret" "ecm-consumer-s2s-secret" {
-  name = "ecm-consumer-s2s-secret"
-  key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
+  name = "microservicekey-ecm-consumer"
+  key_vault_id = data.azurerm_key_vault.s2s_key_vault.id
 }
