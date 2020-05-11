@@ -40,7 +40,7 @@ public class MultipleService {
     public void sendUpdateToMultipleLogic() {
         log.info("Running after 5 minutes");
         String authToken = authenticateUser();
-        List<SubmitBulkEvent> submitBulkEvents = pullMultipleCase(authToken);
+        List<SubmitBulkEvent> submitBulkEvents = retrieveMultipleCase(authToken);
         if (submitBulkEvents != null && !submitBulkEvents.isEmpty()) {
             log.info("submit BulkEvent: " + submitBulkEvents.get(0));
             sendUpdate(submitBulkEvents.get(0), authToken);
@@ -55,7 +55,7 @@ public class MultipleService {
         return apiAccessToken.getAccessToken();
     }
 
-    private List<SubmitBulkEvent> pullMultipleCase(String authToken) {
+    private List<SubmitBulkEvent> retrieveMultipleCase(String authToken) {
         try {
             return ccdClient.retrieveBulkCasesElasticSearch(authToken, CASE_TYPE_ID, MULTIPLE_REFERENCE);
         } catch (Exception ex) {
