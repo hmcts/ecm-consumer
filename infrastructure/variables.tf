@@ -50,6 +50,10 @@ variable "s2s_url" {
   default = "http://service-auth-provider-api:8080"
 }
 
+variable "ccd_data_store_api_url" {
+  default = "http://ccd-data-store-api:4452"
+}
+
 variable "jenkins_AAD_objectId" {
   type                        = string
   description                 = "(Required) The Azure AD object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies."
