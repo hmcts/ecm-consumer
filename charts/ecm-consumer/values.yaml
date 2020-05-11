@@ -1,0 +1,23 @@
+java:
+  image: 'hmctspublic.azurecr.io/ethos/ecm-consumer:latest'
+  applicationPort: 4550
+  ingressHost: ecm-consumer-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+  keyVaults:
+    ethos:
+      resourceGroup: ethos
+      secrets:
+        - AppInsightsInstrumentationKey
+        - ecm-consumer-s2s-secret
+  environment:
+    REFORM_TEAM: ethos
+    REFORM_SERVICE_NAME: ecm-consumer
+    REFORM_SERVICE_TYPE: java
+    REFORM_ENVIRONMENT: preview
+    ROOT_LOGGING_LEVEL: INFO
+    LOG_OUTPUT: single
+    ECM_CONSUMER_URL: "http://ecm-consumer-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
+    IDAM_API_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
+    IDAM_API_JWK_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net/jwks"
+    SERVICE_AUTH_PROVIDER_URL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
+    CCD_DATA_STORE_API_URL: "http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
+    MICRO_SERVICE: "ecm-consumer"

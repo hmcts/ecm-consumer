@@ -1,0 +1,30 @@
+#!groovy
+@Library(value="Infrastructure", changelog=false) _
+
+properties([
+  parameters([
+    string(name: 'PRODUCT_NAME', defaultValue: 'ethos', description: ''),
+    string(name: 'APP', defaultValue: 'ecm-consumer', description: ''),
+    string(name: 'TYPE', defaultValue: 'java', description: ''),
+    string(name: 'ENVIRONMENT', defaultValue: 'sandbox', description: 'Environment where code should be build and deployed'),
+    choice(name: 'SUBSCRIPTION', choices: 'sandbox\nnonprod\nprod\nhmctsdemo', description: 'Azure subscriptions available to build in')
+  ]),
+  [$class: 'GithubProjectProperty', projectUrlStr: 'github.com/hmcts/ecm-consumer'],
+  pipelineTriggers([[$class: 'GitHubPushTrigger']])
+])
+
+withParameterizedPipeline(params.TYPE, params.PRODUCT_NAME, params.APP, params.ENVIRONMENT, params.SUBSCRIPTION) {
+    enableSlackNotifications('#ethos-repl-service')
+
+    after('functional:preview') {
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
+    }
+
+    after('functional:demo') {
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
+    }
+
+    after('functional:aat') {
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
+    }
+}

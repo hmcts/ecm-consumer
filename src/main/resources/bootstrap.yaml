@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    propertiesvolume:
+      prefixed: false
+      paths: /mnt/secrets/ethos
+      aliases:
+        AppInsightsInstrumentationKey: azure.application-insights.instrumentation-key
+        ecm-consumer-s2s-secret: ECM_S2S_SECRET_KEY

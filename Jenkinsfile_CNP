@@ -1,0 +1,29 @@
+#!groovy
+
+@Library("Infrastructure")
+
+def type = "java"
+def product = "ethos"
+def component = "ecm-consumer"
+
+withPipeline(type, product, component) {
+  installCharts()
+  enableAksStagingDeployment()
+  onMaster {
+    disableLegacyDeployment()
+  }
+  onDemo {
+    disableLegacyDeployment()
+  }
+  onIthc {
+    disableLegacyDeployment()
+  }
+  onPerftest {
+    disableLegacyDeployment()
+  }
+  enableSlackNotifications('#ethos-repl-service')
+
+  after('functional') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
+  }
+}

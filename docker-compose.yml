@@ -1,26 +1,14 @@
 version: '2.1'
 
 services:
-  spring-boot-template:
-    build:
-      context: .
-      args:
-        - http_proxy
-        - https_proxy
-        - no_proxy
-    image: hmctspublic.azurecr.io/spring-boot/template
-    environment:
-      # these environment variables are used by java-logging library
-      - ROOT_APPENDER
-      - JSON_CONSOLE_PRETTY_PRINT
-      - ROOT_LOGGING_LEVEL
-      - REFORM_SERVICE_TYPE
-      - REFORM_SERVICE_NAME
-      - REFORM_TEAM
-      - REFORM_ENVIRONMENT
-      - LOGBACK_DATE_FORMAT
-      - LOGBACK_REQUIRE_THREAD
-      - LOGBACK_REQUIRE_ALERT_LEVEL=false
-      - LOGBACK_REQUIRE_ERROR_CODE=false
+  ecm-consumer:
+    image: "hmcts/ecm-consumer:latest"
+    container_name: ecm-consumer
     ports:
-      - $SERVER_PORT:$SERVER_PORT
+      - 4550:4550
+    environment:
+      IDAM_API_URL: "http://idam-api:5000"
+      IDAM_API_JWK_URL: "http://idam-api:5000/jwks"
+      SERVICE_AUTH_PROVIDER_URL: "http://service-auth-provider-api:8080"
+      CCD_DATA_STORE_API_URL: "http://ccd-data-store-api:4452"
+      MICRO_SERVICE: "ecm-consumer"
