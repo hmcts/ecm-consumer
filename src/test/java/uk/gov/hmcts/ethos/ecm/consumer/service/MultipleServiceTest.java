@@ -53,6 +53,13 @@ public class MultipleServiceTest {
     @Test
     public void sendUpdateToMultipleLogicEmptyES() throws IOException {
         when(userService.loginUser(anyString(), anyString())).thenReturn(HelperTest.getApiAccessToken());
+        when(ccdClient.retrieveBulkCasesElasticSearch(anyString(), anyString(), anyString())).thenReturn(new ArrayList<>());
+        multipleService.sendUpdateToMultipleLogic();
+    }
+
+    @Test
+    public void sendUpdateToMultipleLogicNullES() throws IOException {
+        when(userService.loginUser(anyString(), anyString())).thenReturn(HelperTest.getApiAccessToken());
         when(ccdClient.retrieveBulkCasesElasticSearch(anyString(), anyString(), anyString())).thenReturn(null);
         multipleService.sendUpdateToMultipleLogic();
     }

@@ -138,7 +138,7 @@ dependencies {
   }
 }
 
-mainClassName = 'uk.gov.hmcts.reform.demo.Application'
+mainClassName = 'uk.gov.hmcts.reform.ethos.ecm.consumer.Application'
 
 bootJar {
   getArchiveFileName().set(provider {

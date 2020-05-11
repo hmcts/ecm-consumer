@@ -42,6 +42,14 @@ public class MultipleService {
         String authToken = authenticateUser();
         List<SubmitBulkEvent> submitBulkEvents = retrieveMultipleCase(authToken);
         if (submitBulkEvents != null && !submitBulkEvents.isEmpty()) {
+
+//            for (SubmitBulkEvent submitBulkEvent : submitBulkEvents) {
+//                if (submitBulkEvent.getCaseData().getMultipleReference().equals(MULTIPLE_REFERENCE)) {
+//                    log.info("submit BulkEvent: " + submitBulkEvent);
+//                    sendUpdate(submitBulkEvent, authToken);
+//                }
+//            }
+
             log.info("submit BulkEvent: " + submitBulkEvents.get(0));
             sendUpdate(submitBulkEvents.get(0), authToken);
         } else {
@@ -58,6 +66,7 @@ public class MultipleService {
     private List<SubmitBulkEvent> retrieveMultipleCase(String authToken) {
         try {
             return ccdClient.retrieveBulkCasesElasticSearch(authToken, CASE_TYPE_ID, MULTIPLE_REFERENCE);
+            //return ccdClient.retrieveBulkCases(authToken, CASE_TYPE_ID, JURISDICTION);
         } catch (Exception ex) {
             throw new CaseCreationException(MESSAGE + MULTIPLE_REFERENCE + ex.getMessage());
         }
