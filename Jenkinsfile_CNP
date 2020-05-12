@@ -7,7 +7,6 @@ def product = "ethos"
 def component = "ecm-consumer"
 
 withPipeline(type, product, component) {
-  installCharts()
   enableAksStagingDeployment()
   onMaster {
     disableLegacyDeployment()
