@@ -7,10 +7,10 @@ import uk.gov.hmcts.ecm.common.idam.models.UserDetails;
 
 @FeignClient(name = "idam-api", url = "${idam.api.url}")
 public interface IdamApi {
-    @RequestMapping(method = RequestMethod.GET, value = "/o/userinfo")
+    @GetMapping(value = "/o/userinfo")
     UserDetails retrieveUserDetails(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorisation);
 
-    @RequestMapping(method = RequestMethod.GET, value = "/loginUser")
+    @GetMapping(value = "/loginUser")
     ApiAccessToken loginUser(@RequestParam("userName") String userName,
                              @RequestParam("password") String password);
 }

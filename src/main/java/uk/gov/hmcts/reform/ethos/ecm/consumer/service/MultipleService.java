@@ -36,10 +36,11 @@ public class MultipleService {
         this.userService = userService;
     }
 
-    @Scheduled(fixedRate = 300000)
+    //@Scheduled(fixedRate = 300000)
     public void sendUpdateToMultipleLogic() {
         log.info("Running after 5 minutes");
         String authToken = authenticateUser();
+        //String authToken = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJrcmk1NjRrcmE1dXVkZGVsbGxwZDRvYWdpNCIsInN1YiI6Ijc2YjM5ODA0LTI4NTYtNDdlMS1iOTVmLTVjMTBhM2UwMTZjMCIsImlhdCI6MTU4OTI4NTc0MiwiY2FzZS1pZCI6IjEyNCIsImV2ZW50LWlkIjoidXBkYXRlQnVsa0FjdGlvbiIsImNhc2UtdHlwZS1pZCI6IlNjb3RsYW5kX011bHRpcGxlcyIsImp1cmlzZGljdGlvbi1pZCI6IkVNUExPWU1FTlQiLCJjYXNlLXN0YXRlIjoiQnVsa0Nhc2VTdGFydGVkIiwiY2FzZS12ZXJzaW9uIjoiMWExNDZlY2I1YmI0NGYxZDY4OGNhOTdhMGJjYjYxNjVlN2IxNTg0ZCIsImVudGl0eS12ZXJzaW9uIjoyMH0.NGC8nyXG2BT4zTyHnUkEaCRaVJmx_fgG0dxINywc3oM";
         List<SubmitBulkEvent> submitBulkEvents = retrieveMultipleCase(authToken);
         if (submitBulkEvents != null && !submitBulkEvents.isEmpty()) {
 
