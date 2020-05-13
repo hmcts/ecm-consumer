@@ -64,6 +64,26 @@ test {
   exclude '**/*ComponentTest*'
 }
 
+task smoke(type: Test, description: 'Runs the smoke tests.', group: 'Verification') {
+  testClassesDirs = sourceSets.functional.output.classesDirs
+  classpath = sourceSets.functional.runtimeClasspath
+
+  useJUnit {
+    includeCategories 'uk.gov.hmcts.ethos.ecm.consumer.functional.SmokeTest'
+  }
+}
+
+task functional(type: Test, description: 'Runs the functional tests.', group: 'Verification') {
+  testClassesDirs = sourceSets.functional.output.classesDirs
+  classpath = sourceSets.functional.runtimeClasspath
+
+  useJUnit {
+    includeCategories 'uk.gov.hmcts.ethos.ecm.consumer.functional.SmokeTest'
+  }
+
+  maxHeapSize = '1G'
+}
+
 // before committing a change, make sure task still works
 dependencyUpdates {
   def isNonStable = { String version ->
@@ -133,10 +153,12 @@ dependencies {
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.2.RELEASE'
   implementation group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.0.4'
 
-  testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
-    exclude group: 'junit', module: 'junit'
-    exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+  testCompile (group: 'org.docx4j', name: 'docx4j', version: '6.1.2') {
+    exclude module: 'slf4j-log4j12'
   }
+  testCompile 'org.projectlombok:lombok:1.18.12'
+  testCompile group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
+  testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.2.7.RELEASE'
 }
 
 mainClassName = 'uk.gov.hmcts.reform.ethos.ecm.consumer.Application'
