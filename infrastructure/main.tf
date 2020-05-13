@@ -12,6 +12,7 @@ locals {
   resourceGroup = var.env == "preview" ? local.previewRG : local.nonPreviewRG
   localEnv = var.env == "preview" ? "aat" : var.env
   s2sRG  = "rpe-service-auth-provider-${local.localEnv}"
+  s2s_key = data.azurerm_key_vault_secret.ecm_consumer_s2s_secret.value
 }
 
 data "azurerm_key_vault" "ethos_key_vault" {
