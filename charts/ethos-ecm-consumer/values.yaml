@@ -7,7 +7,6 @@ java:
       resourceGroup: ethos
       secrets:
         - AppInsightsInstrumentationKey
-        - microservicekey-ecm-consumer
   aadIdentityName: ethos
   environment:
     REFORM_TEAM: ethos

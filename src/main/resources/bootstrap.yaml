@@ -5,4 +5,3 @@ spring:
       paths: /mnt/secrets/ethos
       aliases:
         AppInsightsInstrumentationKey: azure.application-insights.instrumentation-key
-        microservicekey-ecm-consumer: ECM_S2S_SECRET_KEY
