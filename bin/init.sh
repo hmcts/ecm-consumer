@@ -30,7 +30,7 @@ declare -a files_with_slug=(build.gradle docker-compose.yml Dockerfile README.md
 # Replace port number
 for i in ${files_with_port[@]}
 do
-  perl -i -pe "s/4550/$port/g" ${i}
+  perl -i -pe "s/8085/$port/g" ${i}
 done
 
 # Replace spring-boot-template slug

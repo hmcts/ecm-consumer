@@ -1,6 +1,6 @@
 java:
   image: 'hmctspublic.azurecr.io/ethos/ecm-consumer:latest'
-  applicationPort: 4550
+  applicationPort: 8085
   ingressHost: ecm-consumer-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
   keyVaults:
     ethos:

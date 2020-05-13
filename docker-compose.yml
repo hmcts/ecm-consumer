@@ -5,7 +5,7 @@ services:
     image: "hmcts/ecm-consumer:latest"
     container_name: ecm-consumer
     ports:
-      - 4550:4550
+      - 8085:8085
     environment:
       IDAM_API_URL: "http://idam-api:5000"
       IDAM_API_JWK_URL: "http://idam-api:5000/jwks"
