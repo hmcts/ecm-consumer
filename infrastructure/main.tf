@@ -39,7 +39,7 @@ resource "azurerm_application_insights" "appinsights" {
   tags = var.common_tags
 }
 
-data "azurerm_key_vault_secret" "ecm-consumer-s2s-secret" {
+data "azurerm_key_vault_secret" "ecm_consumer_s2s_secret" {
   name = "microservicekey-ecm-consumer"
   key_vault_id = data.azurerm_key_vault.s2s_key_vault.id
 }
