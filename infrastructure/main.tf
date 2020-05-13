@@ -14,6 +14,16 @@ locals {
   s2sRG  = "rpe-service-auth-provider-${local.localEnv}"
 }
 
+data "azurerm_key_vault" "ethos_key_vault" {
+  name                = local.vaultName
+  resource_group_name = local.resourceGroup
+}
+
+data "azurerm_key_vault" "s2s_key_vault" {
+  name                = "s2s-${local.localEnv}"
+  resource_group_name = local.s2sRG
+}
+
 resource "azurerm_key_vault_secret" "AZURE_APPINSGHTS_KEY" {
   name         = "AppInsightsInstrumentationKey"
   value        = azurerm_application_insights.appinsights.instrumentation_key
@@ -27,16 +37,6 @@ resource "azurerm_application_insights" "appinsights" {
   application_type    = "Web"
 
   tags = var.common_tags
-}
-
-data "azurerm_key_vault" "ethos_key_vault" {
-  name                = local.vaultName
-  resource_group_name = local.resourceGroup
-}
-
-data "azurerm_key_vault" "s2s_key_vault" {
-  name                = "s2s-${local.localEnv}"
-  resource_group_name = local.s2sRG
 }
 
 data "azurerm_key_vault_secret" "ecm-consumer-s2s-secret" {

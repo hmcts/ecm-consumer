@@ -8,6 +8,7 @@ java:
       secrets:
         - AppInsightsInstrumentationKey
         - ecm-consumer-s2s-secret
+  aadIdentityName: ecm
   environment:
     REFORM_TEAM: ethos
     REFORM_SERVICE_NAME: ecm-consumer
