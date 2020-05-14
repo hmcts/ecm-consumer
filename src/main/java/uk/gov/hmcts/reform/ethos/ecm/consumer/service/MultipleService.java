@@ -29,7 +29,7 @@ public class MultipleService {
     private static final String CASE_TYPE_ID = SCOTLAND_BULK_CASE_TYPE_ID;
     private static final String USERNAME = "eric.ccdcooper@gmail.com";
     private static final String PASSWORD = "Nagoya0102";
-    private static final String MULTIPLE_REFERENCE = "4150015";
+    private static final String MULTIPLE_REFERENCE = "4120013";
 
     @Value("${caseworker_user_name}")
     private String caseWorkerUserName;
@@ -48,7 +48,7 @@ public class MultipleService {
         log.info("UserName: " + caseWorkerUserName);
         log.info("Password: " + caseWorkerPassword);
         //String authToken = authenticateUser();
-        String authToken = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJsZmt2dXNmZ25qOHJsa3BjcDA2ODEzY3E3dCIsInN1YiI6IjY1MDY5MmJiLWNlZmUtNDY2YS1iYThkLTY4NzM3NzE3MzA2NCIsImlhdCI6MTU4OTQzNjYzOCwiY2FzZS1pZCI6IjI3OTU1IiwiZXZlbnQtaWQiOiJhbWVuZENhc2VEZXRhaWxzIiwiY2FzZS10eXBlLWlkIjoiU2NvdGxhbmQiLCJqdXJpc2RpY3Rpb24taWQiOiJFTVBMT1lNRU5UIiwiY2FzZS1zdGF0ZSI6IkFjY2VwdGVkIiwiY2FzZS12ZXJzaW9uIjoiMjA4NjNlM2UzNDJhMDMwZmIzZjg4OGFmNWUyZGRkMDAyMmU1OThkMiIsImVudGl0eS12ZXJzaW9uIjoxMX0.S9mJKrM2v4nYGfizqbauOK0QlY-vo68SP4pM0-r1tq8";
+        String authToken = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJjZ3BtOWtkNTVzOHFrNjk5NDYyaTVhaHRjbCIsInN1YiI6Ijk0MmZmNzJlLWVlZmItNGI5Ni05MzY4LWQ5OGVkMTdlMzMxYyIsImlhdCI6MTU4OTQzOTQ0MiwiY2FzZS1pZCI6IjExNTY1ODgiLCJldmVudC1pZCI6ImFtZW5kQ2FzZURldGFpbHMiLCJjYXNlLXR5cGUtaWQiOiJTY290bGFuZCIsImp1cmlzZGljdGlvbi1pZCI6IkVNUExPWU1FTlQiLCJjYXNlLXN0YXRlIjoiQWNjZXB0ZWQiLCJjYXNlLXZlcnNpb24iOiJjN2MwNDFjODI3MzkzNDVkNGEwNDdiM2I3MmE2ZGE5MDIzYmZkNzkxIiwiZW50aXR5LXZlcnNpb24iOjB9.w62XjLpLNuHSX1kTZ2RRbhf3CKk2jaHpoQhKJ5207UA";
         List<SubmitBulkEvent> submitBulkEvents = retrieveMultipleCase(authToken);
         if (submitBulkEvents != null && !submitBulkEvents.isEmpty()) {
 
