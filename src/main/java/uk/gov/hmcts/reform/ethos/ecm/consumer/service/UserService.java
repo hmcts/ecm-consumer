@@ -1,8 +1,10 @@
 package uk.gov.hmcts.reform.ethos.ecm.consumer.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.ecm.common.idam.models.UserDetails;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.config.OAuth2Configuration;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.ApiAccessToken;
@@ -19,11 +21,16 @@ public class UserService implements uk.gov.hmcts.ecm.common.service.UserService 
 
     private final IdamApi idamApi;
     private OAuth2Configuration oauth2Configuration;
+    private RestTemplate restTemplate;
+
+    @Value("${idam.api.url}")
+    private String idamApiUrl;
 
     @Autowired
-    public UserService(IdamApi idamApi, OAuth2Configuration oauth2Configuration) {
+    public UserService(IdamApi idamApi, OAuth2Configuration oauth2Configuration, RestTemplate restTemplate) {
         this.idamApi = idamApi;
         this.oauth2Configuration = oauth2Configuration;
+        this.restTemplate = restTemplate;
     }
 
     public UserDetails getUserDetails(String authorisation) {
@@ -36,6 +43,25 @@ public class UserService implements uk.gov.hmcts.ecm.common.service.UserService 
             ? responseEntity.getBody()
             : null;
     }
+
+//    public String getAccessToken(String username, String password) {
+//        TokenRequest tokenRequest =
+//            new TokenRequest(
+//                oauth2Configuration.getClientId(),
+//                oauth2Configuration.getClientSecret(),
+//                OPENID_GRANT_TYPE,
+//                oauth2Configuration.getRedirectUri(),
+//                username,
+//                password,
+//                OPENID_SCOPE,
+//                null,
+//                null
+//            );
+//        ResponseEntity<TokenResponse> responseEntity = idamApi.generateOpenIdToken(tokenRequest);
+//        return responseEntity != null && responseEntity.getBody() != null
+//            ? BEARER_AUTH_TYPE + " " + responseEntity.getBody().accessToken
+//            : "";
+//    }
 
     public String getAccessToken(String username, String password) {
         TokenRequest tokenRequest =
@@ -50,10 +76,16 @@ public class UserService implements uk.gov.hmcts.ecm.common.service.UserService 
                 null,
                 null
             );
-        ResponseEntity<TokenResponse> responseEntity = idamApi.generateOpenIdToken(tokenRequest);
-        return responseEntity != null && responseEntity.getBody() != null
+        HttpEntity<TokenRequest> request = new HttpEntity<>(tokenRequest, buildHeaders());
+        ResponseEntity<TokenResponse> responseEntity = restTemplate.exchange(idamApiUrl, HttpMethod.POST, request, TokenResponse.class);
+        return responseEntity.getBody() != null
             ? BEARER_AUTH_TYPE + " " + responseEntity.getBody().accessToken
             : "";
     }
 
+    HttpHeaders buildHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED.toString());
+        return headers;
+    }
 }
