@@ -5,6 +5,6 @@ spring:
       paths: /mnt/secrets/ethos
       aliases:
         AppInsightsInstrumentationKey: azure.application-insights.instrumentation-key
-        ecm-consumer-s2s-key: ECM_CONSUMER_S2S_KEY
-        caseworker-user-name: CASEWORKER_USER_NAME
-        caseworker-password: CASEWORKER_PASSWORD
+        ecmConsumerS2sKey: ecmConsumerS2sKey
+        caseworkerUsername: caseworkerUsername
+        caseworkerPassword: caseworkerPassword
