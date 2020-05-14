@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.exceptions.CaseCreationException;
 import uk.gov.hmcts.ecm.common.model.bulk.SubmitBulkEvent;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.ApiAccessToken;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.MultipleStateTask;
 import java.time.Duration;
 import java.time.Instant;
@@ -62,9 +63,10 @@ public class MultipleService {
     }
 
     private String authenticateUser() {
-        String accessToken = userService.getAccessToken(caseWorkerUserName, caseWorkerPassword);
+        log.info("Login user");
+        ApiAccessToken accessToken = userService.loginUser(caseWorkerUserName, caseWorkerPassword);
         log.info("API ACCESS TOKEN: " + accessToken);
-        return accessToken;
+        return accessToken.getAccessToken();
     }
 
     private List<SubmitBulkEvent> retrieveMultipleCase(String authToken) {

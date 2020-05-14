@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import uk.gov.hmcts.ecm.common.idam.models.UserDetails;
 import uk.gov.hmcts.ethos.ecm.consumer.helpers.HelperTest;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.config.OAuth2Configuration;
@@ -37,8 +39,8 @@ public class UserServiceTest {
                 return getUserDetails();
             }
             @Override
-            public ApiAccessToken loginUser(String userName, String password) {
-                return HelperTest.getApiAccessToken();
+            public ResponseEntity<ApiAccessToken> loginUser(String userName, String password) {
+                return new ResponseEntity<>(HelperTest.getApiAccessToken(), HttpStatus.OK);
             }
             @Override
             public TokenResponse generateOpenIdToken(TokenRequest tokenRequest) { return getTokenResponse(); };

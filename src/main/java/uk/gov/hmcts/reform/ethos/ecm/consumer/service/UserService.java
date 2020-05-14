@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.ethos.ecm.consumer.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.ecm.common.idam.models.UserDetails;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.config.OAuth2Configuration;
@@ -29,7 +30,8 @@ public class UserService implements uk.gov.hmcts.ecm.common.service.UserService 
     }
 
     public ApiAccessToken loginUser(String userName, String password) {
-        return idamApi.loginUser(userName, password);
+        ResponseEntity<ApiAccessToken> responseEntity = idamApi.loginUser(userName, password);
+        return responseEntity != null? responseEntity.getBody() : null;
     }
 
     public String getAccessToken(String username, String password) {
