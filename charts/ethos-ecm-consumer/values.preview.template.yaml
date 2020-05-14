@@ -6,3 +6,7 @@ java:
   keyVaults:
     ethos:
       resourceGroup: ethos
+      secrets:
+        - ecm-consumer-s2s-key
+        - caseworker-user-name
+        - caseworker-password

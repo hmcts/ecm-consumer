@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.ethos.ecm.consumer.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
@@ -30,6 +31,11 @@ public class MultipleService {
     private static final String PASSWORD = "Nagoya0102";
     private static final String MULTIPLE_REFERENCE = "4150015";
 
+    @Value("${caseworker_user_name}")
+    private String caseWorkerUserName;
+    @Value("${caseworker_password}")
+    private String caseWorkerPassword;
+
     @Autowired
     public MultipleService(CcdClient ccdClient, UserService userService) {
         this.ccdClient = ccdClient;
@@ -39,8 +45,10 @@ public class MultipleService {
     //@Scheduled(fixedRate = 300000)
     public void sendUpdateToMultipleLogic() {
         log.info("Running after 5 minutes");
-        String authToken = authenticateUser();
-        //String authToken = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJrcmk1NjRrcmE1dXVkZGVsbGxwZDRvYWdpNCIsInN1YiI6Ijc2YjM5ODA0LTI4NTYtNDdlMS1iOTVmLTVjMTBhM2UwMTZjMCIsImlhdCI6MTU4OTI4NTc0MiwiY2FzZS1pZCI6IjEyNCIsImV2ZW50LWlkIjoidXBkYXRlQnVsa0FjdGlvbiIsImNhc2UtdHlwZS1pZCI6IlNjb3RsYW5kX011bHRpcGxlcyIsImp1cmlzZGljdGlvbi1pZCI6IkVNUExPWU1FTlQiLCJjYXNlLXN0YXRlIjoiQnVsa0Nhc2VTdGFydGVkIiwiY2FzZS12ZXJzaW9uIjoiMWExNDZlY2I1YmI0NGYxZDY4OGNhOTdhMGJjYjYxNjVlN2IxNTg0ZCIsImVudGl0eS12ZXJzaW9uIjoyMH0.NGC8nyXG2BT4zTyHnUkEaCRaVJmx_fgG0dxINywc3oM";
+        log.info("UserName: " + caseWorkerUserName);
+        log.info("Password: " + caseWorkerPassword);
+        //String authToken = authenticateUser();
+        String authToken = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJsZmt2dXNmZ25qOHJsa3BjcDA2ODEzY3E3dCIsInN1YiI6IjY1MDY5MmJiLWNlZmUtNDY2YS1iYThkLTY4NzM3NzE3MzA2NCIsImlhdCI6MTU4OTQzNjYzOCwiY2FzZS1pZCI6IjI3OTU1IiwiZXZlbnQtaWQiOiJhbWVuZENhc2VEZXRhaWxzIiwiY2FzZS10eXBlLWlkIjoiU2NvdGxhbmQiLCJqdXJpc2RpY3Rpb24taWQiOiJFTVBMT1lNRU5UIiwiY2FzZS1zdGF0ZSI6IkFjY2VwdGVkIiwiY2FzZS12ZXJzaW9uIjoiMjA4NjNlM2UzNDJhMDMwZmIzZjg4OGFmNWUyZGRkMDAyMmU1OThkMiIsImVudGl0eS12ZXJzaW9uIjoxMX0.S9mJKrM2v4nYGfizqbauOK0QlY-vo68SP4pM0-r1tq8";
         List<SubmitBulkEvent> submitBulkEvents = retrieveMultipleCase(authToken);
         if (submitBulkEvents != null && !submitBulkEvents.isEmpty()) {
 
@@ -59,7 +67,7 @@ public class MultipleService {
     }
 
     private String authenticateUser() {
-        ApiAccessToken apiAccessToken = userService.loginUser(USERNAME, PASSWORD);
+        ApiAccessToken apiAccessToken = userService.loginUser(caseWorkerUserName, caseWorkerPassword);
         log.info("API ACCESS TOKEN: " + apiAccessToken);
         return apiAccessToken.getAccessToken();
     }
