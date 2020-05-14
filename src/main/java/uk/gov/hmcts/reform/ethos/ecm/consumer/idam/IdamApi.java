@@ -10,7 +10,7 @@ public interface IdamApi {
     @GetMapping(value = "/o/userinfo")
     UserDetails retrieveUserDetails(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorisation);
 
-    @GetMapping(value = "/loginUser")
+    @PostMapping(value = "/loginUser")
     ApiAccessToken loginUser(@RequestParam("userName") String userName,
                              @RequestParam("password") String password);
 }
