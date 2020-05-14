@@ -43,7 +43,9 @@ public class UserServiceTest {
                 return new ResponseEntity<>(HelperTest.getApiAccessToken(), HttpStatus.OK);
             }
             @Override
-            public TokenResponse generateOpenIdToken(TokenRequest tokenRequest) { return getTokenResponse(); };
+            public ResponseEntity<TokenResponse> generateOpenIdToken(TokenRequest tokenRequest) {
+                return new ResponseEntity<>(getTokenResponse(), HttpStatus.OK);
+            }
         };
         userService = new UserService(idamApi, oAuth2Configuration);
     }

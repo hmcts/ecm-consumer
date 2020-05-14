@@ -8,6 +8,7 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.config.OAuth2Configuration;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.ApiAccessToken;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.IdamApi;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.TokenRequest;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.TokenResponse;
 
 @Component
 public class UserService implements uk.gov.hmcts.ecm.common.service.UserService {
@@ -31,7 +32,9 @@ public class UserService implements uk.gov.hmcts.ecm.common.service.UserService 
 
     public ApiAccessToken loginUser(String userName, String password) {
         ResponseEntity<ApiAccessToken> responseEntity = idamApi.loginUser(userName, password);
-        return responseEntity != null? responseEntity.getBody() : null;
+        return responseEntity != null && responseEntity.getBody() != null
+            ? responseEntity.getBody()
+            : null;
     }
 
     public String getAccessToken(String username, String password) {
@@ -47,7 +50,10 @@ public class UserService implements uk.gov.hmcts.ecm.common.service.UserService 
                 null,
                 null
             );
-        return BEARER_AUTH_TYPE + " " + idamApi.generateOpenIdToken(tokenRequest).accessToken;
+        ResponseEntity<TokenResponse> responseEntity = idamApi.generateOpenIdToken(tokenRequest);
+        return responseEntity != null && responseEntity.getBody() != null
+            ? BEARER_AUTH_TYPE + " " + responseEntity.getBody().accessToken
+            : "";
     }
 
 }

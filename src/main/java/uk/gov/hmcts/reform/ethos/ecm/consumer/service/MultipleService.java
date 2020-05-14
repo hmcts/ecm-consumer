@@ -64,9 +64,12 @@ public class MultipleService {
 
     private String authenticateUser() {
         log.info("Login user");
-        ApiAccessToken accessToken = userService.loginUser(caseWorkerUserName, caseWorkerPassword);
+        //ApiAccessToken accessToken = userService.loginUser(caseWorkerUserName, caseWorkerPassword);
+        //log.info("API ACCESS TOKEN: " + accessToken);
+        //return accessToken.getAccessToken();
+        String accessToken = userService.getAccessToken(caseWorkerUserName, caseWorkerPassword);
         log.info("API ACCESS TOKEN: " + accessToken);
-        return accessToken.getAccessToken();
+        return accessToken;
     }
 
     private List<SubmitBulkEvent> retrieveMultipleCase(String authToken) {
