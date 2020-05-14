@@ -2,15 +2,16 @@ package uk.gov.hmcts.ethos.ecm.consumer.service;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.*;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.ecm.common.idam.models.UserDetails;
-import uk.gov.hmcts.ecm.common.model.bulk.SubmitBulkEvent;
-import uk.gov.hmcts.ecm.common.model.ccd.CaseSearchResult;
 import uk.gov.hmcts.ethos.ecm.consumer.helpers.HelperTest;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.config.OAuth2Configuration;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.ApiAccessToken;
@@ -18,13 +19,13 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.IdamApi;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.TokenRequest;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.TokenResponse;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UserService;
-
 import java.util.Collections;
-
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
 
     @InjectMocks
@@ -94,11 +95,57 @@ public class UserServiceTest {
         assertEquals("Token Type", apiAccessToken.getTokenType());
     }
 
-//    @Test
-//    public void getAccessTokenTest() {
-//        ResponseEntity<TokenResponse> responseEntity = new ResponseEntity<>(HttpStatus.OK);
-//        when(restTemplate.exchange(anyString(), eq(HttpMethod.POST), any(), eq(TokenResponse.class))).thenReturn(responseEntity);
-//        String token = userService.getAccessToken("Username", "Password");
-//        assertEquals("Bearer accessToken", token);
-//    }
+    @Test(expected = Exception.class)
+    public void getAccessTokenTest() {
+       // String url = "http://google.com";
+       // ReflectionTestUtils.setField(userService, "idamApiUrl", url);
+       // HttpHeaders headers = new HttpHeaders();
+        //headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        //ResponseEntity<TokenResponse> responseEntity = new ResponseEntity<>(HttpStatus.OK);
+        //HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(getTokenRequestMap(), headers);
+        //when(restTemplate.postForEntity(url, eq(httpEntity), eq(TokenResponse.class))).thenReturn(responseEntity);
+        String token = userService.getAccessToken("Username", "Password");
+        assertEquals("Bearer accessToken", token);
+    }
+
+    private TokenRequest getTokenRequest() {
+        return new TokenRequest("id", "secret", "password", "redirectUri",
+                             "Username", "Password", "openid", null, null);
+    }
+
+    private MultiValueMap<String, String> getTokenRequestMap() {
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("client_id", "id");
+        map.add("client_secret", "secret");
+        map.add("grant_type", "password");
+        map.add("redirect_uri", "redirectUri");
+        map.add("username", "Username");
+        map.add("password", "Password");
+        map.add("scope", "openid");
+        map.add("refresh_token", null);
+        map.add("code", null);
+        return map;
+    }
+
+    @Test
+    public void tokenRequestAndResponseTest() {
+        TokenRequest tokenRequest = getTokenRequest();
+        assertEquals("id", tokenRequest.getClientId());
+        assertEquals("secret", tokenRequest.getClientSecret());
+        assertEquals("password", tokenRequest.getGrantType());
+        assertEquals("Password", tokenRequest.getPassword());
+        assertEquals("redirectUri", tokenRequest.getRedirectUri());
+        assertEquals("openid", tokenRequest.getScope());
+        assertEquals("Username", tokenRequest.getUsername());
+        assertNull(tokenRequest.getRefreshToken());
+        assertNull(tokenRequest.getCode());
+        TokenResponse tokenResponse = getTokenResponse();
+        assertEquals("accessToken", tokenResponse.accessToken);
+        assertEquals("expiresIn", tokenResponse.expiresIn);
+        assertEquals("idToken", tokenResponse.idToken);
+        assertEquals("refreshToken", tokenResponse.refreshToken);
+        assertEquals("scope", tokenResponse.scope);
+        assertEquals("tokenType", tokenResponse.tokenType);
+    }
+
 }

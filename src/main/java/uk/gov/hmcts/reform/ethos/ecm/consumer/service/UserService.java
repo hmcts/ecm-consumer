@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.ecm.common.idam.models.UserDetails;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.config.OAuth2Configuration;
@@ -64,28 +66,40 @@ public class UserService implements uk.gov.hmcts.ecm.common.service.UserService 
 //    }
 
     public String getAccessToken(String username, String password) {
-        TokenRequest tokenRequest =
-            new TokenRequest(
-                oauth2Configuration.getClientId(),
-                oauth2Configuration.getClientSecret(),
-                OPENID_GRANT_TYPE,
-                oauth2Configuration.getRedirectUri(),
-                username,
-                password,
-                OPENID_SCOPE,
-                null,
-                null
-            );
-        HttpEntity<TokenRequest> request = new HttpEntity<>(tokenRequest, buildHeaders());
-        ResponseEntity<TokenResponse> responseEntity = restTemplate.exchange(idamApiUrl, HttpMethod.POST, request, TokenResponse.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> tokenRequest = getTokenRequest(username, password);
+//        TokenRequest tokenRequest =
+//            new TokenRequest(
+//                oauth2Configuration.getClientId(),
+//                oauth2Configuration.getClientSecret(),
+//                OPENID_GRANT_TYPE,
+//                oauth2Configuration.getRedirectUri(),
+//                username,
+//                password,
+//                OPENID_SCOPE,
+//                null,
+//                null
+//            );
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(tokenRequest, headers);
+        ResponseEntity<TokenResponse> responseEntity = restTemplate.postForEntity(idamApiUrl, request, TokenResponse.class);
         return responseEntity.getBody() != null
             ? BEARER_AUTH_TYPE + " " + responseEntity.getBody().accessToken
             : "";
     }
 
-    HttpHeaders buildHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED.toString());
-        return headers;
+    private MultiValueMap<String, String> getTokenRequest(String username, String password) {
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("client_id", oauth2Configuration.getClientId());
+        map.add("client_secret", oauth2Configuration.getClientSecret());
+        map.add("grant_type", OPENID_GRANT_TYPE);
+        map.add("redirect_uri", oauth2Configuration.getRedirectUri());
+        map.add("username", username);
+        map.add("password", password);
+        map.add("scope", OPENID_SCOPE);
+        map.add("refresh_token", null);
+        map.add("code", null);
+        return map;
     }
+
 }
