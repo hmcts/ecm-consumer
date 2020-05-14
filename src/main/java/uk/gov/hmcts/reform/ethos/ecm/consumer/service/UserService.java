@@ -11,7 +11,6 @@ import uk.gov.hmcts.ecm.common.idam.models.UserDetails;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.config.OAuth2Configuration;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.ApiAccessToken;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.IdamApi;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.TokenRequest;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.TokenResponse;
 
 @Component
@@ -25,8 +24,8 @@ public class UserService implements uk.gov.hmcts.ecm.common.service.UserService 
     private OAuth2Configuration oauth2Configuration;
     private RestTemplate restTemplate;
 
-    @Value("${idam.api.url}")
-    private String idamApiUrl;
+    @Value("${idam.api.url.oidc}")
+    private String idamApiOIDCUrl;
 
     @Autowired
     public UserService(IdamApi idamApi, OAuth2Configuration oauth2Configuration, RestTemplate restTemplate) {
@@ -68,7 +67,6 @@ public class UserService implements uk.gov.hmcts.ecm.common.service.UserService 
     public String getAccessToken(String username, String password) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        MultiValueMap<String, String> tokenRequest = getTokenRequest(username, password);
 //        TokenRequest tokenRequest =
 //            new TokenRequest(
 //                oauth2Configuration.getClientId(),
@@ -81,8 +79,9 @@ public class UserService implements uk.gov.hmcts.ecm.common.service.UserService 
 //                null,
 //                null
 //            );
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(tokenRequest, headers);
-        ResponseEntity<TokenResponse> responseEntity = restTemplate.postForEntity(idamApiUrl, request, TokenResponse.class);
+        ResponseEntity<TokenResponse> responseEntity = restTemplate.postForEntity(idamApiOIDCUrl,
+                                                                                  new HttpEntity<>(getTokenRequest(username, password), headers),
+                                                                                  TokenResponse.class);
         return responseEntity.getBody() != null
             ? BEARER_AUTH_TYPE + " " + responseEntity.getBody().accessToken
             : "";

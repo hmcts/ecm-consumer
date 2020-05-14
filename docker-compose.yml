@@ -9,6 +9,7 @@ services:
     environment:
       IDAM_API_URL: "http://idam-api:5000"
       IDAM_API_JWK_URL: "http://idam-api:5000/jwks"
+      IDAM_API_OIDC_URL: "http://idam-api:5000/o/token"
       SERVICE_AUTH_PROVIDER_URL: "http://service-auth-provider-api:8080"
       CCD_DATA_STORE_API_URL: "http://ccd-data-store-api:4452"
       MICRO_SERVICE: "ecm-consumer"

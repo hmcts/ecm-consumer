@@ -21,6 +21,7 @@ java:
     ECM_CONSUMER_URL: "http://ecm-consumer-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
     IDAM_API_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
     IDAM_API_JWK_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net/jwks"
+    IDAM_API_OIDC_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net/o/token"
     SERVICE_AUTH_PROVIDER_URL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
     CCD_DATA_STORE_API_URL: "http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
     MICRO_SERVICE: "ecm-consumer"

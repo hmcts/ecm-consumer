@@ -51,10 +51,10 @@ public class UserServiceTest {
             public ResponseEntity<ApiAccessToken> loginUser(String userName, String password) {
                 return new ResponseEntity<>(HelperTest.getApiAccessToken(), HttpStatus.OK);
             }
-            @Override
-            public ResponseEntity<TokenResponse> generateOpenIdToken(TokenRequest tokenRequest) {
-                return new ResponseEntity<>(getTokenResponse(), HttpStatus.OK);
-            }
+//            @Override
+//            public ResponseEntity<TokenResponse> generateOpenIdToken(TokenRequest tokenRequest) {
+//                return new ResponseEntity<>(getTokenResponse(), HttpStatus.OK);
+//            }
         };
         userService = new UserService(idamApi, oAuth2Configuration, restTemplate);
     }
@@ -95,17 +95,17 @@ public class UserServiceTest {
         assertEquals("Token Type", apiAccessToken.getTokenType());
     }
 
-    @Test(expected = Exception.class)
+    @Test
     public void getAccessTokenTest() {
-       // String url = "http://google.com";
-       // ReflectionTestUtils.setField(userService, "idamApiUrl", url);
-       // HttpHeaders headers = new HttpHeaders();
-        //headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        //ResponseEntity<TokenResponse> responseEntity = new ResponseEntity<>(HttpStatus.OK);
-        //HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(getTokenRequestMap(), headers);
-        //when(restTemplate.postForEntity(url, eq(httpEntity), eq(TokenResponse.class))).thenReturn(responseEntity);
+        String url = "http://sidam-api:5000/o/token";
+        ReflectionTestUtils.setField(userService,"idamApiOIDCUrl", url);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        ResponseEntity<TokenResponse> responseEntity = new ResponseEntity<>(HttpStatus.OK);
+        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(getTokenRequestMap(), headers);
+        when(restTemplate.postForEntity(eq(url), eq(httpEntity), eq(TokenResponse.class))).thenReturn(responseEntity);
         String token = userService.getAccessToken("Username", "Password");
-        assertEquals("Bearer accessToken", token);
+        assertEquals("", token);
     }
 
     private TokenRequest getTokenRequest() {

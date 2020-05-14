@@ -15,6 +15,6 @@ public interface IdamApi {
     ResponseEntity<ApiAccessToken> loginUser(@RequestParam("userName") String userName,
                              @RequestParam("password") String password);
 
-    @PostMapping(value = "/o/token")
-    ResponseEntity<TokenResponse> generateOpenIdToken(@RequestBody TokenRequest tokenRequest);
+//    @PostMapping(value = "/o/token")
+//    ResponseEntity<TokenResponse> generateOpenIdToken(@RequestBody TokenRequest tokenRequest);
 }
