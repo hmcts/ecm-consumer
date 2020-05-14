@@ -45,6 +45,7 @@ public class MultipleServiceTest {
     @Test
     public void sendUpdateToMultipleLogic() throws IOException {
         when(userService.loginUser(any(), any())).thenReturn(HelperTest.getApiAccessToken());
+        when(userService.getAccessToken(any(), any())).thenReturn("Token");
         when(ccdClient.retrieveBulkCasesElasticSearch(anyString(), anyString(), anyString())).thenReturn(submitBulkEvents);
         when(ccdClient.submitBulkEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString())).thenReturn(submitBulkEvent);
         multipleService.sendUpdateToMultipleLogic();
@@ -53,6 +54,7 @@ public class MultipleServiceTest {
     @Test
     public void sendUpdateToMultipleLogicEmptyES() throws IOException {
         when(userService.loginUser(any(), any())).thenReturn(HelperTest.getApiAccessToken());
+        when(userService.getAccessToken(any(), any())).thenReturn("Token");
         when(ccdClient.retrieveBulkCasesElasticSearch(anyString(), anyString(), anyString())).thenReturn(new ArrayList<>());
         multipleService.sendUpdateToMultipleLogic();
     }
@@ -60,6 +62,7 @@ public class MultipleServiceTest {
     @Test
     public void sendUpdateToMultipleLogicNullES() throws IOException {
         when(userService.loginUser(any(), any())).thenReturn(HelperTest.getApiAccessToken());
+        when(userService.getAccessToken(any(), any())).thenReturn("Token");
         when(ccdClient.retrieveBulkCasesElasticSearch(anyString(), anyString(), anyString())).thenReturn(null);
         multipleService.sendUpdateToMultipleLogic();
     }
@@ -67,13 +70,15 @@ public class MultipleServiceTest {
     @Test(expected = Exception.class)
     public void sendUpdateToMultipleLogicException() throws IOException {
         when(userService.loginUser(any(), any())).thenReturn(HelperTest.getApiAccessToken());
-        when(ccdClient.retrieveBulkCasesElasticSearch(anyString(), anyString(), anyString())).thenThrow(new RuntimeException());
+        when(userService.getAccessToken(any(), any())).thenReturn("Token");
+        when(ccdClient.retrieveBulkCasesElasticSearch(anyString(), anyString(), anyString())).thenThrow(new Exception());
         multipleService.sendUpdateToMultipleLogic();
     }
 
     @Test
     public void sendUpdateToMultipleLogicTaskException() throws IOException {
         when(userService.loginUser(any(), any())).thenReturn(HelperTest.getApiAccessToken());
+        when(userService.getAccessToken(any(), any())).thenReturn("Token");
         when(ccdClient.retrieveBulkCasesElasticSearch(anyString(), anyString(), anyString())).thenReturn(submitBulkEvents);
         when(ccdClient.submitBulkEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString())).thenThrow(new IOException());
         multipleService.sendUpdateToMultipleLogic();

@@ -13,4 +13,7 @@ public interface IdamApi {
     @PostMapping(value = "/loginUser")
     ApiAccessToken loginUser(@RequestParam("userName") String userName,
                              @RequestParam("password") String password);
+
+    @PostMapping(value = "/o/token")
+    TokenResponse generateOpenIdToken(@RequestBody TokenRequest tokenRequest);
 }

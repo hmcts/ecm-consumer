@@ -3,12 +3,10 @@ package uk.gov.hmcts.reform.ethos.ecm.consumer.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.exceptions.CaseCreationException;
 import uk.gov.hmcts.ecm.common.model.bulk.SubmitBulkEvent;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.ApiAccessToken;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.MultipleStateTask;
 import java.time.Duration;
 import java.time.Instant;
@@ -27,8 +25,6 @@ public class MultipleService {
     private static final String MESSAGE = "Failed to pull case: ";
     private static final String JURISDICTION = "EMPLOYMENT";
     private static final String CASE_TYPE_ID = SCOTLAND_BULK_CASE_TYPE_ID;
-    private static final String USERNAME = "eric.ccdcooper@gmail.com";
-    private static final String PASSWORD = "Nagoya0102";
     private static final String MULTIPLE_REFERENCE = "4150001";
 
     @Value("${caseWorkerUserName}")
@@ -42,7 +38,6 @@ public class MultipleService {
         this.userService = userService;
     }
 
-    //@Scheduled(fixedRate = 300000)
     public void sendUpdateToMultipleLogic() {
         log.info("Running after 5 minutes");
         log.info("UserName: " + caseWorkerUserName);
@@ -67,9 +62,9 @@ public class MultipleService {
     }
 
     private String authenticateUser() {
-        ApiAccessToken apiAccessToken = userService.loginUser(caseWorkerUserName, caseWorkerPassword);
-        log.info("API ACCESS TOKEN: " + apiAccessToken);
-        return apiAccessToken.getAccessToken();
+        String accessToken = userService.getAccessToken(caseWorkerUserName, caseWorkerPassword);
+        log.info("API ACCESS TOKEN: " + accessToken);
+        return accessToken;
     }
 
     private List<SubmitBulkEvent> retrieveMultipleCase(String authToken) {

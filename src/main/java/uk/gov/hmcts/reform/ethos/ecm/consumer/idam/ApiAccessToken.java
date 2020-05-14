@@ -5,9 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 
-/**
- * @author Ivano
- */
 @Getter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
