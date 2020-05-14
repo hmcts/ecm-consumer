@@ -4,7 +4,7 @@ java:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
   keyVaults:
-    ethos:
+    ethos-shared:
       resourceGroup: ethos
       secrets:
         - ecm-consumer-s2s-key
