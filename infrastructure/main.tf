@@ -44,20 +44,20 @@ data "azurerm_key_vault_secret" "microservicekey_ecm_consumer" {
   key_vault_id = data.azurerm_key_vault.s2s_key_vault.id
 }
 
-resource "azurerm_key_vault_secret" "ecmConsumerS2sKey" {
-  name         = "ecmConsumerS2sKey"
+resource "azurerm_key_vault_secret" "ecm_consumer_s2s_key" {
+  name         = "ecm-consumer-s2s-key"
   value        = data.azurerm_key_vault_secret.microservicekey_ecm_consumer.value
   key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
 }
 
-resource "azurerm_key_vault_secret" "caseworkerUsername" {
-  name         = "caseworkerUsername"
+resource "azurerm_key_vault_secret" "caseworker_user_name" {
+  name         = "caseworker-user-name"
   value        = var.caseworker_user_name
   key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
 }
 
-resource "azurerm_key_vault_secret" "caseworkerPassword" {
-  name         = "caseworkerPassword"
+resource "azurerm_key_vault_secret" "caseworker_password" {
+  name         = "caseworker-password"
   value        = var.caseworker_password
   key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
 }

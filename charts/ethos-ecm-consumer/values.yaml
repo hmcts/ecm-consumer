@@ -7,9 +7,9 @@ java:
       resourceGroup: ethos
       secrets:
         - AppInsightsInstrumentationKey
-        - ecmConsumerS2sKey
-        - caseworkerUsername
-        - caseworkerPassword
+        - ecm-consumer-s2s-key
+        - caseworker-user-name
+        - caseworker-password
   aadIdentityName: ethos
   environment:
     REFORM_TEAM: ethos

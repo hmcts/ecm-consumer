@@ -7,6 +7,6 @@ java:
     ethos-shared:
       resourceGroup: ethos
       secrets:
-        - ecmConsumerS2sKey
-        - caseworkerUsername
-        - caseworkerPassword
+        - ecm-consumer-s2s-key
+        - caseworker-user-name
+        - caseworker-password

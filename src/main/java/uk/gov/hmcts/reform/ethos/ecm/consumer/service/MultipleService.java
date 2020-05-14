@@ -31,9 +31,9 @@ public class MultipleService {
     private static final String PASSWORD = "Nagoya0102";
     private static final String MULTIPLE_REFERENCE = "4120013";
 
-    @Value("${caseworker_user_name}")
+    @Value("${caseWorkerUserName}")
     private String caseWorkerUserName;
-    @Value("${caseworker_password}")
+    @Value("${caseWorkerPassword}")
     private String caseWorkerPassword;
 
     @Autowired
