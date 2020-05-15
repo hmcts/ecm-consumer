@@ -17,11 +17,11 @@ public class CcdClientConfiguration {
     @Value("${ccd.data.store.api.url}")
     private String ccdDataStoreApiBaseUrl;
 
-    @Bean
-    public CcdClient ccdClient(RestTemplate restTemplate, UserService userService,
-                               CaseDataBuilder caseDataBuilder, AuthTokenGenerator authTokenGenerator) {
-        return new CcdClient(restTemplate, userService, caseDataBuilder, new CcdClientConfig(ccdDataStoreApiBaseUrl), authTokenGenerator);
-    }
+//    @Bean
+//    public CcdClient ccdClient(RestTemplate restTemplate, UserService userService,
+//                               CaseDataBuilder caseDataBuilder, AuthTokenGenerator authTokenGenerator) {
+//        return new CcdClient(restTemplate, userService, caseDataBuilder, new CcdClientConfig(ccdDataStoreApiBaseUrl), authTokenGenerator);
+//    }
 
     @Bean
     public CaseDataBuilder caseDataBuilder(ObjectMapper objectMapper) {

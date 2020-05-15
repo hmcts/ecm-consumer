@@ -6,10 +6,10 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.model.bulk.BulkData;
 import uk.gov.hmcts.ecm.common.model.bulk.SubmitBulkEvent;
 import uk.gov.hmcts.ethos.ecm.consumer.helpers.HelperTest;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.config.CcdClient;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UserService;
 

@@ -1,9 +1,10 @@
 package uk.gov.hmcts.reform.ethos.ecm.consumer.tasks;
 
 import lombok.extern.slf4j.Slf4j;
-import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.model.bulk.SubmitBulkEvent;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.config.CcdClient;
+
 import java.io.IOException;
 
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.*;
