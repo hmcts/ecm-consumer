@@ -10,7 +10,7 @@ import uk.gov.hmcts.ecm.common.idam.models.UserDetails;
 public interface IdamApi extends uk.gov.hmcts.reform.idam.client.IdamApi {
 //    @GetMapping(value = "/o/userinfo")
 //    UserDetails retrieveUserDetails(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorisation);
-//
+
 //    @PostMapping(value = "/loginUser")
 //    ResponseEntity<ApiAccessToken> loginUser(@RequestParam("userName") String userName,
 //                             @RequestParam("password") String password);

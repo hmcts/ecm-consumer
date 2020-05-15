@@ -9,15 +9,13 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.ecm.common.idam.models.UserDetails;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.config.IdamClientConfiguration;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.config.OAuth2Configuration;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.IdamApi;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.TokenResponse;
 import uk.gov.hmcts.reform.idam.client.IdamClient;
+import uk.gov.hmcts.ecm.common.idam.models.UserDetails;
+import uk.gov.hmcts.reform.idam.client.models.UserInfo;
 
 @Slf4j
 @Component
-public class UserService {
+public class UserService implements uk.gov.hmcts.ecm.common.service.UserService {
 
     public static final String OPENID_GRANT_TYPE = "password";
     public static final String OPENID_SCOPE = "openid";
@@ -36,10 +34,6 @@ public class UserService {
 //        this.oauth2Configuration = oauth2Configuration;
 //        this.restTemplate = restTemplate;
     }
-
-//    public UserDetails getUserDetails(String authorisation) {
-//        return idamClient.retrieveUserDetails(authorisation);
-//    }
 
 //    public ApiAccessToken loginUser(String userName, String password) {
 //        ResponseEntity<ApiAccessToken> responseEntity = idamApi.loginUser(userName, password);
@@ -100,4 +94,15 @@ public class UserService {
         return idamClient.getAccessToken(userName, password);
     }
 
+    @Override
+    public UserDetails getUserDetails(String authorisation) {
+        UserInfo userInfo = idamClient.getUserInfo(authorisation);
+        UserDetails userDetails = new UserDetails();
+        userDetails.setUid(userInfo.getUid());
+        userDetails.setRoles(userInfo.getRoles());
+        userDetails.setName(userInfo.getName());
+        userDetails.setLastName(userInfo.getFamilyName());
+        userDetails.setFirstName(userInfo.getGivenName());
+        return userDetails;
+    }
 }
