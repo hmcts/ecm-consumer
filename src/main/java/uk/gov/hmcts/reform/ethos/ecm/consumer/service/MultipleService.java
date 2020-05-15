@@ -39,7 +39,7 @@ public class MultipleService {
         this.userService = userService;
     }
 
-    @Scheduled(fixedRate = 100000)
+    //@Scheduled(fixedRate = 100000)
     public void sendUpdateToMultipleLogic() {
         log.info("UserName: " + caseWorkerUserName);
         log.info("Password: " + caseWorkerPassword);
