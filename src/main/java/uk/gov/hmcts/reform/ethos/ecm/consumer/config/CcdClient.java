@@ -7,7 +7,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import uk.gov.hmcts.ecm.common.client.CaseDataBuilder;
 import uk.gov.hmcts.ecm.common.helpers.ESHelper;
 import uk.gov.hmcts.ecm.common.model.bulk.BulkCaseSearchResult;
 import uk.gov.hmcts.ecm.common.model.bulk.BulkData;

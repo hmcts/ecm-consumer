@@ -23,8 +23,8 @@ public class CcdClientConfiguration {
 //        return new CcdClient(restTemplate, userService, caseDataBuilder, new CcdClientConfig(ccdDataStoreApiBaseUrl), authTokenGenerator);
 //    }
 
-    @Bean
-    public CaseDataBuilder caseDataBuilder(ObjectMapper objectMapper) {
-        return new CaseDataBuilder(objectMapper);
-    }
+//    @Bean
+//    public CaseDataBuilder caseDataBuilder(ObjectMapper objectMapper) {
+//        return new CaseDataBuilder(objectMapper);
+//    }
 }
