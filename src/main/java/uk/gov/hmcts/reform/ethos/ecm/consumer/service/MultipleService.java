@@ -39,7 +39,6 @@ public class MultipleService {
     }
 
     public void sendUpdateToMultipleLogic() {
-        log.info("Running after 5 minutes");
         log.info("UserName: " + caseWorkerUserName);
         log.info("Password: " + caseWorkerPassword);
         String accessToken = authenticateUser();
