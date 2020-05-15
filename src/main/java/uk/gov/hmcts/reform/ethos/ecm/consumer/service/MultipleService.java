@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.exceptions.CaseCreationException;
 import uk.gov.hmcts.ecm.common.model.bulk.SubmitBulkEvent;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.ApiAccessToken;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.MultipleStateTask;
 import java.time.Duration;
 import java.time.Instant;
@@ -43,9 +42,9 @@ public class MultipleService {
         log.info("Running after 5 minutes");
         log.info("UserName: " + caseWorkerUserName);
         log.info("Password: " + caseWorkerPassword);
-        String authToken = authenticateUser();
+        String accessToken = authenticateUser();
         //String authToken = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJjZ3BtOWtkNTVzOHFrNjk5NDYyaTVhaHRjbCIsInN1YiI6Ijk0MmZmNzJlLWVlZmItNGI5Ni05MzY4LWQ5OGVkMTdlMzMxYyIsImlhdCI6MTU4OTQzOTQ0MiwiY2FzZS1pZCI6IjExNTY1ODgiLCJldmVudC1pZCI6ImFtZW5kQ2FzZURldGFpbHMiLCJjYXNlLXR5cGUtaWQiOiJTY290bGFuZCIsImp1cmlzZGljdGlvbi1pZCI6IkVNUExPWU1FTlQiLCJjYXNlLXN0YXRlIjoiQWNjZXB0ZWQiLCJjYXNlLXZlcnNpb24iOiJjN2MwNDFjODI3MzkzNDVkNGEwNDdiM2I3MmE2ZGE5MDIzYmZkNzkxIiwiZW50aXR5LXZlcnNpb24iOjB9.w62XjLpLNuHSX1kTZ2RRbhf3CKk2jaHpoQhKJ5207UA";
-        List<SubmitBulkEvent> submitBulkEvents = retrieveMultipleCase(authToken);
+        List<SubmitBulkEvent> submitBulkEvents = retrieveMultipleCase(accessToken);
         if (submitBulkEvents != null && !submitBulkEvents.isEmpty()) {
 
 //            for (SubmitBulkEvent submitBulkEvent : submitBulkEvents) {
@@ -56,7 +55,7 @@ public class MultipleService {
 //            }
 
             log.info("submit BulkEvent: " + submitBulkEvents.get(0));
-            sendUpdate(submitBulkEvents.get(0), authToken);
+            sendUpdate(submitBulkEvents.get(0), accessToken);
         } else {
             log.info("No submit events found");
         }
@@ -81,10 +80,10 @@ public class MultipleService {
         }
     }
 
-    private void sendUpdate(SubmitBulkEvent submitBulkEvent, String authToken) {
+    private void sendUpdate(SubmitBulkEvent submitBulkEvent, String accessToken) {
         Instant start = Instant.now();
         ExecutorService executor = Executors.newFixedThreadPool(NUMBER_THREADS);
-        executor.execute(new MultipleStateTask(JURISDICTION, CASE_TYPE_ID, submitBulkEvent, authToken, ccdClient));
+        executor.execute(new MultipleStateTask(JURISDICTION, CASE_TYPE_ID, submitBulkEvent, accessToken, ccdClient));
         log.info("End in time: " + Duration.between(start, Instant.now()).toMillis());
         executor.shutdown();
     }

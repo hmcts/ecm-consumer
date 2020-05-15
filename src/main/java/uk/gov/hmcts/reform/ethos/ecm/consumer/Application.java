@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService;
 
 @SpringBootApplication
@@ -15,6 +16,7 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService;
     })
 @SuppressWarnings("HideUtilityClassConstructor") // Spring needs a constructor, its not a utility class
 @Slf4j
+@EnableScheduling
 public class Application {
 
     public static void main(final String[] args) {
