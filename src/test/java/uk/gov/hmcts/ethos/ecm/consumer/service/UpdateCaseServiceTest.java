@@ -5,21 +5,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.service.CreateUpdatesService;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UpdateCaseService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class CreateUpdatesServiceTest {
+public class UpdateCaseServiceTest {
 
     @InjectMocks
-    private CreateUpdatesService createUpdatesService;
+    private UpdateCaseService updateCaseService;
 
     @Before
     public void setUp() {
     }
 
     @Test
-    public void createUpdates() {
-        createUpdatesService.createUpdates();
+    public void updateCase() {
+        updateCaseService.updateCase();
     }
 
 }

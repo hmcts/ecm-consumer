@@ -8,3 +8,8 @@ spring:
         ecm-consumer-s2s-key: ECM_CONSUMER_S2S_KEY
         caseworker-user-name: CASEWORKER_USER_NAME
         caseworker-password: CASEWORKER_PASSWORD
+        create-updates-queue-listen-connection-string : CREATE_UPDATES_QUEUE_LISTEN_CONN_STR
+        create-updates-queue-max-delivery-count : CREATE_UPDATES_QUEUE_MAX_DELIVERY_COUNT
+        update-case-queue-send-connection-string : UPDATE_CASE_QUEUE_SEND_CONN_STR
+        update-case-queue-listen-connection-string : UPDATE_CASE_QUEUE_LISTEN_CONN_STR
+        update-case-queue-max-delivery-count : UPDATE_CASE_QUEUE_MAX_DELIVERY_COUNT
