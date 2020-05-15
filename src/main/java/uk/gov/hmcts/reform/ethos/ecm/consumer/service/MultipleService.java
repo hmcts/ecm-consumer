@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.ethos.ecm.consumer.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.exceptions.CaseCreationException;
@@ -38,6 +39,7 @@ public class MultipleService {
         this.userService = userService;
     }
 
+    @Scheduled(fixedRate = 100000)
     public void sendUpdateToMultipleLogic() {
         log.info("UserName: " + caseWorkerUserName);
         log.info("Password: " + caseWorkerPassword);
