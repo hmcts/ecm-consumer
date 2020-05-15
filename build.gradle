@@ -135,34 +135,36 @@ def versions = [
 ]
 
 dependencies {
+
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json'
+  implementation group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: '0.0.5'
+  implementation group: 'uk.gov.hmcts.reform', name: 'ecm-common', version: '0.0.11'
+
   compileOnly 'org.projectlombok:lombok:1.18.12'
   annotationProcessor 'org.projectlombok:lombok:1.18.12'
-  compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.0.2.RELEASE'
-  compile group: 'io.github.openfeign', name: 'feign-httpclient', version: '10.0.1'
-  compile group: 'io.github.openfeign', name: 'feign-core', version: '9.5.1'
-  compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.12'
-  compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
-  compile group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '8.16'
+  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.0.2.RELEASE'
+  implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '10.0.1'
+  implementation group: 'io.github.openfeign', name: 'feign-core', version: '9.5.1'
+  implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.12'
+  implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
+  implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '8.16'
 
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-json'
-  compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: '0.0.5'
-  compile group: 'uk.gov.hmcts.reform', name: 'ecm-common', version: '0.0.11'
   //implementation group: 'uk.gov.service.notify', name: 'notifications-java-client', version: versions.hmctsNotify
 
-  compile group: 'com.microsoft.azure', name: 'azure-servicebus', version: '1.2.18', {
+  implementation group: 'com.microsoft.azure', name: 'azure-servicebus', version: '1.2.18', {
     exclude group: 'javax.mail', module: 'mail'
     exclude group: 'net.minidev', module: 'json-smart'
   }
 
-  compile group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
+  implementation group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
 
-  compile group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.reformLogging
-  compile group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.reformLogging
-  compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.2.RELEASE'
-  compile group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.0.4'
+  implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.reformLogging
+  implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.reformLogging
+  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.2.RELEASE'
+  implementation group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.0.4'
 
   testCompile (group: 'org.docx4j', name: 'docx4j', version: '6.1.2') {
     exclude module: 'slf4j-log4j12'
