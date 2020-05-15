@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CreateUpdatesService {
 
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 100000)
     public void createUpdatesService() {
         log.info("Running cron job....");
     }
