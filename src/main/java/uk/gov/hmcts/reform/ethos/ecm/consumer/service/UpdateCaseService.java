@@ -22,7 +22,7 @@ public class UpdateCaseService {
     private String queueUpdateCaseName;
 
 
-    @Scheduled(fixedRate = 100000)
+    //@Scheduled(fixedRate = 100000)
     public void updateCase() {
         log.info("Running updateCase job....");
         log.info("queueCreateUpdatesListenString" + queueCreateUpdatesListenString);
