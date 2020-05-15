@@ -11,8 +11,6 @@ public class UpdateCaseService {
 
     @Value("${queue.create-updates.listen.connection-string}")
     private String queueCreateUpdatesListenString;
-    @Value("${queue.create-updates.max-delivery-count}")
-    private String queueCreateUpdatesMaxCount;
     @Value("${queue.create-updates.queue-name}")
     private String queueCreateUpdatesName;
 
@@ -20,8 +18,6 @@ public class UpdateCaseService {
     private String queueUpdateCaseListenString;
     @Value("${queue.update-case.send.connection-string}")
     private String queueUpdateCaseSendString;
-    @Value("${queue.update-case.max-delivery-count}")
-    private String queueUpdateCaseMaxCount;
     @Value("${queue.update-case.queue-name}")
     private String queueUpdateCaseName;
 
@@ -30,11 +26,9 @@ public class UpdateCaseService {
     public void updateCase() {
         log.info("Running updateCase job....");
         log.info("queueCreateUpdatesListenString" + queueCreateUpdatesListenString);
-        log.info("queueCreateUpdatesMaxCount" + queueCreateUpdatesMaxCount);
         log.info("queueCreateUpdatesName" + queueCreateUpdatesName);
         log.info("queueUpdateCaseListenString" + queueUpdateCaseListenString);
         log.info("queueUpdateCaseSendString" + queueUpdateCaseSendString);
-        log.info("queueUpdateCaseMaxCount" + queueUpdateCaseMaxCount);
         log.info("queueUpdateCaseName" + queueUpdateCaseName);
     }
 

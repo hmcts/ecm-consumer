@@ -137,7 +137,6 @@ def versions = [
 dependencies {
   compileOnly 'org.projectlombok:lombok:1.18.12'
   annotationProcessor 'org.projectlombok:lombok:1.18.12'
-  compile 'io.github.openfeign.form:feign-form:3.8.0'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
@@ -145,6 +144,11 @@ dependencies {
   implementation group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: '0.0.5'
   implementation group: 'uk.gov.hmcts.reform', name: 'ecm-common', version: '0.0.8'
   //implementation group: 'uk.gov.service.notify', name: 'notifications-java-client', version: versions.hmctsNotify
+
+  implementation group: 'com.microsoft.azure', name: 'azure-servicebus', version: '1.2.18', {
+    exclude group: 'javax.mail', module: 'mail'
+    exclude group: 'net.minidev', module: 'json-smart'
+  }
 
   implementation group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
 

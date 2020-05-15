@@ -67,11 +67,6 @@ data "azurerm_key_vault_secret" "create_updates_queue_listen_conn_str" {
   key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
 }
 
-data "azurerm_key_vault_secret" "create_updates_queue_max_delivery_count" {
-  name = "create-updates-queue-max-delivery-count"
-  key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
-}
-
 data "azurerm_key_vault_secret" "update_case_queue_send_conn_str" {
   name = "update-case-queue-send-connection-string"
   key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
@@ -79,10 +74,5 @@ data "azurerm_key_vault_secret" "update_case_queue_send_conn_str" {
 
 data "azurerm_key_vault_secret" "update_case_queue_listen_conn_str" {
   name = "update-case-queue-listen-connection-string"
-  key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
-}
-
-data "azurerm_key_vault_secret" "update_case_queue_max_delivery_count" {
-  name = "update-case-queue-max-delivery-count"
   key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
 }
