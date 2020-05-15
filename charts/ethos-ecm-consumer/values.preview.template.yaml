@@ -13,3 +13,4 @@ java:
         - create-updates-queue-listen-connection-string
         - update-case-queue-send-connection-string
         - update-case-queue-listen-connection-string
+        - idam-client-secret
