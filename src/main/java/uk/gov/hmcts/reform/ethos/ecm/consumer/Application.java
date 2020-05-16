@@ -10,13 +10,13 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService;
 
 @SpringBootApplication
-@EnableCircuitBreaker
+//@EnableCircuitBreaker
 @EnableFeignClients(basePackages =
     {"uk.gov.hmcts.reform.ethos.ecm"
     })
 @SuppressWarnings("HideUtilityClassConstructor") // Spring needs a constructor, its not a utility class
 @Slf4j
-@EnableScheduling
+//@EnableScheduling
 public class Application {
 
     public static void main(final String[] args) {
