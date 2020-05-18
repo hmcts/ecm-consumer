@@ -22,7 +22,7 @@ public class AccessTokenService {
     private final RestTemplate restTemplate;
 
     public static final String OPENID_GRANT_TYPE = "password";
-    public static final String OPENID_SCOPE = "openid";
+    public static final String OPENID_SCOPE = "openid profile roles";
     public static final String BEARER_AUTH_TYPE = "Bearer";
     public static final String CLIENT_ID = "client_id";
     public static final String CLIENT_SECRET = "client_secret";
