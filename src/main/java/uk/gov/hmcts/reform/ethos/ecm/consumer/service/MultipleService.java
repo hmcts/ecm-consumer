@@ -41,8 +41,8 @@ public class MultipleService {
     public void sendUpdateToMultipleLogic() {
         log.info("UserName: " + caseWorkerUserName);
         log.info("Password: " + caseWorkerPassword);
-        //String accessToken = authenticateUser();
-        String accessToken = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzamduaWxqOHVpMGJjbXVpNTluZjAxdGRoMiIsInN1YiI6Ijk0MmZmNzJlLWVlZmItNGI5Ni05MzY4LWQ5OGVkMTdlMzMxYyIsImlhdCI6MTU4OTgwMTQxMiwiY2FzZS1pZCI6IjExNTc3MDciLCJldmVudC1pZCI6InVwZGF0ZUJ1bGtBY3Rpb24iLCJjYXNlLXR5cGUtaWQiOiJTY290bGFuZF9NdWx0aXBsZXMiLCJqdXJpc2RpY3Rpb24taWQiOiJFTVBMT1lNRU5UIiwiY2FzZS1zdGF0ZSI6IkJ1bGtDYXNlU3RhcnRlZCIsImNhc2UtdmVyc2lvbiI6IjExNTVmZmMwMTU0YmMzZWNkZjQwNDdhOGM2OTZhMTA1Y2JmZjMxZjUiLCJlbnRpdHktdmVyc2lvbiI6NX0.hL3HN9q2GDnDqdZTc_YewvFH0MWMXfQU84TNfK_Huyo";
+        String accessToken = authenticateUser();
+        //String accessToken = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzamduaWxqOHVpMGJjbXVpNTluZjAxdGRoMiIsInN1YiI6Ijk0MmZmNzJlLWVlZmItNGI5Ni05MzY4LWQ5OGVkMTdlMzMxYyIsImlhdCI6MTU4OTgwMTQxMiwiY2FzZS1pZCI6IjExNTc3MDciLCJldmVudC1pZCI6InVwZGF0ZUJ1bGtBY3Rpb24iLCJjYXNlLXR5cGUtaWQiOiJTY290bGFuZF9NdWx0aXBsZXMiLCJqdXJpc2RpY3Rpb24taWQiOiJFTVBMT1lNRU5UIiwiY2FzZS1zdGF0ZSI6IkJ1bGtDYXNlU3RhcnRlZCIsImNhc2UtdmVyc2lvbiI6IjExNTVmZmMwMTU0YmMzZWNkZjQwNDdhOGM2OTZhMTA1Y2JmZjMxZjUiLCJlbnRpdHktdmVyc2lvbiI6NX0.hL3HN9q2GDnDqdZTc_YewvFH0MWMXfQU84TNfK_Huyo";
         log.info("AccessToken: " + accessToken);
         List<SubmitBulkEvent> submitBulkEvents = retrieveMultipleCase(accessToken);
         if (submitBulkEvents != null && !submitBulkEvents.isEmpty()) {
