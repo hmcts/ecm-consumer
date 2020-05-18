@@ -13,4 +13,4 @@ services:
       IDAM_CLIENT_REDIRECT_URL: "https://localhost:8085/oauth2redirect"
       SERVICE_AUTH_PROVIDER_URL: "http://service-auth-provider-api:8080"
       CCD_DATA_STORE_API_URL: "http://ccd-data-store-api:4452"
-      MICRO_SERVICE: "ecm-consumer"
+      MICRO_SERVICE: "ecm_consumer"

@@ -29,4 +29,4 @@ java:
     IDAM_CLIENT_REDIRECT_URL: "https://ecm-consumer-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/oauth2redirect"
     SERVICE_AUTH_PROVIDER_URL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
     CCD_DATA_STORE_API_URL: "http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
-    MICRO_SERVICE: "ecm-consumer"
+    MICRO_SERVICE: "ecm_consumer"

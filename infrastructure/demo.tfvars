@@ -1,5 +1,5 @@
 idam_api_url = "https://idam-api.demo.platform.hmcts.net"
 s2s_url = "http://rpe-service-auth-provider-demo.service.core-compute-demo.internal"
 ccd_data_store_api_url = "http://ccd-data-store-api-demo.service.core-compute-demo.internal"
-micro_service = "ecm-consumer"
+micro_service = "ecm_consumer"
 managed_identity_object_id = "7e9cbd42-c26d-460f-95a4-6eed9ecd5dfa"
