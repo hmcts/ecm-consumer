@@ -6,8 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ApplicationContext;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableScheduling
 @EnableFeignClients(basePackages =
     {"uk.gov.hmcts.reform.ethos.ecm"
     })
