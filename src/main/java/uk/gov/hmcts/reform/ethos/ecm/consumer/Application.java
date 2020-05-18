@@ -16,7 +16,7 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService;
 public class Application {
 
     public static void main(final String[] args) {
-        //SpringApplication.run(Application.class, args);
+       // SpringApplication.run(Application.class, args);
 
         ApplicationContext applicationContext = SpringApplication.run(Application.class, args);
         log.info("Starting...");

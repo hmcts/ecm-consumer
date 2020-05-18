@@ -1,9 +1,9 @@
 package uk.gov.hmcts.reform.ethos.ecm.consumer.tasks;
 
 import lombok.extern.slf4j.Slf4j;
+import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.model.bulk.SubmitBulkEvent;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.config.CcdClient;
 
 import java.io.IOException;
 
@@ -33,8 +33,9 @@ public class MultipleStateTask implements Runnable {
         String caseId = String.valueOf(submitBulkEvent.getCaseId());
         try {
             CCDRequest returnedRequest = ccdClient.startBulkEventForCase(authToken, caseTypeId, jurisdiction, caseId);
-            log.info("Moving to CLOSE state");
-            submitBulkEvent.getCaseData().setState(CLOSED_STATE);
+            log.info("Renaming Multiple Name");
+            //submitBulkEvent.getCaseData().setState(CLOSED_STATE);
+            submitBulkEvent.getCaseData().setBulkCaseTitle("NAME CHANGED");
             ccdClient.submitBulkEventForCase(authToken, submitBulkEvent.getCaseData(), caseTypeId, jurisdiction, returnedRequest, caseId);
         } catch (IOException e) {
             log.error("Error processing bulk pre accept threads");

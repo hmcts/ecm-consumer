@@ -4,9 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.exceptions.CaseCreationException;
 import uk.gov.hmcts.ecm.common.model.bulk.SubmitBulkEvent;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.config.CcdClient;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.MultipleStateTask;
 import java.time.Duration;
 import java.time.Instant;
@@ -38,18 +38,19 @@ public class MultipleService {
         this.userService = userService;
     }
 
-    //@Scheduled(fixedRate = 100000)
     public void sendUpdateToMultipleLogic() {
         log.info("UserName: " + caseWorkerUserName);
         log.info("Password: " + caseWorkerPassword);
         String accessToken = authenticateUser();
+        //String accessToken = "Bearer eyJ0eXAiOiJKV1QiLCJ6aXAiOiJOT05FIiwia2lkIjoiYi9PNk92VnYxK3krV2dySDVVaTlXVGlvTHQwPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJtQG0uY29tIiwiYXV0aF9sZXZlbCI6MCwiYXVkaXRUcmFja2luZ0lkIjoiYjIyMzQ0ZTMtN2NhMS00NmQ5LThmZGUtMjliYmMzMTNiMjNjIiwiaXNzIjoiaHR0cDovL2ZyLWFtOjgwODAvb3BlbmFtL29hdXRoMi9obWN0cyIsInRva2VuTmFtZSI6ImFjY2Vzc190b2tlbiIsInRva2VuX3R5cGUiOiJCZWFyZXIiLCJhdXRoR3JhbnRJZCI6ImU1MTVhOTJlLTNjNDAtNDA2ZC05YTAxLTYyMzlkNzhkMzJhNiIsImF1ZCI6ImNjZF9nYXRld2F5IiwibmJmIjoxNTg5Nzg4NTgzLCJncmFudF90eXBlIjoiYXV0aG9yaXphdGlvbl9jb2RlIiwic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsInJvbGVzIl0sImF1dGhfdGltZSI6MTU4OTc4ODU4MTAwMCwicmVhbG0iOiIvaG1jdHMiLCJleHAiOjE1ODk4MTczODMsImlhdCI6MTU4OTc4ODU4MywiZXhwaXJlc19pbiI6Mjg4MDAsImp0aSI6IjcwMzcwMDlmLTVmMzAtNDNlNC04NDE3LWQ0Yzg1ZTkxZWU5YyJ9.WCtWd_0raTxsZl5FupMySoMjlF5Zp_mg5L-yjGNcEe1PjlayB6guH2DSiPe5i-p40S0yoYD2XDK7eX-NF3INpKxHIB_R4LRLyor7nH-XkeJPCmXFf-X58NMqz-idZ4AOqMDgLtQVjdn4oaSiWQWOkf2AadWfL9RCVFINjiiY3MiZW0EsArgCYW6i17ehsCPky0j8i3dhQXxMqJRrdtZXMQA1cUxDnAOAqvcfyaxU_LYZod7ieW0dLxlfFYbc1OttSgPhQfDX0C7t0lGZAuXFbsW_3XyOhKKtqTriTxQ7jYi3tLXSylkqfchvBCadoGcaYgHHJWhUu0GHfCfOZrxtWQ";
+        log.info("AccessToken: " + accessToken);
         List<SubmitBulkEvent> submitBulkEvents = retrieveMultipleCase(accessToken);
         if (submitBulkEvents != null && !submitBulkEvents.isEmpty()) {
 
 //            for (SubmitBulkEvent submitBulkEvent : submitBulkEvents) {
 //                if (submitBulkEvent.getCaseData().getMultipleReference().equals(MULTIPLE_REFERENCE)) {
 //                    log.info("submit BulkEvent: " + submitBulkEvent);
-//                    sendUpdate(submitBulkEvent, authToken);
+//                    sendUpdate(submitBulkEvent, accessToken);
 //                }
 //            }
 
@@ -78,7 +79,7 @@ public class MultipleService {
 
     private void sendUpdate(SubmitBulkEvent submitBulkEvent, String accessToken) {
         Instant start = Instant.now();
-        ExecutorService executor = Executors.newFixedThreadPool(NUMBER_THREADS);
+        ExecutorService executor = Executors.newFixedThreadPool(1);
         executor.execute(new MultipleStateTask(JURISDICTION, CASE_TYPE_ID, submitBulkEvent, accessToken, ccdClient));
         log.info("End in time: " + Duration.between(start, Instant.now()).toMillis());
         executor.shutdown();
