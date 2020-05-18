@@ -55,7 +55,7 @@ public class AccessTokenServiceTest {
         map.add("redirect_uri", "redirectUri");
         map.add("username", "Username");
         map.add("password", "Password");
-        map.add("scope", "openid");
+        map.add("scope", "openid profile roles");
         map.add("refresh_token", null);
         map.add("code", null);
         return map;
