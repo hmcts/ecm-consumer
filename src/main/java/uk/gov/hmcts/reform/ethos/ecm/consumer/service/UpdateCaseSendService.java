@@ -23,7 +23,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
-public class UpdateCaseService {
+public class UpdateCaseSendService {
 
     @Value("${queue.create-updates.listen.connection-string}")
     private String queueCreateUpdatesListenString;
@@ -40,13 +40,13 @@ public class UpdateCaseService {
     private Gson GSON = new Gson();
 
     @Autowired
-    public UpdateCaseService() {
+    public UpdateCaseSendService() {
 
     }
 
     //@Scheduled(fixedRate = 100000)
-    public void updateCase() {
-        log.info("Running updateCase job....");
+    public void updateCaseSend() {
+        log.info("Running updateCaseSend job....");
         log.info("queueCreateUpdatesListenString" + queueCreateUpdatesListenString);
         log.info("queueCreateUpdatesName" + queueCreateUpdatesName);
         log.info("queueUpdateCaseListenString" + queueUpdateCaseListenString);
@@ -55,7 +55,9 @@ public class UpdateCaseService {
     }
 
     //@Scheduled(fixedRate = 100000)
+    @Scheduled(fixedDelay = 100000000, initialDelay = 200000)
     public void sendMessages() throws Exception {
+        log.info("Connection done!!!");
         QueueClient sendClient = new QueueClient(new ConnectionStringBuilder(queueUpdateCaseSendString, queueUpdateCaseName), ReceiveMode.PEEKLOCK);
         sendMessagesAsync(sendClient).thenRunAsync(sendClient::closeAsync);
         sendClient.close();
@@ -65,6 +67,8 @@ public class UpdateCaseService {
         List<HashMap<String, String>> data = generateMessageContent();
 
         List<CompletableFuture> tasks = new ArrayList<>();
+
+        log.info("Start sending messages!!!");
 
         for (int i = 0; i < data.size(); i++) {
 
@@ -103,7 +107,7 @@ public class UpdateCaseService {
         message.setContentType("application/json");
         message.setLabel("Scientist");
         message.setMessageId(messageId);
-        message.setTimeToLive(Duration.ofMinutes(2));
+        message.setTimeToLive(Duration.ofMinutes(20));
         System.out.printf("\nMessage sending: Id = %s", message.getMessageId());
         return message;
     }

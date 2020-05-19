@@ -5,21 +5,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UpdateCaseService;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UpdateCaseListenService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class UpdateCaseServiceTest {
+public class UpdateCaseListenServiceTest {
 
     @InjectMocks
-    private UpdateCaseService updateCaseService;
+    private UpdateCaseListenService updateCaseListenService;
 
     @Before
     public void setUp() {
     }
 
     @Test
-    public void updateCase() {
-        updateCaseService.updateCase();
+    public void updateCaseListen() {
+        updateCaseListenService.updateCaseListen();
     }
 
 }

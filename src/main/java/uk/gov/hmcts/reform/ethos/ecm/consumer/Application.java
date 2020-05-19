@@ -5,12 +5,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ApplicationContext;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UpdateCaseService;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UpdateCaseSendService;
 
 @SpringBootApplication
-//@EnableScheduling
+@EnableScheduling
 @EnableFeignClients(basePackages =
     {"uk.gov.hmcts.reform.ethos.ecm"
     })
@@ -26,9 +26,9 @@ public class Application {
         MultipleService service = applicationContext.getBean(MultipleService.class);
         service.sendUpdateToMultipleLogic();
 
-        log.info("Sending updates...");
-        UpdateCaseService updateCaseService = applicationContext.getBean(UpdateCaseService.class);
-        updateCaseService.sendMessages();
+//        log.info("Sending updates...");
+//        UpdateCaseSendService updateCaseSendService = applicationContext.getBean(UpdateCaseSendService.class);
+//        updateCaseSendService.sendMessages();
 
         log.info("End");
     }
