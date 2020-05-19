@@ -49,6 +49,7 @@ public class UpdateCaseListenService {
 
     //@Scheduled(fixedRate = 100000)
     public void sendMessages() throws Exception {
+        log.info("Waiting on messages");
         QueueClient receiveClient = new QueueClient(new ConnectionStringBuilder(queueUpdateCaseListenString, queueUpdateCaseName), ReceiveMode.PEEKLOCK);
         registerReceiver(receiveClient);
         receiveClient.close();

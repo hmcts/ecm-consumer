@@ -50,15 +50,15 @@ public class MultipleService {
         List<SubmitBulkEvent> submitBulkEvents = retrieveMultipleCase(accessToken);
         if (submitBulkEvents != null && !submitBulkEvents.isEmpty()) {
 
-            for (SubmitBulkEvent submitBulkEvent : submitBulkEvents) {
-                if (submitBulkEvent.getCaseData().getMultipleReference().equals(MULTIPLE_REFERENCE)) {
-                    log.info("submit BulkEvent: " + submitBulkEvent);
-                    sendUpdate(submitBulkEvent, accessToken);
-                }
-            }
+//            for (SubmitBulkEvent submitBulkEvent : submitBulkEvents) {
+//                if (submitBulkEvent.getCaseData().getMultipleReference().equals(MULTIPLE_REFERENCE)) {
+//                    log.info("submit BulkEvent: " + submitBulkEvent);
+//                    sendUpdate(submitBulkEvent, accessToken);
+//                }
+//            }
 
-            //log.info("submit BulkEvent: " + submitBulkEvents.get(0));
-            //sendUpdate(submitBulkEvents.get(0), accessToken);
+            log.info("submit BulkEvent: " + submitBulkEvents.get(0));
+            sendUpdate(submitBulkEvents.get(0), accessToken);
         } else {
             log.info("No submit events found");
         }
@@ -73,8 +73,8 @@ public class MultipleService {
 
     private List<SubmitBulkEvent> retrieveMultipleCase(String authToken) {
         try {
-            //return ccdClient.retrieveBulkCasesElasticSearch(authToken, CASE_TYPE_ID, MULTIPLE_REFERENCE);
-            return ccdClient.retrieveBulkCases(authToken, CASE_TYPE_ID, JURISDICTION);
+            return ccdClient.retrieveBulkCasesElasticSearch(authToken, CASE_TYPE_ID, MULTIPLE_REFERENCE);
+            //return ccdClient.retrieveBulkCases(authToken, CASE_TYPE_ID, JURISDICTION);
         } catch (Exception ex) {
             throw new CaseCreationException(MESSAGE + MULTIPLE_REFERENCE + ex.getMessage());
         }
