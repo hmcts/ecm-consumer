@@ -26,7 +26,7 @@ public class MultipleService {
     private static final String MESSAGE = "Failed to pull case: ";
     private static final String JURISDICTION = "EMPLOYMENT";
     private static final String CASE_TYPE_ID = SCOTLAND_BULK_CASE_TYPE_ID;
-    private static final String MULTIPLE_REFERENCE = "4150001";
+    public static final String MULTIPLE_REFERENCE = "4150001";
 
     @Value("${caseWorkerUserName}")
     private String caseWorkerUserName;
