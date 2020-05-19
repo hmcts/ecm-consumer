@@ -17,7 +17,7 @@ public class ServiceBusSenderConfiguration {
     private ObjectMapper objectMapper;
 
     @Bean(name = "update-case-send-helper")
-    public ServiceBusSender envelopesQueueHelper(
+    public ServiceBusSender updateCaseSendHelper(
         @Qualifier("update-case-send-client") IQueueClient queueClient
     ) {
         return new ServiceBusSender(queueClient, objectMapper);
