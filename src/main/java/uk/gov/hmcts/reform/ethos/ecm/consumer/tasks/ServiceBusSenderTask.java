@@ -30,7 +30,8 @@ public class ServiceBusSenderTask {
     }
 
     @SchedulerLock(name = "service-bus-sender-task")
-    @Scheduled(fixedDelayString = "3000")
+    //@Scheduled(fixedDelayString = "3000")
+    @Scheduled(fixedDelay = 100000000, initialDelay = 200000)
     public void run() {
         log.info("Started sending update case messages to update-case queue");
 
