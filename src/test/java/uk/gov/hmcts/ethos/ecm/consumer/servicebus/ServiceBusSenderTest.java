@@ -1,0 +1,69 @@
+package uk.gov.hmcts.ethos.ecm.consumer.servicebus;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.microsoft.azure.servicebus.IQueueClient;
+import com.microsoft.azure.servicebus.primitives.ServiceBusException;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.InvalidMessageException;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.model.UpdateCaseMsg;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.ServiceBusSender;
+
+import java.io.IOException;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+import static uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService.CASE_TYPE_ID;
+import static uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService.JURISDICTION;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+public class ServiceBusSenderTest {
+
+    @InjectMocks
+    private ServiceBusSender serviceBusSender;
+    @Mock
+    private IQueueClient sendClient;
+    @Mock
+    private ObjectMapper objectMapper;
+
+    @Before
+    public void setUp() {
+        serviceBusSender = new ServiceBusSender(sendClient, objectMapper);
+    }
+
+    @Test
+    public void sendMessage() {
+        serviceBusSender.sendMessage(generateMessage());
+    }
+
+    @Test(expected = InvalidMessageException.class)
+    public void sendMessageNull() {
+        serviceBusSender.sendMessage(null);
+    }
+
+    @Test(expected = InvalidMessageException.class)
+    public void sendMessageNullId() {
+        UpdateCaseMsg updateCaseMsg = generateMessage();
+        updateCaseMsg.setMsgId(null);
+        serviceBusSender.sendMessage(updateCaseMsg);
+    }
+
+    private UpdateCaseMsg generateMessage() {
+        return UpdateCaseMsg.builder()
+            .msgId("1")
+            .multipleRef("4150001")
+            .ethosCaseReference("4150001/2020")
+            .totalCases("1")
+            .jurisdiction(JURISDICTION)
+            .caseTypeId(CASE_TYPE_ID)
+            .username("eric.ccdcooper@gmail.com")
+            .build();
+    }
+
+}

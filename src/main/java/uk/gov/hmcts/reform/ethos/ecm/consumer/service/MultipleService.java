@@ -24,8 +24,8 @@ public class MultipleService {
     private final CcdClient ccdClient;
     private final UserService userService;
     private static final String MESSAGE = "Failed to pull case: ";
-    private static final String JURISDICTION = "EMPLOYMENT";
-    private static final String CASE_TYPE_ID = SCOTLAND_BULK_CASE_TYPE_ID;
+    public static final String JURISDICTION = "EMPLOYMENT";
+    public static final String CASE_TYPE_ID = SCOTLAND_BULK_CASE_TYPE_ID;
     public static final String MULTIPLE_REFERENCE = "4150001";
 
     @Value("${caseWorkerUserName}")

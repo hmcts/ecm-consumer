@@ -55,60 +55,60 @@ public class UpdateCaseSendService {
     }
 
     //@Scheduled(fixedRate = 100000)
-    @Scheduled(fixedDelay = 100000000, initialDelay = 200000)
-    public void sendMessages() throws Exception {
-        log.info("Connection done!!!");
-        QueueClient sendClient = new QueueClient(new ConnectionStringBuilder(queueUpdateCaseSendString, queueUpdateCaseName), ReceiveMode.PEEKLOCK);
-        sendMessagesAsync(sendClient).thenRunAsync(sendClient::closeAsync);
-        sendClient.close();
-    }
-
-    CompletableFuture<Void> sendMessagesAsync(QueueClient sendClient) {
-        List<HashMap<String, String>> data = generateMessageContent();
-
-        List<CompletableFuture> tasks = new ArrayList<>();
-
-        log.info("Start sending messages!!!");
-
-        for (int i = 0; i < data.size(); i++) {
-
-            Message message = generateMessage(Integer.toString(i), data, i);
-
-            tasks.add(
-                sendClient.sendAsync(message).thenRunAsync(() -> {
-                    System.out.printf("\n\tMessage acknowledged: Id = %s", message.getMessageId());
-                }));
-        }
-
-        return CompletableFuture.allOf(tasks.toArray(new CompletableFuture<?>[tasks.size()]));
-    }
-
-    private List<HashMap<String, String>> generateMessageContent() {
-        List<HashMap<String, String>> data =
-            GSON.fromJson(
-                "[" +
-                    "{'name' = 'Einstein', 'firstName' = 'Albert'}," +
-                    "{'name' = 'Heisenberg', 'firstName' = 'Werner'}," +
-                    "{'name' = 'Curie', 'firstName' = 'Marie'}," +
-                    "{'name' = 'Hawking', 'firstName' = 'Steven'}," +
-                    "{'name' = 'Newton', 'firstName' = 'Isaac'}," +
-                    "{'name' = 'Bohr', 'firstName' = 'Niels'}," +
-                    "{'name' = 'Faraday', 'firstName' = 'Michael'}," +
-                    "{'name' = 'Galilei', 'firstName' = 'Galileo'}," +
-                    "{'name' = 'Kepler', 'firstName' = 'Johannes'}," +
-                    "{'name' = 'Kopernikus', 'firstName' = 'Nikolaus'}" +
-                    "]",
-                new TypeToken<List<HashMap<String, String>>>() {}.getType());
-        return data;
-    }
-
-    private Message generateMessage(String messageId, List<HashMap<String, String>> data, int i) {
-        Message message = new Message(GSON.toJson(data.get(i), Map.class).getBytes(StandardCharsets.UTF_8));
-        message.setContentType("application/json");
-        message.setLabel("Scientist");
-        message.setMessageId(messageId);
-        message.setTimeToLive(Duration.ofMinutes(20));
-        System.out.printf("\nMessage sending: Id = %s", message.getMessageId());
-        return message;
-    }
+//    @Scheduled(fixedDelay = 100000000, initialDelay = 200000)
+//    public void sendMessages() throws Exception {
+//        log.info("Connection done!!!");
+//        QueueClient sendClient = new QueueClient(new ConnectionStringBuilder(queueUpdateCaseSendString, queueUpdateCaseName), ReceiveMode.PEEKLOCK);
+//        sendMessagesAsync(sendClient).thenRunAsync(sendClient::closeAsync);
+//        sendClient.close();
+//    }
+//
+//    CompletableFuture<Void> sendMessagesAsync(QueueClient sendClient) {
+//        List<HashMap<String, String>> data = generateMessageContent();
+//
+//        List<CompletableFuture> tasks = new ArrayList<>();
+//
+//        log.info("Start sending messages!!!");
+//
+//        for (int i = 0; i < data.size(); i++) {
+//
+//            Message message = generateMessage(Integer.toString(i), data, i);
+//
+//            tasks.add(
+//                sendClient.sendAsync(message).thenRunAsync(() -> {
+//                    System.out.printf("\n\tMessage acknowledged: Id = %s", message.getMessageId());
+//                }));
+//        }
+//
+//        return CompletableFuture.allOf(tasks.toArray(new CompletableFuture<?>[tasks.size()]));
+//    }
+//
+//    private List<HashMap<String, String>> generateMessageContent() {
+//        List<HashMap<String, String>> data =
+//            GSON.fromJson(
+//                "[" +
+//                    "{'name' = 'Einstein', 'firstName' = 'Albert'}," +
+//                    "{'name' = 'Heisenberg', 'firstName' = 'Werner'}," +
+//                    "{'name' = 'Curie', 'firstName' = 'Marie'}," +
+//                    "{'name' = 'Hawking', 'firstName' = 'Steven'}," +
+//                    "{'name' = 'Newton', 'firstName' = 'Isaac'}," +
+//                    "{'name' = 'Bohr', 'firstName' = 'Niels'}," +
+//                    "{'name' = 'Faraday', 'firstName' = 'Michael'}," +
+//                    "{'name' = 'Galilei', 'firstName' = 'Galileo'}," +
+//                    "{'name' = 'Kepler', 'firstName' = 'Johannes'}," +
+//                    "{'name' = 'Kopernikus', 'firstName' = 'Nikolaus'}" +
+//                    "]",
+//                new TypeToken<List<HashMap<String, String>>>() {}.getType());
+//        return data;
+//    }
+//
+//    private Message generateMessage(String messageId, List<HashMap<String, String>> data, int i) {
+//        Message message = new Message(GSON.toJson(data.get(i), Map.class).getBytes(StandardCharsets.UTF_8));
+//        message.setContentType("application/json");
+//        message.setLabel("Scientist");
+//        message.setMessageId(messageId);
+//        message.setTimeToLive(Duration.ofMinutes(20));
+//        System.out.printf("\nMessage sending: Id = %s", message.getMessageId());
+//        return message;
+//    }
 }
