@@ -54,7 +54,7 @@ public class UpdateCaseService {
         log.info("queueUpdateCaseName" + queueUpdateCaseName);
     }
 
-    @Scheduled(fixedRate = 100000)
+    //@Scheduled(fixedRate = 100000)
     public void sendMessages() throws Exception {
         QueueClient sendClient = new QueueClient(new ConnectionStringBuilder(queueUpdateCaseSendString, queueUpdateCaseName), ReceiveMode.PEEKLOCK);
         sendMessagesAsync(sendClient).thenRunAsync(sendClient::closeAsync);
