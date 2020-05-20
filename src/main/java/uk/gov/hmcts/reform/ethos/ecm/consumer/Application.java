@@ -7,7 +7,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UpdateCaseSendService;
 
 @SpringBootApplication
 @EnableScheduling
@@ -18,18 +17,13 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UpdateCaseSendService;
 @Slf4j
 public class Application {
 
-    public static void main(final String[] args) throws Exception {
+    public static void main(final String[] args) {
        // SpringApplication.run(Application.class, args);
 
         ApplicationContext applicationContext = SpringApplication.run(Application.class, args);
         log.info("Starting...");
         MultipleService service = applicationContext.getBean(MultipleService.class);
         service.sendUpdateToMultipleLogic();
-
-//        log.info("Sending updates...");
-//        UpdateCaseSendService updateCaseSendService = applicationContext.getBean(UpdateCaseSendService.class);
-//        updateCaseSendService.sendMessages();
-
         log.info("End");
     }
 }
