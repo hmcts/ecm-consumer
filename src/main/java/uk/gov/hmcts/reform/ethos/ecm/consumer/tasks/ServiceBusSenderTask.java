@@ -73,7 +73,7 @@ public class ServiceBusSenderTask {
 
     private List<UpdateCaseMsg> getUpdateCaseMsgList() {
         UpdateCaseMsg updateCaseMsg1 = UpdateCaseMsg.builder()
-            .msgId("4")
+            .msgId("7")
             .multipleRef("4150001")
             .ethosCaseReference("4150001/2020")
             .totalCases("3")
@@ -82,7 +82,7 @@ public class ServiceBusSenderTask {
             .username("eric.ccdcooper@gmail.com")
             .build();
         UpdateCaseMsg updateCaseMsg2 = UpdateCaseMsg.builder()
-            .msgId("5")
+            .msgId("8")
             .multipleRef("4150002")
             .ethosCaseReference("4150002/2020")
             .totalCases("3")
@@ -91,7 +91,7 @@ public class ServiceBusSenderTask {
             .username("eric.ccdcooper@gmail.com")
             .build();
         UpdateCaseMsg updateCaseMsg3 = UpdateCaseMsg.builder()
-            .msgId("6")
+            .msgId("9")
             .multipleRef("4150003")
             .ethosCaseReference("4150003/2020")
             .totalCases("3")

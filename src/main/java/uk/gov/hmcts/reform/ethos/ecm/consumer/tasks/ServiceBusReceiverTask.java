@@ -46,7 +46,6 @@ public class ServiceBusReceiverTask implements IMessageHandler {
 
     @Override
     public CompletableFuture<Void> onMessageAsync(IMessage message) {
-        log.info("Start receiving messages from CREATE-UPDATES-LISTEN QUEUE");
         return CompletableFuture
             .supplyAsync(() -> tryProcessMessage(message), EXECUTOR)
             .thenComposeAsync(processingResult -> tryFinaliseMessageAsync(message, processingResult), EXECUTOR)
@@ -124,7 +123,7 @@ public class ServiceBusReceiverTask implements IMessageHandler {
             );
 
             UpdateCaseMsg updateCaseMsg = readMessage(message);
-            log.info("Received: " + updateCaseMsg);
+            log.info("Received DO ANYTHING YOU WANT: " + updateCaseMsg);
 
             log.info("'Create updates' message with ID {} processed successfully", message.getMessageId());
             return new MessageProcessingResult(MessageProcessingResultType.SUCCESS);
@@ -144,7 +143,6 @@ public class ServiceBusReceiverTask implements IMessageHandler {
                 message.getMessageId(),
                 e
             );
-
             return new MessageProcessingResult(MessageProcessingResultType.POTENTIALLY_RECOVERABLE_FAILURE);
         }
     }
