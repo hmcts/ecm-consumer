@@ -73,7 +73,7 @@ public class ServiceBusReceiverTaskTest {
     @Test
     public void onMessageAsyncException() throws IOException {
         when(objectMapper.readValue(MessageBodyRetriever.getBinaryData(message.getMessageBody()), UpdateCaseMsg.class))
-            .thenThrow(new RuntimeException("Failed to parse"));
+            .thenThrow(new RuntimeException("Failed"));
         serviceBusReceiverTask.onMessageAsync(createMessage());
     }
 

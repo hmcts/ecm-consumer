@@ -32,6 +32,9 @@ public class UpdateCaseMsg implements Msg {
     @JsonProperty("username")
     private String username;
 
+    @JsonProperty("label")
+    private String label;
+
     @Override
     @JsonIgnore
     public String getMsgId() {
@@ -39,7 +42,8 @@ public class UpdateCaseMsg implements Msg {
     }
 
     @Override
+    @JsonIgnore
     public String getLabel() {
-        return "UpdateCaseMsgTest";
+        return label;
     }
 }
