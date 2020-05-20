@@ -10,10 +10,9 @@ import com.microsoft.azure.servicebus.primitives.ServiceBusException;
 import com.microsoft.azure.servicebus.primitives.TimeoutException;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.InvalidMessageException;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.ServiceBusConnectionTimeoutException;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.model.Msg;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.Msg;
 
 import javax.annotation.PreDestroy;
-import java.util.concurrent.CompletableFuture;
 
 import static java.util.Collections.singletonList;
 
@@ -27,11 +26,6 @@ public class ServiceBusSender implements AutoCloseable {
         this.sendClient = queueClient;
         this.objectMapper = objectMapper;
     }
-
-//    public CompletableFuture<Void> sendMessageAsync(Msg msg) {
-//        Message busMessage = mapToBusMessage(msg);
-//        return sendClient.sendAsync(busMessage);
-//    }
 
     public void sendMessage(Msg msg) {
         Message busMessage = mapToBusMessage(msg);

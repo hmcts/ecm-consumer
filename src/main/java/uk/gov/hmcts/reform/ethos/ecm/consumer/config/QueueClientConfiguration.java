@@ -12,6 +12,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class QueueClientConfiguration {
 
+    @Bean("create-updates-send-client")
+    public IQueueClient createUpdatesSendClient(
+        @Value("${queue.create-updates.send.connection-string}") String connectionString,
+        @Value("${queue.create-updates.queue-name}") String queueName
+    ) throws InterruptedException, ServiceBusException {
+        return createQueueClient(connectionString, queueName);
+    }
+
     @Bean("create-updates-listen-client")
     public IQueueClient createUpdatesListenClient(
         @Value("${queue.create-updates.listen.connection-string}") String connectionString,
@@ -20,17 +28,17 @@ public class QueueClientConfiguration {
         return createQueueClient(connectionString, queueName);
     }
 
-    @Bean("update-case-listen-client")
-    public IQueueClient updateCaseListenClient(
-        @Value("${queue.update-case.listen.connection-string}") String connectionString,
+    @Bean("update-case-send-client")
+    public IQueueClient updateCaseSendClient(
+        @Value("${queue.update-case.send.connection-string}") String connectionString,
         @Value("${queue.update-case.queue-name}") String queueName
     ) throws InterruptedException, ServiceBusException {
         return createQueueClient(connectionString, queueName);
     }
 
-    @Bean("update-case-send-client")
-    public IQueueClient updateCaseSendClient(
-        @Value("${queue.update-case.send.connection-string}") String connectionString,
+    @Bean("update-case-listen-client")
+    public IQueueClient updateCaseListenClient(
+        @Value("${queue.update-case.listen.connection-string}") String connectionString,
         @Value("${queue.update-case.queue-name}") String queueName
     ) throws InterruptedException, ServiceBusException {
         return createQueueClient(connectionString, queueName);
