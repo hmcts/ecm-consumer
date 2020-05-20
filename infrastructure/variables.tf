@@ -70,3 +70,5 @@ variable "caseworker_password" {
   default     = "Nagoya0102"
   description = "Password of the worker to send event updates and emails"
 }
+
+variable "ilbIp" {}
