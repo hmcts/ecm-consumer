@@ -40,7 +40,7 @@ public class ServiceBusSenderTest {
 
     @Test
     public void sendMessage() {
-        serviceBusSender.sendMessage(generateMessage());
+        serviceBusSender.sendMessage(updateCaseMsg);
     }
 
     @Test(expected = InvalidMessageException.class)

@@ -7,24 +7,24 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.ServiceBusSender;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.ServiceBusSenderTask;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.CreateUpdatesBusSenderTask;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class ServiceBusSenderTaskTest {
+public class CreateUpdatesBusSenderTaskTest {
 
     @InjectMocks
-    private ServiceBusSenderTask serviceBusSenderTask;
+    private CreateUpdatesBusSenderTask createUpdatesBusSenderTask;
     @Mock
     private ServiceBusSender serviceBusSender;
 
     @Before
     public void setUp() {
-        serviceBusSenderTask = new ServiceBusSenderTask(serviceBusSender);
+        createUpdatesBusSenderTask = new CreateUpdatesBusSenderTask(serviceBusSender);
     }
 
     @Test
     public void runMainMethodTest() {
-        serviceBusSenderTask.run();
+        createUpdatesBusSenderTask.run();
 
     }
 

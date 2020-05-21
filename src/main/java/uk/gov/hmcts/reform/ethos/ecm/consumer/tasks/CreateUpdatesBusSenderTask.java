@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.extern.slf4j.Slf4j;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateCaseMsg;
@@ -16,20 +17,20 @@ import static uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService.CAS
 import static uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService.JURISDICTION;
 
 /**
- * Sends update case messages to create-updates queue.
+ * Sends create updates messages to create-updates queue.
  */
 @Slf4j
 @Component
-public class ServiceBusSenderTask {
+public class CreateUpdatesBusSenderTask {
 
     private final ServiceBusSender serviceBusSender;
 
-    public ServiceBusSenderTask(
+    public CreateUpdatesBusSenderTask(
         @Qualifier("create-updates-send-helper") ServiceBusSender serviceBusSender) {
         this.serviceBusSender = serviceBusSender;
     }
 
-    @SchedulerLock(name = "service-bus-sender-task")
+    @SchedulerLock(name = "create-updates-bus-sender-task")
     //@Scheduled(fixedDelayString = "3000")
     @Scheduled(fixedDelay = 100000000, initialDelay = 200000)
     public void run() {
@@ -73,7 +74,7 @@ public class ServiceBusSenderTask {
 
     private List<UpdateCaseMsg> getUpdateCaseMsgList() {
         UpdateCaseMsg updateCaseMsg1 = UpdateCaseMsg.builder()
-            .msgId("7")
+            .msgId(UUID.randomUUID().toString())
             .multipleRef("4150001")
             .ethosCaseReference("4150001/2020")
             .totalCases("3")
@@ -82,7 +83,7 @@ public class ServiceBusSenderTask {
             .username("eric.ccdcooper@gmail.com")
             .build();
         UpdateCaseMsg updateCaseMsg2 = UpdateCaseMsg.builder()
-            .msgId("8")
+            .msgId(UUID.randomUUID().toString())
             .multipleRef("4150002")
             .ethosCaseReference("4150002/2020")
             .totalCases("3")
@@ -91,7 +92,7 @@ public class ServiceBusSenderTask {
             .username("eric.ccdcooper@gmail.com")
             .build();
         UpdateCaseMsg updateCaseMsg3 = UpdateCaseMsg.builder()
-            .msgId("9")
+            .msgId(UUID.randomUUID().toString())
             .multipleRef("4150003")
             .ethosCaseReference("4150003/2020")
             .totalCases("3")

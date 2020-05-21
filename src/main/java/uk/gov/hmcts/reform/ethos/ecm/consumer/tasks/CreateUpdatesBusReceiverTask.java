@@ -15,8 +15,9 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.UpdateCaseNotFoundExcep
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.MessageProcessingResult;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.MessageProcessingResultType;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateCaseMsg;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.MessageAutoCompletor;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.CreateUpdatesMsgCompletor;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.MessageBodyRetriever;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.ServiceBusSender;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
@@ -26,22 +27,24 @@ import java.util.concurrent.Executors;
 /**
  * Handler of messages for create-updates queue.
  */
-@DependsOn("create-updates-completor")
+@DependsOn({"create-updates-completor", "update-case-send-helper"})
 @Service
 @Slf4j
-public class ServiceBusReceiverTask implements IMessageHandler {
+public class CreateUpdatesBusReceiverTask implements IMessageHandler {
 
     private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
 
     private final ObjectMapper objectMapper;
-    private final MessageAutoCompletor messageCompletor;
+    private final CreateUpdatesMsgCompletor messageCompletor;
+    private final ServiceBusSender serviceBusSender;
 
-    public ServiceBusReceiverTask(
+    public CreateUpdatesBusReceiverTask(
         ObjectMapper objectMapper,
-        @Qualifier("create-updates-completor") MessageAutoCompletor messageCompletor
-    ) {
+        @Qualifier("create-updates-completor") CreateUpdatesMsgCompletor messageCompletor,
+        @Qualifier("update-case-send-helper") ServiceBusSender serviceBusSender) {
         this.objectMapper = objectMapper;
         this.messageCompletor = messageCompletor;
+        this.serviceBusSender = serviceBusSender;
     }
 
     @Override
@@ -123,7 +126,8 @@ public class ServiceBusReceiverTask implements IMessageHandler {
             );
 
             UpdateCaseMsg updateCaseMsg = readMessage(message);
-            log.info("Received DO ANYTHING YOU WANT: " + updateCaseMsg);
+            log.info("Start sending messages to UPDATE-CASE-SEND QUEUE: " + updateCaseMsg);
+            serviceBusSender.sendMessage(updateCaseMsg);
 
             log.info("'Create updates' message with ID {} processed successfully", message.getMessageId());
             return new MessageProcessingResult(MessageProcessingResultType.SUCCESS);

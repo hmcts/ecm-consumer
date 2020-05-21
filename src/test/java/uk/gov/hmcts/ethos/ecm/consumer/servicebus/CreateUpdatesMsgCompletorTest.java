@@ -9,15 +9,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.MessageAutoCompletor;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.CreateUpdatesMsgCompletor;
 
 import java.util.UUID;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class MessageAutoCompletorTest {
+public class CreateUpdatesMsgCompletorTest {
 
     @InjectMocks
-    private MessageAutoCompletor completor;
+    private CreateUpdatesMsgCompletor completor;
     @Mock
     private IQueueClient queueClient;
 
@@ -25,7 +25,7 @@ public class MessageAutoCompletorTest {
 
     @Before
     public void setUp() {
-        completor = new MessageAutoCompletor(queueClient);
+        completor = new CreateUpdatesMsgCompletor(queueClient);
     }
 
     @Test

@@ -6,7 +6,7 @@ import com.microsoft.azure.servicebus.primitives.ServiceBusException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Configuration;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.ServiceBusReceiverTask;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.CreateUpdatesBusReceiverTask;
 import javax.annotation.PostConstruct;
 import java.time.Duration;
 import java.util.concurrent.ExecutorService;
@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 
 @AutoConfigureAfter(ServiceBusSenderConfiguration.class)
 @Configuration
-public class ServiceBusReceiverConfiguration {
+public class ServiceBusCreateUpdatesReceiverConf {
 
     private static final ExecutorService updateCaseListenExecutor =
         Executors.newSingleThreadExecutor(r ->
@@ -26,19 +26,19 @@ public class ServiceBusReceiverConfiguration {
 
     private final IQueueClient updateCaseListenClient;
 
-    private final ServiceBusReceiverTask serviceBusReceiverTask;
+    private final CreateUpdatesBusReceiverTask createUpdatesBusReceiverTask;
 
-    public ServiceBusReceiverConfiguration(
+    public ServiceBusCreateUpdatesReceiverConf(
         @Qualifier("create-updates-listen-client") IQueueClient updateCaseListenClient,
-        ServiceBusReceiverTask serviceBusReceiverTask) {
+        CreateUpdatesBusReceiverTask createUpdatesBusReceiverTask) {
         this.updateCaseListenClient = updateCaseListenClient;
-        this.serviceBusReceiverTask = serviceBusReceiverTask;
+        this.createUpdatesBusReceiverTask = createUpdatesBusReceiverTask;
     }
 
     @PostConstruct()
     public void registerMessageHandlers() throws InterruptedException, ServiceBusException {
         updateCaseListenClient.registerMessageHandler(
-            serviceBusReceiverTask,
+            createUpdatesBusReceiverTask,
             messageHandlerOptions,
             updateCaseListenExecutor
         );
