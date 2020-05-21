@@ -25,8 +25,10 @@ jacocoTestReport {
   }
 }
 
+//CreateUpdatesBusReceiverTask will go to repl-docmosis-service project
 def sonarExclusions = ['**/uk/gov/hmcts/reform/ethos/ecm/consumer/config/**',
                        '**/uk/gov/hmcts/reform/ethos/ecm/consumer/model/**',
+                       '**/uk/gov/hmcts/reform/ethos/ecm/consumer/tasks/CreateUpdatesBusReceiverTask.java',
                        '**/uk/gov/hmcts/reform/ethos/ecm/consumer/Application'
 ]
 
