@@ -7,11 +7,11 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
-public class CreateUpdatesMsgCompletor {
+public class MessageAutoCompletor {
 
     private final IQueueClient queueClient;
 
-    public CreateUpdatesMsgCompletor(IQueueClient queueClient) {
+    public MessageAutoCompletor(IQueueClient queueClient) {
         this.queueClient = queueClient;
     }
 

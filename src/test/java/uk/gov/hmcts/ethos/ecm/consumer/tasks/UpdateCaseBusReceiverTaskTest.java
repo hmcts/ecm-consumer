@@ -11,14 +11,13 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.CreateUpdatesNotFoundException;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.InvalidMessageException;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.UpdateCaseNotFoundException;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.Msg;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.MessageAutoCompletor;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.MessageBodyRetriever;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.ServiceBusSender;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.CreateUpdatesBusReceiverTask;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.UpdateCaseBusReceiverTask;
 
 import java.io.IOException;
 
@@ -28,56 +27,54 @@ import static uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService.CAS
 import static uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService.JURISDICTION;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class CreateUpdatesBusReceiverTaskTest {
+public class UpdateCaseBusReceiverTaskTest {
 
     @InjectMocks
-    private CreateUpdatesBusReceiverTask createUpdatesBusReceiverTask;
+    private UpdateCaseBusReceiverTask updateCaseBusReceiverTask;
     @Mock
     private ObjectMapper objectMapper;
     @Mock
     private MessageAutoCompletor messageCompletor;
-    @Mock
-    private ServiceBusSender serviceBusSender;
 
     private Message message;
 
     @Before
     public void setUp() {
-        createUpdatesBusReceiverTask = new CreateUpdatesBusReceiverTask(objectMapper, messageCompletor, serviceBusSender);
+        updateCaseBusReceiverTask = new UpdateCaseBusReceiverTask(objectMapper, messageCompletor);
         message = createMessage();
     }
 
     @Test
     public void onMessageAsync() {
-        createUpdatesBusReceiverTask.onMessageAsync(message);
+        updateCaseBusReceiverTask.onMessageAsync(message);
     }
 
     @Test
     public void onMessageAsyncMessageNotFound() throws IOException {
         when(objectMapper.readValue(MessageBodyRetriever.getBinaryData(message.getMessageBody()), UpdateCaseMsg.class))
-            .thenThrow(new CreateUpdatesNotFoundException("Message not found"));
-        createUpdatesBusReceiverTask.onMessageAsync(createMessage());
+            .thenThrow(new UpdateCaseNotFoundException("Message not found"));
+        updateCaseBusReceiverTask.onMessageAsync(createMessage());
     }
 
     @Test
     public void onMessageAsyncInvalidMessage() throws IOException {
         when(objectMapper.readValue(MessageBodyRetriever.getBinaryData(message.getMessageBody()), UpdateCaseMsg.class))
             .thenThrow(new InvalidMessageException("Invalid message"));
-        createUpdatesBusReceiverTask.onMessageAsync(createMessage());
+        updateCaseBusReceiverTask.onMessageAsync(createMessage());
     }
 
     @Test
     public void onMessageAsyncFailedToParse() throws IOException {
         when(objectMapper.readValue(MessageBodyRetriever.getBinaryData(message.getMessageBody()), UpdateCaseMsg.class))
             .thenThrow(new JsonMappingException("Failed to parse"));
-        createUpdatesBusReceiverTask.onMessageAsync(createMessage());
+        updateCaseBusReceiverTask.onMessageAsync(createMessage());
     }
 
     @Test
     public void onMessageAsyncException() throws IOException {
         when(objectMapper.readValue(MessageBodyRetriever.getBinaryData(message.getMessageBody()), UpdateCaseMsg.class))
             .thenThrow(new RuntimeException("Failed"));
-        createUpdatesBusReceiverTask.onMessageAsync(createMessage());
+        updateCaseBusReceiverTask.onMessageAsync(createMessage());
     }
 
     private Message createMessage() {

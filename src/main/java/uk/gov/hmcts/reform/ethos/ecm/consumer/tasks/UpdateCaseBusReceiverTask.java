@@ -10,14 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.CreateUpdatesNotFoundException;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.InvalidMessageException;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.UpdateCaseNotFoundException;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.MessageProcessingResult;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.MessageProcessingResultType;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.MessageAutoCompletor;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.MessageBodyRetriever;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.ServiceBusSender;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
@@ -25,26 +24,23 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Handler of messages for create-updates queue.
+ * Handler of messages for update-case queue.
  */
-@DependsOn({"create-updates-completor", "update-case-send-helper"})
+@DependsOn("update-case-completor")
 @Service
 @Slf4j
-public class CreateUpdatesBusReceiverTask implements IMessageHandler {
+public class UpdateCaseBusReceiverTask implements IMessageHandler {
 
     private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
 
     private final ObjectMapper objectMapper;
     private final MessageAutoCompletor messageCompletor;
-    private final ServiceBusSender serviceBusSender;
 
-    public CreateUpdatesBusReceiverTask(
+    public UpdateCaseBusReceiverTask(
         ObjectMapper objectMapper,
-        @Qualifier("create-updates-completor") MessageAutoCompletor messageCompletor,
-        @Qualifier("update-case-send-helper") ServiceBusSender serviceBusSender) {
+        @Qualifier("update-case-completor") MessageAutoCompletor messageCompletor) {
         this.objectMapper = objectMapper;
         this.messageCompletor = messageCompletor;
-        this.serviceBusSender = serviceBusSender;
     }
 
     @Override
@@ -57,7 +53,7 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
                 // This code is here to make sure errors are logged even when they fail to do that.
                 if (error != null) {
                     log.error(
-                        "An error occurred when trying to handle 'create updates' message with ID {}",
+                        "An error occurred when trying to handle 'update case' message with ID {}",
                         message.getMessageId()
                     );
                 }
@@ -69,7 +65,7 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
     @Override
     public void notifyException(Throwable throwable, ExceptionPhase exceptionPhase) {
         log.error(
-            "An error occurred when handling 'create updates' message. Phase: {}",
+            "An error occurred when handling 'update case' message. Phase: {}",
             exceptionPhase,
             throwable
         );
@@ -79,7 +75,7 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
         return finaliseMessageAsync(message, processingResult)
             .exceptionally(error -> {
                 log.error(
-                    "An error occurred when trying to finalise 'create updates' message with ID {}",
+                    "An error occurred when trying to finalise 'update case' message with ID {}",
                     message.getMessageId(),
                     error
                 );
@@ -94,7 +90,7 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
                 return messageCompletor
                     .completeAsync(message.getLockToken())
                     .thenRun(() ->
-                        log.info("Completed 'create updates' message with ID {}", message.getMessageId())
+                        log.info("Completed 'update case' message with ID {}", message.getMessageId())
                     );
             case UNRECOVERABLE_FAILURE:
                 return messageCompletor
@@ -104,11 +100,11 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
                         processingResult.exception.getMessage()
                     )
                     .thenRun(() ->
-                        log.info("Dead-lettered 'create updates' message with ID {}", message.getMessageId())
+                        log.info("Dead-lettered 'update case' message with ID {}", message.getMessageId())
                     );
             default:
                 log.info(
-                    "Letting 'create updates' message with ID {} return to the queue. Delivery attempt {}.",
+                    "Letting 'update case' message with ID {} return to the queue. Delivery attempt {}.",
                     message.getMessageId(),
                     message.getDeliveryCount() + 1
                 );
@@ -120,30 +116,29 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
     private MessageProcessingResult tryProcessMessage(IMessage message) {
         try {
             log.info(
-                "Started processing 'create updates' message with ID {} (delivery {})",
+                "Started processing 'update case' message with ID {} (delivery {})",
                 message.getMessageId(),
                 message.getDeliveryCount() + 1
             );
 
             UpdateCaseMsg updateCaseMsg = readMessage(message);
-            log.info("Start sending messages to UPDATE-CASE-SEND QUEUE: " + updateCaseMsg);
-            serviceBusSender.sendMessage(updateCaseMsg);
+            log.info("SEND UPDATE TO THE SINGLE CASE: " + updateCaseMsg);
 
-            log.info("'Create updates' message with ID {} processed successfully", message.getMessageId());
+            log.info("'Update case' message with ID {} processed successfully", message.getMessageId());
             return new MessageProcessingResult(MessageProcessingResultType.SUCCESS);
         } catch (InvalidMessageException e) {
-            log.error("Invalid 'create updates' message with ID {}", message.getMessageId(), e);
+            log.error("Invalid 'update case' message with ID {}", message.getMessageId(), e);
             return new MessageProcessingResult(MessageProcessingResultType.UNRECOVERABLE_FAILURE, e);
-        } catch (CreateUpdatesNotFoundException e) {
+        } catch (UpdateCaseNotFoundException e) {
             log.error(
-                "Failed to handle 'create updates' message with ID {} - message not found",
+                "Failed to handle 'update case' message with ID {} - message not found",
                 message.getMessageId(),
                 e
             );
             return new MessageProcessingResult(MessageProcessingResultType.UNRECOVERABLE_FAILURE, e);
         } catch (Exception e) {
             log.error(
-                "An error occurred when handling 'create updates' message with ID {}",
+                "An error occurred when handling 'update case' message with ID {}",
                 message.getMessageId(),
                 e
             );
@@ -158,7 +153,7 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
                 UpdateCaseMsg.class
             );
         } catch (JsonParseException | JsonMappingException e) {
-            throw new InvalidMessageException("Failed to parse 'create updates' message", e);
+            throw new InvalidMessageException("Failed to parse 'update case' message", e);
         }
     }
 

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.CreateUpdatesMsgCompletor;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.MessageAutoCompletor;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.ServiceBusSender;
 
 @AutoConfigureAfter(QueueClientConfiguration.class)
@@ -26,9 +26,9 @@ public class ServiceBusSenderConfiguration {
     }
 
     @Bean(name = "create-updates-completor")
-    public CreateUpdatesMsgCompletor createUpdatesCompletor(
+    public MessageAutoCompletor createUpdatesCompletor(
         @Qualifier("create-updates-listen-client") IQueueClient queueClient) {
-        return new CreateUpdatesMsgCompletor(queueClient);
+        return new MessageAutoCompletor(queueClient);
     }
 
     @Bean(name = "update-case-send-helper")
@@ -37,4 +37,9 @@ public class ServiceBusSenderConfiguration {
         return new ServiceBusSender(queueClient, objectMapper);
     }
 
+    @Bean(name = "update-case-completor")
+    public MessageAutoCompletor updateCaseCompletor(
+        @Qualifier("update-case-listen-client") IQueueClient queueClient) {
+        return new MessageAutoCompletor(queueClient);
+    }
 }
