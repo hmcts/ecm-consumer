@@ -30,7 +30,7 @@ public class ServiceBusUpdateCaseReceiverConf {
     private final UpdateCaseBusReceiverTask updateCaseBusReceiverTask;
 
     public ServiceBusUpdateCaseReceiverConf(
-        @Qualifier("create-updates-listen-client") IQueueClient updateCaseListenClient,
+        @Qualifier("update-case-listen-client") IQueueClient updateCaseListenClient,
         UpdateCaseBusReceiverTask updateCaseBusReceiverTask) {
         this.updateCaseListenClient = updateCaseListenClient;
         this.updateCaseBusReceiverTask = updateCaseBusReceiverTask;
