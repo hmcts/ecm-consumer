@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.CreateUpdatesNotFoundException;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.InvalidMessageException;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.CreateUpdatesMsg;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.Msg;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.MessageAutoCompletor;
@@ -21,6 +22,7 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.ServiceBusSender;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.CreateUpdatesBusReceiverTask;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.when;
@@ -81,7 +83,7 @@ public class CreateUpdatesBusReceiverTaskTest {
     }
 
     private Message createMessage() {
-        UpdateCaseMsg msg = generateMessageContent();
+        CreateUpdatesMsg msg = generateMessageContent();
         Message busMessage = new Message();
         busMessage.setContentType("application/json");
         busMessage.setMessageId(msg.getMsgId());
@@ -90,14 +92,13 @@ public class CreateUpdatesBusReceiverTaskTest {
         return busMessage;
     }
 
-    private UpdateCaseMsg generateMessageContent() {
-        return UpdateCaseMsg.builder()
+    private CreateUpdatesMsg generateMessageContent() {
+        return CreateUpdatesMsg.builder()
             .msgId("1")
-            .multipleRef("4150001")
-            .ethosCaseReference("4150001/2020")
-            .totalCases("1")
             .jurisdiction(JURISDICTION)
             .caseTypeId(CASE_TYPE_ID)
+            .multipleRef("4150001")
+            .ethosCaseRefCollection(Arrays.asList("4150001/2020", "4150002/2020", "4150003/2020"))
             .username("eric.ccdcooper@gmail.com")
             .build();
     }

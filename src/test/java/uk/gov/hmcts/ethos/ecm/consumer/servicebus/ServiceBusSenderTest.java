@@ -81,6 +81,7 @@ public class ServiceBusSenderTest {
             .jurisdiction(JURISDICTION)
             .caseTypeId(CASE_TYPE_ID)
             .username("eric.ccdcooper@gmail.com")
+            .parentId("123456789")
             .build();
     }
 

@@ -12,6 +12,7 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.CreateUpdatesNotFoundException;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.InvalidMessageException;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.CreateUpdatesMsg;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.MessageProcessingResult;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.MessageProcessingResultType;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateCaseMsg;
@@ -20,6 +21,7 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.MessageBodyRetriever;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.ServiceBusSender;
 
 import java.io.IOException;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -125,9 +127,9 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
                 message.getDeliveryCount() + 1
             );
 
-            UpdateCaseMsg updateCaseMsg = readMessage(message);
-            log.info("Start sending messages to UPDATE-CASE-SEND QUEUE: " + updateCaseMsg);
-            serviceBusSender.sendMessage(updateCaseMsg);
+            CreateUpdatesMsg createUpdatesMsg = readMessage(message);
+            //IT HAS TO BE ASYNC -> GENERATE UPDATES
+            sendUpdateCaseMessages(createUpdatesMsg);
 
             log.info("'Create updates' message with ID {} processed successfully", message.getMessageId());
             return new MessageProcessingResult(MessageProcessingResultType.SUCCESS);
@@ -151,15 +153,38 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
         }
     }
 
-    private UpdateCaseMsg readMessage(IMessage message) throws IOException {
+    private CreateUpdatesMsg readMessage(IMessage message) throws IOException {
         try {
             return objectMapper.readValue(
                 MessageBodyRetriever.getBinaryData(message.getMessageBody()),
-                UpdateCaseMsg.class
+                CreateUpdatesMsg.class
             );
         } catch (JsonParseException | JsonMappingException e) {
             throw new InvalidMessageException("Failed to parse 'create updates' message", e);
         }
     }
 
+    private void sendUpdateCaseMessages(CreateUpdatesMsg createUpdatesMsg) {
+        if (createUpdatesMsg.getEthosCaseRefCollection() == null) {
+            throw new InvalidMessageException("Unable to get ethosCaseReferences in the message");
+        }
+        for (String ethosCaseReference : createUpdatesMsg.getEthosCaseRefCollection()) {
+            UpdateCaseMsg updateCaseMsg = mapToUpdateCaseMsg(createUpdatesMsg, ethosCaseReference);
+            log.info("Start sending messages to UPDATE-CASE-SEND QUEUE: " + updateCaseMsg);
+            serviceBusSender.sendMessage(updateCaseMsg);
+        }
+    }
+
+    private UpdateCaseMsg mapToUpdateCaseMsg(CreateUpdatesMsg createUpdatesMsg, String ethosCaseReference) {
+        return UpdateCaseMsg.builder()
+            .msgId(UUID.randomUUID().toString())
+            .multipleRef(createUpdatesMsg.getMultipleRef())
+            .ethosCaseReference(ethosCaseReference)
+            .totalCases(String.valueOf(createUpdatesMsg.getEthosCaseRefCollection().size()))
+            .jurisdiction(createUpdatesMsg.getJurisdiction())
+            .caseTypeId(createUpdatesMsg.getCaseTypeId())
+            .username(createUpdatesMsg.getUsername())
+            .parentId(createUpdatesMsg.getMsgId())
+            .build();
+    }
 }

@@ -6,13 +6,16 @@ import com.google.common.base.Strings;
 import com.microsoft.azure.servicebus.IQueueClient;
 import com.microsoft.azure.servicebus.Message;
 import com.microsoft.azure.servicebus.MessageBody;
+import com.microsoft.azure.servicebus.management.ManagementClientAsync;
+import com.microsoft.azure.servicebus.management.QueueRuntimeInfo;
 import com.microsoft.azure.servicebus.primitives.ServiceBusException;
 import com.microsoft.azure.servicebus.primitives.TimeoutException;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.InvalidMessageException;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.ServiceBusConnectionTimeoutException;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.Msg;
-
 import javax.annotation.PreDestroy;
+
+import java.util.concurrent.ExecutionException;
 
 import static java.util.Collections.singletonList;
 
@@ -21,11 +24,21 @@ public class ServiceBusSender implements AutoCloseable {
     private final IQueueClient sendClient;
 
     private final ObjectMapper objectMapper;
+//    private final ManagementClientAsync managementClient;
 
     public ServiceBusSender(IQueueClient queueClient, ObjectMapper objectMapper) {
         this.sendClient = queueClient;
         this.objectMapper = objectMapper;
     }
+
+//    private void getQueueRuntimeInfo(String queueName) throws InterruptedException, ExecutionException {
+//        QueueRuntimeInfo runtimeInfo = managementClient.getQueueRuntimeInfoAsync(queueName).get();
+//        System.out.println("Retrieved runtime information of queue\n " +
+//                               "Active_messages: " + runtimeInfo.getMessageCountDetails().getActiveMessageCount() +
+//                               "\nSize of queue: " + runtimeInfo.getSizeInBytes() +
+//                               "\nQueue Creation time: " + runtimeInfo.getCreatedAt().toString() +
+//                               "\nQueue last updation time: " + runtimeInfo.getUpdatedAt().toString());
+//    }
 
     public void sendMessage(Msg msg) {
         Message busMessage = mapToBusMessage(msg);

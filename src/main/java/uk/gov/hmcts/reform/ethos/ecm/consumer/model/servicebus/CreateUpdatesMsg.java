@@ -6,10 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Data
 @Builder
-public class UpdateCaseMsg implements Msg {
+public class CreateUpdatesMsg implements Msg {
 
     @JsonProperty("id")
     private String msgId;
@@ -23,17 +25,11 @@ public class UpdateCaseMsg implements Msg {
     @JsonProperty("multipleRef")
     private String multipleRef;
 
-    @JsonProperty("ethosCaseReference")
-    private String ethosCaseReference;
-
-    @JsonProperty("totalCases")
-    private String totalCases;
+    @JsonProperty("ethosCaseRefCollection")
+    private List<String> ethosCaseRefCollection;
 
     @JsonProperty("username")
     private String username;
-
-    @JsonProperty("parentId")
-    private String parentId;
 
     @JsonProperty("label")
     private String label;
