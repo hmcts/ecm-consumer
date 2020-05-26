@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsoft.azure.servicebus.ExceptionPhase;
 import com.microsoft.azure.servicebus.IMessage;
 import com.microsoft.azure.servicebus.IMessageHandler;
+import com.microsoft.azure.servicebus.management.QueueRuntimeInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.DependsOn;
@@ -26,7 +27,7 @@ import java.util.concurrent.Executors;
 /**
  * Handler of messages for update-case queue.
  */
-@DependsOn("update-case-completor")
+@DependsOn({"update-case-completor", "update-case-info-client"})
 @Service
 @Slf4j
 public class UpdateCaseBusReceiverTask implements IMessageHandler {
@@ -35,12 +36,15 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
 
     private final ObjectMapper objectMapper;
     private final MessageAutoCompletor messageCompletor;
+    private final QueueRuntimeInfo updateCaseInfoClient;
 
     public UpdateCaseBusReceiverTask(
         ObjectMapper objectMapper,
-        @Qualifier("update-case-completor") MessageAutoCompletor messageCompletor) {
+        @Qualifier("update-case-completor") MessageAutoCompletor messageCompletor,
+        @Qualifier("update-case-info-client") QueueRuntimeInfo updateCaseInfoClient) {
         this.objectMapper = objectMapper;
         this.messageCompletor = messageCompletor;
+        this.updateCaseInfoClient = updateCaseInfoClient;
     }
 
     @Override
@@ -123,6 +127,7 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
 
             UpdateCaseMsg updateCaseMsg = readMessage(message);
             log.info("SEND UPDATE TO THE SINGLE CASE: " + updateCaseMsg);
+            getQueueRuntimeInfo();
 
             log.info("'Update case' message with ID {} processed successfully", message.getMessageId());
             return new MessageProcessingResult(MessageProcessingResultType.SUCCESS);
@@ -157,4 +162,10 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
         }
     }
 
+    private void getQueueRuntimeInfo() {
+        log.info("RUNTIME INFORMATION --------------> \n " +
+                     "Active_messages: " + updateCaseInfoClient.getMessageCountDetails().getActiveMessageCount() +
+                     "\nDead Letter messages queue: " + updateCaseInfoClient.getMessageCountDetails().getDeadLetterMessageCount() +
+                     "\nSize of queue: " + updateCaseInfoClient.getSizeInBytes());
+    }
 }

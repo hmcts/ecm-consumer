@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsoft.azure.servicebus.Message;
 import com.microsoft.azure.servicebus.MessageBody;
+import com.microsoft.azure.servicebus.management.MessageCountDetails;
+import com.microsoft.azure.servicebus.management.QueueRuntimeInfo;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,17 +37,21 @@ public class UpdateCaseBusReceiverTaskTest {
     private ObjectMapper objectMapper;
     @Mock
     private MessageAutoCompletor messageCompletor;
+    @Mock
+    private QueueRuntimeInfo updateCaseInfoClient;
 
     private Message message;
 
     @Before
     public void setUp() {
-        updateCaseBusReceiverTask = new UpdateCaseBusReceiverTask(objectMapper, messageCompletor);
+        updateCaseBusReceiverTask = new UpdateCaseBusReceiverTask(objectMapper, messageCompletor, updateCaseInfoClient);
         message = createMessage();
     }
 
     @Test
     public void onMessageAsync() {
+        when(updateCaseInfoClient.getMessageCountDetails()).thenReturn(createMessageCountDetails());
+        when(updateCaseInfoClient.getSizeInBytes()).thenReturn(250L);
         updateCaseBusReceiverTask.onMessageAsync(message);
     }
 
@@ -108,5 +114,12 @@ public class UpdateCaseBusReceiverTaskTest {
         } catch (JsonProcessingException e) {
             throw new InvalidMessageException("Unable to create message body in json format", e);
         }
+    }
+
+    private MessageCountDetails createMessageCountDetails() {
+        MessageCountDetails messageCountDetails = new MessageCountDetails();
+        messageCountDetails.setActiveMessageCount(2);
+        messageCountDetails.setDeadLetterMessageCount(0);
+        return messageCountDetails;
     }
 }
