@@ -166,6 +166,8 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
         log.info("RUNTIME INFORMATION --------------> \n " +
                      "Active_messages: " + updateCaseInfoClient.getMessageCountDetails().getActiveMessageCount() +
                      "\nDead Letter messages queue: " + updateCaseInfoClient.getMessageCountDetails().getDeadLetterMessageCount() +
+                     "\nMessage count: " + updateCaseInfoClient.getMessageCount() +
+                     "\nUpdated At: " + updateCaseInfoClient.getUpdatedAt() +
                      "\nSize of queue: " + updateCaseInfoClient.getSizeInBytes());
     }
 }

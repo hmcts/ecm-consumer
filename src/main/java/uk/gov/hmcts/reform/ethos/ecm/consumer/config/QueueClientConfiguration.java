@@ -50,8 +50,8 @@ public class QueueClientConfiguration {
 
     @Bean("update-case-info-client")
     public QueueRuntimeInfo updateCaseManagementClient(
-        @Value("${queue.update-case.listen.connection-string}") String connectionString,
-        @Value("${queue.update-case.queue-name}") String queueName
+        @Value("${queue.create-updates.listen.connection-string}") String connectionString,
+        @Value("${queue.create-updates.queue-name}") String queueName
     ) throws ExecutionException, InterruptedException {
         return createManagementClient(connectionString).getQueueRuntimeInfoAsync(queueName).get();
     }
