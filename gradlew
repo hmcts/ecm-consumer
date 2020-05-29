@@ -92,14 +92,12 @@ if [ -n "$JAVA_HOME" ] ; then
     fi
     if [ ! -x "$JAVACMD" ] ; then
         die "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME
-
 Please set the JAVA_HOME variable in your environment to match the
 location of your Java installation."
     fi
 else
     JAVACMD="java"
     which java >/dev/null 2>&1 || die "ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.
-
 Please set the JAVA_HOME variable in your environment to match the
 location of your Java installation."
 fi
@@ -126,7 +124,7 @@ if $darwin; then
 fi
 
 # For Cygwin or MSYS, switch paths to Windows format before running java
-if $cygwin ; then	if [ "$cygwin" = "true" -o "$msys" = "true" ] ; then
+if [ "$cygwin" = "true" -o "$msys" = "true" ] ; then
     APP_HOME=`cygpath --path --mixed "$APP_HOME"`
     CLASSPATH=`cygpath --path --mixed "$CLASSPATH"`
     JAVACMD=`cygpath --unix "$JAVACMD"`
@@ -156,7 +154,7 @@ if $cygwin ; then	if [ "$cygwin" = "true" -o "$msys" = "true" ] ; then
         fi
         i=`expr $i + 1`
     done
-        case $i in
+    case $i in
         0) set -- ;;
         1) set -- "$args0" ;;
         2) set -- "$args0" "$args1" ;;
