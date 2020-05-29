@@ -12,8 +12,8 @@ group = 'uk.gov.hmcts.ethos.ecm'
 version = '0.0.1'
 
 allprojects {
-  sourceCompatibility = '1.8'
-  targetCompatibility = '1.8'
+  sourceCompatibility = '11.0'
+  targetCompatibility = '11.0'
 }
 
 jacocoTestReport {
