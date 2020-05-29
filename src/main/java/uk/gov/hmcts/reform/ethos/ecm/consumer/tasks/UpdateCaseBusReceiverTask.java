@@ -94,7 +94,7 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
                 return messageCompletor
                     .completeAsync(message.getLockToken())
                     .thenRun(() ->
-                        log.info("Completed 'update case' message with ID {}", message.getMessageId())
+                        log.info("COMPLETED ----> 'update case' message with ID {}", message.getMessageId())
                     );
             case UNRECOVERABLE_FAILURE:
                 return messageCompletor
@@ -119,17 +119,17 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
 
     private MessageProcessingResult tryProcessMessage(IMessage message) {
         try {
-            log.info(
-                "Started processing 'update case' message with ID {} (delivery {})",
-                message.getMessageId(),
-                message.getDeliveryCount() + 1
-            );
+//            log.info(
+//                "Started processing 'update case' message with ID {} (delivery {})",
+//                message.getMessageId(),
+//                message.getDeliveryCount() + 1
+//            );
 
             UpdateCaseMsg updateCaseMsg = readMessage(message);
-            log.info("SEND UPDATE TO THE SINGLE CASE: " + updateCaseMsg);
+            //log.info("SEND UPDATE TO THE SINGLE CASE: " + updateCaseMsg);
             getQueueRuntimeInfo();
 
-            log.info("'Update case' message with ID {} processed successfully", message.getMessageId());
+            log.info("'Update case' message with ID {} PROCESSED ------> successfully", message.getMessageId());
             return new MessageProcessingResult(MessageProcessingResultType.SUCCESS);
         } catch (InvalidMessageException e) {
             log.error("Invalid 'update case' message with ID {}", message.getMessageId(), e);

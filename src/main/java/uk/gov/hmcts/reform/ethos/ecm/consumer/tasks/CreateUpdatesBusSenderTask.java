@@ -42,9 +42,9 @@ public class CreateUpdatesBusSenderTask {
         createUpdatesMsgList
             .forEach(msg -> {
                 try {
-                    log.info("Start sending messages to CREATE-UPDATES-SEND QUEUE");
+                    //log.info("Start sending messages to CREATE-UPDATES-SEND QUEUE");
                     serviceBusSender.sendMessage(msg);
-                    log.info("Sent " + msg.toString());
+                    log.info("SENT -----> " + msg.toString());
                     successCount.incrementAndGet();
                 } catch (Exception exc) {
                     // log error and try with another message.
@@ -66,7 +66,7 @@ public class CreateUpdatesBusSenderTask {
             .caseTypeId(CASE_TYPE_ID)
             .multipleRef("4150001")
             .ethosCaseRefCollection(Arrays.asList("4150001/2020", "4150002/2020", "4150003/2020"))
-            .username("eric.ccdcooper@gmail.com")
+            .username("eric1.ccdcooper@gmail.com")
             .build();
         CreateUpdatesMsg createUpdatesMsg2 = CreateUpdatesMsg.builder()
             .msgId(UUID.randomUUID().toString())
@@ -74,9 +74,25 @@ public class CreateUpdatesBusSenderTask {
             .caseTypeId(CASE_TYPE_ID)
             .multipleRef("4150002")
             .ethosCaseRefCollection(Arrays.asList("4150004/2020", "4150005/2020", "4150006/2020"))
-            .username("eric.ccdcooper@gmail.com")
+            .username("eric2.ccdcooper@gmail.com")
             .build();
-        return new ArrayList<>(Arrays.asList(createUpdatesMsg1, createUpdatesMsg2));
+        CreateUpdatesMsg createUpdatesMsg3 = CreateUpdatesMsg.builder()
+            .msgId(UUID.randomUUID().toString())
+            .jurisdiction(JURISDICTION)
+            .caseTypeId(CASE_TYPE_ID)
+            .multipleRef("4150003")
+            .ethosCaseRefCollection(Arrays.asList("4150007/2020", "4150008/2020", "4150009/2020"))
+            .username("eric3.ccdcooper@gmail.com")
+            .build();
+        CreateUpdatesMsg createUpdatesMsg4 = CreateUpdatesMsg.builder()
+            .msgId(UUID.randomUUID().toString())
+            .jurisdiction(JURISDICTION)
+            .caseTypeId(CASE_TYPE_ID)
+            .multipleRef("4150004")
+            .ethosCaseRefCollection(Arrays.asList("4150010/2020", "4150011/2020", "4150012/2020"))
+            .username("eric4.ccdcooper@gmail.com")
+            .build();
+        return new ArrayList<>(Arrays.asList(createUpdatesMsg1, createUpdatesMsg2, createUpdatesMsg3, createUpdatesMsg4));
     }
 
 }

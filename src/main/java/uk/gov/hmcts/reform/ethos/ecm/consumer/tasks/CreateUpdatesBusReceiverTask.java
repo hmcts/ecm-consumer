@@ -96,7 +96,7 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
                 return messageCompletor
                     .completeAsync(message.getLockToken())
                     .thenRun(() ->
-                        log.info("Completed 'create updates' message with ID {}", message.getMessageId())
+                        log.info("COMPLETED ----> 'create updates' message with ID {}", message.getMessageId())
                     );
             case UNRECOVERABLE_FAILURE:
                 return messageCompletor
@@ -121,17 +121,17 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
 
     private MessageProcessingResult tryProcessMessage(IMessage message) {
         try {
-            log.info(
-                "Started processing 'create updates' message with ID {} (delivery {})",
-                message.getMessageId(),
-                message.getDeliveryCount() + 1
-            );
+//            log.info(
+//                "Started processing 'create updates' message with ID {} (delivery {})",
+//                message.getMessageId(),
+//                message.getDeliveryCount() + 1
+//            );
 
             CreateUpdatesMsg createUpdatesMsg = readMessage(message);
             //IT HAS TO BE ASYNC -> GENERATE UPDATES
             sendUpdateCaseMessages(createUpdatesMsg);
 
-            log.info("'Create updates' message with ID {} processed successfully", message.getMessageId());
+            log.info("'Create updates' message with ID {} PROCESSED ------> successfully", message.getMessageId());
             return new MessageProcessingResult(MessageProcessingResultType.SUCCESS);
         } catch (InvalidMessageException e) {
             log.error("Invalid 'create updates' message with ID {}", message.getMessageId(), e);
@@ -170,7 +170,7 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
         }
         for (String ethosCaseReference : createUpdatesMsg.getEthosCaseRefCollection()) {
             UpdateCaseMsg updateCaseMsg = mapToUpdateCaseMsg(createUpdatesMsg, ethosCaseReference);
-            log.info("Start sending messages to UPDATE-CASE-SEND QUEUE: " + updateCaseMsg);
+            //log.info("Start sending messages to UPDATE-CASE-SEND QUEUE: " + updateCaseMsg);
             serviceBusSender.sendMessage(updateCaseMsg);
         }
     }
