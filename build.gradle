@@ -33,7 +33,6 @@ def sonarExclusions = ['**/uk/gov/hmcts/reform/ethos/ecm/consumer/config/**',
 ]
 
 sonarqube {
-  println "echo sonarqube"
   properties {
     property "sonar.exclusions", sonarExclusions.join(', ')
     property "sonar.projectKey", "ecm-consumer"
