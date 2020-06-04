@@ -66,6 +66,7 @@ public class CreateUpdatesBusSenderTask {
             .caseTypeId(CASE_TYPE_ID)
             .multipleRef("4150001")
             .ethosCaseRefCollection(Arrays.asList("4150001/2020", "4150002/2020", "4150003/2020"))
+            .totalCases("3")
             .username("eric1.ccdcooper@gmail.com")
             .build();
         CreateUpdatesMsg createUpdatesMsg2 = CreateUpdatesMsg.builder()
@@ -74,6 +75,7 @@ public class CreateUpdatesBusSenderTask {
             .caseTypeId(CASE_TYPE_ID)
             .multipleRef("4150002")
             .ethosCaseRefCollection(Arrays.asList("4150004/2020", "4150005/2020", "4150006/2020"))
+            .totalCases("3")
             .username("eric2.ccdcooper@gmail.com")
             .build();
         CreateUpdatesMsg createUpdatesMsg3 = CreateUpdatesMsg.builder()
@@ -82,6 +84,7 @@ public class CreateUpdatesBusSenderTask {
             .caseTypeId(CASE_TYPE_ID)
             .multipleRef("4150003")
             .ethosCaseRefCollection(Arrays.asList("4150007/2020", "4150008/2020", "4150009/2020"))
+            .totalCases("3")
             .username("eric3.ccdcooper@gmail.com")
             .build();
         CreateUpdatesMsg createUpdatesMsg4 = CreateUpdatesMsg.builder()
@@ -90,6 +93,7 @@ public class CreateUpdatesBusSenderTask {
             .caseTypeId(CASE_TYPE_ID)
             .multipleRef("4150004")
             .ethosCaseRefCollection(Arrays.asList("4150010/2020", "4150011/2020", "4150012/2020"))
+            .totalCases("3")
             .username("eric4.ccdcooper@gmail.com")
             .build();
         return new ArrayList<>(Arrays.asList(createUpdatesMsg1, createUpdatesMsg2, createUpdatesMsg3, createUpdatesMsg4));

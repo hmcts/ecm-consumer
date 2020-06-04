@@ -32,9 +32,6 @@ public class UpdateCaseMsg implements Msg {
     @JsonProperty("username")
     private String username;
 
-    @JsonProperty("parentId")
-    private String parentId;
-
     @JsonProperty("label")
     private String label;
 

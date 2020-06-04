@@ -99,6 +99,7 @@ public class CreateUpdatesBusReceiverTaskTest {
             .caseTypeId(CASE_TYPE_ID)
             .multipleRef("4150001")
             .ethosCaseRefCollection(Arrays.asList("4150001/2020", "4150002/2020", "4150003/2020"))
+            .totalCases("3")
             .username("eric.ccdcooper@gmail.com")
             .build();
     }

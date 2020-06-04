@@ -180,11 +180,10 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
             .msgId(UUID.randomUUID().toString())
             .multipleRef(createUpdatesMsg.getMultipleRef())
             .ethosCaseReference(ethosCaseReference)
-            .totalCases(String.valueOf(createUpdatesMsg.getEthosCaseRefCollection().size()))
+            .totalCases(createUpdatesMsg.getTotalCases())
             .jurisdiction(createUpdatesMsg.getJurisdiction())
             .caseTypeId(createUpdatesMsg.getCaseTypeId())
             .username(createUpdatesMsg.getUsername())
-            .parentId(createUpdatesMsg.getMsgId())
             .build();
     }
 }

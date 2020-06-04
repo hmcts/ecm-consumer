@@ -28,6 +28,9 @@ public class CreateUpdatesMsg implements Msg {
     @JsonProperty("ethosCaseRefCollection")
     private List<String> ethosCaseRefCollection;
 
+    @JsonProperty("totalCases")
+    private String totalCases;
+
     @JsonProperty("username")
     private String username;
 
