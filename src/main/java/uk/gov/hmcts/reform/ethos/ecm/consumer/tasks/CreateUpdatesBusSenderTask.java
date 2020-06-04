@@ -43,7 +43,7 @@ public class CreateUpdatesBusSenderTask {
             .forEach(msg -> {
                 try {
                     //log.info("Start sending messages to CREATE-UPDATES-SEND QUEUE");
-                    serviceBusSender.sendMessage(msg);
+                    serviceBusSender.sendMessageAsync(msg);
                     log.info("SENT -----> " + msg.toString());
                     successCount.incrementAndGet();
                 } catch (Exception exc) {
