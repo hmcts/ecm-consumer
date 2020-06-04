@@ -4,14 +4,11 @@ import com.microsoft.azure.servicebus.IQueueClient;
 import com.microsoft.azure.servicebus.QueueClient;
 import com.microsoft.azure.servicebus.ReceiveMode;
 import com.microsoft.azure.servicebus.management.ManagementClientAsync;
-import com.microsoft.azure.servicebus.management.QueueRuntimeInfo;
 import com.microsoft.azure.servicebus.primitives.ConnectionStringBuilder;
 import com.microsoft.azure.servicebus.primitives.ServiceBusException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.concurrent.ExecutionException;
 
 @Configuration
 public class QueueClientConfiguration {
@@ -46,14 +43,6 @@ public class QueueClientConfiguration {
         @Value("${queue.update-case.queue-name}") String queueName
     ) throws InterruptedException, ServiceBusException {
         return createQueueClient(connectionString, queueName);
-    }
-
-    @Bean("update-case-info-client")
-    public QueueRuntimeInfo updateCaseManagementClient(
-        @Value("${queue.create-updates.listen.connection-string}") String connectionString,
-        @Value("${queue.create-updates.queue-name}") String queueName
-    ) throws ExecutionException, InterruptedException {
-        return createManagementClient(connectionString).getQueueRuntimeInfoAsync(queueName).get();
     }
 
     private QueueClient createQueueClient(
