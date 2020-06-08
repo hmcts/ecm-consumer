@@ -62,6 +62,7 @@ resource "azurerm_key_vault_secret" "caseworker_password" {
   key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
 }
 
+# SERVICE BUS
 data "azurerm_key_vault_secret" "create_updates_queue_send_conn_str" {
   name = "create-updates-queue-send-connection-string"
   key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
@@ -79,5 +80,31 @@ data "azurerm_key_vault_secret" "update_case_queue_send_conn_str" {
 
 data "azurerm_key_vault_secret" "update_case_queue_listen_conn_str" {
   name = "update-case-queue-listen-connection-string"
+  key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
+}
+
+# DB
+data "azurerm_key_vault_secret" "ecm_postgres_user" {
+  name = "ecm-consumer-postgres-user"
+  key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
+}
+
+data "azurerm_key_vault_secret" "ecm_postgres_password" {
+  name = "ecm-consumer-postgres-password"
+  key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
+}
+
+data "azurerm_key_vault_secret" "ecm_postgres_host" {
+  name = "ecm-consumer-postgres-host"
+  key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
+}
+
+data "azurerm_key_vault_secret" "ecm_postgres_port" {
+  name = "ecm-consumer-postgres-port"
+  key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
+}
+
+data "azurerm_key_vault_secret" "ecm_postgres_database" {
+  name = "ecm-consumer-postgres-database"
   key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
 }

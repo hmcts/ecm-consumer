@@ -15,6 +15,11 @@ java:
         - update-case-queue-send-connection-string
         - update-case-queue-listen-connection-string
         - idam-client-secret
+        - ecm-consumer-postgres-password
+        - ecm-consumer-postgres-user
+        - ecm-consumer-postgres-host
+        - ecm-consumer-postgres-port
+        - ecm-consumer-postgres-database
   aadIdentityName: ethos
   environment:
     REFORM_TEAM: ethos
@@ -31,3 +36,4 @@ java:
     SERVICE_AUTH_PROVIDER_URL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
     CCD_DATA_STORE_API_URL: "http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
     MICRO_SERVICE: "ecm_consumer"
+    ECM_CONSUMER_DB_CONN_OPTIONS: ?sslmode=require

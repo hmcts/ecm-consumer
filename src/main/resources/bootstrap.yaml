@@ -13,3 +13,8 @@ spring:
         update-case-queue-send-connection-string: UPDATE_CASE_QUEUE_SEND_CONNECTION_STRING
         update-case-queue-listen-connection-string: UPDATE_CASE_QUEUE_LISTEN_CONNECTION_STRING
         idam-client-secret: IDAM_CLIENT_SECRET
+        ecm-consumer-postgres-password: ECM_CONSUMER_POSTGRES_PASSWORD
+        ecm-consumer-postgres-user: ECM_CONSUMER_POSTGRES_USER
+        ecm-consumer-postgres-host: ECM_CONSUMER_POSTGRES_HOST
+        ecm-consumer-postgres-port: ECM_CONSUMER_POSTGRES_PORT
+        ecm-consumer-postgres-database: ECM_CONSUMER_POSTGRES_DATABASE
