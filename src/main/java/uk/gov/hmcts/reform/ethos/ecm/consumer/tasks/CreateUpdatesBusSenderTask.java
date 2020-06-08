@@ -49,6 +49,7 @@ public class CreateUpdatesBusSenderTask {
                 } catch (Exception exc) {
                     // log error and try with another message.
                     log.error("Error sending messages to create-updates queue", exc);
+                    // IF ERROR SEND BACK TO THE USER
                 }
             });
 

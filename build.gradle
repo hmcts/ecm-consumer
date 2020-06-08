@@ -140,6 +140,9 @@ dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+
+  compile('org.postgresql:postgresql')
 
   compileOnly 'org.projectlombok:lombok:1.18.4'
   annotationProcessor 'org.projectlombok:lombok:1.18.4'

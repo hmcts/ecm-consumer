@@ -12,6 +12,13 @@ locals {
   resourceGroup = var.env == "preview" ? local.previewRG : local.nonPreviewRG
   localEnv = var.env == "preview" ? "aat" : var.env
   s2sRG  = "rpe-service-auth-provider-${local.localEnv}"
+  common_tags = {
+    "environment"  = var.env
+    "Team Name"    = var.team_name
+    "Team Contact" = var.team_contact
+    "Destroy Me"   = var.destroy_me
+  }
+  tags = merge(local.common_tags, map("lastUpdated", timestamp()))
 }
 
 data "azurerm_key_vault" "ethos_key_vault" {
@@ -36,7 +43,7 @@ resource "azurerm_application_insights" "appinsights" {
   resource_group_name = local.resourceGroup
   application_type    = "Web"
 
-  tags = var.common_tags
+  tags = local.tags
 }
 
 data "azurerm_key_vault_secret" "microservicekey_ecm_consumer" {
@@ -62,6 +69,7 @@ resource "azurerm_key_vault_secret" "caseworker_password" {
   key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
 }
 
+# SERVICE BUS
 data "azurerm_key_vault_secret" "create_updates_queue_send_conn_str" {
   name = "create-updates-queue-send-connection-string"
   key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
@@ -79,5 +87,31 @@ data "azurerm_key_vault_secret" "update_case_queue_send_conn_str" {
 
 data "azurerm_key_vault_secret" "update_case_queue_listen_conn_str" {
   name = "update-case-queue-listen-connection-string"
+  key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
+}
+
+# DB
+data "azurerm_key_vault_secret" "ecm_postgres_user" {
+  name = "ecm-consumer-postgres-user"
+  key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
+}
+
+data "azurerm_key_vault_secret" "ecm_postgres_password" {
+  name = "ecm-consumer-postgres-password"
+  key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
+}
+
+data "azurerm_key_vault_secret" "ecm_postgres_host" {
+  name = "ecm-consumer-postgres-host"
+  key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
+}
+
+data "azurerm_key_vault_secret" "ecm_postgres_port" {
+  name = "ecm-consumer-postgres-port"
+  key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
+}
+
+data "azurerm_key_vault_secret" "ecm_postgres_database" {
+  name = "ecm-consumer-postgres-database"
   key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
 }
