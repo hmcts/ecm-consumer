@@ -33,6 +33,14 @@ public class MultipleService {
     @Value("${caseWorkerPassword}")
     private String caseWorkerPassword;
 
+    @Value("${spring.datasource.url}")
+    private String dbUrl;
+    @Value("${spring.datasource.username}")
+    private String dbUsername;
+    @Value("${spring.datasource.password}")
+    private String dbPassword;
+
+
     @Autowired
     public MultipleService(CcdClient ccdClient, UserService userService) {
         this.ccdClient = ccdClient;
@@ -42,6 +50,9 @@ public class MultipleService {
     public void sendUpdateToMultipleLogic() {
         log.info("UserName: " + caseWorkerUserName);
         log.info("Password: " + caseWorkerPassword);
+        log.info("DB URL: " + dbUrl);
+        log.info("DB Username: " + dbUsername);
+        log.info("DB Password: " + dbPassword);
         String accessToken = authenticateUser();
         log.info("AccessToken: " + accessToken);
         UserDetails userDetails = userService.getUserDetails(accessToken);
