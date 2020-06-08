@@ -12,6 +12,13 @@ locals {
   resourceGroup = var.env == "preview" ? local.previewRG : local.nonPreviewRG
   localEnv = var.env == "preview" ? "aat" : var.env
   s2sRG  = "rpe-service-auth-provider-${local.localEnv}"
+  common_tags = {
+    "environment"  = var.env
+    "Team Name"    = var.team_name
+    "Team Contact" = var.team_contact
+    "Destroy Me"   = var.destroy_me
+  }
+  tags = merge(local.common_tags, map("lastUpdated", timestamp()))
 }
 
 data "azurerm_key_vault" "ethos_key_vault" {
@@ -36,7 +43,7 @@ resource "azurerm_application_insights" "appinsights" {
   resource_group_name = local.resourceGroup
   application_type    = "Web"
 
-  tags = var.common_tags
+  tags = local.tags
 }
 
 data "azurerm_key_vault_secret" "microservicekey_ecm_consumer" {
