@@ -50,7 +50,7 @@ public class MultipleUpdateService {
     private List<SubmitBulkEvent> retrieveMultipleCase(String authToken, UpdateCaseMsg updateCaseMsg) throws IOException {
 
         return ccdClient.retrieveBulkCasesElasticSearch(authToken,
-                                                        updateCaseMsg.getJurisdiction(),
+                                                        updateCaseMsg.getCaseTypeId(),
                                                         updateCaseMsg.getMultipleRef());
 //        return ccdClient.retrieveBulkCases(authToken,
 //                                           updateCaseMsg.getMultipleRef(),
