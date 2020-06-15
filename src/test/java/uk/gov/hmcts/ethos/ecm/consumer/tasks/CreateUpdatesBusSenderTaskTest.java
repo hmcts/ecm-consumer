@@ -9,6 +9,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.ServiceBusSender;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.CreateUpdatesBusSenderTask;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CreateUpdatesBusSenderTaskTest {
 
@@ -25,7 +28,13 @@ public class CreateUpdatesBusSenderTaskTest {
     @Test
     public void runMainMethodTest() {
         createUpdatesBusSenderTask.run();
+    }
 
+    @Test
+    public void runMainMethodTestException() {
+        when(serviceBusSender.sendMessageAsync(any()))
+            .thenThrow(new RuntimeException("Failed"));
+        createUpdatesBusSenderTask.run();
     }
 
 }

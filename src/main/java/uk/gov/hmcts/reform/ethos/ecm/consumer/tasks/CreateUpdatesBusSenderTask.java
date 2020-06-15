@@ -4,17 +4,14 @@ import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.extern.slf4j.Slf4j;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.CreateUpdatesMsg;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateData;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.ServiceBusSender;
 
-import static uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService.CASE_TYPE_ID;
-import static uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService.JURISDICTION;
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.SCOTLAND_BULK_CASE_TYPE_ID;
 
 /**
  * Sends create updates messages to create-updates queue.
@@ -43,13 +40,13 @@ public class CreateUpdatesBusSenderTask {
             .forEach(msg -> {
                 try {
                     //log.info("Start sending messages to CREATE-UPDATES-SEND QUEUE");
-                    serviceBusSender.sendMessageAsync(msg);
+                    serviceBusSender.sendMessage(msg);
                     log.info("SENT -----> " + msg.toString());
                     successCount.incrementAndGet();
                 } catch (Exception exc) {
                     // log error and try with another message.
                     log.error("Error sending messages to create-updates queue", exc);
-                    // IF ERROR SEND BACK TO THE USER
+                    //TODO IF ERROR SEND BACK TO THE USER
                 }
             });
 
@@ -61,43 +58,49 @@ public class CreateUpdatesBusSenderTask {
     }
 
     private List<CreateUpdatesMsg> getCreateUpdatesMsgList() {
+        UpdateData updateData = UpdateData.builder()
+            .lead("4150002/2020")
+            .claimantRep("ClaimantRep")
+            .build();
         CreateUpdatesMsg createUpdatesMsg1 = CreateUpdatesMsg.builder()
             .msgId(UUID.randomUUID().toString())
-            .jurisdiction(JURISDICTION)
-            .caseTypeId(CASE_TYPE_ID)
+            .jurisdiction("EMPLOYMENT")
+            .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
             .multipleRef("4150001")
-            .ethosCaseRefCollection(Arrays.asList("4150001/2020", "4150002/2020", "4150003/2020"))
-            .totalCases("3")
+            .ethosCaseRefCollection(Collections.singletonList("4150002/2020"))
+            .totalCases("1")
             .username("eric1.ccdcooper@gmail.com")
+            .updateData(updateData)
             .build();
-        CreateUpdatesMsg createUpdatesMsg2 = CreateUpdatesMsg.builder()
-            .msgId(UUID.randomUUID().toString())
-            .jurisdiction(JURISDICTION)
-            .caseTypeId(CASE_TYPE_ID)
-            .multipleRef("4150002")
-            .ethosCaseRefCollection(Arrays.asList("4150004/2020", "4150005/2020", "4150006/2020"))
-            .totalCases("3")
-            .username("eric2.ccdcooper@gmail.com")
-            .build();
-        CreateUpdatesMsg createUpdatesMsg3 = CreateUpdatesMsg.builder()
-            .msgId(UUID.randomUUID().toString())
-            .jurisdiction(JURISDICTION)
-            .caseTypeId(CASE_TYPE_ID)
-            .multipleRef("4150003")
-            .ethosCaseRefCollection(Arrays.asList("4150007/2020", "4150008/2020", "4150009/2020"))
-            .totalCases("3")
-            .username("eric3.ccdcooper@gmail.com")
-            .build();
-        CreateUpdatesMsg createUpdatesMsg4 = CreateUpdatesMsg.builder()
-            .msgId(UUID.randomUUID().toString())
-            .jurisdiction(JURISDICTION)
-            .caseTypeId(CASE_TYPE_ID)
-            .multipleRef("4150004")
-            .ethosCaseRefCollection(Arrays.asList("4150010/2020", "4150011/2020", "4150012/2020"))
-            .totalCases("3")
-            .username("eric4.ccdcooper@gmail.com")
-            .build();
-        return new ArrayList<>(Arrays.asList(createUpdatesMsg1, createUpdatesMsg2, createUpdatesMsg3, createUpdatesMsg4));
+//        CreateUpdatesMsg createUpdatesMsg2 = CreateUpdatesMsg.builder()
+//            .msgId(UUID.randomUUID().toString())
+//            .jurisdiction(JURISDICTION)
+//            .caseTypeId(CASE_TYPE_ID)
+//            .multipleRef("4150002")
+//            .ethosCaseRefCollection(Arrays.asList("4150004/2020", "4150005/2020", "4150006/2020"))
+//            .totalCases("3")
+//            .username("eric2.ccdcooper@gmail.com")
+//            .build();
+//        CreateUpdatesMsg createUpdatesMsg3 = CreateUpdatesMsg.builder()
+//            .msgId(UUID.randomUUID().toString())
+//            .jurisdiction(JURISDICTION)
+//            .caseTypeId(CASE_TYPE_ID)
+//            .multipleRef("4150003")
+//            .ethosCaseRefCollection(Arrays.asList("4150007/2020", "4150008/2020", "4150009/2020"))
+//            .totalCases("3")
+//            .username("eric3.ccdcooper@gmail.com")
+//            .build();
+//        CreateUpdatesMsg createUpdatesMsg4 = CreateUpdatesMsg.builder()
+//            .msgId(UUID.randomUUID().toString())
+//            .jurisdiction(JURISDICTION)
+//            .caseTypeId(CASE_TYPE_ID)
+//            .multipleRef("4150004")
+//            .ethosCaseRefCollection(Arrays.asList("4150010/2020", "4150011/2020", "4150012/2020"))
+//            .totalCases("3")
+//            .username("eric4.ccdcooper@gmail.com")
+//            .build();
+//        return new ArrayList<>(Arrays.asList(createUpdatesMsg1, createUpdatesMsg2, createUpdatesMsg3, createUpdatesMsg4));
+        return new ArrayList<>(Collections.singletonList(createUpdatesMsg1));
     }
 
 }

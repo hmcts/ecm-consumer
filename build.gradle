@@ -25,7 +25,7 @@ jacocoTestReport {
   }
 }
 
-//CreateUpdatesBusReceiverTask will go to repl-docmosis-service project
+//TODO CreateUpdatesBusReceiverTask will go to repl-docmosis-service project
 def sonarExclusions = ['**/uk/gov/hmcts/reform/ethos/ecm/consumer/config/**',
                        '**/uk/gov/hmcts/reform/ethos/ecm/consumer/model/**',
                        '**/uk/gov/hmcts/reform/ethos/ecm/consumer/tasks/CreateUpdatesBusReceiverTask.java',
@@ -152,7 +152,7 @@ dependencies {
 
   implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.12'
 
-  implementation group: 'uk.gov.hmcts.reform', name: 'ecm-common', version: '0.0.19'
+  implementation group: 'uk.gov.hmcts.reform', name: 'ecm-common', version: '0.0.20'
 
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.3.RELEASE'
   implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '11.0'

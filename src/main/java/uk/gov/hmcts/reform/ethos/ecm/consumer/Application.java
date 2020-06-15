@@ -4,9 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService;
 
 @SpringBootApplication
 @EnableScheduling
@@ -18,12 +16,12 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService;
 public class Application {
 
     public static void main(final String[] args) {
-       // SpringApplication.run(Application.class, args);
+        SpringApplication.run(Application.class, args);
 
-        ApplicationContext applicationContext = SpringApplication.run(Application.class, args);
-        log.info("Starting...");
-        MultipleService service = applicationContext.getBean(MultipleService.class);
-        service.sendUpdateToMultipleLogic();
-        log.info("End");
+//        ApplicationContext applicationContext = SpringApplication.run(Application.class, args);
+//        log.info("Starting...");
+//        MultipleUpdateService service = applicationContext.getBean(MultipleUpdateService.class);
+//        service.sendUpdateToMultipleLogic();
+//        log.info("End");
     }
 }

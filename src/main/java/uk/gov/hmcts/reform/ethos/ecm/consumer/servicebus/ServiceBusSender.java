@@ -1,12 +1,15 @@
 package uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.microsoft.azure.servicebus.primitives.TimeoutException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import com.microsoft.azure.servicebus.IQueueClient;
 import com.microsoft.azure.servicebus.Message;
 import com.microsoft.azure.servicebus.MessageBody;
+import com.microsoft.azure.servicebus.primitives.ServiceBusException;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.InvalidMessageException;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.ServiceBusConnectionTimeoutException;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.Msg;
 import javax.annotation.PreDestroy;
 
@@ -30,22 +33,22 @@ public class ServiceBusSender implements AutoCloseable {
         return sendClient.sendAsync(busMessage);
     }
 
-//    public void sendMessage(Msg msg) {
-//        Message busMessage = mapToBusMessage(msg);
-//        try {
-//            sendClient.send(busMessage);
-//        } catch (InterruptedException e) {
-//            Thread.currentThread().interrupt();
-//            throw new InvalidMessageException("Unable to send message", e);
-//        } catch (TimeoutException e) {
-//            throw new ServiceBusConnectionTimeoutException(
-//                "Service Bus connection timed out while sending the message. Message ID: " + msg.getMsgId(),
-//                e
-//            );
-//        } catch (ServiceBusException e) {
-//            throw new InvalidMessageException("Unable to send message", e);
-//        }
-//    }
+    public void sendMessage(Msg msg) {
+        Message busMessage = mapToBusMessage(msg);
+        try {
+            sendClient.send(busMessage);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new InvalidMessageException("Unable to send message", e);
+        } catch (TimeoutException e) {
+            throw new ServiceBusConnectionTimeoutException(
+                "Service Bus connection timed out while sending the message. Message ID: " + msg.getMsgId(),
+                e
+            );
+        } catch (ServiceBusException e) {
+            throw new InvalidMessageException("Unable to send message", e);
+        }
+    }
 
     @Override
     public void close() {

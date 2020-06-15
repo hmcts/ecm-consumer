@@ -9,7 +9,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.model.bulk.BulkData;
 import uk.gov.hmcts.ecm.common.model.bulk.SubmitBulkEvent;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService;
+import uk.gov.hmcts.ethos.ecm.consumer.helpers.Helper;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateCaseMsg;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleUpdateService;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UserService;
 
 import java.io.IOException;
@@ -19,13 +21,12 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
-import static uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleService.MULTIPLE_REFERENCE;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class MultipleServiceTest {
+public class MultipleUpdateServiceTest {
 
     @InjectMocks
-    private MultipleService multipleService;
+    private MultipleUpdateService multipleUpdateService;
     @Mock
     private CcdClient ccdClient;
     @Mock
@@ -33,66 +34,57 @@ public class MultipleServiceTest {
 
     private List<SubmitBulkEvent> submitBulkEvents;
     private SubmitBulkEvent submitBulkEvent;
+    private UpdateCaseMsg updateCaseMsg;
 
     @Before
     public void setUp() {
         submitBulkEvent = new SubmitBulkEvent();
         BulkData bulkData = new BulkData();
-        bulkData.setMultipleReference(MULTIPLE_REFERENCE);
+        bulkData.setMultipleReference("4100001");
         submitBulkEvent.setCaseData(bulkData);
         submitBulkEvents = new ArrayList<>(Collections.singletonList(submitBulkEvent));
+        updateCaseMsg = Helper.generateUpdateCaseMsg();
     }
 
     @Test
     public void sendUpdateToMultipleLogic() throws IOException {
-        when(userService.getAccessToken(any(), any())).thenReturn("Token");
+        when(userService.getAccessToken()).thenReturn("Token");
         when(ccdClient.retrieveBulkCasesElasticSearch(anyString(), anyString(), anyString())).thenReturn(submitBulkEvents);
 
         //when(ccdClient.retrieveBulkCases(anyString(), anyString(), anyString())).thenReturn(submitBulkEvents);
 
         when(ccdClient.submitBulkEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString())).thenReturn(submitBulkEvent);
-        multipleService.sendUpdateToMultipleLogic();
+        multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg);
     }
 
     @Test
     public void sendUpdateToMultipleLogicEmptyES() throws IOException {
-        when(userService.getAccessToken(any(), any())).thenReturn("Token");
+        when(userService.getAccessToken()).thenReturn("Token");
         when(ccdClient.retrieveBulkCasesElasticSearch(anyString(), anyString(), anyString())).thenReturn(new ArrayList<>());
 
         //when(ccdClient.retrieveBulkCases(anyString(), anyString(), anyString())).thenReturn(new ArrayList<>());
 
-        multipleService.sendUpdateToMultipleLogic();
+        multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg);
     }
 
     @Test
     public void sendUpdateToMultipleLogicNullES() throws IOException {
-        when(userService.getAccessToken(any(), any())).thenReturn("Token");
+        when(userService.getAccessToken()).thenReturn("Token");
         when(ccdClient.retrieveBulkCasesElasticSearch(anyString(), anyString(), anyString())).thenReturn(null);
 
         //when(ccdClient.retrieveBulkCases(anyString(), anyString(), anyString())).thenReturn(null);
 
-        multipleService.sendUpdateToMultipleLogic();
+        multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg);
     }
 
     @Test(expected = Exception.class)
     public void sendUpdateToMultipleLogicException() throws IOException {
-        when(userService.getAccessToken(any(), any())).thenReturn("Token");
+        when(userService.getAccessToken()).thenReturn("Token");
         when(ccdClient.retrieveBulkCasesElasticSearch(anyString(), anyString(), anyString())).thenThrow(new Exception());
 
         //when(ccdClient.retrieveBulkCases(anyString(), anyString(), anyString())).thenThrow(new Exception());
 
-        multipleService.sendUpdateToMultipleLogic();
-    }
-
-    @Test
-    public void sendUpdateToMultipleLogicTaskException() throws IOException {
-        when(userService.getAccessToken(any(), any())).thenReturn("Token");
-        when(ccdClient.retrieveBulkCasesElasticSearch(anyString(), anyString(), anyString())).thenReturn(submitBulkEvents);
-
-        //when(ccdClient.retrieveBulkCases(anyString(), anyString(), anyString())).thenReturn(submitBulkEvents);
-
-        when(ccdClient.submitBulkEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString())).thenThrow(new IOException());
-        multipleService.sendUpdateToMultipleLogic();
+        multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg);
     }
 
 }

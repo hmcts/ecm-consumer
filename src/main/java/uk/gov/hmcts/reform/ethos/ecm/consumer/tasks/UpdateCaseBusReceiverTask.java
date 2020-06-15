@@ -11,13 +11,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.InvalidMessageException;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.UpdateCaseNotFoundException;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.MessageProcessingResult;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.MessageProcessingResultType;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateCaseMsg;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UpdateManagementService;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.MessageAutoCompletor;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.MessageBodyRetriever;
-
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -35,12 +34,14 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
 
     private final ObjectMapper objectMapper;
     private final MessageAutoCompletor messageCompletor;
+    private final UpdateManagementService updateManagementService;
 
-    public UpdateCaseBusReceiverTask(
-        ObjectMapper objectMapper,
-        @Qualifier("update-case-completor") MessageAutoCompletor messageCompletor) {
+    public UpdateCaseBusReceiverTask(ObjectMapper objectMapper,
+                                     @Qualifier("update-case-completor") MessageAutoCompletor messageCompletor,
+                                     UpdateManagementService updateManagementService) {
         this.objectMapper = objectMapper;
         this.messageCompletor = messageCompletor;
+        this.updateManagementService = updateManagementService;
     }
 
     @Override
@@ -85,57 +86,32 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
     }
 
     private CompletableFuture<Void> finaliseMessageAsync(IMessage message, MessageProcessingResult processingResult) {
-        switch (processingResult.resultType) {
-            case SUCCESS:
-                return messageCompletor
-                    .completeAsync(message.getLockToken())
-                    .thenRun(() ->
-                        log.info("COMPLETED ----> 'update case' message with ID {}", message.getMessageId())
-                    );
-            case UNRECOVERABLE_FAILURE:
-                return messageCompletor
-                    .deadLetterAsync(
-                        message.getLockToken(),
-                        "Message processing error",
-                        processingResult.exception.getMessage()
-                    )
-                    .thenRun(() ->
-                        log.info("Dead-lettered 'update case' message with ID {}", message.getMessageId())
-                    );
-            default:
-                log.info(
-                    "Letting 'update case' message with ID {} return to the queue. Delivery attempt {}.",
-                    message.getMessageId(),
-                    message.getDeliveryCount() + 1
-                );
+        if (processingResult.resultType == MessageProcessingResultType.SUCCESS) {
 
-                return CompletableFuture.completedFuture(null);
+            return messageCompletor
+                .completeAsync(message.getLockToken())
+                .thenRun(() ->
+                             log.info("COMPLETED ----> 'update case' message with ID {}", message.getMessageId())
+                );
         }
+        log.info(
+            "Letting 'update case' message with ID {} return to the queue. Delivery attempt {}.",
+            message.getMessageId(),
+            message.getDeliveryCount() + 1
+        );
+
+        return CompletableFuture.completedFuture(null);
     }
 
     private MessageProcessingResult tryProcessMessage(IMessage message) {
         try {
-//            log.info(
-//                "Started processing 'update case' message with ID {} (delivery {})",
-//                message.getMessageId(),
-//                message.getDeliveryCount() + 1
-//            );
 
             UpdateCaseMsg updateCaseMsg = readMessage(message);
-            //log.info("SEND UPDATE TO THE SINGLE CASE: " + updateCaseMsg);
+            updateManagementService.updateLogic(updateCaseMsg);
 
             log.info("'Update case' message with ID {} PROCESSED ------> successfully", message.getMessageId());
             return new MessageProcessingResult(MessageProcessingResultType.SUCCESS);
-        } catch (InvalidMessageException e) {
-            log.error("Invalid 'update case' message with ID {}", message.getMessageId(), e);
-            return new MessageProcessingResult(MessageProcessingResultType.UNRECOVERABLE_FAILURE, e);
-        } catch (UpdateCaseNotFoundException e) {
-            log.error(
-                "Failed to handle 'update case' message with ID {} - message not found",
-                message.getMessageId(),
-                e
-            );
-            return new MessageProcessingResult(MessageProcessingResultType.UNRECOVERABLE_FAILURE, e);
+
         } catch (Exception e) {
             log.error(
                 "An error occurred when handling 'update case' message with ID {}",

@@ -128,7 +128,6 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
 //            );
 
             CreateUpdatesMsg createUpdatesMsg = readMessage(message);
-            //IT HAS TO BE ASYNC -> GENERATE UPDATES
             sendUpdateCaseMessages(createUpdatesMsg);
 
             log.info("'Create updates' message with ID {} PROCESSED ------> successfully", message.getMessageId());
@@ -170,7 +169,6 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
         }
         for (String ethosCaseReference : createUpdatesMsg.getEthosCaseRefCollection()) {
             UpdateCaseMsg updateCaseMsg = mapToUpdateCaseMsg(createUpdatesMsg, ethosCaseReference);
-            //log.info("Start sending messages to UPDATE-CASE-SEND QUEUE: " + updateCaseMsg);
             serviceBusSender.sendMessageAsync(updateCaseMsg);
         }
     }
@@ -184,6 +182,7 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
             .jurisdiction(createUpdatesMsg.getJurisdiction())
             .caseTypeId(createUpdatesMsg.getCaseTypeId())
             .username(createUpdatesMsg.getUsername())
+            .updateData(createUpdatesMsg.getUpdateData())
             .build();
     }
 }

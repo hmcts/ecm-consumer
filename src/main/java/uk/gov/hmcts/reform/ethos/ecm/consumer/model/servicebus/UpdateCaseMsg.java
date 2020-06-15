@@ -35,6 +35,9 @@ public class UpdateCaseMsg implements Msg {
     @JsonProperty("label")
     private String label;
 
+    @JsonProperty("updateData")
+    private UpdateData updateData;
+
     @Override
     @JsonIgnore
     public String getMsgId() {

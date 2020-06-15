@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.ecm.common.idam.models.UserDetails;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.IdamApi;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.AccessTokenService;
@@ -31,6 +32,8 @@ public class UserServiceTest {
         userDetails = getUserDetails();
         idamApi = authorisation -> getUserDetails();
         userService = new UserService(idamApi, accessTokenService);
+        ReflectionTestUtils.setField(userService, "caseWorkerUserName", "example@gmail.com");
+        ReflectionTestUtils.setField(userService, "caseWorkerPassword", "123456");
     }
 
     private UserDetails getUserDetails() {
@@ -55,7 +58,7 @@ public class UserServiceTest {
     @Test
     public void getAccessToken() {
         when(accessTokenService.getAccessToken(anyString(), anyString())).thenReturn("accessToken");
-        assertEquals("accessToken", userService.getAccessToken("userName", "password"));
+        assertEquals("accessToken", userService.getAccessToken());
     }
 
 }
