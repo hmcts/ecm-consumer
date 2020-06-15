@@ -152,7 +152,7 @@ dependencies {
 
   implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.12'
 
-  implementation group: 'uk.gov.hmcts.reform', name: 'ecm-common', version: '0.0.20'
+  implementation group: 'uk.gov.hmcts.reform', name: 'ecm-common', version: '0.0.21'
 
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.3.RELEASE'
   implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '11.0'
