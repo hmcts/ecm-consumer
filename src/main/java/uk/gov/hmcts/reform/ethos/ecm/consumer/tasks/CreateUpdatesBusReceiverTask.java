@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.CreateUpdatesNotFoundException;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.InvalidMessageException;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.CreateUpdatesMsg;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.MessageProcessingResult;
@@ -91,57 +90,31 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
     }
 
     private CompletableFuture<Void> finaliseMessageAsync(IMessage message, MessageProcessingResult processingResult) {
-        switch (processingResult.resultType) {
-            case SUCCESS:
-                return messageCompletor
-                    .completeAsync(message.getLockToken())
-                    .thenRun(() ->
-                        log.info("COMPLETED ----> 'create updates' message with ID {}", message.getMessageId())
-                    );
-            case UNRECOVERABLE_FAILURE:
-                return messageCompletor
-                    .deadLetterAsync(
-                        message.getLockToken(),
-                        "Message processing error",
-                        processingResult.exception.getMessage()
-                    )
-                    .thenRun(() ->
-                        log.info("Dead-lettered 'create updates' message with ID {}", message.getMessageId())
-                    );
-            default:
-                log.info(
-                    "Letting 'create updates' message with ID {} return to the queue. Delivery attempt {}.",
-                    message.getMessageId(),
-                    message.getDeliveryCount() + 1
+        if (processingResult.resultType == MessageProcessingResultType.SUCCESS) {
+            return messageCompletor
+                .completeAsync(message.getLockToken())
+                .thenRun(() ->
+                             log.info("COMPLETED ----> 'create updates' message with ID {}", message.getMessageId())
                 );
-
-                return CompletableFuture.completedFuture(null);
         }
+        log.info(
+            "Letting 'create updates' message with ID {} return to the queue. Delivery attempt {}.",
+            message.getMessageId(),
+            message.getDeliveryCount() + 1
+        );
+
+        return CompletableFuture.completedFuture(null);
     }
 
     private MessageProcessingResult tryProcessMessage(IMessage message) {
         try {
-//            log.info(
-//                "Started processing 'create updates' message with ID {} (delivery {})",
-//                message.getMessageId(),
-//                message.getDeliveryCount() + 1
-//            );
 
             CreateUpdatesMsg createUpdatesMsg = readMessage(message);
             sendUpdateCaseMessages(createUpdatesMsg);
 
             log.info("'Create updates' message with ID {} PROCESSED ------> successfully", message.getMessageId());
             return new MessageProcessingResult(MessageProcessingResultType.SUCCESS);
-        } catch (InvalidMessageException e) {
-            log.error("Invalid 'create updates' message with ID {}", message.getMessageId(), e);
-            return new MessageProcessingResult(MessageProcessingResultType.UNRECOVERABLE_FAILURE, e);
-        } catch (CreateUpdatesNotFoundException e) {
-            log.error(
-                "Failed to handle 'create updates' message with ID {} - message not found",
-                message.getMessageId(),
-                e
-            );
-            return new MessageProcessingResult(MessageProcessingResultType.UNRECOVERABLE_FAILURE, e);
+
         } catch (Exception e) {
             log.error(
                 "An error occurred when handling 'create updates' message with ID {}",
@@ -164,12 +137,11 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
     }
 
     private void sendUpdateCaseMessages(CreateUpdatesMsg createUpdatesMsg) {
-        if (createUpdatesMsg.getEthosCaseRefCollection() == null) {
-            throw new InvalidMessageException("Unable to get ethosCaseReferences in the message");
-        }
-        for (String ethosCaseReference : createUpdatesMsg.getEthosCaseRefCollection()) {
-            UpdateCaseMsg updateCaseMsg = mapToUpdateCaseMsg(createUpdatesMsg, ethosCaseReference);
-            serviceBusSender.sendMessageAsync(updateCaseMsg);
+        if (createUpdatesMsg.getEthosCaseRefCollection() != null) {
+            for (String ethosCaseReference : createUpdatesMsg.getEthosCaseRefCollection()) {
+                UpdateCaseMsg updateCaseMsg = mapToUpdateCaseMsg(createUpdatesMsg, ethosCaseReference);
+                serviceBusSender.sendMessageAsync(updateCaseMsg);
+            }
         }
     }
 

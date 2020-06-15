@@ -12,7 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import uk.gov.hmcts.ethos.ecm.consumer.helpers.Helper;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.CreateUpdatesNotFoundException;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.InvalidMessageException;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.CreateUpdatesMsg;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.Msg;
@@ -64,15 +63,6 @@ public class CreateUpdatesBusReceiverTaskTest {
             MessageBodyRetriever.getBinaryData(message.getMessageBody()),
             CreateUpdatesMsg.class
         )).thenReturn(msg);
-        createUpdatesBusReceiverTask.onMessageAsync(message);
-    }
-
-    @Test
-    public void onMessageAsyncMessageNotFound() throws IOException {
-        when(objectMapper.readValue(
-            MessageBodyRetriever.getBinaryData(message.getMessageBody()),
-            CreateUpdatesMsg.class
-        )).thenThrow(new CreateUpdatesNotFoundException("Message not found"));
         createUpdatesBusReceiverTask.onMessageAsync(message);
     }
 

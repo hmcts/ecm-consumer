@@ -39,13 +39,12 @@ public class CreateUpdatesBusSenderTask {
         createUpdatesMsgList
             .forEach(msg -> {
                 try {
-                    //log.info("Start sending messages to CREATE-UPDATES-SEND QUEUE");
                     serviceBusSender.sendMessage(msg);
                     log.info("SENT -----> " + msg.toString());
                     successCount.incrementAndGet();
-                } catch (Exception exc) {
+                } catch (Exception e) {
                     // log error and try with another message.
-                    log.error("Error sending messages to create-updates queue", exc);
+                    log.error("Error sending messages to create-updates queue", e);
                     //TODO IF ERROR SEND BACK TO THE USER
                 }
             });
