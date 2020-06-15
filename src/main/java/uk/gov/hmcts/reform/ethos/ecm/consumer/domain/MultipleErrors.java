@@ -4,14 +4,10 @@ import javax.persistence.*;
 import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor
 @Table(name = "multipleerrors")
 public class MultipleErrors {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
     protected String multipleref;
     protected String ethoscaseref;
     protected String description;

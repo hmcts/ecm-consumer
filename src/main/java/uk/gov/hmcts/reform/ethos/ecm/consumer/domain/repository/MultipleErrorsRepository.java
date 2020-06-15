@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public interface MultipleErrorsRepository extends JpaRepository<MultipleErrors, Integer> {
+public interface MultipleErrorsRepository extends JpaRepository<MultipleErrors, String> {
 
     @Procedure("fn_persistentQ_logMultipleError")
     void persistentQLogMultipleError(String multipleRef, String ethosCaseRef, String description);
