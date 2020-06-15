@@ -96,8 +96,8 @@ public class SingleUpdateService {
                                                                  jurisdiction,
                                                                  caseId);
         log.info("Changing multiple ref");
-        submitEvent.getCaseData().setState(ACCEPTED_STATE);
-        submitEvent.getCaseData().setMultipleReference(updateCaseMsg.getMultipleRef());
+        //submitEvent.getCaseData().setState(ACCEPTED_STATE);
+        //submitEvent.getCaseData().setMultipleReference(updateCaseMsg.getMultipleRef());
 
         ccdClient.submitEventForCase(accessToken,
                                      submitEvent.getCaseData(),
