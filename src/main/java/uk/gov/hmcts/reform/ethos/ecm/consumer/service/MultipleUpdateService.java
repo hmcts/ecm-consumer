@@ -53,7 +53,7 @@ public class MultipleUpdateService {
                                                         updateCaseMsg.getCaseTypeId(),
                                                         updateCaseMsg.getMultipleRef());
 //        return ccdClient.retrieveBulkCases(authToken,
-//                                           updateCaseMsg.getMultipleRef(),
+//                                           updateCaseMsg.getCaseTypeId(),
 //                                           updateCaseMsg.getJurisdiction());
     }
 

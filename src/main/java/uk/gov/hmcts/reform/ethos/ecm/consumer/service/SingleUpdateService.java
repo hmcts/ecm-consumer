@@ -112,6 +112,7 @@ public class SingleUpdateService {
         if (!submitEvent.getState().equals(ACCEPTED_STATE)) {
 
             log.info("ERROR: state of single case not Accepted");
+            //TODO MOVE THESE STRINGS TO CONSTANT
             return "Unprocessable State";
 
         }

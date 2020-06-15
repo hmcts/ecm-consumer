@@ -66,7 +66,7 @@ public class CreateUpdatesBusSenderTask {
             .jurisdiction("EMPLOYMENT")
             .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
             .multipleRef("4150001")
-            .ethosCaseRefCollection(Collections.singletonList("4150002/2020"))
+            .ethosCaseRefCollection(Collections.singletonList("4150005/2020"))
             .totalCases("1")
             .username("eric1.ccdcooper@gmail.com")
             .updateData(updateData)
