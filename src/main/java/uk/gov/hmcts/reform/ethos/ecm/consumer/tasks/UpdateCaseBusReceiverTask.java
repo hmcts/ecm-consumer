@@ -118,7 +118,7 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
                 message.getMessageId(),
                 e
             );
-            return new MessageProcessingResult(MessageProcessingResultType.POTENTIALLY_RECOVERABLE_FAILURE);
+            return new MessageProcessingResult(MessageProcessingResultType.UNRECOVERABLE_FAILURE);
         }
     }
 

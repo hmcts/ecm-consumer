@@ -69,7 +69,7 @@ public class SingleUpdateService {
 
         log.info("STATE of submit event: " + submitEvent.getState());
 
-        String validationError = validateSingleCase(submitEvent);
+        String validationError = validateCreationSingleCase(submitEvent);
 
         if (!validationError.isEmpty()) {
 
@@ -79,7 +79,7 @@ public class SingleUpdateService {
 
         } else {
 
-            log.info("submit single Event: " + submitEvent);
+            //log.info("submit single Event: " + submitEvent);
             sendUpdate(submitEvent, accessToken, updateCaseMsg);
 
         }
@@ -89,7 +89,7 @@ public class SingleUpdateService {
 
         String caseTypeId = UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId());
         String jurisdiction = updateCaseMsg.getJurisdiction();
-        String caseId = updateCaseMsg.getEthosCaseReference();
+        String caseId = String.valueOf(submitEvent.getCaseId());
 
         CCDRequest returnedRequest = ccdClient.startEventForCase(accessToken,
                                                                  caseTypeId,
@@ -107,7 +107,7 @@ public class SingleUpdateService {
                                      caseId);
     }
 
-    private String validateSingleCase(SubmitEvent submitEvent) {
+    private String validateCreationSingleCase(SubmitEvent submitEvent) {
 
         if (!submitEvent.getState().equals(ACCEPTED_STATE)) {
 
