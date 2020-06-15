@@ -86,21 +86,28 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
     }
 
     private CompletableFuture<Void> finaliseMessageAsync(IMessage message, MessageProcessingResult processingResult) {
-        if (processingResult.resultType == MessageProcessingResultType.SUCCESS) {
-
-            return messageCompletor
-                .completeAsync(message.getLockToken())
-                .thenRun(() ->
-                             log.info("COMPLETED ----> 'update case' message with ID {}", message.getMessageId())
+        switch (processingResult.resultType) {
+            case SUCCESS:
+                return messageCompletor
+                    .completeAsync(message.getLockToken())
+                    .thenRun(() ->
+                                 log.info("COMPLETED ----> 'update case' message with ID {}", message.getMessageId())
+                    );
+            case UNRECOVERABLE_FAILURE:
+                return messageCompletor
+                    .completeAsync(message.getLockToken())
+                    .thenRun(() ->
+                                 log.info("UNRECOVERABLE ERROR ----> 'update case' message with ID {}", message.getMessageId())
+                    );
+            default:
+                log.info(
+                    "Letting 'update case' message with ID {} return to the queue. Delivery attempt {}.",
+                    message.getMessageId(),
+                    message.getDeliveryCount() + 1
                 );
-        }
-        log.info(
-            "Letting 'update case' message with ID {} return to the queue. Delivery attempt {}.",
-            message.getMessageId(),
-            message.getDeliveryCount() + 1
-        );
 
-        return CompletableFuture.completedFuture(null);
+                return CompletableFuture.completedFuture(null);
+        }
     }
 
     private MessageProcessingResult tryProcessMessage(IMessage message) {
@@ -112,14 +119,23 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
             log.info("'Update case' message with ID {} PROCESSED ------> successfully", message.getMessageId());
             return new MessageProcessingResult(MessageProcessingResultType.SUCCESS);
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             log.error(
-                "An error occurred when handling 'update case' message with ID {}",
+                "Unrecoverable error occurred when handling 'update case' message with ID {}",
                 message.getMessageId(),
                 e
             );
             return new MessageProcessingResult(MessageProcessingResultType.UNRECOVERABLE_FAILURE);
+
+        } catch (Exception e) {
+            log.error(
+                "Potentially recoverable error occurred when handling 'update case' message with ID {}",
+                message.getMessageId(),
+                e
+            );
+            return new MessageProcessingResult(MessageProcessingResultType.POTENTIALLY_RECOVERABLE_FAILURE);
         }
+
     }
 
     private UpdateCaseMsg readMessage(IMessage message) throws IOException {

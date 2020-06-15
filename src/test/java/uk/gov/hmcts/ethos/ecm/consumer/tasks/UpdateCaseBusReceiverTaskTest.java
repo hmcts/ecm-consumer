@@ -59,6 +59,15 @@ public class UpdateCaseBusReceiverTaskTest {
     }
 
     @Test
+    public void onMessageAsyncIOException() throws IOException {
+        when(objectMapper.readValue(
+            MessageBodyRetriever.getBinaryData(message.getMessageBody()),
+            UpdateCaseMsg.class
+        )).thenThrow(new IOException("Failed"));
+        updateCaseBusReceiverTask.onMessageAsync(message);
+    }
+
+    @Test
     public void onMessageAsyncException() throws IOException {
         when(objectMapper.readValue(
             MessageBodyRetriever.getBinaryData(message.getMessageBody()),
