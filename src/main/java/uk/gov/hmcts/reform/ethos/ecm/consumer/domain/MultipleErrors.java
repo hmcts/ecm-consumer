@@ -12,13 +12,13 @@ public class MultipleErrors {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    protected String multipleRef;
-    protected String ethosCaseRef;
+    protected String multipleref;
+    protected String ethoscaseref;
     protected String description;
 
-    public MultipleErrors(String multipleRef, String ethosCaseRef, String description) {
-        this.multipleRef = multipleRef;
-        this.ethosCaseRef = ethosCaseRef;
+    public MultipleErrors(String multipleref, String ethoscaseref, String description) {
+        this.multipleref = multipleref;
+        this.ethoscaseref = ethoscaseref;
         this.description = description;
     }
 }

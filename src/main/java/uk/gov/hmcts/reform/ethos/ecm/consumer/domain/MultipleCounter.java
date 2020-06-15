@@ -13,6 +13,6 @@ public class MultipleCounter {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    protected String multipleRef;
+    protected String multipleref;
     protected Integer counter;
 }
