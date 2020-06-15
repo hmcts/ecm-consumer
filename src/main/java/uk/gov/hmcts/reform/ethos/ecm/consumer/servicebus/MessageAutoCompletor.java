@@ -20,8 +20,4 @@ public class MessageAutoCompletor {
         return queueClient.completeAsync(lockToken);
     }
 
-    public CompletableFuture<Void> deadLetterAsync(UUID lockToken, String reason, String description) {
-        log.info("Move create updates message to Dead Letter");
-        return queueClient.deadLetterAsync(lockToken, reason, description);
-    }
 }

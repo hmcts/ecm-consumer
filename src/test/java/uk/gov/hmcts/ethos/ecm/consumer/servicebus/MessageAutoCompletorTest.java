@@ -1,6 +1,5 @@
 package uk.gov.hmcts.ethos.ecm.consumer.servicebus;
 
-
 import com.microsoft.azure.servicebus.IQueueClient;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,10 +34,4 @@ public class MessageAutoCompletorTest {
         Mockito.verifyNoMoreInteractions(queueClient);
     }
 
-    @Test
-    public void deadLetterAsync() {
-        completor.deadLetterAsync(LOCK_TOKEN, "reason", "description");
-        Mockito.verify(queueClient).deadLetterAsync(LOCK_TOKEN, "reason", "description");
-        Mockito.verifyNoMoreInteractions(queueClient);
-    }
 }

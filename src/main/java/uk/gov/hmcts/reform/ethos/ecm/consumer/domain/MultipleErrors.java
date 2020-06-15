@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
-@Table(name = "multipleErrors")
+@Table(name = "multipleerrors")
 public class MultipleErrors {
 
     @Id
