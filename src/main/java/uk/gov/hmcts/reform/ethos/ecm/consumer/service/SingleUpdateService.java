@@ -99,12 +99,12 @@ public class SingleUpdateService {
         //submitEvent.getCaseData().setState(ACCEPTED_STATE);
         //submitEvent.getCaseData().setMultipleReference(updateCaseMsg.getMultipleRef());
 
-        ccdClient.submitEventForCase(accessToken,
-                                     submitEvent.getCaseData(),
-                                     caseTypeId,
-                                     jurisdiction,
-                                     returnedRequest,
-                                     caseId);
+//        ccdClient.submitEventForCase(accessToken,
+//                                     submitEvent.getCaseData(),
+//                                     caseTypeId,
+//                                     jurisdiction,
+//                                     returnedRequest,
+//                                     caseId);
     }
 
     private String validateCreationSingleCase(SubmitEvent submitEvent) {
