@@ -15,7 +15,7 @@ public interface MultipleErrorsRepository extends JpaRepository<MultipleErrors, 
     @Procedure("fn_persistentQ_logMultipleError")
     void persistentQLogMultipleError(String multipleRef, String ethosCaseRef, String description);
 
-    List<MultipleErrors> findByMultipleRef(String multipleRef);
+    List<MultipleErrors> findByMultipleref(String multipleRef);
 
-    void deleteAllByMultipleRef(String multipleRef);
+    void deleteAllByMultipleref(String multipleRef);
 }

@@ -42,7 +42,7 @@ public class UpdateManagementService {
     public void checkIfFinish(UpdateCaseMsg updateCaseMsg) throws IOException {
 
         log.info("Deleting all by multiple ref");
-        multipleCounterRepository.deleteAllByMultipleRef(updateCaseMsg.getMultipleRef());
+        multipleCounterRepository.deleteAllByMultipleref(updateCaseMsg.getMultipleRef());
 
         log.info("Checking next multiple count");
         int counter = multipleCounterRepository.persistentQGetNextMultipleCountVal(updateCaseMsg.getMultipleRef());
@@ -62,7 +62,7 @@ public class UpdateManagementService {
     public void sendEmailToUser(UpdateCaseMsg updateCaseMsg) {
 
         log.info("Checking errors");
-        List<MultipleErrors> multipleErrorsList = multipleErrorsRepository.findByMultipleRef(updateCaseMsg.getMultipleRef());
+        List<MultipleErrors> multipleErrorsList = multipleErrorsRepository.findByMultipleref(updateCaseMsg.getMultipleRef());
 
         if (multipleErrorsList != null && !multipleErrorsList.isEmpty()) {
 
@@ -79,8 +79,8 @@ public class UpdateManagementService {
 
     public void deleteMultipleRefDatabase(String multipleRef) {
         log.info("Clearing all multipleRef");
-        multipleCounterRepository.deleteAllByMultipleRef(multipleRef);
-        multipleErrorsRepository.deleteAllByMultipleRef(multipleRef);
+        multipleCounterRepository.deleteAllByMultipleref(multipleRef);
+        multipleErrorsRepository.deleteAllByMultipleref(multipleRef);
     }
 
 }
