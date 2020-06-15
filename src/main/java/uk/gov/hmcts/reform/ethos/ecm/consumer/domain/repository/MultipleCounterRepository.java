@@ -12,4 +12,6 @@ public interface MultipleCounterRepository extends JpaRepository<MultipleCounter
 
     @Procedure("fn_persistentQ_getNextMultipleCountVal")
     int persistentQGetNextMultipleCountVal(String multipleRef);
+
+    void deleteAllByMultipleRef(String multipleRef);
 }

@@ -41,14 +41,18 @@ public class UpdateManagementService {
 
     public void checkIfFinish(UpdateCaseMsg updateCaseMsg) throws IOException {
 
+        multipleCounterRepository.deleteAllByMultipleRef(updateCaseMsg.getMultipleRef());
+
         int counter = multipleCounterRepository.persistentQGetNextMultipleCountVal(updateCaseMsg.getMultipleRef());
         log.info("COUNTER: " + counter);
-
+        log.info("TOTAL CASES: " + updateCaseMsg.getTotalCases());
         if (counter == Integer.parseInt(updateCaseMsg.getTotalCases())) {
 
             multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg);
 
             sendEmailToUser(updateCaseMsg);
+
+            deleteMultipleRefDatabase(updateCaseMsg.getMultipleRef());
         }
 
     }
@@ -69,4 +73,10 @@ public class UpdateManagementService {
 
         //TODO SEND EMAIL TO updateCaseMsg.getUsername()
     }
+
+    public void deleteMultipleRefDatabase(String multipleRef) {
+        multipleCounterRepository.deleteAllByMultipleRef(multipleRef);
+        multipleErrorsRepository.deleteAllByMultipleRef(multipleRef);
+    }
+
 }
