@@ -7,9 +7,6 @@ import javax.persistence.*;
 public class MultipleErrors {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
     protected String multipleref;
     protected String ethoscaseref;
     protected String description;
