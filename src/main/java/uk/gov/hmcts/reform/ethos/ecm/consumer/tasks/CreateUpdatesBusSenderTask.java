@@ -32,7 +32,7 @@ public class CreateUpdatesBusSenderTask {
 
         AtomicInteger successCount = new AtomicInteger(0);
 
-        List<String> ethosCaseRefCollection = Arrays.asList("4150002/2020");
+        List<String> ethosCaseRefCollection = Arrays.asList("4150005/2020");
 
         List<CreateUpdatesMsg> createUpdatesMsgList = CreateUpdatesHelper.getCreateUpdatesMessagesCollection(ethosCaseRefCollection);
 

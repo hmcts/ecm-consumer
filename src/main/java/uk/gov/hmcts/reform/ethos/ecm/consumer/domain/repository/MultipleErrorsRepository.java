@@ -13,7 +13,7 @@ import java.util.List;
 public interface MultipleErrorsRepository extends JpaRepository<MultipleErrors, Integer> {
 
     @Procedure("fn_persistentQ_logMultipleError")
-    void persistentQLogMultipleError(String multipleRef, String ethosCaseRef, String description);
+    String persistentQLogMultipleError(String multipleRef, String ethosCaseRef, String description);
 
     List<MultipleErrors> findByMultipleref(String multipleRef);
 
