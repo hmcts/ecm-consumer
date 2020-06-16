@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.extern.slf4j.Slf4j;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Partition;
+//import uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Partition;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.CreateUpdatesMsg;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateData;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.ServiceBusSender;
@@ -60,6 +60,9 @@ public class CreateUpdatesBusSenderTask {
 //    private List<CreateUpdatesMsg> getCreateUpdatesMessagesCollection() {
 //        final List<Integer> numbers = Arrays.asList(1,2,3,4,5,6,7);
 //        System.out.println(Partition.ofSize(numbers, 3));
+//
+//        List<String> list = Arrays.asList("4150005/2020", "4150002/2020", "4150003/2020");
+//        Partition.ofSize(numbers, 2);
 //    }
 
 
@@ -68,26 +71,26 @@ public class CreateUpdatesBusSenderTask {
             .lead("4150002/2020")
             .claimantRep("ClaimantRep")
             .build();
-//        CreateUpdatesMsg createUpdatesMsg1 = CreateUpdatesMsg.builder()
-//            .msgId(UUID.randomUUID().toString())
-//            .jurisdiction("EMPLOYMENT")
-//            .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
-//            .multipleRef("4150001")
-//            .ethosCaseRefCollection(Collections.singletonList("4150005/2020"))
-//            .totalCases("2")
-//            .username("eric1.ccdcooper@gmail.com")
-//            .updateData(updateData)
-//            .build();
-        CreateUpdatesMsg createUpdatesMsg2 = CreateUpdatesMsg.builder()
+        CreateUpdatesMsg createUpdatesMsg1 = CreateUpdatesMsg.builder()
             .msgId(UUID.randomUUID().toString())
             .jurisdiction("EMPLOYMENT")
             .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
             .multipleRef("4150001")
             .ethosCaseRefCollection(Collections.singletonList("4150002/2020"))
             .totalCases("1")
-            .username("eric2.ccdcooper@gmail.com")
+            .username("eric1.ccdcooper@gmail.com")
             .updateData(updateData)
             .build();
+//        CreateUpdatesMsg createUpdatesMsg2 = CreateUpdatesMsg.builder()
+//            .msgId(UUID.randomUUID().toString())
+//            .jurisdiction("EMPLOYMENT")
+//            .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
+//            .multipleRef("4150001")
+//            .ethosCaseRefCollection(Collections.singletonList("4150002/2020"))
+//            .totalCases("2")
+//            .username("eric2.ccdcooper@gmail.com")
+//            .updateData(updateData)
+//            .build();
 //        CreateUpdatesMsg createUpdatesMsg3 = CreateUpdatesMsg.builder()
 //            .msgId(UUID.randomUUID().toString())
 //            .jurisdiction(JURISDICTION)
@@ -107,7 +110,7 @@ public class CreateUpdatesBusSenderTask {
 //            .username("eric4.ccdcooper@gmail.com")
 //            .build();
 //        return new ArrayList<>(Arrays.asList(createUpdatesMsg1, createUpdatesMsg2, createUpdatesMsg3, createUpdatesMsg4));
-        return new ArrayList<>(Collections.singletonList(createUpdatesMsg2));
+        return new ArrayList<>(Collections.singletonList(createUpdatesMsg1));
     }
 
 }
