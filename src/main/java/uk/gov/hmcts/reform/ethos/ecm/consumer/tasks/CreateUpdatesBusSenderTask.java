@@ -7,12 +7,9 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.extern.slf4j.Slf4j;
-//import uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Partition;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.CreateUpdatesHelper;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.CreateUpdatesMsg;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateData;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.ServiceBusSender;
-
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.SCOTLAND_BULK_CASE_TYPE_ID;
 
 /**
  * Sends create updates messages to create-updates queue.
@@ -35,7 +32,9 @@ public class CreateUpdatesBusSenderTask {
 
         AtomicInteger successCount = new AtomicInteger(0);
 
-        List<CreateUpdatesMsg> createUpdatesMsgList = getCreateUpdatesMsgList();
+        List<String> ethosCaseRefCollection = Arrays.asList("4150002/2020");
+
+        List<CreateUpdatesMsg> createUpdatesMsgList = CreateUpdatesHelper.getCreateUpdatesMessagesCollection(ethosCaseRefCollection);
 
         createUpdatesMsgList
             .forEach(msg -> {
@@ -55,62 +54,6 @@ public class CreateUpdatesBusSenderTask {
             successCount.get(),
             createUpdatesMsgList.size() - successCount.get()
         );
-    }
-
-//    private List<CreateUpdatesMsg> getCreateUpdatesMessagesCollection() {
-//        final List<Integer> numbers = Arrays.asList(1,2,3,4,5,6,7);
-//        System.out.println(Partition.ofSize(numbers, 3));
-//
-//        List<String> list = Arrays.asList("4150005/2020", "4150002/2020", "4150003/2020");
-//        Partition.ofSize(numbers, 2);
-//    }
-
-
-    private List<CreateUpdatesMsg> getCreateUpdatesMsgList() {
-        UpdateData updateData = UpdateData.builder()
-            .lead("4150002/2020")
-            .claimantRep("ClaimantRep")
-            .build();
-        CreateUpdatesMsg createUpdatesMsg1 = CreateUpdatesMsg.builder()
-            .msgId(UUID.randomUUID().toString())
-            .jurisdiction("EMPLOYMENT")
-            .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
-            .multipleRef("4150001")
-            .ethosCaseRefCollection(Collections.singletonList("4150002/2020"))
-            .totalCases("1")
-            .username("eric1.ccdcooper@gmail.com")
-            .updateData(updateData)
-            .build();
-//        CreateUpdatesMsg createUpdatesMsg2 = CreateUpdatesMsg.builder()
-//            .msgId(UUID.randomUUID().toString())
-//            .jurisdiction("EMPLOYMENT")
-//            .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
-//            .multipleRef("4150001")
-//            .ethosCaseRefCollection(Collections.singletonList("4150002/2020"))
-//            .totalCases("2")
-//            .username("eric2.ccdcooper@gmail.com")
-//            .updateData(updateData)
-//            .build();
-//        CreateUpdatesMsg createUpdatesMsg3 = CreateUpdatesMsg.builder()
-//            .msgId(UUID.randomUUID().toString())
-//            .jurisdiction(JURISDICTION)
-//            .caseTypeId(CASE_TYPE_ID)
-//            .multipleRef("4150003")
-//            .ethosCaseRefCollection(Arrays.asList("4150007/2020", "4150008/2020", "4150009/2020"))
-//            .totalCases("3")
-//            .username("eric3.ccdcooper@gmail.com")
-//            .build();
-//        CreateUpdatesMsg createUpdatesMsg4 = CreateUpdatesMsg.builder()
-//            .msgId(UUID.randomUUID().toString())
-//            .jurisdiction(JURISDICTION)
-//            .caseTypeId(CASE_TYPE_ID)
-//            .multipleRef("4150004")
-//            .ethosCaseRefCollection(Arrays.asList("4150010/2020", "4150011/2020", "4150012/2020"))
-//            .totalCases("3")
-//            .username("eric4.ccdcooper@gmail.com")
-//            .build();
-//        return new ArrayList<>(Arrays.asList(createUpdatesMsg1, createUpdatesMsg2, createUpdatesMsg3, createUpdatesMsg4));
-        return new ArrayList<>(Collections.singletonList(createUpdatesMsg1));
     }
 
 }

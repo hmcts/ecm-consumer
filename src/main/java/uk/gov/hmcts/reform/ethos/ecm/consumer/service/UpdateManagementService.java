@@ -41,6 +41,9 @@ public class UpdateManagementService {
 
     public void checkIfFinish(UpdateCaseMsg updateCaseMsg) throws IOException {
 
+        //REMOVE
+        multipleCounterRepository.deleteAllByMultipleref(updateCaseMsg.getMultipleRef());
+
         log.info("Checking next multiple count");
         int counter = multipleCounterRepository.persistentQGetNextMultipleCountVal(updateCaseMsg.getMultipleRef());
         log.info("COUNTER: " + counter);
@@ -68,6 +71,8 @@ public class UpdateManagementService {
 
             log.info("Sending email to user: No errors");
 
+
+            //REMOVE
             log.info("Just adding error");
             multipleErrorsRepository.persistentQLogMultipleError(updateCaseMsg.getMultipleRef(),
                                                                  updateCaseMsg.getEthosCaseReference(),
