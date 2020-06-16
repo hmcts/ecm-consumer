@@ -10,6 +10,9 @@ import javax.persistence.*;
 public class MultipleCounter {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     protected String multipleref;
     protected Integer counter;
 }
