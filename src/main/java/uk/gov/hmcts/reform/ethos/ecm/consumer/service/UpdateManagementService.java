@@ -68,6 +68,12 @@ public class UpdateManagementService {
 
             log.info("Sending email to user: No errors");
 
+            log.info("Just adding error");
+            multipleErrorsRepository.persistentQLogMultipleError(updateCaseMsg.getMultipleRef(),
+                                                                 updateCaseMsg.getEthosCaseReference(),
+                                                                 "Error state");
+            log.info("Success adding error");
+
         }
 
         //TODO SEND EMAIL TO updateCaseMsg.getUsername()
