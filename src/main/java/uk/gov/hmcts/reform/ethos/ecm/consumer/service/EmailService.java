@@ -21,8 +21,8 @@ public class EmailService {
 
     public static final String MULTIPLE_ERRORS = "multipleErrors";
     public static final String MULTIPLE_REFERENCE = "multipleReference";
-    public static final String EMAIL_DESCRIPTION = "send Confirmation email for ";
-    public static final String EMAIL_DESCRIPTION_ERROR = "send Confirmation with ERRORS for ";
+    public static final String EMAIL_DESCRIPTION = "send Confirmation email to ";
+    public static final String EMAIL_DESCRIPTION_ERROR = "send Confirmation with ERRORS to ";
 
     private final EmailClient emailClient;
 
@@ -47,6 +47,7 @@ public class EmailService {
             .map(MultipleErrors::toString)
             .collect(Collectors.joining(System.lineSeparator()));
         log.info("Sending email with errors: " + errors);
+        log.info("Multiple ref: " + multipleErrorsList.get(0).getMultipleref());
         personalisation.put(MULTIPLE_ERRORS, errors);
         personalisation.put(MULTIPLE_REFERENCE, multipleErrorsList.get(0).getMultipleref());
 

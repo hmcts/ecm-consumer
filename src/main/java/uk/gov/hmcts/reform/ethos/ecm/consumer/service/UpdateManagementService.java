@@ -44,13 +44,12 @@ public class UpdateManagementService {
 
     public void checkIfFinish(UpdateCaseMsg updateCaseMsg) throws IOException {
 
-        //REMOVE
+        //TODO REMOVE
         multipleCounterRepository.deleteAllByMultipleref(updateCaseMsg.getMultipleRef());
 
-        log.info("Checking next multiple count");
         int counter = multipleCounterRepository.persistentQGetNextMultipleCountVal(updateCaseMsg.getMultipleRef());
-        log.info("COUNTER: " + counter);
-        log.info("TOTAL CASES: " + updateCaseMsg.getTotalCases());
+        log.info("COUNTER: " + counter + " TOTAL CASES: " + updateCaseMsg.getTotalCases());
+
         if (counter == Integer.parseInt(updateCaseMsg.getTotalCases())) {
 
             multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg);
@@ -68,17 +67,13 @@ public class UpdateManagementService {
 
         if (multipleErrorsList != null && !multipleErrorsList.isEmpty()) {
 
-            multipleErrorsList.forEach(error -> log.info("Case with error: " + error.toString()));
-
-            log.info("Sending email with errors");
-            emailService.sendConfirmationErrorEmail("javi_1986@hotmail.com", multipleErrorsList);
+            log.info("Sending email to user: With errors");
+            emailService.sendConfirmationErrorEmail(updateCaseMsg.getUsername(), multipleErrorsList);
 
         } else {
 
             log.info("Sending email to user: No errors");
-
-            //TODO SEND EMAIL TO updateCaseMsg.getUsername()
-            emailService.sendConfirmationEmail("javi_1986@hotmail.com");
+            emailService.sendConfirmationEmail(updateCaseMsg.getUsername());
 
         }
 
@@ -88,7 +83,7 @@ public class UpdateManagementService {
 
         log.info("Clearing all multipleRef");
         multipleCounterRepository.deleteAllByMultipleref(multipleRef);
-        //multipleErrorsRepository.deleteAllByMultipleref(multipleRef);
+        multipleErrorsRepository.deleteAllByMultipleref(multipleRef);
     }
 
 }

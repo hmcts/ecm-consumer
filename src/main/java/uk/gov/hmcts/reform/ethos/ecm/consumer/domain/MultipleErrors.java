@@ -15,8 +15,7 @@ public class MultipleErrors {
     protected String description;
 
     public String toString() {
-        return "Multiple Reference: '" + this.multipleref
-            + "', Ethos Case Reference: '" + this.ethoscaseref
+        return "Ethos Case Reference: '" + this.ethoscaseref
             + "', Description: '" + this.description + "'";
     }
 

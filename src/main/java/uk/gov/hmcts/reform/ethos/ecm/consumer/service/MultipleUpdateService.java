@@ -26,7 +26,6 @@ public class MultipleUpdateService {
     public void sendUpdateToMultipleLogic(UpdateCaseMsg updateCaseMsg) throws IOException {
 
         String accessToken = userService.getAccessToken();
-        log.info("AccessToken: " + accessToken);
 
         List<SubmitBulkEvent> submitBulkEvents = retrieveMultipleCase(accessToken, updateCaseMsg);
         if (submitBulkEvents != null && !submitBulkEvents.isEmpty()) {
@@ -68,7 +67,6 @@ public class MultipleUpdateService {
                                                                      jurisdiction,
                                                                      caseId);
         log.info("Renaming Multiple Name");
-        log.info("ALSO CHECKING PAYLOAD: " + updateCaseMsg);
         submitBulkEvent.getCaseData().setBulkCaseTitle("NAME CHANGED");
 
         ccdClient.submitBulkEventForCase(accessToken,

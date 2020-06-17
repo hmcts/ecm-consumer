@@ -1,11 +1,13 @@
 package uk.gov.hmcts.reform.ethos.ecm.consumer.service;
 
+import com.sun.xml.bind.v2.TODO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.helpers.UtilHelper;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
+import uk.gov.hmcts.ecm.common.model.ccd.CaseData;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleErrorsRepository;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateCaseMsg;
@@ -38,7 +40,6 @@ public class SingleUpdateService {
     public void sendUpdateToSingleLogic(UpdateCaseMsg updateCaseMsg) throws IOException {
 
         String accessToken = userService.getAccessToken();
-        log.info("AccessToken: " + accessToken);
 
         List<SubmitEvent> submitEvents = retrieveSingleCase(accessToken, updateCaseMsg);
         if (submitEvents != null && !submitEvents.isEmpty()) {
@@ -97,15 +98,20 @@ public class SingleUpdateService {
                                                                  jurisdiction,
                                                                  caseId);
         log.info("Changing multiple ref");
-        submitEvent.getCaseData().setState(ACCEPTED_STATE);
-        submitEvent.getCaseData().setMultipleReference(updateCaseMsg.getMultipleRef());
 
-//        TODO ccdClient.submitEventForCase(accessToken,
-//                                     submitEvent.getCaseData(),
-//                                     caseTypeId,
-//                                     jurisdiction,
-//                                     returnedRequest,
-//                                     caseId);
+        CaseData caseData = new CaseData();
+        caseData.setState(ACCEPTED_STATE);
+        //submitEvent.getCaseData().setState(ACCEPTED_STATE);
+        //submitEvent.getCaseData().setMultipleReference(updateCaseMsg.getMultipleRef());
+
+        ccdClient.submitEventForCase(accessToken,
+                                     caseData,
+                                     caseTypeId,
+                                     jurisdiction,
+                                     returnedRequest,
+                                     caseId);
+
+        log.info("Updated completed SUBMIT EVENT FOR CASE");
     }
 
     private String validateCreationSingleCase(SubmitEvent submitEvent) {
