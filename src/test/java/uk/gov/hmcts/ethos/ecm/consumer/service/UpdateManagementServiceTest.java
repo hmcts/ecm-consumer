@@ -11,6 +11,7 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleErrors;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleCounterRepository;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleErrorsRepository;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateCaseMsg;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.service.EmailService;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleUpdateService;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.SingleUpdateService;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UpdateManagementService;
@@ -33,6 +34,8 @@ public class UpdateManagementServiceTest {
     private MultipleUpdateService multipleUpdateService;
     @Mock
     private SingleUpdateService singleUpdateService;
+    @Mock
+    private EmailService emailService;
 
     private UpdateCaseMsg updateCaseMsg;
 

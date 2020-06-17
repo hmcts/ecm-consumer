@@ -19,16 +19,19 @@ public class UpdateManagementService {
     private final MultipleErrorsRepository multipleErrorsRepository;
     private final MultipleUpdateService multipleUpdateService;
     private final SingleUpdateService singleUpdateService;
+    private final EmailService emailService;
 
     @Autowired
     public UpdateManagementService(MultipleCounterRepository multipleCounterRepository,
                                    MultipleErrorsRepository multipleErrorsRepository,
                                    MultipleUpdateService multipleUpdateService,
-                                   SingleUpdateService singleUpdateService) {
+                                   SingleUpdateService singleUpdateService,
+                                   EmailService emailService) {
         this.multipleCounterRepository = multipleCounterRepository;
         this.multipleErrorsRepository = multipleErrorsRepository;
         this.multipleUpdateService = multipleUpdateService;
         this.singleUpdateService = singleUpdateService;
+        this.emailService = emailService;
     }
 
     public void updateLogic(UpdateCaseMsg updateCaseMsg) throws IOException {
@@ -65,30 +68,30 @@ public class UpdateManagementService {
 
         if (multipleErrorsList != null && !multipleErrorsList.isEmpty()) {
 
-            multipleErrorsList.forEach(multipleRef -> log.info("Case with error: " + multipleRef));
+            multipleErrorsList.forEach(error -> log.info("ERRORS BETTER: " + error.toString()));
+            multipleErrorsList.forEach(error -> log.info("ERRORS BETTER1: " + error.toString1()));
+            multipleErrorsList.forEach(error -> log.info("Case with error: " + error.getEthoscaseref()
+                                                             + " MultipleRef: " + error.getMultipleref()
+                                                             + " Description: " + error.getDescription()));
+            log.info("Sending email with errors");
+            emailService.sendConfirmationErrorEmail("javi_1986@hotmail.com", multipleErrorsList);
 
         } else {
 
             log.info("Sending email to user: No errors");
 
-
-            //REMOVE
-            log.info("Just adding error");
-            multipleErrorsRepository.persistentQLogMultipleError(updateCaseMsg.getMultipleRef(),
-                                                                 updateCaseMsg.getEthosCaseReference(),
-                                                                 "Error state");
-            log.info("Success adding error");
+            //TODO SEND EMAIL TO updateCaseMsg.getUsername()
+            emailService.sendConfirmationEmail("javi_1986@hotmail.com");
 
         }
 
-        //TODO SEND EMAIL TO updateCaseMsg.getUsername()
     }
 
     public void deleteMultipleRefDatabase(String multipleRef) {
 
         log.info("Clearing all multipleRef");
         multipleCounterRepository.deleteAllByMultipleref(multipleRef);
-        multipleErrorsRepository.deleteAllByMultipleref(multipleRef);
+        //multipleErrorsRepository.deleteAllByMultipleref(multipleRef);
     }
 
 }

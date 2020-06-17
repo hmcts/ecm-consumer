@@ -15,6 +15,8 @@ import java.util.Collections;
 import java.util.List;
 
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.*;
+import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.SINGLE_CASE_TAKEN;
+import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.UNPROCESSABLE_STATE;
 
 @Slf4j
 @Service
@@ -79,7 +81,6 @@ public class SingleUpdateService {
 
         } else {
 
-            //log.info("submit single Event: " + submitEvent);
             sendUpdate(submitEvent, accessToken, updateCaseMsg);
 
         }
@@ -96,8 +97,8 @@ public class SingleUpdateService {
                                                                  jurisdiction,
                                                                  caseId);
         log.info("Changing multiple ref");
-        //submitEvent.getCaseData().setState(ACCEPTED_STATE);
-        //submitEvent.getCaseData().setMultipleReference(updateCaseMsg.getMultipleRef());
+        submitEvent.getCaseData().setState(ACCEPTED_STATE);
+        submitEvent.getCaseData().setMultipleReference(updateCaseMsg.getMultipleRef());
 
 //        TODO ccdClient.submitEventForCase(accessToken,
 //                                     submitEvent.getCaseData(),
@@ -112,8 +113,7 @@ public class SingleUpdateService {
         if (!submitEvent.getState().equals(ACCEPTED_STATE)) {
 
             log.info("ERROR: state of single case not Accepted");
-            //TODO MOVE THESE STRINGS TO CONSTANT
-            return "Unprocessable State";
+            return UNPROCESSABLE_STATE;
 
         }
 
@@ -121,7 +121,7 @@ public class SingleUpdateService {
             && !submitEvent.getCaseData().getMultipleReference().trim().isEmpty()) {
 
             log.info("ERROR: already another multiple");
-            return "Single Case Taken";
+            return SINGLE_CASE_TAKEN;
 
         }
 

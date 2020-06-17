@@ -7,10 +7,9 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.SCOTLAND_BULK_CASE_TYPE_ID;
+import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.CHUNK_MESSAGE_SIZE;
 
 public class CreateUpdatesHelper {
-
-    private static final int CHUNK_MESSAGE_SIZE = 2;
 
     public static List<CreateUpdatesMsg> getCreateUpdatesMessagesCollection(List<String> ethosCaseRefCollection) {
 
