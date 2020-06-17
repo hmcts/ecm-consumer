@@ -68,11 +68,8 @@ public class UpdateManagementService {
 
         if (multipleErrorsList != null && !multipleErrorsList.isEmpty()) {
 
-            multipleErrorsList.forEach(error -> log.info("ERRORS BETTER: " + error.toString()));
-            multipleErrorsList.forEach(error -> log.info("ERRORS BETTER1: " + error.toString1()));
-            multipleErrorsList.forEach(error -> log.info("Case with error: " + error.getEthoscaseref()
-                                                             + " MultipleRef: " + error.getMultipleref()
-                                                             + " Description: " + error.getDescription()));
+            multipleErrorsList.forEach(error -> log.info("Case with error: " + error.toString()));
+
             log.info("Sending email with errors");
             emailService.sendConfirmationErrorEmail("javi_1986@hotmail.com", multipleErrorsList);
 

@@ -14,11 +14,10 @@ public class MultipleErrors {
     protected String ethoscaseref;
     protected String description;
 
-    public String toString1() {
-        return "MultipleRef: '" + this.multipleref
-            + "', EthosCaseRef: '" + this.ethoscaseref
-            + "', Description: '" + this.description + "'"
-            + System.lineSeparator();
+    public String toString() {
+        return "Multiple Reference: '" + this.multipleref
+            + "', Ethos Case Reference: '" + this.ethoscaseref
+            + "', Description: '" + this.description + "'";
     }
 
 }

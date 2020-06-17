@@ -20,6 +20,7 @@ import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.CONFIRMAT
 public class EmailService {
 
     public static final String MULTIPLE_ERRORS = "multipleErrors";
+    public static final String MULTIPLE_REFERENCE = "multipleReference";
     public static final String EMAIL_DESCRIPTION = "send Confirmation email for ";
     public static final String EMAIL_DESCRIPTION_ERROR = "send Confirmation with ERRORS for ";
 
@@ -43,10 +44,11 @@ public class EmailService {
         Map<String, String> personalisation = new HashMap<>();
 
         String errors = multipleErrorsList.stream()
-            .map(MultipleErrors::getDescription)
-            .collect(Collectors.joining(", "));
+            .map(MultipleErrors::toString)
+            .collect(Collectors.joining(System.lineSeparator()));
         log.info("Sending email with errors: " + errors);
         personalisation.put(MULTIPLE_ERRORS, errors);
+        personalisation.put(MULTIPLE_REFERENCE, multipleErrorsList.get(0).getMultipleref());
 
         return personalisation;
     }

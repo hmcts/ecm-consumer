@@ -10,7 +10,6 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.config.EmailClient;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleErrors;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.EmailService;
 import uk.gov.service.notify.NotificationClientException;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -18,6 +17,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.*;
 import static uk.gov.hmcts.reform.ethos.ecm.consumer.service.EmailService.MULTIPLE_ERRORS;
+import static uk.gov.hmcts.reform.ethos.ecm.consumer.service.EmailService.MULTIPLE_REFERENCE;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EmailServiceTest {
@@ -70,9 +70,10 @@ public class EmailServiceTest {
     private Map<String, String> getPersonalisation(List<MultipleErrors> multipleErrorsList) {
         Map<String, String> personalisation = new HashMap<>();
         String errors = multipleErrorsList.stream()
-            .map(MultipleErrors::getDescription)
+            .map(MultipleErrors::toString)
             .collect(Collectors.joining(", "));
         personalisation.put(MULTIPLE_ERRORS, errors);
+        personalisation.put(MULTIPLE_REFERENCE, multipleErrorsList.get(0).getMultipleref());
         return personalisation;
     }
 
