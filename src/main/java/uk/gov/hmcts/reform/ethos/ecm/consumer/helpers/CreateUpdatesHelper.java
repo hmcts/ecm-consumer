@@ -33,7 +33,7 @@ public class CreateUpdatesHelper {
             .multipleRef("4150001")
             .ethosCaseRefCollection(ethosCaseRefCollection)
             .totalCases(String.valueOf(ethosCaseRefCollection.size()))
-            .username("javi_1986@hotmail.com")
+            .username("testEmail@hotmail.com")
             .updateData(updateData)
             .build();
     }
