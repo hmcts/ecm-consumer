@@ -148,6 +148,7 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
     private UpdateCaseMsg mapToUpdateCaseMsg(CreateUpdatesMsg createUpdatesMsg, String ethosCaseReference) {
         return UpdateCaseMsg.builder()
             .msgId(UUID.randomUUID().toString())
+            .updateType(createUpdatesMsg.getUpdateType())
             .multipleRef(createUpdatesMsg.getMultipleRef())
             .ethosCaseReference(ethosCaseReference)
             .totalCases(createUpdatesMsg.getTotalCases())

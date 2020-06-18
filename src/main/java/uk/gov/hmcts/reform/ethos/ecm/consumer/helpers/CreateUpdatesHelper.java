@@ -2,12 +2,14 @@ package uk.gov.hmcts.reform.ethos.ecm.consumer.helpers;
 
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.CreateUpdatesMsg;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateData;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.SCOTLAND_BULK_CASE_TYPE_ID;
 import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.CHUNK_MESSAGE_SIZE;
+import static uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateType.CREATION;
 
 public class CreateUpdatesHelper {
 
@@ -25,6 +27,7 @@ public class CreateUpdatesHelper {
             .build();
         return CreateUpdatesMsg.builder()
             .msgId(UUID.randomUUID().toString())
+            .updateType(CREATION.name())
             .jurisdiction("EMPLOYMENT")
             .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
             .multipleRef("4150001")

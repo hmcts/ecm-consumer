@@ -7,6 +7,7 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateData;
 import java.util.Arrays;
 
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.SCOTLAND_BULK_CASE_TYPE_ID;
+import static uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateType.CREATION;
 
 public class Helper {
 
@@ -18,6 +19,7 @@ public class Helper {
     public static UpdateCaseMsg generateUpdateCaseMsg() {
         return UpdateCaseMsg.builder()
             .msgId("1")
+            .updateType(CREATION.name())
             .jurisdiction("EMPLOYMENT")
             .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
             .multipleRef("4150001")
@@ -31,6 +33,7 @@ public class Helper {
     public static CreateUpdatesMsg generateCreateUpdatesMsg() {
         return CreateUpdatesMsg.builder()
             .msgId("1")
+            .updateType(CREATION.name())
             .jurisdiction("EMPLOYMENT")
             .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
             .multipleRef("4150001")

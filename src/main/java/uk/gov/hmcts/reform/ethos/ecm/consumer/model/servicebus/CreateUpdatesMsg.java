@@ -1,54 +1,18 @@
 package uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 @Data
-@Builder
-public class CreateUpdatesMsg implements Msg {
-
-    @JsonProperty("id")
-    private String msgId;
-
-    @JsonProperty("jurisdiction")
-    private String jurisdiction;
-
-    @JsonProperty("caseTypeId")
-    private String caseTypeId;
-
-    @JsonProperty("multipleRef")
-    private String multipleRef;
+public class CreateUpdatesMsg extends Msg {
 
     @JsonProperty("ethosCaseRefCollection")
     private List<String> ethosCaseRefCollection;
 
-    @JsonProperty("totalCases")
-    private String totalCases;
-
-    @JsonProperty("username")
-    private String username;
-
-    @JsonProperty("label")
-    private String label;
-
-    @JsonProperty("updateData")
-    private UpdateData updateData;
-
-    @Override
-    @JsonIgnore
-    public String getMsgId() {
-        return msgId;
-    }
-
-    @Override
-    @JsonIgnore
-    public String getLabel() {
-        return label;
-    }
 }

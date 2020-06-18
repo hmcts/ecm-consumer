@@ -82,7 +82,7 @@ public class UpdateCaseBusReceiverTaskTest {
         busMessage.setContentType("application/json");
         busMessage.setMessageId(msg.getMsgId());
         busMessage.setMessageBody(getMsgBodyInBytes(msg));
-        busMessage.setLabel(msg.getLabel());
+        busMessage.setLabel(msg.getUpdateType());
         return busMessage;
     }
 

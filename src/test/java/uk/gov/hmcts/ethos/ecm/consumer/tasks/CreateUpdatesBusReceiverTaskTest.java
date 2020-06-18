@@ -89,7 +89,7 @@ public class CreateUpdatesBusReceiverTaskTest {
         busMessage.setContentType("application/json");
         busMessage.setMessageId(createUpdatesMsg.getMsgId());
         busMessage.setMessageBody(getMsgBodyInBytes(createUpdatesMsg));
-        busMessage.setLabel(createUpdatesMsg.getLabel());
+        busMessage.setLabel(createUpdatesMsg.getUpdateType());
         return busMessage;
     }
 
