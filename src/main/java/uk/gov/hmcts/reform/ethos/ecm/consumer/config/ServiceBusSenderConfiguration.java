@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import uk.gov.hmcts.ecm.common.servicebus.ServiceBusSender;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.MessageAutoCompletor;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.ServiceBusSender;
 
 @AutoConfigureAfter(QueueClientConfiguration.class)
 @Configuration
@@ -19,6 +19,7 @@ public class ServiceBusSenderConfiguration {
         this.objectMapper = objectMapper;
     }
 
+    //TODO REMOVE THIS BEAN
     @Bean(name = "create-updates-send-helper")
     public ServiceBusSender createUpdatesSendHelper(
         @Qualifier("create-updates-send-client") IQueueClient queueClient) {

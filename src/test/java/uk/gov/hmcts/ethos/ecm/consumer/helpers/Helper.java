@@ -1,13 +1,11 @@
 package uk.gov.hmcts.ethos.ecm.consumer.helpers;
 
-import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.CreateUpdatesMsg;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateCaseMsg;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateData;
-
+import uk.gov.hmcts.ecm.common.model.servicebus.CreateUpdatesMsg;
+import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
+import uk.gov.hmcts.ecm.common.model.servicebus.UpdateData;
 import java.util.Arrays;
 
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.SCOTLAND_BULK_CASE_TYPE_ID;
-import static uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateType.CREATION;
 
 public class Helper {
 
@@ -16,10 +14,10 @@ public class Helper {
         .claimantRep("ClaimantRep")
         .build();
 
-    public static UpdateCaseMsg generateUpdateCaseMsg() {
+    public static UpdateCaseMsg generateUpdateCaseMsg(String updateType) {
         return UpdateCaseMsg.builder()
             .msgId("1")
-            .updateType(CREATION.name())
+            .updateType(updateType)
             .jurisdiction("EMPLOYMENT")
             .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
             .multipleRef("4150001")
@@ -30,10 +28,10 @@ public class Helper {
             .build();
     }
 
-    public static CreateUpdatesMsg generateCreateUpdatesMsg() {
+    public static CreateUpdatesMsg generateCreateUpdatesMsg(String updateType) {
         return CreateUpdatesMsg.builder()
             .msgId("1")
-            .updateType(CREATION.name())
+            .updateType(updateType)
             .jurisdiction("EMPLOYMENT")
             .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
             .multipleRef("4150001")

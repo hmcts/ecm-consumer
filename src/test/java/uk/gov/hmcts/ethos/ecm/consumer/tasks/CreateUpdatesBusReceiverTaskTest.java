@@ -11,18 +11,19 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import uk.gov.hmcts.ecm.common.exceptions.InvalidMessageException;
+import uk.gov.hmcts.ecm.common.model.servicebus.CreateUpdatesMsg;
+import uk.gov.hmcts.ecm.common.model.servicebus.Msg;
+import uk.gov.hmcts.ecm.common.servicebus.MessageBodyRetriever;
+import uk.gov.hmcts.ecm.common.servicebus.ServiceBusSender;
 import uk.gov.hmcts.ethos.ecm.consumer.helpers.Helper;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.exceptions.InvalidMessageException;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.CreateUpdatesMsg;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.Msg;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.MessageAutoCompletor;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.MessageBodyRetriever;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.ServiceBusSender;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.CreateUpdatesBusReceiverTask;
 import java.io.IOException;
 
 import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.when;
+import static uk.gov.hmcts.ecm.common.model.servicebus.UpdateType.CREATION;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CreateUpdatesBusReceiverTaskTest {
@@ -42,7 +43,7 @@ public class CreateUpdatesBusReceiverTaskTest {
     @Before
     public void setUp() {
         createUpdatesBusReceiverTask = new CreateUpdatesBusReceiverTask(objectMapper, messageCompletor, serviceBusSender);
-        msg = Helper.generateCreateUpdatesMsg();
+        msg = Helper.generateCreateUpdatesMsg(CREATION.name());
         message = createMessage(msg);
     }
 

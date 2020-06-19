@@ -9,8 +9,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.model.bulk.BulkData;
 import uk.gov.hmcts.ecm.common.model.bulk.SubmitBulkEvent;
+import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ethos.ecm.consumer.helpers.Helper;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleUpdateService;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UserService;
 
@@ -21,6 +21,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
+import static uk.gov.hmcts.ecm.common.model.servicebus.UpdateType.CREATION;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class MultipleUpdateServiceTest {
@@ -43,7 +44,7 @@ public class MultipleUpdateServiceTest {
         bulkData.setMultipleReference("4100001");
         submitBulkEvent.setCaseData(bulkData);
         submitBulkEvents = new ArrayList<>(Collections.singletonList(submitBulkEvent));
-        updateCaseMsg = Helper.generateUpdateCaseMsg();
+        updateCaseMsg = Helper.generateUpdateCaseMsg(CREATION.name());
     }
 
     @Test

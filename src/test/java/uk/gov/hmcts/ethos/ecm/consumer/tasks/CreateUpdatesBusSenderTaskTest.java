@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.ServiceBusSender;
+import uk.gov.hmcts.ecm.common.servicebus.ServiceBusSender;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.CreateUpdatesBusSenderTask;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -25,6 +25,7 @@ public class CreateUpdatesBusSenderTaskTest {
         createUpdatesBusSenderTask = new CreateUpdatesBusSenderTask(serviceBusSender);
     }
 
+    //TODO DELETE THIS CLASS
     @Test
     public void runMainMethodTest() {
         createUpdatesBusSenderTask.run();

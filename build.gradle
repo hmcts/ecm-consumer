@@ -152,7 +152,7 @@ dependencies {
 
   implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.12'
 
-  implementation group: 'uk.gov.hmcts.reform', name: 'ecm-common', version: '0.0.21'
+  implementation group: 'uk.gov.hmcts.reform', name: 'ecm-common', version: '0.0.22'
   implementation group: 'uk.gov.service.notify', name: 'notifications-java-client', version: versions.hmctsNotify
 
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.3.RELEASE'
@@ -171,10 +171,6 @@ dependencies {
   implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '8.19'
 
   implementation group: 'net.javacrumbs.shedlock', name: 'shedlock-spring', version: '4.12.0'
-  implementation group: 'com.microsoft.azure', name: 'azure-servicebus', version: '3.4.0', {
-    exclude group: 'javax.mail', module: 'mail'
-    exclude group: 'net.minidev', module: 'json-smart'
-  }
 
   testCompile (group: 'org.docx4j', name: 'docx4j', version: '6.1.2') {
     exclude module: 'slf4j-log4j12'

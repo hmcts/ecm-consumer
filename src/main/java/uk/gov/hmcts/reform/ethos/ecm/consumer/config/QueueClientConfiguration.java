@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class QueueClientConfiguration {
 
+    //TODO REMOVE THIS BEAN
     @Bean("create-updates-send-client")
     public IQueueClient createUpdatesSendClient(
         @Value("${queue.create-updates.send.connection-string}") String connectionString,

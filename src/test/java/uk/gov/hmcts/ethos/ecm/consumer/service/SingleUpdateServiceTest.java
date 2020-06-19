@@ -9,9 +9,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.model.ccd.CaseData;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
+import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ethos.ecm.consumer.helpers.Helper;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleErrorsRepository;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.SingleUpdateService;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UserService;
 
@@ -24,6 +24,8 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.ACCEPTED_STATE;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.SUBMITTED_STATE;
+import static uk.gov.hmcts.ecm.common.model.servicebus.UpdateType.CREATION;
+import static uk.gov.hmcts.ecm.common.model.servicebus.UpdateType.UPDATE;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SingleUpdateServiceTest {
@@ -40,6 +42,7 @@ public class SingleUpdateServiceTest {
     private List<SubmitEvent> submitEvents;
     private SubmitEvent submitEvent;
     private UpdateCaseMsg updateCaseMsg;
+    private UpdateCaseMsg updateCaseMsgUpdateType;
 
     @Before
     public void setUp() {
@@ -48,11 +51,12 @@ public class SingleUpdateServiceTest {
         submitEvent.setCaseData(caseData);
         submitEvent.setState(ACCEPTED_STATE);
         submitEvents = new ArrayList<>(Collections.singletonList(submitEvent));
-        updateCaseMsg = Helper.generateUpdateCaseMsg();
+        updateCaseMsg = Helper.generateUpdateCaseMsg(CREATION.name());
+        updateCaseMsgUpdateType = Helper.generateUpdateCaseMsg(UPDATE.name());
     }
 
     @Test
-    public void sendUpdateToSingleLogicLogic() throws IOException {
+    public void sendUpdateToSingleLogic() throws IOException {
         when(userService.getAccessToken()).thenReturn("Token");
         when(ccdClient.retrieveCasesElasticSearch(anyString(), anyString(), anyList())).thenReturn(submitEvents);
 
@@ -63,7 +67,18 @@ public class SingleUpdateServiceTest {
     }
 
     @Test
-    public void sendUpdateToSingleLogicLogicEmptyES() throws IOException {
+    public void sendUpdateToSingleLogicUpdateType() throws IOException {
+        when(userService.getAccessToken()).thenReturn("Token");
+        when(ccdClient.retrieveCasesElasticSearch(anyString(), anyString(), anyList())).thenReturn(submitEvents);
+
+        //when(ccdClient.retrieveCases(anyString(), anyString(), anyString())).thenReturn(submitEvents);
+
+        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString())).thenReturn(submitEvent);
+        singleUpdateService.sendUpdateToSingleLogic(updateCaseMsgUpdateType);
+    }
+
+    @Test
+    public void sendUpdateToSingleLogicEmptyES() throws IOException {
         when(userService.getAccessToken()).thenReturn("Token");
         when(ccdClient.retrieveCasesElasticSearch(anyString(), anyString(), anyList())).thenReturn(new ArrayList<>());
 
@@ -73,7 +88,7 @@ public class SingleUpdateServiceTest {
     }
 
     @Test
-    public void sendUpdateToSingleLogicLogicNullES() throws IOException {
+    public void sendUpdateToSingleLogicNullES() throws IOException {
         when(userService.getAccessToken()).thenReturn("Token");
         when(ccdClient.retrieveCasesElasticSearch(anyString(), anyString(), anyList())).thenReturn(null);
 
@@ -83,7 +98,7 @@ public class SingleUpdateServiceTest {
     }
 
     @Test
-    public void sendUpdateToSingleLogicLogicUnprocessableState() throws IOException {
+    public void sendUpdateToSingleLogicUnprocessableState() throws IOException {
         submitEvents.get(0).setState(SUBMITTED_STATE);
         when(userService.getAccessToken()).thenReturn("Token");
         when(ccdClient.retrieveCasesElasticSearch(anyString(), anyString(), anyList())).thenReturn(submitEvents);
@@ -95,7 +110,7 @@ public class SingleUpdateServiceTest {
     }
 
     @Test
-    public void sendUpdateToSingleLogicLogicWrongState() throws IOException {
+    public void sendUpdateToSingleLogicWrongState() throws IOException {
         submitEvents.get(0).getCaseData().setMultipleReference("4100001");
         when(userService.getAccessToken()).thenReturn("Token");
         when(ccdClient.retrieveCasesElasticSearch(anyString(), anyString(), anyList())).thenReturn(submitEvents);
@@ -107,7 +122,7 @@ public class SingleUpdateServiceTest {
     }
 
     @Test(expected = Exception.class)
-    public void sendUpdateToSingleLogicLogicException() throws IOException {
+    public void sendUpdateToSingleLogicException() throws IOException {
         when(userService.getAccessToken()).thenReturn("Token");
         when(ccdClient.retrieveCasesElasticSearch(anyString(), anyString(), anyList())).thenThrow(new Exception());
 

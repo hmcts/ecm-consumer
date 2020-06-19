@@ -3,10 +3,10 @@ package uk.gov.hmcts.reform.ethos.ecm.consumer.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleErrors;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleCounterRepository;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleErrorsRepository;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateCaseMsg;
 
 import java.io.IOException;
 import java.util.List;
@@ -42,7 +42,7 @@ public class UpdateManagementService {
 
     }
 
-    public void checkIfFinish(UpdateCaseMsg updateCaseMsg) throws IOException {
+    private void checkIfFinish(UpdateCaseMsg updateCaseMsg) throws IOException {
 
         //TODO REMOVE
         multipleCounterRepository.deleteAllByMultipleref(updateCaseMsg.getMultipleRef());
@@ -61,7 +61,7 @@ public class UpdateManagementService {
 
     }
 
-    public void sendEmailToUser(UpdateCaseMsg updateCaseMsg) {
+    private void sendEmailToUser(UpdateCaseMsg updateCaseMsg) {
 
         List<MultipleErrors> multipleErrorsList = multipleErrorsRepository.findByMultipleref(updateCaseMsg.getMultipleRef());
 
@@ -79,11 +79,11 @@ public class UpdateManagementService {
 
     }
 
-    public void deleteMultipleRefDatabase(String multipleRef) {
+    private void deleteMultipleRefDatabase(String multipleRef) {
 
         log.info("Clearing all multipleRef");
         multipleCounterRepository.deleteAllByMultipleref(multipleRef);
-        multipleErrorsRepository.deleteAllByMultipleref(multipleRef);
+        //multipleErrorsRepository.deleteAllByMultipleref(multipleRef);
     }
 
 }

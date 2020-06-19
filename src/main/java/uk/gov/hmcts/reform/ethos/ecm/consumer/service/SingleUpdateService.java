@@ -7,17 +7,17 @@ import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.helpers.UtilHelper;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
+import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleErrorsRepository;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateCaseMsg;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.*;
+import static uk.gov.hmcts.ecm.common.model.servicebus.UpdateType.CREATION;
 import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.SINGLE_CASE_TAKEN;
 import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.UNPROCESSABLE_STATE;
-import static uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.UpdateType.CREATION;
 
 @Slf4j
 @Service
@@ -101,8 +101,10 @@ public class SingleUpdateService {
         //TODO create different service for UPDATE / CREATION
         if (updateCaseMsg.getUpdateType().equals(CREATION.name())) {
             //submitEvent.getCaseData().setMultipleReference(updateCaseMsg.getMultipleRef());
+            log.info("CREATION TYPE");
             submitEvent.getCaseData().setState(ACCEPTED_STATE);
         } else {
+            log.info("UPDATE TYPE");
             submitEvent.getCaseData().setState(REJECTED_STATE);
         }
 

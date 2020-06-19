@@ -7,9 +7,14 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.extern.slf4j.Slf4j;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.CreateUpdatesHelper;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.CreateUpdatesMsg;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.ServiceBusSender;
+import uk.gov.hmcts.ecm.common.helpers.CreateUpdatesHelper;
+import uk.gov.hmcts.ecm.common.model.servicebus.CreateUpdatesDto;
+import uk.gov.hmcts.ecm.common.model.servicebus.CreateUpdatesMsg;
+import uk.gov.hmcts.ecm.common.servicebus.ServiceBusSender;
+
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.CHUNK_MESSAGE_SIZE;
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.SCOTLAND_BULK_CASE_TYPE_ID;
+import static uk.gov.hmcts.ecm.common.model.servicebus.UpdateType.CREATION;
 
 /**
  * Sends create updates messages to create-updates queue.
@@ -25,6 +30,7 @@ public class CreateUpdatesBusSenderTask {
         this.serviceBusSender = serviceBusSender;
     }
 
+    //TODO COMMENT THE WHOLE CLASS
     @SchedulerLock(name = "create-updates-bus-sender-task")
     @Scheduled(fixedDelay = 100000000, initialDelay = 200000)
     public void run() {
@@ -33,8 +39,8 @@ public class CreateUpdatesBusSenderTask {
         AtomicInteger successCount = new AtomicInteger(0);
 
         List<String> ethosCaseRefCollection = Arrays.asList("4150002/2020");
-
-        List<CreateUpdatesMsg> createUpdatesMsgList = CreateUpdatesHelper.getCreateUpdatesMessagesCollection(ethosCaseRefCollection);
+        CreateUpdatesDto createUpdatesDto = getCreateUpdatesDto(ethosCaseRefCollection);
+        List<CreateUpdatesMsg> createUpdatesMsgList = CreateUpdatesHelper.getCreateUpdatesMessagesCollection(createUpdatesDto, CHUNK_MESSAGE_SIZE);
 
         createUpdatesMsgList
             .forEach(msg -> {
@@ -56,4 +62,14 @@ public class CreateUpdatesBusSenderTask {
         );
     }
 
+    private CreateUpdatesDto getCreateUpdatesDto(List<String> ethosCaseRefCollection) {
+        return CreateUpdatesDto.builder()
+            .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
+            .jurisdiction("EMPLOYMENT")
+            .multipleRef("4150001")
+            .username("testEmail@hotmail.com")
+            .updateType(CREATION.name())
+            .ethosCaseRefCollection(ethosCaseRefCollection)
+            .build();
+    }
 }

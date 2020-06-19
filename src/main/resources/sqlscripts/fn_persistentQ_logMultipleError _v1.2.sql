@@ -1,5 +1,7 @@
 /* CREATE FUNCTION */
 
+DROP FUNCTION IF EXISTS fn_persistentQ_logMultipleError  (p_multipleRef varchar(25), p_ethosCaseRef varchar(25), p_description varchar(250));
+
 CREATE OR REPLACE FUNCTION fn_persistentQ_logMultipleError  (p_multipleRef varchar(25), p_ethosCaseRef varchar(25), p_description varchar(250)) RETURNS varchar(5) AS $$
 
 -- =============================================
@@ -12,6 +14,8 @@ CREATE OR REPLACE FUNCTION fn_persistentQ_logMultipleError  (p_multipleRef varch
 -- Description:	Function to log error messages encountered during the operation of the ECM multiples persistent queue 
 -- VERSION	  :	10-JUN-2020		1.0  - Initial
 --            :	16-JUN-2020		1.1  - Now returns arbitrary value 'ok' to prevent JPA error caused by void return
+--            :	18-JUN-2020		1.2  - Added drop function before creation to prevent error when running script against existing function 
+--                                    with void return type 
 -- =============================================
 
     
