@@ -23,7 +23,6 @@ import java.io.IOException;
 
 import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.when;
-import static uk.gov.hmcts.ecm.common.model.servicebus.UpdateType.CREATION;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UpdateCaseBusReceiverTaskTest {
@@ -78,12 +77,12 @@ public class UpdateCaseBusReceiverTaskTest {
     }
 
     private Message createMessage() {
-        UpdateCaseMsg msg = Helper.generateUpdateCaseMsg(CREATION.name());
+        UpdateCaseMsg msg = Helper.generateUpdateCaseMsg();
         Message busMessage = new Message();
         busMessage.setContentType("application/json");
         busMessage.setMessageId(msg.getMsgId());
         busMessage.setMessageBody(getMsgBodyInBytes(msg));
-        busMessage.setLabel(msg.getUpdateType());
+        busMessage.setLabel(msg.getJurisdiction());
         return busMessage;
     }
 

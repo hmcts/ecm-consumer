@@ -10,11 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import uk.gov.hmcts.ecm.common.helpers.CreateUpdatesHelper;
 import uk.gov.hmcts.ecm.common.model.servicebus.CreateUpdatesDto;
 import uk.gov.hmcts.ecm.common.model.servicebus.CreateUpdatesMsg;
+import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationDataModel;
 import uk.gov.hmcts.ecm.common.servicebus.ServiceBusSender;
 
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.CHUNK_MESSAGE_SIZE;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.SCOTLAND_BULK_CASE_TYPE_ID;
-import static uk.gov.hmcts.ecm.common.model.servicebus.UpdateType.CREATION;
 
 /**
  * Sends create updates messages to create-updates queue.
@@ -40,7 +40,9 @@ public class CreateUpdatesBusSenderTask {
 
         List<String> ethosCaseRefCollection = Arrays.asList("4150002/2020");
         CreateUpdatesDto createUpdatesDto = getCreateUpdatesDto(ethosCaseRefCollection);
-        List<CreateUpdatesMsg> createUpdatesMsgList = CreateUpdatesHelper.getCreateUpdatesMessagesCollection(createUpdatesDto, CHUNK_MESSAGE_SIZE);
+        CreationDataModel creationDataModel = getCreationDataModel(ethosCaseRefCollection);
+        List<CreateUpdatesMsg> createUpdatesMsgList =
+            CreateUpdatesHelper.getCreateUpdatesMessagesCollection(createUpdatesDto, creationDataModel, CHUNK_MESSAGE_SIZE);
 
         createUpdatesMsgList
             .forEach(msg -> {
@@ -68,8 +70,14 @@ public class CreateUpdatesBusSenderTask {
             .jurisdiction("EMPLOYMENT")
             .multipleRef("4150001")
             .username("testEmail@hotmail.com")
-            .updateType(CREATION.name())
             .ethosCaseRefCollection(ethosCaseRefCollection)
+            .build();
+    }
+
+    private CreationDataModel getCreationDataModel(List<String> ethosCaseRefCollection) {
+        return CreationDataModel.builder()
+            .lead(ethosCaseRefCollection.get(0))
+            .multipleRef("4150001")
             .build();
     }
 }

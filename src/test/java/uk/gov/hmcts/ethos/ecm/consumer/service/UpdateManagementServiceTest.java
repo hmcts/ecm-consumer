@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import static org.mockito.Mockito.when;
-import static uk.gov.hmcts.ecm.common.model.servicebus.UpdateType.CREATION;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UpdateManagementServiceTest {
@@ -42,7 +41,7 @@ public class UpdateManagementServiceTest {
 
     @Before
     public void setUp() {
-        updateCaseMsg = Helper.generateUpdateCaseMsg(CREATION.name());
+        updateCaseMsg = Helper.generateUpdateCaseMsg();
     }
 
     @Test

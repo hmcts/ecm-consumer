@@ -15,7 +15,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.*;
-import static uk.gov.hmcts.ecm.common.model.servicebus.UpdateType.CREATION;
 import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.SINGLE_CASE_TAKEN;
 import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.UNPROCESSABLE_STATE;
 
@@ -71,7 +70,7 @@ public class SingleUpdateService {
 
         log.info("STATE of submit event: " + submitEvent.getState());
 
-        String validationError = validateCreationSingleCase(submitEvent);
+        String validationError = validateCreationSingleCase(submitEvent, updateCaseMsg.getMultipleRef());
 
         if (!validationError.isEmpty()) {
 
@@ -96,17 +95,8 @@ public class SingleUpdateService {
                                                                  caseTypeId,
                                                                  jurisdiction,
                                                                  caseId);
-        log.info("Changing multiple ref");
-
-        //TODO create different service for UPDATE / CREATION
-        if (updateCaseMsg.getUpdateType().equals(CREATION.name())) {
-            //submitEvent.getCaseData().setMultipleReference(updateCaseMsg.getMultipleRef());
-            log.info("CREATION TYPE");
-            submitEvent.getCaseData().setState(ACCEPTED_STATE);
-        } else {
-            log.info("UPDATE TYPE");
-            submitEvent.getCaseData().setState(REJECTED_STATE);
-        }
+        log.info("UPDATING SINGLE CASE");
+        updateCaseMsg.runTask(submitEvent);
 
        ccdClient.submitEventForCase(accessToken,
                                     submitEvent.getCaseData(),
@@ -118,7 +108,7 @@ public class SingleUpdateService {
         log.info("Updated completed SUBMIT EVENT FOR CASE");
     }
 
-    private String validateCreationSingleCase(SubmitEvent submitEvent) {
+    private String validateCreationSingleCase(SubmitEvent submitEvent, String multipleRef) {
 
         if (!submitEvent.getState().equals(ACCEPTED_STATE)) {
 
@@ -128,7 +118,9 @@ public class SingleUpdateService {
         }
 
         if (submitEvent.getCaseData().getMultipleReference() != null
-            && !submitEvent.getCaseData().getMultipleReference().trim().isEmpty()) {
+            &&
+            (!submitEvent.getCaseData().getMultipleReference().trim().isEmpty()
+            || !submitEvent.getCaseData().getMultipleReference().equals(multipleRef))) {
 
             log.info("ERROR: already another multiple");
             return SINGLE_CASE_TAKEN;

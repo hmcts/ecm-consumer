@@ -24,8 +24,6 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.ACCEPTED_STATE;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.SUBMITTED_STATE;
-import static uk.gov.hmcts.ecm.common.model.servicebus.UpdateType.CREATION;
-import static uk.gov.hmcts.ecm.common.model.servicebus.UpdateType.UPDATE;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SingleUpdateServiceTest {
@@ -42,17 +40,16 @@ public class SingleUpdateServiceTest {
     private List<SubmitEvent> submitEvents;
     private SubmitEvent submitEvent;
     private UpdateCaseMsg updateCaseMsg;
-    private UpdateCaseMsg updateCaseMsgUpdateType;
 
     @Before
     public void setUp() {
         submitEvent = new SubmitEvent();
         CaseData caseData = new CaseData();
+        caseData.setEthosCaseReference("4150002/2020");
         submitEvent.setCaseData(caseData);
         submitEvent.setState(ACCEPTED_STATE);
         submitEvents = new ArrayList<>(Collections.singletonList(submitEvent));
-        updateCaseMsg = Helper.generateUpdateCaseMsg(CREATION.name());
-        updateCaseMsgUpdateType = Helper.generateUpdateCaseMsg(UPDATE.name());
+        updateCaseMsg = Helper.generateUpdateCaseMsg();
     }
 
     @Test
@@ -64,17 +61,6 @@ public class SingleUpdateServiceTest {
 
         when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString())).thenReturn(submitEvent);
         singleUpdateService.sendUpdateToSingleLogic(updateCaseMsg);
-    }
-
-    @Test
-    public void sendUpdateToSingleLogicUpdateType() throws IOException {
-        when(userService.getAccessToken()).thenReturn("Token");
-        when(ccdClient.retrieveCasesElasticSearch(anyString(), anyString(), anyList())).thenReturn(submitEvents);
-
-        //when(ccdClient.retrieveCases(anyString(), anyString(), anyString())).thenReturn(submitEvents);
-
-        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString())).thenReturn(submitEvent);
-        singleUpdateService.sendUpdateToSingleLogic(updateCaseMsgUpdateType);
     }
 
     @Test
