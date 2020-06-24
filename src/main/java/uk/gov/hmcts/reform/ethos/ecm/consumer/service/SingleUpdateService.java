@@ -118,9 +118,8 @@ public class SingleUpdateService {
         }
 
         if (submitEvent.getCaseData().getMultipleReference() != null
-            &&
-            (!submitEvent.getCaseData().getMultipleReference().trim().isEmpty()
-            || !submitEvent.getCaseData().getMultipleReference().equals(multipleRef))) {
+            && !submitEvent.getCaseData().getMultipleReference().trim().isEmpty()
+            && !submitEvent.getCaseData().getMultipleReference().equals(multipleRef)) {
 
             log.info("ERROR: already another multiple");
             return SINGLE_CASE_TAKEN;

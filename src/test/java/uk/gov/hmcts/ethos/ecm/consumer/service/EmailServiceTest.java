@@ -13,6 +13,7 @@ import uk.gov.service.notify.NotificationClientException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.*;
@@ -54,6 +55,8 @@ public class EmailServiceTest {
     public void sendConfirmationErrorEmail() throws NotificationClientException {
         List<MultipleErrors> multipleErrorsList = generateMultipleErrorList();
         Map<String, String> personalisation = getPersonalisation(multipleErrorsList);
+        assertEquals("4150002/2020", multipleErrorsList.get(0).getEthoscaseref());
+        assertEquals(UNPROCESSABLE_STATE, multipleErrorsList.get(0).getDescription());
         emailService.sendConfirmationErrorEmail(emailAddress, multipleErrorsList);
         verify(emailClient).sendEmail(eq(CONFIRMATION_ERROR_EMAIL), eq(emailAddress), eq(personalisation), isA(String.class));
         verifyNoMoreInteractions(emailClient);
