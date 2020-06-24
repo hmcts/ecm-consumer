@@ -17,11 +17,5 @@ public class Application {
 
     public static void main(final String[] args) {
         SpringApplication.run(Application.class, args);
-
-//        ApplicationContext applicationContext = SpringApplication.run(Application.class, args);
-//        log.info("Starting...");
-//        MultipleUpdateService service = applicationContext.getBean(MultipleUpdateService.class);
-//        service.sendUpdateToMultipleLogic();
-//        log.info("End");
     }
 }
