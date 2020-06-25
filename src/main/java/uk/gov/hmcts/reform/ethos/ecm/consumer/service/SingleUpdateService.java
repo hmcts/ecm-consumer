@@ -95,7 +95,7 @@ public class SingleUpdateService {
                                                                  caseTypeId,
                                                                  jurisdiction,
                                                                  caseId);
-        log.info("UPDATING SINGLE CASE");
+        log.info("UPDATING SINGLE CASE: " + updateCaseMsg);
         updateCaseMsg.runTask(submitEvent);
 
        ccdClient.submitEventForCase(accessToken,
