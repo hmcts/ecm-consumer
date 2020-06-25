@@ -57,17 +57,16 @@ resource "azurerm_key_vault_secret" "ecm_consumer_s2s_key" {
   key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
 }
 
-resource "azurerm_key_vault_secret" "caseworker_user_name" {
-  name         = "caseworker-user-name"
-  value        = var.caseworker_user_name
+data "azurerm_key_vault_secret" "caseworker_user_name" {
+  name = "caseworker-user-name"
   key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
 }
 
-resource "azurerm_key_vault_secret" "caseworker_password" {
-  name         = "caseworker-password"
-  value        = var.caseworker_password
+data "azurerm_key_vault_secret" "caseworker_password" {
+  name = "caseworker-password"
   key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
 }
+
 
 # SERVICE BUS
 data "azurerm_key_vault_secret" "create_updates_queue_send_conn_str" {

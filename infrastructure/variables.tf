@@ -59,18 +59,6 @@ variable "jenkins_AAD_objectId" {
   description                 = "(Required) The Azure AD object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies."
 }
 
-variable "caseworker_user_name" {
-  type        = string
-  default     = "eric.ccdcooper@gmail.com"
-  description = "User name of the worker to send event updates and emails"
-}
-
-variable "caseworker_password" {
-  type        = string
-  default     = "Nagoya0102"
-  description = "Password of the worker to send event updates and emails"
-}
-
 variable "ilbIp" {}
 
 variable "team_name" {
