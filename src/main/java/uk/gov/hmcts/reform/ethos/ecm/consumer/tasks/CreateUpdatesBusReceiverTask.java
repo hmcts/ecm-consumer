@@ -109,6 +109,10 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
     private MessageProcessingResult tryProcessMessage(IMessage message) {
         try {
 
+            log.info("MESSAGE: " + message.getMessageBody());
+            log.info("MESSAGE: " + message.getMessageBody().getBinaryData());
+            log.info("MESSAGE: " + message.getMessageBody().getValueData());
+            log.info("MESSAGE: " + message.getMessageBody().getSequenceData());
             CreateUpdatesMsg createUpdatesMsg = readMessage(message);
             sendUpdateCaseMessages(createUpdatesMsg);
 
