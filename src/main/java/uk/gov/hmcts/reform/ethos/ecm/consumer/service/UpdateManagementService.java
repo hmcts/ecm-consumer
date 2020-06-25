@@ -44,9 +44,6 @@ public class UpdateManagementService {
 
     private void checkIfFinish(UpdateCaseMsg updateCaseMsg) throws IOException {
 
-        //TODO REMOVE
-        multipleCounterRepository.deleteAllByMultipleref(updateCaseMsg.getMultipleRef());
-
         int counter = multipleCounterRepository.persistentQGetNextMultipleCountVal(updateCaseMsg.getMultipleRef());
         log.info("COUNTER: " + counter + " TOTAL CASES: " + updateCaseMsg.getTotalCases());
 
@@ -83,7 +80,7 @@ public class UpdateManagementService {
 
         log.info("Clearing all multipleRef");
         multipleCounterRepository.deleteAllByMultipleref(multipleRef);
-        //multipleErrorsRepository.deleteAllByMultipleref(multipleRef);
+        multipleErrorsRepository.deleteAllByMultipleref(multipleRef);
     }
 
 }

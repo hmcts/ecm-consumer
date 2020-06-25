@@ -12,15 +12,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class QueueClientConfiguration {
 
-    //TODO REMOVE THIS BEAN
-    @Bean("create-updates-send-client")
-    public IQueueClient createUpdatesSendClient(
-        @Value("${queue.create-updates.send.connection-string}") String connectionString,
-        @Value("${queue.create-updates.queue-name}") String queueName
-    ) throws InterruptedException, ServiceBusException {
-        return createQueueClient(connectionString, queueName);
-    }
-
     @Bean("create-updates-listen-client")
     public IQueueClient createUpdatesListenClient(
         @Value("${queue.create-updates.listen.connection-string}") String connectionString,

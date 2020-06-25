@@ -19,13 +19,6 @@ public class ServiceBusSenderConfiguration {
         this.objectMapper = objectMapper;
     }
 
-    //TODO REMOVE THIS BEAN
-    @Bean(name = "create-updates-send-helper")
-    public ServiceBusSender createUpdatesSendHelper(
-        @Qualifier("create-updates-send-client") IQueueClient queueClient) {
-        return new ServiceBusSender(queueClient, objectMapper);
-    }
-
     @Bean(name = "create-updates-completor")
     public MessageAutoCompletor createUpdatesCompletor(
         @Qualifier("create-updates-listen-client") IQueueClient queueClient) {
