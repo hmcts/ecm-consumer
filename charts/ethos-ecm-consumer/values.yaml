@@ -10,6 +10,7 @@ java:
         - ecm-consumer-s2s-key
         - caseworker-user-name
         - caseworker-password
+        - gov-notify-api-key
         - create-updates-queue-send-connection-string
         - create-updates-queue-listen-connection-string
         - update-case-queue-send-connection-string
