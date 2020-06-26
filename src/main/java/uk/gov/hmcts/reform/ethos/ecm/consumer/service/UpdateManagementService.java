@@ -49,6 +49,8 @@ public class UpdateManagementService {
 
         if (counter == Integer.parseInt(updateCaseMsg.getTotalCases())) {
 
+            log.info("----- MULTIPLE UPDATE FINISHED: sending update to multiple ------");
+
             multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg);
 
             sendEmailToUser(updateCaseMsg);
@@ -65,12 +67,12 @@ public class UpdateManagementService {
         if (multipleErrorsList != null && !multipleErrorsList.isEmpty()) {
 
             log.info("Sending email to user: With errors");
-            emailService.sendConfirmationErrorEmail(updateCaseMsg.getUsername(), multipleErrorsList);
+            emailService.sendConfirmationErrorEmail(updateCaseMsg.getUsername(), multipleErrorsList, updateCaseMsg.getMultipleRef());
 
         } else {
 
             log.info("Sending email to user: No errors");
-            emailService.sendConfirmationEmail(updateCaseMsg.getUsername());
+            emailService.sendConfirmationEmail(updateCaseMsg.getUsername(), updateCaseMsg.getMultipleRef());
 
         }
 

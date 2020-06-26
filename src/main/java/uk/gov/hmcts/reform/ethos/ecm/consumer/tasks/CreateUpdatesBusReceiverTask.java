@@ -58,7 +58,7 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
                 // This code is here to make sure errors are logged even when they fail to do that.
                 if (error != null) {
                     log.error(
-                        "An error occurred when trying to handle 'create updates' message with ID {}",
+                        "An error occurred when trying to handle 'Create Updates' message with ID {}",
                         message.getMessageId()
                     );
                 }
@@ -70,7 +70,7 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
     @Override
     public void notifyException(Throwable throwable, ExceptionPhase exceptionPhase) {
         log.error(
-            "An error occurred when handling 'create updates' message. Phase: {}",
+            "An error occurred when handling 'Create Updates' message. Phase: {}",
             exceptionPhase,
             throwable
         );
@@ -80,7 +80,7 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
         return finaliseMessageAsync(message, processingResult)
             .exceptionally(error -> {
                 log.error(
-                    "An error occurred when trying to finalise 'create updates' message with ID {}",
+                    "An error occurred when trying to finalise 'Create Updates' message with ID {}",
                     message.getMessageId(),
                     error
                 );
@@ -94,11 +94,11 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
             return messageCompletor
                 .completeAsync(message.getLockToken())
                 .thenRun(() ->
-                             log.info("COMPLETED ----> 'create updates' message with ID {}", message.getMessageId())
+                             log.info("COMPLETED RECEIVED 'Create Updates' ----> message with ID {}", message.getMessageId())
                 );
         }
         log.info(
-            "Letting 'create updates' message with ID {} return to the queue. Delivery attempt {}.",
+            "Letting 'Create Updates' message with ID {} return to the queue. Delivery attempt {}.",
             message.getMessageId(),
             message.getDeliveryCount() + 1
         );
@@ -110,14 +110,14 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
         try {
 
             CreateUpdatesMsg createUpdatesMsg = readMessage(message);
+            log.info("RECEIVED 'Create Updates' ------>  message with ID {}", createUpdatesMsg);
             sendUpdateCaseMessages(createUpdatesMsg);
 
-            log.info("'Create updates' message with ID {} PROCESSED ------> successfully", message.getMessageId());
             return new MessageProcessingResult(MessageProcessingResultType.SUCCESS);
 
         } catch (Exception e) {
             log.error(
-                "An error occurred when handling 'create updates' message with ID {}",
+                "An error occurred when handling 'Create Updates' message with ID {}",
                 message.getMessageId(),
                 e
             );
@@ -132,7 +132,7 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
                 CreateUpdatesMsg.class
             );
         } catch (JsonParseException | JsonMappingException e) {
-            throw new InvalidMessageException("Failed to parse 'create updates' message", e);
+            throw new InvalidMessageException("Failed to parse 'Create Updates' message", e);
         }
     }
 

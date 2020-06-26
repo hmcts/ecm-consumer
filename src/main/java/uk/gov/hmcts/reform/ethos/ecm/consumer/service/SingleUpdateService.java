@@ -95,7 +95,7 @@ public class SingleUpdateService {
                                                                  caseTypeId,
                                                                  jurisdiction,
                                                                  caseId);
-        log.info("UPDATING SINGLE CASE: " + updateCaseMsg);
+        log.info("Sending Update of single case: " + updateCaseMsg);
         updateCaseMsg.runTask(submitEvent);
 
        ccdClient.submitEventForCase(accessToken,
@@ -105,14 +105,13 @@ public class SingleUpdateService {
                                     returnedRequest,
                                     caseId);
 
-        log.info("Updated completed SUBMIT EVENT FOR CASE");
     }
 
     private String validateCreationSingleCase(SubmitEvent submitEvent, String multipleRef) {
 
         if (!submitEvent.getState().equals(ACCEPTED_STATE)) {
 
-            log.info("ERROR: state of single case not Accepted");
+            log.info("VALIDATION ERROR: state of single case not Accepted");
             return UNPROCESSABLE_STATE;
 
         }
@@ -121,7 +120,7 @@ public class SingleUpdateService {
             && !submitEvent.getCaseData().getMultipleReference().trim().isEmpty()
             && !submitEvent.getCaseData().getMultipleReference().equals(multipleRef)) {
 
-            log.info("ERROR: already another multiple");
+            log.info("VALIDATION ERROR: already another multiple");
             return SINGLE_CASE_TAKEN;
 
         }

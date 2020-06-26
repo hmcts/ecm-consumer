@@ -54,7 +54,7 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
                 // This code is here to make sure errors are logged even when they fail to do that.
                 if (error != null) {
                     log.error(
-                        "An error occurred when trying to handle 'update case' message with ID {}",
+                        "An error occurred when trying to handle 'Update Case' message with ID {}",
                         message.getMessageId()
                     );
                 }
@@ -66,7 +66,7 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
     @Override
     public void notifyException(Throwable throwable, ExceptionPhase exceptionPhase) {
         log.error(
-            "An error occurred when handling 'update case' message. Phase: {}",
+            "An error occurred when handling 'Update Case' message. Phase: {}",
             exceptionPhase,
             throwable
         );
@@ -76,7 +76,7 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
         return finaliseMessageAsync(message, processingResult)
             .exceptionally(error -> {
                 log.error(
-                    "An error occurred when trying to finalise 'update case' message with ID {}",
+                    "An error occurred when trying to finalise 'Update Case' message with ID {}",
                     message.getMessageId(),
                     error
                 );
@@ -91,17 +91,17 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
                 return messageCompletor
                     .completeAsync(message.getLockToken())
                     .thenRun(() ->
-                                 log.info("COMPLETED ----> 'update case' message with ID {}", message.getMessageId())
+                                 log.info("COMPLETED RECEIVED 'Update Case' ----> message with ID {}", message.getMessageId())
                     );
             case UNRECOVERABLE_FAILURE:
                 return messageCompletor
                     .completeAsync(message.getLockToken())
                     .thenRun(() ->
-                                 log.info("UNRECOVERABLE ERROR ----> 'update case' message with ID {}", message.getMessageId())
+                                 log.info("UNRECOVERABLE ERROR 'Update Case' ----> message with ID {}", message.getMessageId())
                     );
             default:
                 log.info(
-                    "Letting 'update case' message with ID {} return to the queue. Delivery attempt {}.",
+                    "Letting 'Update Case' message with ID {} return to the queue. Delivery attempt {}.",
                     message.getMessageId(),
                     message.getDeliveryCount() + 1
                 );
@@ -114,14 +114,14 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
         try {
 
             UpdateCaseMsg updateCaseMsg = readMessage(message);
+            log.info("RECEIVED 'Update Case' ------> message with ID {}", updateCaseMsg);
             updateManagementService.updateLogic(updateCaseMsg);
 
-            log.info("'Update case' message with ID {} PROCESSED ------> successfully", message.getMessageId());
             return new MessageProcessingResult(MessageProcessingResultType.SUCCESS);
 
         } catch (IOException e) {
             log.error(
-                "Unrecoverable error occurred when handling 'update case' message with ID {}",
+                "Unrecoverable error occurred when handling 'Update Case' message with ID {}",
                 message.getMessageId(),
                 e
             );
@@ -129,7 +129,7 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
 
         } catch (Exception e) {
             log.error(
-                "Potentially recoverable error occurred when handling 'update case' message with ID {}",
+                "Potentially recoverable error occurred when handling 'Update Case' message with ID {}",
                 message.getMessageId(),
                 e
             );
@@ -145,7 +145,7 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
                 UpdateCaseMsg.class
             );
         } catch (JsonParseException | JsonMappingException e) {
-            throw new InvalidMessageException("Failed to parse 'update case' message", e);
+            throw new InvalidMessageException("Failed to parse 'Update Case' message", e);
         }
     }
 }

@@ -30,8 +30,6 @@ public class UserService implements uk.gov.hmcts.ecm.common.service.UserService 
     }
 
     public String getAccessToken() {
-        log.info("UserName: " + caseWorkerUserName);
-        log.info("Password: " + caseWorkerPassword);
         return accessTokenService.getAccessToken(caseWorkerUserName, caseWorkerPassword);
     }
 

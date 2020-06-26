@@ -16,7 +16,7 @@ public class MessageAutoCompletor {
     }
 
     public CompletableFuture<Void> completeAsync(UUID lockToken) {
-        log.info("Complete create updates message");
+        log.info("Removing MESSAGE from the queue");
         return queueClient.completeAsync(lockToken);
     }
 

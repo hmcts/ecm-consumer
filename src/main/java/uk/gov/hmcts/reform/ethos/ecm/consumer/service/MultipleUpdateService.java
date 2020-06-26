@@ -38,7 +38,6 @@ public class MultipleUpdateService {
 //                }
 //            }
 
-            log.info("submit BulkEvent: " + submitBulkEvents.get(0));
             sendUpdate(submitBulkEvents.get(0), accessToken, updateCaseMsg);
 
         } else {
@@ -67,7 +66,7 @@ public class MultipleUpdateService {
                                                                      caseTypeId,
                                                                      jurisdiction,
                                                                      caseId);
-        log.info("Renaming Multiple Name");
+        log.info("Updating the multiple STATE");
         submitBulkEvent.getCaseData().setBulkCaseTitle("NAME CHANGED");
 
         ccdClient.submitBulkEventForCase(accessToken,

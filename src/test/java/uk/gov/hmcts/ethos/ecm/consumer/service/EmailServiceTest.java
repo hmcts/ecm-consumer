@@ -30,34 +30,39 @@ public class EmailServiceTest {
 
     private String emailAddress;
 
+    private String multipleRef;
+
     @Before
     public void setUp() {
         emailAddress = "example@hmcts.net";
+        multipleRef = "4150001";
     }
 
     @Test
     public void sendConfirmationEmail() throws NotificationClientException {
-        emailService.sendConfirmationEmail(emailAddress);
-        verify(emailClient).sendEmail(eq(CONFIRMATION_OK_EMAIL), eq(emailAddress), eq(new HashMap<>()), isA(String.class));
+        emailService.sendConfirmationEmail(emailAddress, multipleRef);
+        Map<String, String> personalisation = getPersonalisation(new ArrayList<>(), multipleRef);
+        verify(emailClient).sendEmail(eq(CONFIRMATION_OK_EMAIL), eq(emailAddress), eq(personalisation), isA(String.class));
         verifyNoMoreInteractions(emailClient);
     }
 
     @Test
     public void sendConfirmationEmailException() throws NotificationClientException {
-        when(emailClient.sendEmail(eq(CONFIRMATION_OK_EMAIL), eq(emailAddress), eq(new HashMap<>()), isA(String.class)))
+        Map<String, String> personalisation = getPersonalisation(new ArrayList<>(), multipleRef);
+        when(emailClient.sendEmail(eq(CONFIRMATION_OK_EMAIL), eq(emailAddress), eq(personalisation), isA(String.class)))
             .thenThrow(new NotificationClientException("Exception"));
-        emailService.sendConfirmationEmail(emailAddress);
-        verify(emailClient).sendEmail(eq(CONFIRMATION_OK_EMAIL), eq(emailAddress), eq(new HashMap<>()), isA(String.class));
+        emailService.sendConfirmationEmail(emailAddress, multipleRef);
+        verify(emailClient).sendEmail(eq(CONFIRMATION_OK_EMAIL), eq(emailAddress), eq(personalisation), isA(String.class));
         verifyNoMoreInteractions(emailClient);
     }
 
     @Test
     public void sendConfirmationErrorEmail() throws NotificationClientException {
         List<MultipleErrors> multipleErrorsList = generateMultipleErrorList();
-        Map<String, String> personalisation = getPersonalisation(multipleErrorsList);
+        Map<String, String> personalisation = getPersonalisation(multipleErrorsList, multipleRef);
         assertEquals("4150002/2020", multipleErrorsList.get(0).getEthoscaseref());
         assertEquals(UNPROCESSABLE_STATE, multipleErrorsList.get(0).getDescription());
-        emailService.sendConfirmationErrorEmail(emailAddress, multipleErrorsList);
+        emailService.sendConfirmationErrorEmail(emailAddress, multipleErrorsList, multipleRef);
         verify(emailClient).sendEmail(eq(CONFIRMATION_ERROR_EMAIL), eq(emailAddress), eq(personalisation), isA(String.class));
         verifyNoMoreInteractions(emailClient);
     }
@@ -65,18 +70,18 @@ public class EmailServiceTest {
     private List<MultipleErrors> generateMultipleErrorList() {
         MultipleErrors multipleErrors = new MultipleErrors();
         multipleErrors.setEthoscaseref("4150002/2020");
-        multipleErrors.setMultipleref("4150001");
+        multipleErrors.setMultipleref(multipleRef);
         multipleErrors.setDescription(UNPROCESSABLE_STATE);
         return new ArrayList<>(Collections.singletonList(multipleErrors));
     }
 
-    private Map<String, String> getPersonalisation(List<MultipleErrors> multipleErrorsList) {
+    private Map<String, String> getPersonalisation(List<MultipleErrors> multipleErrorsList, String multipleRef) {
         Map<String, String> personalisation = new HashMap<>();
         String errors = multipleErrorsList.stream()
             .map(MultipleErrors::toString)
             .collect(Collectors.joining(", "));
         personalisation.put(MULTIPLE_ERRORS, errors);
-        personalisation.put(MULTIPLE_REFERENCE, multipleErrorsList.get(0).getMultipleref());
+        personalisation.put(MULTIPLE_REFERENCE, multipleRef);
         return personalisation;
     }
 

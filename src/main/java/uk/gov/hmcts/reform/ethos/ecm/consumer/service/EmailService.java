@@ -6,10 +6,8 @@ import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.config.EmailClient;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleErrors;
 import uk.gov.service.notify.NotificationClientException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.CONFIRMATION_ERROR_EMAIL;
@@ -31,25 +29,30 @@ public class EmailService {
         this.emailClient = emailClient;
     }
 
-    public void sendConfirmationEmail(String emailAddress) {
-        sendEmail(CONFIRMATION_OK_EMAIL, emailAddress, new HashMap<>(), EMAIL_DESCRIPTION + emailAddress);
+    public void sendConfirmationEmail(String emailAddress, String multipleRef) {
+        sendEmail(CONFIRMATION_OK_EMAIL,
+                  emailAddress,
+                  buildPersonalisation(new ArrayList<>(), multipleRef),
+                  EMAIL_DESCRIPTION + emailAddress);
     }
 
-    public void sendConfirmationErrorEmail(String emailAddress, List<MultipleErrors> multipleErrorsList) {
-        Map<String, String> personalisation = buildPersonalisation(multipleErrorsList);
-        sendEmail(CONFIRMATION_ERROR_EMAIL, emailAddress, personalisation, EMAIL_DESCRIPTION_ERROR + emailAddress);
+    public void sendConfirmationErrorEmail(String emailAddress, List<MultipleErrors> multipleErrorsList, String multipleRef) {
+        sendEmail(CONFIRMATION_ERROR_EMAIL,
+                  emailAddress,
+                  buildPersonalisation(multipleErrorsList, multipleRef),
+                  EMAIL_DESCRIPTION_ERROR + emailAddress);
     }
 
-    private Map<String, String> buildPersonalisation(List<MultipleErrors> multipleErrorsList) {
+    private Map<String, String> buildPersonalisation(List<MultipleErrors> multipleErrorsList, String multipleRef) {
         Map<String, String> personalisation = new HashMap<>();
 
         String errors = multipleErrorsList.stream()
             .map(MultipleErrors::toString)
             .collect(Collectors.joining(System.lineSeparator()));
         log.info("Sending email with errors: " + errors);
-        log.info("Multiple ref: " + multipleErrorsList.get(0).getMultipleref());
+        log.info("Multiple ref: " + multipleRef);
         personalisation.put(MULTIPLE_ERRORS, errors);
-        personalisation.put(MULTIPLE_REFERENCE, multipleErrorsList.get(0).getMultipleref());
+        personalisation.put(MULTIPLE_REFERENCE, multipleRef);
 
         return personalisation;
     }
