@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
+import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.DetachDataModel;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleErrors;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleCounterRepository;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleErrorsRepository;
@@ -51,9 +52,14 @@ public class UpdateManagementService {
 
             log.info("----- MULTIPLE UPDATE FINISHED: sending update to multiple ------");
 
-            multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg);
+            //Only updating multiple and sending email when it is NOT detach data model as it comes with CreationDataModel
+            //and we only need to send the update once
+            if (! (updateCaseMsg.getDataModelParent() instanceof DetachDataModel) ) {
 
-            sendEmailToUser(updateCaseMsg);
+                multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg);
+
+                sendEmailToUser(updateCaseMsg);
+            }
 
             deleteMultipleRefDatabase(updateCaseMsg.getMultipleRef());
         }
@@ -66,12 +72,10 @@ public class UpdateManagementService {
 
         if (multipleErrorsList != null && !multipleErrorsList.isEmpty()) {
 
-            log.info("Sending email to user: With errors");
             emailService.sendConfirmationErrorEmail(updateCaseMsg.getUsername(), multipleErrorsList, updateCaseMsg.getMultipleRef());
 
         } else {
 
-            log.info("Sending email to user: No errors");
             emailService.sendConfirmationEmail(updateCaseMsg.getUsername(), updateCaseMsg.getMultipleRef());
 
         }
