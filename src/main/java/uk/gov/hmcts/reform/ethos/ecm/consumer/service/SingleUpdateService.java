@@ -97,6 +97,7 @@ public class SingleUpdateService {
                                                                  caseId);
         log.info("Sending Update of single case: " + updateCaseMsg);
         updateCaseMsg.runTask(submitEvent);
+        log.info("SubmitEventUpdated: " + submitEvent.getCaseData().getMultipleReference());
 
        ccdClient.submitEventForCase(accessToken,
                                     submitEvent.getCaseData(),
