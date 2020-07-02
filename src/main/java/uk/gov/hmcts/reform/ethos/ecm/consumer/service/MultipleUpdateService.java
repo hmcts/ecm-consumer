@@ -62,7 +62,7 @@ public class MultipleUpdateService {
         String jurisdiction = updateCaseMsg.getJurisdiction();
         String caseId = String.valueOf(submitBulkEvent.getCaseId());
 
-        CCDRequest returnedRequest = ccdClient.startBulkEventForCase(accessToken,
+        CCDRequest returnedRequest = ccdClient.startBulkAmendEventForCase(accessToken,
                                                                      caseTypeId,
                                                                      jurisdiction,
                                                                      caseId);
