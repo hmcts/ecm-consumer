@@ -141,6 +141,8 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
             for (String ethosCaseReference : createUpdatesMsg.getEthosCaseRefCollection()) {
                 UpdateCaseMsg updateCaseMsg = mapToUpdateCaseMsg(createUpdatesMsg, ethosCaseReference);
                 serviceBusSender.sendMessageAsync(updateCaseMsg);
+                //CompletableFuture<Void> completableFuture = serviceBusSender.sendMessageAsync(updateCaseMsg);
+                //completableFuture.get();
             }
         }
     }

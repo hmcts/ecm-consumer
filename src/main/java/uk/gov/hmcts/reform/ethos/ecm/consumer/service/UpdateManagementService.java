@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
-import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.DetachDataModel;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleErrors;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleCounterRepository;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleErrorsRepository;
@@ -52,14 +51,9 @@ public class UpdateManagementService {
 
             log.info("----- MULTIPLE UPDATE FINISHED: sending update to multiple ------");
 
-            //Only updating multiple and sending email when it is NOT detach data model as it comes with CreationDataModel
-            //and we only need to send the update once
-            if (! (updateCaseMsg.getDataModelParent() instanceof DetachDataModel) ) {
+            multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg);
 
-                multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg);
-
-                sendEmailToUser(updateCaseMsg);
-            }
+            sendEmailToUser(updateCaseMsg);
 
             deleteMultipleRefDatabase(updateCaseMsg.getMultipleRef());
         }
