@@ -74,11 +74,11 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
 
     private CompletableFuture<Void> tryFinaliseMessageAsync(IMessage message, MessageProcessingResult processingResult) {
         return finaliseMessageAsync(message, processingResult)
-            .exceptionally(error -> {
+            .exceptionally(updateCaseError -> {
                 log.error(
                     "An error occurred when trying to finalise 'Update Case' message with ID {}",
                     message.getMessageId(),
-                    error
+                    updateCaseError
                 );
 
                 return null;

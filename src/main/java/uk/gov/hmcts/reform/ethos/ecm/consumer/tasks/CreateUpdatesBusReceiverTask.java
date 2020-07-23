@@ -52,7 +52,7 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
     public CompletableFuture<Void> onMessageAsync(IMessage message) {
         return CompletableFuture
             .supplyAsync(() -> tryProcessMessage(message), EXECUTOR)
-            .thenComposeAsync(processingResult -> tryFinaliseMessageAsync(message, processingResult), EXECUTOR)
+            .thenComposeAsync(processingResult -> tryFinaliseMessage(message, processingResult), EXECUTOR)
             .handleAsync((v, error) -> {
                 // Individual steps are supposed to handle their exceptions themselves.
                 // This code is here to make sure errors are logged even when they fail to do that.
@@ -76,20 +76,20 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
         );
     }
 
-    private CompletableFuture<Void> tryFinaliseMessageAsync(IMessage message, MessageProcessingResult processingResult) {
-        return finaliseMessageAsync(message, processingResult)
-            .exceptionally(error -> {
+    private CompletableFuture<Void> tryFinaliseMessage(IMessage message, MessageProcessingResult processingResult) {
+        return finaliseMessage(message, processingResult)
+            .exceptionally(createUpdatesError -> {
                 log.error(
                     "An error occurred when trying to finalise 'Create Updates' message with ID {}",
                     message.getMessageId(),
-                    error
+                    createUpdatesError
                 );
 
                 return null;
             });
     }
 
-    private CompletableFuture<Void> finaliseMessageAsync(IMessage message, MessageProcessingResult processingResult) {
+    private CompletableFuture<Void> finaliseMessage(IMessage message, MessageProcessingResult processingResult) {
         if (processingResult.resultType == MessageProcessingResultType.SUCCESS) {
             return messageCompletor
                 .completeAsync(message.getLockToken())
@@ -141,8 +141,6 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
             for (String ethosCaseReference : createUpdatesMsg.getEthosCaseRefCollection()) {
                 UpdateCaseMsg updateCaseMsg = mapToUpdateCaseMsg(createUpdatesMsg, ethosCaseReference);
                 serviceBusSender.sendMessageAsync(updateCaseMsg);
-                //CompletableFuture<Void> completableFuture = serviceBusSender.sendMessageAsync(updateCaseMsg);
-                //completableFuture.get();
             }
         }
     }
