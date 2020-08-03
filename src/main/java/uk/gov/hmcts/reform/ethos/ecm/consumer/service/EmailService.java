@@ -49,8 +49,7 @@ public class EmailService {
         String errors = multipleErrorsList.stream()
             .map(MultipleErrors::toString)
             .collect(Collectors.joining(System.lineSeparator()));
-        log.info("Sending email with errors: " + errors);
-        log.info("Multiple ref: " + multipleRef);
+        log.info("Sending email for multiple " + multipleRef + " with errors: " + errors);
         personalisation.put(MULTIPLE_ERRORS, errors);
         personalisation.put(MULTIPLE_REFERENCE, multipleRef);
 
