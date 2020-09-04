@@ -75,11 +75,11 @@ public class MultipleUpdateService {
 
         if (multipleErrorsList != null && !multipleErrorsList.isEmpty()) {
 
-            submitBulkEvent.setState(ERRORED_STATE);
+            submitBulkEvent.getCaseData().setState(ERRORED_STATE);
 
         } else {
 
-            submitBulkEvent.setState(OPEN_STATE);
+            submitBulkEvent.getCaseData().setState(OPEN_STATE);
 
         }
 
