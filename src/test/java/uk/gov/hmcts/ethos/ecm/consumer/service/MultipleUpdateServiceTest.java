@@ -11,16 +11,19 @@ import uk.gov.hmcts.ecm.common.model.bulk.BulkData;
 import uk.gov.hmcts.ecm.common.model.bulk.SubmitBulkEvent;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ethos.ecm.consumer.helpers.Helper;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleErrors;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleUpdateService;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UserService;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
+import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.UNPROCESSABLE_STATE;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class MultipleUpdateServiceTest {
@@ -54,7 +57,7 @@ public class MultipleUpdateServiceTest {
         //when(ccdClient.retrieveBulkCases(anyString(), anyString(), anyString())).thenReturn(submitBulkEvents);
 
         when(ccdClient.submitBulkEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString())).thenReturn(submitBulkEvent);
-        multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg);
+        multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg, new ArrayList<>());
     }
 
     @Test
@@ -64,7 +67,7 @@ public class MultipleUpdateServiceTest {
 
         //when(ccdClient.retrieveBulkCases(anyString(), anyString(), anyString())).thenReturn(new ArrayList<>());
 
-        multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg);
+        multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg, new ArrayList<>());
     }
 
     @Test
@@ -74,7 +77,21 @@ public class MultipleUpdateServiceTest {
 
         //when(ccdClient.retrieveBulkCases(anyString(), anyString(), anyString())).thenReturn(null);
 
-        multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg);
+        multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg, new ArrayList<>());
+    }
+
+    @Test
+    public void sendUpdateToMultipleLogicWithErrors() throws IOException {
+        when(userService.getAccessToken()).thenReturn("Token");
+        when(ccdClient.retrieveBulkCasesElasticSearch(anyString(), anyString(), anyString())).thenReturn(submitBulkEvents);
+
+        //when(ccdClient.retrieveBulkCases(anyString(), anyString(), anyString())).thenReturn(submitBulkEvents);
+
+        when(ccdClient.submitBulkEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString())).thenReturn(submitBulkEvent);
+        MultipleErrors multipleErrors = new MultipleErrors();
+        multipleErrors.setDescription(UNPROCESSABLE_STATE);
+        multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg, new ArrayList<>(Collections.singletonList(
+            multipleErrors)));
     }
 
     @Test(expected = Exception.class)
@@ -84,7 +101,7 @@ public class MultipleUpdateServiceTest {
 
         //when(ccdClient.retrieveBulkCases(anyString(), anyString(), anyString())).thenThrow(new Exception());
 
-        multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg);
+        multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg, new ArrayList<>());
     }
 
 }

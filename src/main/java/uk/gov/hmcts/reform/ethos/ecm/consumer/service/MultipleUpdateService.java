@@ -7,9 +7,13 @@ import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.model.bulk.SubmitBulkEvent;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleErrors;
 
 import java.io.IOException;
 import java.util.List;
+
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.ERRORED_STATE;
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.OPEN_STATE;
 
 @Slf4j
 @Service
@@ -24,7 +28,7 @@ public class MultipleUpdateService {
         this.userService = userService;
     }
 
-    public void sendUpdateToMultipleLogic(UpdateCaseMsg updateCaseMsg) throws IOException {
+    public void sendUpdateToMultipleLogic(UpdateCaseMsg updateCaseMsg, List<MultipleErrors> multipleErrorsList) throws IOException {
 
         String accessToken = userService.getAccessToken();
 
@@ -38,7 +42,7 @@ public class MultipleUpdateService {
 //                }
 //            }
 
-            sendUpdate(submitBulkEvents.get(0), accessToken, updateCaseMsg);
+            sendUpdate(submitBulkEvents.get(0), accessToken, updateCaseMsg, multipleErrorsList);
 
         } else {
             log.info("No submit events found");
@@ -56,7 +60,8 @@ public class MultipleUpdateService {
 //                                           updateCaseMsg.getJurisdiction());
     }
 
-    private void sendUpdate(SubmitBulkEvent submitBulkEvent, String accessToken, UpdateCaseMsg updateCaseMsg) throws IOException {
+    private void sendUpdate(SubmitBulkEvent submitBulkEvent, String accessToken, UpdateCaseMsg updateCaseMsg,
+                            List<MultipleErrors> multipleErrorsList) throws IOException {
 
         String caseTypeId = updateCaseMsg.getCaseTypeId();
         String jurisdiction = updateCaseMsg.getJurisdiction();
@@ -67,7 +72,16 @@ public class MultipleUpdateService {
                                                                      jurisdiction,
                                                                      caseId);
         log.info("Updating the multiple STATE");
-        submitBulkEvent.getCaseData().setBulkCaseTitle("NAME CHANGED");
+
+        if (multipleErrorsList != null && !multipleErrorsList.isEmpty()) {
+
+            submitBulkEvent.getCaseData().setState(ERRORED_STATE);
+
+        } else {
+
+            submitBulkEvent.getCaseData().setState(OPEN_STATE);
+
+        }
 
         ccdClient.submitBulkEventForCase(accessToken,
                                          submitBulkEvent.getCaseData(),

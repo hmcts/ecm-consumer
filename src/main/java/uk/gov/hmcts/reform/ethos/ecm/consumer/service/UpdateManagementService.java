@@ -51,18 +51,18 @@ public class UpdateManagementService {
 
             log.info("----- MULTIPLE UPDATE FINISHED: sending update to multiple ------");
 
-            multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg);
+            List<MultipleErrors> multipleErrorsList = multipleErrorsRepository.findByMultipleref(updateCaseMsg.getMultipleRef());
 
-            sendEmailToUser(updateCaseMsg);
+            multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg, multipleErrorsList);
+
+            sendEmailToUser(updateCaseMsg, multipleErrorsList);
 
             deleteMultipleRefDatabase(updateCaseMsg.getMultipleRef());
         }
 
     }
 
-    private void sendEmailToUser(UpdateCaseMsg updateCaseMsg) {
-
-        List<MultipleErrors> multipleErrorsList = multipleErrorsRepository.findByMultipleref(updateCaseMsg.getMultipleRef());
+    private void sendEmailToUser(UpdateCaseMsg updateCaseMsg, List<MultipleErrors> multipleErrorsList) {
 
         if (multipleErrorsList != null && !multipleErrorsList.isEmpty()) {
 
