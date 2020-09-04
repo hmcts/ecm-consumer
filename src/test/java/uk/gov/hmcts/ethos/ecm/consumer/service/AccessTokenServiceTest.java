@@ -17,6 +17,7 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.service.AccessTokenService;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
+import static uk.gov.hmcts.reform.ethos.ecm.consumer.service.AccessTokenService.BEARER_AUTH_TYPE;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccessTokenServiceTest {
@@ -40,11 +41,16 @@ public class AccessTokenServiceTest {
         ReflectionTestUtils.setField(accessTokenService, "idamApiOIDCUrl", url);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        ResponseEntity<TokenResponse> responseEntity = new ResponseEntity<>(HttpStatus.OK);
+        ResponseEntity<TokenResponse> responseEntity = new ResponseEntity<>(getTokenResponse(), HttpStatus.OK);
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(getTokenRequestMap(), headers);
         when(restTemplate.postForEntity(eq(url), eq(httpEntity), eq(TokenResponse.class))).thenReturn(responseEntity);
         String token = accessTokenService.getAccessToken("Username", "Password");
-        assertEquals("", token);
+        assertEquals(BEARER_AUTH_TYPE + " accessToken", token);
+    }
+
+    private TokenResponse getTokenResponse() {
+       return new TokenResponse("accessToken", "expiresIn", "idToken",
+                                                        "refreshToken", "scope", "tokenType");
     }
 
     private MultiValueMap<String, String> getTokenRequestMap() {
