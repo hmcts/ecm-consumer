@@ -52,7 +52,9 @@ public class AccessTokenService {
         String accessToken = "";
         if (responseEntity.getBody() != null) {
             TokenResponse tokenResponse = responseEntity.getBody();
-            accessToken = BEARER_AUTH_TYPE + " " + tokenResponse.accessToken;
+            if (tokenResponse != null && tokenResponse.accessToken != null) {
+                accessToken = BEARER_AUTH_TYPE + " " + tokenResponse.accessToken;
+            }
         }
         return accessToken;
     }
