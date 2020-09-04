@@ -49,9 +49,12 @@ public class AccessTokenService {
             = restTemplate.postForEntity(idamApiOIDCUrl,
                                          new HttpEntity<>(getTokenRequest(username, password), getHeaders()),
                                          TokenResponse.class);
-        return responseEntity.getBody() != null
-            ? BEARER_AUTH_TYPE + " " + responseEntity.getBody().accessToken
-            : "";
+        String accessToken = "";
+        if (responseEntity.getBody() != null) {
+            TokenResponse tokenResponse = responseEntity.getBody();
+            accessToken = BEARER_AUTH_TYPE + " " + tokenResponse.accessToken;
+        }
+        return accessToken;
     }
 
     private HttpHeaders getHeaders() {
