@@ -71,16 +71,18 @@ public class MultipleUpdateService {
                                                                      caseTypeId,
                                                                      jurisdiction,
                                                                      caseId);
-        log.info("Updating the multiple STATE");
 
         if (multipleErrorsList != null && !multipleErrorsList.isEmpty()) {
 
             submitBulkEvent.getCaseData().setState(ERRORED_STATE);
 
+            log.info("Updating the multiple STATE: " + ERRORED_STATE);
+
         } else {
 
             submitBulkEvent.getCaseData().setState(OPEN_STATE);
 
+            log.info("Updating the multiple STATE: " + OPEN_STATE);
         }
 
         ccdClient.submitBulkEventForCase(accessToken,
