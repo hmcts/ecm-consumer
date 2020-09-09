@@ -189,7 +189,7 @@ dependencies {
   }
   testCompile group: 'net.serenity-bdd', name: 'serenity-junit', version: '2.2.10'
   testCompile group: 'net.serenity-bdd', name: 'serenity-junit', version: '2.2.10'
-  testCompile group: 'net.serenity-bdd', name: 'serenity-spring', version: '2.2.10'
+  testCompile group: 'net.serenity-bdd', name: 'serenity-spring', version: '2.3.4'
 }
 
 mainClassName = 'uk.gov.hmcts.reform.ethos.ecm.consumer.Application'
