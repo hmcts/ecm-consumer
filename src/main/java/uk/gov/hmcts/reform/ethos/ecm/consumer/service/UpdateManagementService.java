@@ -11,6 +11,8 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleErrorsRe
 import java.io.IOException;
 import java.util.List;
 
+import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.UNPROCESSABLE_MESSAGE;
+
 @Slf4j
 @Service
 public class UpdateManagementService {
@@ -42,7 +44,7 @@ public class UpdateManagementService {
 
     }
 
-    private void checkIfFinish(UpdateCaseMsg updateCaseMsg) throws IOException {
+    public void checkIfFinish(UpdateCaseMsg updateCaseMsg) throws IOException {
 
         int counter = multipleCounterRepository.persistentQGetNextMultipleCountVal(updateCaseMsg.getMultipleRef());
         log.info("COUNTER: " + counter + " TOTAL CASES: " + updateCaseMsg.getTotalCases());
@@ -81,6 +83,13 @@ public class UpdateManagementService {
         log.info("Clearing all multipleRef");
         multipleCounterRepository.deleteAllByMultipleref(multipleRef);
         multipleErrorsRepository.deleteAllByMultipleref(multipleRef);
+
     }
 
+    public void addUnrecoverableErrorToDatabase(UpdateCaseMsg updateCaseMsg) {
+
+        multipleErrorsRepository.persistentQLogMultipleError(updateCaseMsg.getMultipleRef(),
+                                                             updateCaseMsg.getEthosCaseReference(),
+                                                             UNPROCESSABLE_MESSAGE);
+    }
 }

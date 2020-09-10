@@ -32,6 +32,8 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
 
     private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
 
+    private final static int MAX_RETRIES = 10;
+
     private final ObjectMapper objectMapper;
     private final MessageAutoCompletor messageCompletor;
     private final UpdateManagementService updateManagementService;
@@ -94,12 +96,23 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
                                  log.info("COMPLETED RECEIVED 'Update Case' ----> message with ID {}", message.getMessageId())
                     );
             case UNRECOVERABLE_FAILURE:
+
+                log.info("UNRECOVERABLE FAILURE: Check if finished");
+                checkIfFinishWhenError(message);
+
                 return messageCompletor
                     .completeAsync(message.getLockToken())
                     .thenRun(() ->
                                  log.info("UNRECOVERABLE ERROR 'Update Case' ----> message with ID {}", message.getMessageId())
                     );
             default:
+
+                if (message.getDeliveryCount() == MAX_RETRIES) {
+
+                    log.info("RECOVERABLE FAILURE: Last retry checking if finished");
+                    checkIfFinishWhenError(message);
+                }
+
                 log.info(
                     "Letting 'Update Case' message with ID {} return to the queue. Delivery attempt {}.",
                     message.getMessageId(),
@@ -108,6 +121,24 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
 
                 return CompletableFuture.completedFuture(null);
         }
+    }
+
+    private void checkIfFinishWhenError(IMessage message) {
+
+        try {
+
+            UpdateCaseMsg updateCaseMsg = readMessage(message);
+
+            log.info("Adding unrecoverable error to database");
+            updateManagementService.addUnrecoverableErrorToDatabase(updateCaseMsg);
+
+            log.info("Checking if finished");
+            updateManagementService.checkIfFinish(updateCaseMsg);
+
+        } catch (IOException e) {
+            log.error("Error reading message when checking if finished", e);
+        }
+
     }
 
     private MessageProcessingResult tryProcessMessage(IMessage message) {

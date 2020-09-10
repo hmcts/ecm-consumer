@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
-import uk.gov.hmcts.ecm.common.model.bulk.SubmitBulkEvent;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
+import uk.gov.hmcts.ecm.common.model.multiples.SubmitMultipleEvent;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleErrors;
 
@@ -32,17 +32,10 @@ public class MultipleUpdateService {
 
         String accessToken = userService.getAccessToken();
 
-        List<SubmitBulkEvent> submitBulkEvents = retrieveMultipleCase(accessToken, updateCaseMsg);
-        if (submitBulkEvents != null && !submitBulkEvents.isEmpty()) {
+        List<SubmitMultipleEvent> submitMultipleEvents = retrieveMultipleCase(accessToken, updateCaseMsg);
+        if (submitMultipleEvents != null && !submitMultipleEvents.isEmpty()) {
 
-//            for (SubmitBulkEvent submitBulkEvent : submitBulkEvents) {
-//                if (submitBulkEvent.getCaseData().getMultipleReference().equals(updateCaseMsg.getMultipleRef())) {
-//                    log.info("submit BulkEvent: " + submitBulkEvent);
-//                    sendUpdate(submitBulkEvent, accessToken, updateCaseMsg);
-//                }
-//            }
-
-            sendUpdate(submitBulkEvents.get(0), accessToken, updateCaseMsg, multipleErrorsList);
+            sendUpdate(submitMultipleEvents.get(0), accessToken, updateCaseMsg, multipleErrorsList);
 
         } else {
             log.info("No submit events found");
@@ -50,22 +43,19 @@ public class MultipleUpdateService {
         }
     }
 
-    private List<SubmitBulkEvent> retrieveMultipleCase(String authToken, UpdateCaseMsg updateCaseMsg) throws IOException {
+    private List<SubmitMultipleEvent> retrieveMultipleCase(String authToken, UpdateCaseMsg updateCaseMsg) throws IOException {
 
-        return ccdClient.retrieveBulkCasesElasticSearch(authToken,
+        return ccdClient.retrieveMultipleCasesElasticSearch(authToken,
                                                         updateCaseMsg.getCaseTypeId(),
                                                         updateCaseMsg.getMultipleRef());
-//        return ccdClient.retrieveBulkCases(authToken,
-//                                           updateCaseMsg.getCaseTypeId(),
-//                                           updateCaseMsg.getJurisdiction());
     }
 
-    private void sendUpdate(SubmitBulkEvent submitBulkEvent, String accessToken, UpdateCaseMsg updateCaseMsg,
+    private void sendUpdate(SubmitMultipleEvent submitMultipleEvent, String accessToken, UpdateCaseMsg updateCaseMsg,
                             List<MultipleErrors> multipleErrorsList) throws IOException {
 
         String caseTypeId = updateCaseMsg.getCaseTypeId();
         String jurisdiction = updateCaseMsg.getJurisdiction();
-        String caseId = String.valueOf(submitBulkEvent.getCaseId());
+        String caseId = String.valueOf(submitMultipleEvent.getCaseId());
 
         CCDRequest returnedRequest = ccdClient.startBulkAmendEventForCase(accessToken,
                                                                      caseTypeId,
@@ -74,19 +64,19 @@ public class MultipleUpdateService {
 
         if (multipleErrorsList != null && !multipleErrorsList.isEmpty()) {
 
-            submitBulkEvent.getCaseData().setState(ERRORED_STATE);
+            submitMultipleEvent.getCaseData().setState(ERRORED_STATE);
 
             log.info("Updating the multiple STATE: " + ERRORED_STATE);
 
         } else {
 
-            submitBulkEvent.getCaseData().setState(OPEN_STATE);
+            submitMultipleEvent.getCaseData().setState(OPEN_STATE);
 
             log.info("Updating the multiple STATE: " + OPEN_STATE);
         }
 
-        ccdClient.submitBulkEventForCase(accessToken,
-                                         submitBulkEvent.getCaseData(),
+        ccdClient.submitMultipleEventForCase(accessToken,
+                                         submitMultipleEvent.getCaseData(),
                                          caseTypeId,
                                          jurisdiction,
                                          returnedRequest,

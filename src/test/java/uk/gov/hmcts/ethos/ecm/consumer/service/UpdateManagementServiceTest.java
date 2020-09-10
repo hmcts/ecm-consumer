@@ -19,7 +19,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.*;
+import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.CONFIRMATION_OK_EMAIL;
+import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.UNPROCESSABLE_MESSAGE;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UpdateManagementServiceTest {
@@ -60,6 +64,18 @@ public class UpdateManagementServiceTest {
             Collections.singletonList(multipleErrors)));
 
         updateManagementService.updateLogic(updateCaseMsg);
+    }
+
+    @Test
+    public void addUnrecoverableErrorToDatabase() {
+        updateManagementService.addUnrecoverableErrorToDatabase(updateCaseMsg);
+
+        verify(multipleErrorsRepository).persistentQLogMultipleError(
+            eq(updateCaseMsg.getMultipleRef()),
+            eq(updateCaseMsg.getEthosCaseReference()),
+            eq(UNPROCESSABLE_MESSAGE));
+        verifyNoMoreInteractions(multipleErrorsRepository);
+
     }
 
 }
