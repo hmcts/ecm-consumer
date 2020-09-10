@@ -22,7 +22,9 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.UpdateCaseBusReceiverTask;
 import java.io.IOException;
 
 import static java.util.Collections.singletonList;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UpdateCaseBusReceiverTaskTest {
@@ -74,6 +76,20 @@ public class UpdateCaseBusReceiverTaskTest {
             UpdateCaseMsg.class
         )).thenThrow(new RuntimeException("Failed"));
         updateCaseBusReceiverTask.onMessageAsync(message);
+    }
+
+    @Test
+    public void checkIfFinishWhenError() throws IOException {
+        doThrow(new IOException("Failed")).when(updateManagementService).updateLogic(any());
+        updateCaseBusReceiverTask.onMessageAsync(message);
+    }
+
+    @Test
+    public void checkIfFinishWhenErrorException() throws IOException {
+        doThrow(new IOException("Update logic failed")).when(updateManagementService).updateLogic(any());
+        doThrow(new IOException("Check If finish failed")).when(updateManagementService).checkIfFinish(any());
+        updateCaseBusReceiverTask.onMessageAsync(message);
+        verifyNoMoreInteractions(updateManagementService);
     }
 
     private Message createMessage() {
