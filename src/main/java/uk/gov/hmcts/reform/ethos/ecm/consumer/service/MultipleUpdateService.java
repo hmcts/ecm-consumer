@@ -45,7 +45,7 @@ public class MultipleUpdateService {
 
     private List<SubmitMultipleEvent> retrieveMultipleCase(String authToken, UpdateCaseMsg updateCaseMsg) throws IOException {
 
-        return ccdClient.retrieveMultipleCasesElasticSearch(authToken,
+        return ccdClient.retrieveMultipleCasesElasticSearchWithRetries(authToken,
                                                         updateCaseMsg.getCaseTypeId(),
                                                         updateCaseMsg.getMultipleRef());
     }

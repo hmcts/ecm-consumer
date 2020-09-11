@@ -42,13 +42,6 @@ public class SingleUpdateService {
         List<SubmitEvent> submitEvents = retrieveSingleCase(accessToken, updateCaseMsg);
         if (submitEvents != null && !submitEvents.isEmpty()) {
 
-//            for (SubmitEvent submitEvent : submitEvents) {
-//                if (submitEvent.getCaseData().getEthosCaseReference().equals(updateCaseMsg.getEthosCaseReference())) {
-//                    log.info("submit single Event: " + submitEvent);
-//                    sendUpdate(submitEvent, accessToken, updateCaseMsg);
-//                }
-//            }
-
             checkStateAndSendUpdate(submitEvents.get(0), accessToken, updateCaseMsg);
 
         } else {
@@ -61,9 +54,7 @@ public class SingleUpdateService {
         return ccdClient.retrieveCasesElasticSearch(authToken,
                                                     UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId()),
                                                     new ArrayList<>(Collections.singletonList(updateCaseMsg.getEthosCaseReference())));
-//        return ccdClient.retrieveCases(authToken,
-//                                       UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId()),
-//                                       updateCaseMsg.getJurisdiction());
+
     }
 
     private void checkStateAndSendUpdate(SubmitEvent submitEvent, String accessToken, UpdateCaseMsg updateCaseMsg) throws IOException {
