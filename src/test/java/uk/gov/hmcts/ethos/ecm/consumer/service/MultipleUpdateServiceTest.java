@@ -53,7 +53,7 @@ public class MultipleUpdateServiceTest {
     @Test
     public void sendUpdateToMultipleLogic() throws IOException {
         when(userService.getAccessToken()).thenReturn("Token");
-        when(ccdClient.retrieveMultipleCasesElasticSearch(anyString(), anyString(), anyString())).thenReturn(submitMultipleEvents);
+        when(ccdClient.retrieveMultipleCasesElasticSearchWithRetries(anyString(), anyString(), anyString())).thenReturn(submitMultipleEvents);
 
         //when(ccdClient.retrieveBulkCases(anyString(), anyString(), anyString())).thenReturn(submitBulkEvents);
 
@@ -64,7 +64,7 @@ public class MultipleUpdateServiceTest {
     @Test
     public void sendUpdateToMultipleLogicEmptyES() throws IOException {
         when(userService.getAccessToken()).thenReturn("Token");
-        when(ccdClient.retrieveMultipleCasesElasticSearch(anyString(), anyString(), anyString())).thenReturn(new ArrayList<>());
+        when(ccdClient.retrieveMultipleCasesElasticSearchWithRetries(anyString(), anyString(), anyString())).thenReturn(new ArrayList<>());
 
         //when(ccdClient.retrieveBulkCases(anyString(), anyString(), anyString())).thenReturn(new ArrayList<>());
 
@@ -74,7 +74,7 @@ public class MultipleUpdateServiceTest {
     @Test
     public void sendUpdateToMultipleLogicNullES() throws IOException {
         when(userService.getAccessToken()).thenReturn("Token");
-        when(ccdClient.retrieveMultipleCasesElasticSearch(anyString(), anyString(), anyString())).thenReturn(null);
+        when(ccdClient.retrieveMultipleCasesElasticSearchWithRetries(anyString(), anyString(), anyString())).thenReturn(null);
 
         //when(ccdClient.retrieveBulkCases(anyString(), anyString(), anyString())).thenReturn(null);
 
@@ -84,7 +84,7 @@ public class MultipleUpdateServiceTest {
     @Test
     public void sendUpdateToMultipleLogicWithErrors() throws IOException {
         when(userService.getAccessToken()).thenReturn("Token");
-        when(ccdClient.retrieveMultipleCasesElasticSearch(anyString(), anyString(), anyString())).thenReturn(submitMultipleEvents);
+        when(ccdClient.retrieveMultipleCasesElasticSearchWithRetries(anyString(), anyString(), anyString())).thenReturn(submitMultipleEvents);
 
         //when(ccdClient.retrieveBulkCases(anyString(), anyString(), anyString())).thenReturn(submitBulkEvents);
 
@@ -98,7 +98,7 @@ public class MultipleUpdateServiceTest {
     @Test(expected = Exception.class)
     public void sendUpdateToMultipleLogicException() throws IOException {
         when(userService.getAccessToken()).thenReturn("Token");
-        when(ccdClient.retrieveMultipleCasesElasticSearch(anyString(), anyString(), anyString())).thenThrow(new Exception());
+        when(ccdClient.retrieveMultipleCasesElasticSearchWithRetries(anyString(), anyString(), anyString())).thenThrow(new Exception());
 
         //when(ccdClient.retrieveBulkCases(anyString(), anyString(), anyString())).thenThrow(new Exception());
 
