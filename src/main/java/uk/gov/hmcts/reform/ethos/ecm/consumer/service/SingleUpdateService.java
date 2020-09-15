@@ -101,21 +101,21 @@ public class SingleUpdateService {
 
     private String validateCreationSingleCase(SubmitEvent submitEvent, String multipleRef) {
 
-        if (!submitEvent.getState().equals(ACCEPTED_STATE)) {
-
-            log.info("VALIDATION ERROR: state of single case not Accepted");
-            return UNPROCESSABLE_STATE;
-
-        }
-
-        if (submitEvent.getCaseData().getMultipleReference() != null
-            && !submitEvent.getCaseData().getMultipleReference().trim().isEmpty()
-            && !submitEvent.getCaseData().getMultipleReference().equals(multipleRef)) {
-
-            log.info("VALIDATION ERROR: already another multiple");
-            return SINGLE_CASE_TAKEN;
-
-        }
+//        if (!submitEvent.getState().equals(ACCEPTED_STATE)) {
+//
+//            log.info("VALIDATION ERROR: state of single case not Accepted");
+//            return UNPROCESSABLE_STATE;
+//
+//        }
+//
+//        if (submitEvent.getCaseData().getMultipleReference() != null
+//            && !submitEvent.getCaseData().getMultipleReference().trim().isEmpty()
+//            && !submitEvent.getCaseData().getMultipleReference().equals(multipleRef)) {
+//
+//            log.info("VALIDATION ERROR: already another multiple");
+//            return SINGLE_CASE_TAKEN;
+//
+//        }
 
         return "";
     }
