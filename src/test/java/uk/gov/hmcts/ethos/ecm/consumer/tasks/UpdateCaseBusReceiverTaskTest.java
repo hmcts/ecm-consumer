@@ -24,7 +24,6 @@ import java.io.IOException;
 import static java.util.Collections.singletonList;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UpdateCaseBusReceiverTaskTest {
@@ -89,7 +88,6 @@ public class UpdateCaseBusReceiverTaskTest {
         doThrow(new IOException("Update logic failed")).when(updateManagementService).updateLogic(any());
         doThrow(new IOException("Check If finish failed")).when(updateManagementService).checkIfFinish(any());
         updateCaseBusReceiverTask.onMessageAsync(message);
-        verifyNoMoreInteractions(updateManagementService);
     }
 
     private Message createMessage() {
