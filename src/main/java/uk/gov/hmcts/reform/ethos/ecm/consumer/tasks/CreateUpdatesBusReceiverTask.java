@@ -154,6 +154,7 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
             .jurisdiction(createUpdatesMsg.getJurisdiction())
             .caseTypeId(createUpdatesMsg.getCaseTypeId())
             .username(createUpdatesMsg.getUsername())
+            .confirmation(createUpdatesMsg.getConfirmation())
             .dataModelParent(createUpdatesMsg.getDataModelParent())
             .build();
     }

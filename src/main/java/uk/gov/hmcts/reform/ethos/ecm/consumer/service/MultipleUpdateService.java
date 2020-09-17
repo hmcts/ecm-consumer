@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
+import uk.gov.hmcts.ecm.common.model.multiples.MultipleData;
 import uk.gov.hmcts.ecm.common.model.multiples.SubmitMultipleEvent;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleErrors;
@@ -62,24 +63,26 @@ public class MultipleUpdateService {
                                                                      jurisdiction,
                                                                      caseId);
 
+        MultipleData multipleData = new MultipleData();
+
         if (multipleErrorsList != null && !multipleErrorsList.isEmpty()) {
 
-            submitMultipleEvent.getCaseData().setState(ERRORED_STATE);
+            multipleData.setState(ERRORED_STATE);
 
             log.info("Updating the multiple STATE: " + ERRORED_STATE);
 
         } else {
 
-            submitMultipleEvent.getCaseData().setState(OPEN_STATE);
+            multipleData.setState(OPEN_STATE);
 
             log.info("Updating the multiple STATE: " + OPEN_STATE);
         }
 
         ccdClient.submitMultipleEventForCase(accessToken,
-                                         submitMultipleEvent.getCaseData(),
-                                         caseTypeId,
-                                         jurisdiction,
-                                         returnedRequest,
-                                         caseId);
+                                             multipleData,
+                                             caseTypeId,
+                                             jurisdiction,
+                                             returnedRequest,
+                                             caseId);
     }
 }

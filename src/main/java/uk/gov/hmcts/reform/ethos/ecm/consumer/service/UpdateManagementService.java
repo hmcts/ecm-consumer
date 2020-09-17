@@ -11,6 +11,7 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleErrorsRe
 import java.io.IOException;
 import java.util.List;
 
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
 import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.UNPROCESSABLE_MESSAGE;
 
 @Slf4j
@@ -55,9 +56,13 @@ public class UpdateManagementService {
 
             List<MultipleErrors> multipleErrorsList = multipleErrorsRepository.findByMultipleref(updateCaseMsg.getMultipleRef());
 
-            multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg, multipleErrorsList);
+            if (updateCaseMsg.getConfirmation().equals(YES)) {
 
-            sendEmailToUser(updateCaseMsg, multipleErrorsList);
+                multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg, multipleErrorsList);
+
+                sendEmailToUser(updateCaseMsg, multipleErrorsList);
+
+            }
 
             deleteMultipleRefDatabase(updateCaseMsg.getMultipleRef());
         }
