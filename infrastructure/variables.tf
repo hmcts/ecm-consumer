@@ -1,7 +1,6 @@
 variable "product" {}
 
 variable "component" {
-  type = string
 }
 
 variable "location" {
@@ -31,7 +30,6 @@ variable "idam_api_url" {
 }
 
 variable "appinsights_location" {
-  type        = string
   default     = "West Europe"
   description = "Location for Application Insights"
 }
@@ -55,26 +53,22 @@ variable "ccd_data_store_api_url" {
 }
 
 variable "jenkins_AAD_objectId" {
-  type                        = string
-  description                 = "(Required) The Azure AD object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies."
+  description  = "(Required) The Azure AD object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies."
 }
 
 variable "ilbIp" {}
 
 variable "team_name" {
-  type        = string
   description = "Team name"
   default     = "ECM Project"
 }
 
 variable "team_contact" {
-  type        = string
   description = "Team contact"
   default     = "#ethos-repl-service"
 }
 
 variable "destroy_me" {
-  type        = string
   description = "Here be dragons! In the future if this is set to Yes then automation will delete this resource on a schedule. Please set to No unless you know what you are doing"
   default     = "No"
 }
