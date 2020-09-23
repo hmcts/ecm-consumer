@@ -61,19 +61,19 @@ public class SingleUpdateService {
 
         log.info("STATE of submit event: " + submitEvent.getState());
 
-        String validationError = validateCreationSingleCase(submitEvent, updateCaseMsg.getMultipleRef());
-
-        if (!validationError.isEmpty()) {
-
-            multipleErrorsRepository.persistentQLogMultipleError(updateCaseMsg.getMultipleRef(),
-                                                                 updateCaseMsg.getEthosCaseReference(),
-                                                                 validationError);
-
-        } else {
+//        String validationError = validateCreationSingleCase(submitEvent, updateCaseMsg.getMultipleRef());
+//
+//        if (!validationError.isEmpty()) {
+//
+//            multipleErrorsRepository.persistentQLogMultipleError(updateCaseMsg.getMultipleRef(),
+//                                                                 updateCaseMsg.getEthosCaseReference(),
+//                                                                 validationError);
+//
+//        } else {
 
             sendUpdate(submitEvent, accessToken, updateCaseMsg);
 
-        }
+       // }
     }
 
     private void sendUpdate(SubmitEvent submitEvent, String accessToken, UpdateCaseMsg updateCaseMsg) throws IOException {
