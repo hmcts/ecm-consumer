@@ -21,10 +21,6 @@ variable "micro_service" {
   default = "ecm_consumer"
 }
 
-variable "managed_identity_object_id" {
-  default = ""
-}
-
 variable "idam_api_url" {
   default = "http://sidam-api:5000"
 }
