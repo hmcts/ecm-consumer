@@ -151,7 +151,7 @@ dependencies {
 
   implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.12'
 
-  implementation group: 'uk.gov.hmcts.reform', name: 'ecm-common', version: '0.0.72'
+  implementation group: 'uk.gov.hmcts.reform', name: 'ecm-common', version: '0.0.73'
 
   implementation group: 'uk.gov.service.notify', name: 'notifications-java-client', version: versions.hmctsNotify
 
