@@ -82,7 +82,7 @@ public class SingleUpdateService {
         String jurisdiction = updateCaseMsg.getJurisdiction();
         String caseId = String.valueOf(submitEvent.getCaseId());
 
-        CCDRequest returnedRequest = ccdClient.startEventForCase(accessToken,
+        CCDRequest returnedRequest = ccdClient.startEventForCaseAPIRole(accessToken,
                                                                  caseTypeId,
                                                                  jurisdiction,
                                                                  caseId);
