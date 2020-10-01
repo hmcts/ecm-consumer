@@ -81,5 +81,9 @@
     <notes><![CDATA[ CVE-2007-1652  ]]></notes>
     <cve>CVE-2007-1652</cve>
   </suppress>
+  <suppress>
+    <notes><![CDATA[ CVE-2020-5421  ]]></notes>
+    <cve>CVE-2020-5421</cve>
+  </suppress>
 
 </suppressions>
