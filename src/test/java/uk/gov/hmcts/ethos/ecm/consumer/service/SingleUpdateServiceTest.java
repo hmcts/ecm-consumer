@@ -34,8 +34,6 @@ public class SingleUpdateServiceTest {
     private CcdClient ccdClient;
     @Mock
     private UserService userService;
-    @Mock
-    private MultipleErrorsRepository multipleErrorsRepository;
 
     private List<SubmitEvent> submitEvents;
     private SubmitEvent submitEvent;
