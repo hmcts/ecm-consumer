@@ -53,8 +53,6 @@ public class CreateUpdatesBusReceiverTaskTest {
             CreateUpdatesMsg.class
         )).thenReturn(msg);
         createUpdatesBusReceiverTask.onMessageAsync(message);
-
-        verifyMocks();
     }
 
     @Test
@@ -77,8 +75,6 @@ public class CreateUpdatesBusReceiverTaskTest {
             CreateUpdatesMsg.class
         )).thenThrow(new JsonMappingException("Failed to parse"));
         createUpdatesBusReceiverTask.onMessageAsync(message);
-
-        verifyMocks();
     }
 
     @Test
@@ -88,8 +84,6 @@ public class CreateUpdatesBusReceiverTaskTest {
             CreateUpdatesMsg.class
         )).thenThrow(new RuntimeException("Failed"));
         createUpdatesBusReceiverTask.onMessageAsync(message);
-
-        verifyMocks();
     }
 
     private Message createMessage(CreateUpdatesMsg createUpdatesMsg) {
@@ -109,16 +103,6 @@ public class CreateUpdatesBusReceiverTaskTest {
         } catch (JsonProcessingException e) {
             throw new InvalidMessageException("Unable to create message body in json format", e);
         }
-    }
-
-    private void verifyMocks() throws IOException {
-
-        verify(objectMapper).readValue(MessageBodyRetriever.getBinaryData(message.getMessageBody()),
-                                       CreateUpdatesMsg.class);
-        verify(objectMapper).writeValueAsBytes(msg);
-
-        verifyNoMoreInteractions(objectMapper);
-
     }
 
 }
