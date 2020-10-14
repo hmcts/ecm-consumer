@@ -1,10 +1,13 @@
 package uk.gov.hmcts.ethos.ecm.consumer.tasks;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.microsoft.azure.servicebus.IMessage;
 import com.microsoft.azure.servicebus.Message;
 import com.microsoft.azure.servicebus.MessageBody;
+import org.hibernate.sql.Update;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import uk.gov.hmcts.ecm.common.exceptions.InvalidMessageException;
+import uk.gov.hmcts.ecm.common.model.servicebus.CreateUpdatesMsg;
 import uk.gov.hmcts.ecm.common.model.servicebus.Msg;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ecm.common.servicebus.MessageBodyRetriever;
@@ -46,8 +50,10 @@ public class UpdateCaseBusReceiverTaskTest {
     }
 
     @Test
-    public void onMessageAsync() {
+    public void onMessageAsync() throws IOException {
         updateCaseBusReceiverTask.onMessageAsync(message);
+
+        verifyMocks();
     }
 
     @Test
@@ -57,6 +63,8 @@ public class UpdateCaseBusReceiverTaskTest {
             UpdateCaseMsg.class
         )).thenThrow(new JsonMappingException("Failed to parse"));
         updateCaseBusReceiverTask.onMessageAsync(message);
+
+        verifyMocks();
     }
 
     @Test
@@ -66,6 +74,8 @@ public class UpdateCaseBusReceiverTaskTest {
             UpdateCaseMsg.class
         )).thenThrow(new IOException("Failed"));
         updateCaseBusReceiverTask.onMessageAsync(message);
+
+        verifyMocks();
     }
 
     @Test
@@ -75,12 +85,16 @@ public class UpdateCaseBusReceiverTaskTest {
             UpdateCaseMsg.class
         )).thenThrow(new RuntimeException("Failed"));
         updateCaseBusReceiverTask.onMessageAsync(message);
+
+        verifyMocks();
     }
 
     @Test
     public void checkIfFinishWhenError() throws IOException {
         doThrow(new IOException("Failed")).when(updateManagementService).updateLogic(any());
         updateCaseBusReceiverTask.onMessageAsync(message);
+
+        verifyMocks();
     }
 
     @Test
@@ -88,6 +102,8 @@ public class UpdateCaseBusReceiverTaskTest {
         doThrow(new IOException("Update logic failed")).when(updateManagementService).updateLogic(any());
         doThrow(new IOException("Check If finish failed")).when(updateManagementService).checkIfFinish(any());
         updateCaseBusReceiverTask.onMessageAsync(message);
+
+        verifyMocks();
     }
 
     private Message createMessage() {
@@ -108,6 +124,32 @@ public class UpdateCaseBusReceiverTaskTest {
         } catch (JsonProcessingException e) {
             throw new InvalidMessageException("Unable to create message body in json format", e);
         }
+    }
+
+    private UpdateCaseMsg readMessage(IMessage message) throws IOException {
+        try {
+            return objectMapper.readValue(
+                MessageBodyRetriever.getBinaryData(message.getMessageBody()),
+                UpdateCaseMsg.class
+            );
+        } catch (JsonParseException | JsonMappingException e) {
+            throw new InvalidMessageException("Failed to parse 'Update Case' message", e);
+        }
+    }
+
+    private void verifyMocks() throws IOException {
+
+        verify(objectMapper).readValue(MessageBodyRetriever.getBinaryData(message.getMessageBody()),
+                                       UpdateCaseMsg.class);
+
+        verify(objectMapper).writeValueAsBytes(message);
+
+        verifyNoMoreInteractions(objectMapper);
+
+        verify(updateManagementService).updateLogic(readMessage(message));
+
+        verifyNoMoreInteractions(updateManagementService);
+
     }
 
 }

@@ -20,9 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.*;
-import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.CONFIRMATION_OK_EMAIL;
 import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.UNPROCESSABLE_MESSAGE;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -54,6 +52,20 @@ public class UpdateManagementServiceTest {
         when(multipleErrorsRepository.findByMultipleref(updateCaseMsg.getMultipleRef())).thenReturn(new ArrayList<>());
 
         updateManagementService.updateLogic(updateCaseMsg);
+
+        verify(singleUpdateService).sendUpdateToSingleLogic(eq(updateCaseMsg));
+        verifyNoMoreInteractions(singleUpdateService);
+        verify(emailService).sendConfirmationEmail(eq(updateCaseMsg.getUsername()), eq(updateCaseMsg.getMultipleRef()));
+        verifyNoMoreInteractions(emailService);
+        verify(multipleUpdateService).sendUpdateToMultipleLogic(eq(updateCaseMsg), any());
+        verifyNoMoreInteractions(multipleUpdateService);
+        verify(multipleCounterRepository).persistentQGetNextMultipleCountVal(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleCounterRepository).deleteAllByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleErrorsRepository).findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleErrorsRepository).deleteAllByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verifyNoMoreInteractions(multipleErrorsRepository);
+        verifyNoMoreInteractions(multipleCounterRepository);
+
     }
 
     @Test
@@ -64,6 +76,22 @@ public class UpdateManagementServiceTest {
             Collections.singletonList(multipleErrors)));
 
         updateManagementService.updateLogic(updateCaseMsg);
+
+        verify(singleUpdateService).sendUpdateToSingleLogic(eq(updateCaseMsg));
+        verifyNoMoreInteractions(singleUpdateService);
+        verify(emailService).sendConfirmationErrorEmail(eq(updateCaseMsg.getUsername()),
+                                                        eq(new ArrayList<>(Collections.singletonList(multipleErrors))),
+                                                        eq(updateCaseMsg.getMultipleRef()));
+        verifyNoMoreInteractions(emailService);
+        verify(multipleUpdateService).sendUpdateToMultipleLogic(eq(updateCaseMsg), any());
+        verifyNoMoreInteractions(multipleUpdateService);
+        verify(multipleCounterRepository).persistentQGetNextMultipleCountVal(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleCounterRepository).deleteAllByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleErrorsRepository).findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleErrorsRepository).deleteAllByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verifyNoMoreInteractions(multipleErrorsRepository);
+        verifyNoMoreInteractions(multipleCounterRepository);
+
     }
 
     @Test

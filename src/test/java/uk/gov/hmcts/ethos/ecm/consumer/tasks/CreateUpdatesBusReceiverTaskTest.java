@@ -22,7 +22,7 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.CreateUpdatesBusReceiverTask
 import java.io.IOException;
 
 import static java.util.Collections.singletonList;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CreateUpdatesBusReceiverTaskTest {
@@ -53,6 +53,8 @@ public class CreateUpdatesBusReceiverTaskTest {
             CreateUpdatesMsg.class
         )).thenReturn(msg);
         createUpdatesBusReceiverTask.onMessageAsync(message);
+
+        verifyMocks();
     }
 
     @Test
@@ -64,6 +66,8 @@ public class CreateUpdatesBusReceiverTaskTest {
             CreateUpdatesMsg.class
         )).thenReturn(msg);
         createUpdatesBusReceiverTask.onMessageAsync(message);
+
+        verify(objectMapper, times(2)).writeValueAsBytes(msg);
     }
 
     @Test
@@ -73,6 +77,8 @@ public class CreateUpdatesBusReceiverTaskTest {
             CreateUpdatesMsg.class
         )).thenThrow(new JsonMappingException("Failed to parse"));
         createUpdatesBusReceiverTask.onMessageAsync(message);
+
+        verifyMocks();
     }
 
     @Test
@@ -82,6 +88,8 @@ public class CreateUpdatesBusReceiverTaskTest {
             CreateUpdatesMsg.class
         )).thenThrow(new RuntimeException("Failed"));
         createUpdatesBusReceiverTask.onMessageAsync(message);
+
+        verifyMocks();
     }
 
     private Message createMessage(CreateUpdatesMsg createUpdatesMsg) {
@@ -102,4 +110,15 @@ public class CreateUpdatesBusReceiverTaskTest {
             throw new InvalidMessageException("Unable to create message body in json format", e);
         }
     }
+
+    private void verifyMocks() throws IOException {
+
+        verify(objectMapper).readValue(MessageBodyRetriever.getBinaryData(message.getMessageBody()),
+                                       CreateUpdatesMsg.class);
+        verify(objectMapper).writeValueAsBytes(msg);
+
+        verifyNoMoreInteractions(objectMapper);
+
+    }
+
 }
