@@ -64,6 +64,31 @@ public class SingleUpdateServiceTest {
     }
 
     @Test
+    public void sendPreAcceptToSingleLogic() throws IOException {
+        updateCaseMsg = Helper.generatePreAcceptCaseMsg();
+        when(userService.getAccessToken()).thenReturn(userToken);
+        when(ccdClient.retrieveCasesElasticSearch(anyString(), anyString(), anyList())).thenReturn(submitEvents);
+
+        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString())).thenReturn(submitEvent);
+        singleUpdateService.sendUpdateToSingleLogic(updateCaseMsg);
+
+        verify(ccdClient).retrieveCasesElasticSearch(eq(userToken),
+                                                     eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
+                                                     eq(new ArrayList<>(Collections.singletonList(updateCaseMsg.getEthosCaseReference()))));
+        verify(ccdClient).startEventForCasePreAcceptBulkSingle(eq(userToken),
+                                                   eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
+                                                   eq(updateCaseMsg.getJurisdiction()),
+                                                   any());
+        verify(ccdClient).submitEventForCase(eq(userToken),
+                                             any(),
+                                             eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
+                                             eq(updateCaseMsg.getJurisdiction()),
+                                             any(),
+                                             any());
+        verifyNoMoreInteractions(ccdClient);
+    }
+
+    @Test
     public void sendUpdateToSingleLogicEmptyES() throws IOException {
         when(userService.getAccessToken()).thenReturn(userToken);
         when(ccdClient.retrieveCasesElasticSearch(anyString(), anyString(), anyList())).thenReturn(new ArrayList<>());

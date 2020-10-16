@@ -3,6 +3,7 @@ package uk.gov.hmcts.ethos.ecm.consumer.helpers;
 import uk.gov.hmcts.ecm.common.model.servicebus.CreateUpdatesMsg;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationDataModel;
+import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.PreAcceptDataModel;
 
 import java.util.Arrays;
 
@@ -16,6 +17,9 @@ public class Helper {
         .multipleRef("4150001")
         .build();
 
+    private static PreAcceptDataModel preAcceptDataModel = PreAcceptDataModel.builder()
+        .build();
+
     public static UpdateCaseMsg generateUpdateCaseMsg() {
         return UpdateCaseMsg.builder()
             .msgId("1")
@@ -27,6 +31,20 @@ public class Helper {
             .username("eric.ccdcooper@gmail.com")
             .confirmation(YES)
             .dataModelParent(creationDataModel)
+            .build();
+    }
+
+    public static UpdateCaseMsg generatePreAcceptCaseMsg() {
+        return UpdateCaseMsg.builder()
+            .msgId("1")
+            .jurisdiction("EMPLOYMENT")
+            .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
+            .multipleRef("4150001")
+            .ethosCaseReference("4150002/2020")
+            .totalCases("1")
+            .username("eric.ccdcooper@gmail.com")
+            .confirmation(YES)
+            .dataModelParent(preAcceptDataModel)
             .build();
     }
 

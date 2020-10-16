@@ -8,6 +8,8 @@ import uk.gov.hmcts.ecm.common.helpers.UtilHelper;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
+import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.PreAcceptDataModel;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,21 +57,49 @@ public class SingleUpdateService {
         String jurisdiction = updateCaseMsg.getJurisdiction();
         String caseId = String.valueOf(submitEvent.getCaseId());
 
-        CCDRequest returnedRequest = ccdClient.startEventForCaseAPIRole(accessToken,
-                                                                 caseTypeId,
-                                                                 jurisdiction,
-                                                                 caseId);
+        CCDRequest returnedRequest = getReturnedRequest(accessToken,
+                                                        caseTypeId,
+                                                        jurisdiction,
+                                                        caseId,
+                                                        updateCaseMsg);
+
         log.info("Sending Update of single case: " + updateCaseMsg);
         updateCaseMsg.runTask(submitEvent);
         log.info("SubmitEventUpdated: " + submitEvent.getCaseData().getMultipleReference());
 
-       ccdClient.submitEventForCase(accessToken,
+        ccdClient.submitEventForCase(accessToken,
                                     submitEvent.getCaseData(),
                                     caseTypeId,
                                     jurisdiction,
                                     returnedRequest,
                                     caseId);
 
+    }
+
+    private CCDRequest getReturnedRequest(String accessToken, String caseTypeId, String jurisdiction,
+                                          String caseId, UpdateCaseMsg updateCaseMsg) throws IOException {
+
+        if (updateCaseMsg.getDataModelParent() instanceof PreAcceptDataModel) {
+
+            log.info("Sending pre accept update");
+
+            return ccdClient.startEventForCasePreAcceptBulkSingle(
+                accessToken,
+                caseTypeId,
+                jurisdiction,
+                caseId);
+
+        } else {
+
+            log.info("Sending a batch update");
+
+            return ccdClient.startEventForCaseAPIRole(
+                accessToken,
+                caseTypeId,
+                jurisdiction,
+                caseId);
+
+        }
     }
 
 }
