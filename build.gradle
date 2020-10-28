@@ -149,7 +149,7 @@ dependencies {
   implementation group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
   implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger
 
-  implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.12'
+  implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
 
   implementation group: 'uk.gov.hmcts.reform', name: 'ecm-common', version: '0.0.80'
 
