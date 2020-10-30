@@ -78,13 +78,13 @@ public class UpdateCaseBusReceiverTaskTest {
     }
 
     @Test
-    public void checkIfFinishWhenError() throws IOException {
+    public void checkIfFinishWhenError() throws IOException, InterruptedException {
         doThrow(new IOException("Failed")).when(updateManagementService).updateLogic(any());
         updateCaseBusReceiverTask.onMessageAsync(message);
     }
 
     @Test
-    public void checkIfFinishWhenErrorException() throws IOException {
+    public void checkIfFinishWhenErrorException() throws IOException, InterruptedException {
         doThrow(new IOException("Update logic failed")).when(updateManagementService).updateLogic(any());
         doThrow(new IOException("Check If finish failed")).when(updateManagementService).checkIfFinish(any());
         updateCaseBusReceiverTask.onMessageAsync(message);

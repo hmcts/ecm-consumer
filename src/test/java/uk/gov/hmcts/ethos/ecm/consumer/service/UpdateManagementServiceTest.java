@@ -47,7 +47,7 @@ public class UpdateManagementServiceTest {
     }
 
     @Test
-    public void updateLogic() throws IOException {
+    public void updateLogic() throws IOException, InterruptedException {
         when(multipleCounterRepository.persistentQGetNextMultipleCountVal(updateCaseMsg.getMultipleRef())).thenReturn(1);
         when(multipleErrorsRepository.findByMultipleref(updateCaseMsg.getMultipleRef())).thenReturn(new ArrayList<>());
 
@@ -69,7 +69,7 @@ public class UpdateManagementServiceTest {
     }
 
     @Test
-    public void updateLogicWithErrorsDefaultConstructor() throws IOException {
+    public void updateLogicWithErrorsDefaultConstructor() throws IOException, InterruptedException {
         MultipleErrors multipleErrors = new MultipleErrors();
         when(multipleCounterRepository.persistentQGetNextMultipleCountVal(updateCaseMsg.getMultipleRef())).thenReturn(1);
         when(multipleErrorsRepository.findByMultipleref(updateCaseMsg.getMultipleRef())).thenReturn(new ArrayList<>(

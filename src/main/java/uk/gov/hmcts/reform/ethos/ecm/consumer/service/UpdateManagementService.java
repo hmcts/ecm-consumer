@@ -37,7 +37,7 @@ public class UpdateManagementService {
         this.emailService = emailService;
     }
 
-    public void updateLogic(UpdateCaseMsg updateCaseMsg) throws IOException {
+    public void updateLogic(UpdateCaseMsg updateCaseMsg) throws IOException, InterruptedException {
 
         singleUpdateService.sendUpdateToSingleLogic(updateCaseMsg);
 
@@ -45,9 +45,9 @@ public class UpdateManagementService {
 
     }
 
-    public void checkIfFinish(UpdateCaseMsg updateCaseMsg) throws IOException {
+    public void checkIfFinish(UpdateCaseMsg updateCaseMsg) throws IOException, InterruptedException {
 
-        int counter = multipleCounterRepository.persistentQGetNextMultipleCountVal(updateCaseMsg.getMultipleRef());
+        int counter = getNextCounterNumberWithDelay(updateCaseMsg.getMultipleRef());
 
         log.info("COUNTER: " + counter + " TOTAL CASES: " + updateCaseMsg.getTotalCases());
 
@@ -67,6 +67,18 @@ public class UpdateManagementService {
 
             deleteMultipleRefDatabase(updateCaseMsg.getMultipleRef());
         }
+
+    }
+
+    private int getNextCounterNumberWithDelay(String multipleRef) throws InterruptedException {
+
+        long delay = (long)(Math.random() * 1000);
+
+        log.info("Delaying... " + delay);
+
+        Thread.sleep(delay);
+
+        return multipleCounterRepository.persistentQGetNextMultipleCountVal(multipleRef);
 
     }
 

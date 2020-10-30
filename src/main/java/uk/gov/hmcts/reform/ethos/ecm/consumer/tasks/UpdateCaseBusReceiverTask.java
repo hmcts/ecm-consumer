@@ -135,7 +135,7 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
             log.info("Checking if finished");
             updateManagementService.checkIfFinish(updateCaseMsg);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("Error reading message when checking if finished", e);
         }
 
