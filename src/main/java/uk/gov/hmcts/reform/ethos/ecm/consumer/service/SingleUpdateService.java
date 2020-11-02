@@ -63,7 +63,7 @@ public class SingleUpdateService {
                                                         caseId,
                                                         updateCaseMsg);
 
-        log.info("Sending Update of single case: " + updateCaseMsg);
+        //log.info("Sending Update of single case: " + updateCaseMsg);
         updateCaseMsg.runTask(submitEvent);
         log.info("SubmitEventUpdated: " + submitEvent.getCaseData().getMultipleReference());
 
