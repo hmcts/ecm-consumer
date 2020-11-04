@@ -63,9 +63,7 @@ public class SingleUpdateService {
                                                         caseId,
                                                         updateCaseMsg);
 
-        //log.info("Sending Update of single case: " + updateCaseMsg);
         updateCaseMsg.runTask(submitEvent);
-        log.info("SubmitEventUpdated: " + submitEvent.getCaseData().getMultipleReference());
 
         ccdClient.submitEventForCase(accessToken,
                                     submitEvent.getCaseData(),
@@ -81,8 +79,6 @@ public class SingleUpdateService {
 
         if (updateCaseMsg.getDataModelParent() instanceof PreAcceptDataModel) {
 
-            log.info("Sending pre accept update");
-
             return ccdClient.startEventForCasePreAcceptBulkSingle(
                 accessToken,
                 caseTypeId,
@@ -90,8 +86,6 @@ public class SingleUpdateService {
                 caseId);
 
         } else {
-
-            log.info("Sending a batch update");
 
             return ccdClient.startEventForCaseAPIRole(
                 accessToken,

@@ -74,8 +74,6 @@ public class UpdateManagementService {
 
         long delay = (long)(Math.random() * 1000);
 
-        log.info("Delaying... " + delay);
-
         Thread.sleep(delay);
 
         return multipleCounterRepository.persistentQGetNextMultipleCountVal(multipleRef);

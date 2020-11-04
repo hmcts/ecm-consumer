@@ -44,7 +44,6 @@ public class AccessTokenService {
     }
 
     public String getAccessToken(String username, String password) {
-        log.info("IdamAPI: " + idamApiOIDCUrl);
         ResponseEntity<TokenResponse> responseEntity
             = restTemplate.postForEntity(idamApiOIDCUrl,
                                          new HttpEntity<>(getTokenRequest(username, password), getHeaders()),
