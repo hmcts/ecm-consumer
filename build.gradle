@@ -188,7 +188,7 @@ dependencies {
     exclude module: 'jaxb-osgi'
   }
   testCompile group: 'net.serenity-bdd', name: 'serenity-junit', version: '2.3.6'
-  testCompile group: 'net.serenity-bdd', name: 'serenity-spring', version: '2.3.6'
+  testCompile group: 'net.serenity-bdd', name: 'serenity-spring', version: '2.3.8'
 }
 
 mainClassName = 'uk.gov.hmcts.reform.ethos.ecm.consumer.Application'
