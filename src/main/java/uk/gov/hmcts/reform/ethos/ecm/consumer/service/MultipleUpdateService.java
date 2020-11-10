@@ -39,7 +39,7 @@ public class MultipleUpdateService {
             sendUpdate(submitMultipleEvents.get(0), accessToken, updateCaseMsg, multipleErrorsList);
 
         } else {
-            log.info("No submit events found");
+            log.info("No events found");
 
         }
     }
