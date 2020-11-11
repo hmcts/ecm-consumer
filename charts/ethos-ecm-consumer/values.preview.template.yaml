@@ -2,7 +2,7 @@ java:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
   environment:
-    ECM_CONSUMER_DB_CONN_OPTIONS: "?sslmode=require"
+    ECM_CONSUMER_DB_CONN_OPTIONS: ""
     ECM_CONSUMER_POSTGRES_HOST: "{{ .Release.Name }}-postgresql"
     ECM_CONSUMER_POSTGRES_DATABASE: "{{ .Values.postgresql.postgresqlDatabase}}"
     ECM_CONSUMER_POSTGRES_USER: "{{ .Values.postgresql.postgresqlUsername}}"
@@ -20,10 +20,5 @@ java:
         - update-case-queue-send-connection-string
         - update-case-queue-listen-connection-string
         - idam-client-secret
-        - ecm-consumer-postgres-password
-        - ecm-consumer-postgres-user
-        - ecm-consumer-postgres-host
-        - ecm-consumer-postgres-port
-        - ecm-consumer-postgres-database
   postgresql:
     enabled: true
