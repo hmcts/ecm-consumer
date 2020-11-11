@@ -20,10 +20,5 @@ java:
         - update-case-queue-send-connection-string
         - update-case-queue-listen-connection-string
         - idam-client-secret
-        - ecm-consumer-postgres-password
-        - ecm-consumer-postgres-user
-        - ecm-consumer-postgres-host
-        - ecm-consumer-postgres-port
-        - ecm-consumer-postgres-database
   postgresql:
     enabled: true
