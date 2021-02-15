@@ -93,4 +93,33 @@
     <notes><![CDATA[ CVE-2020-7020  ]]></notes>
     <cve>CVE-2020-7020</cve>
   </suppress>
+  <suppress>
+    <notes><![CDATA[ CVE-2020-25638  ]]></notes>
+    <cve>CVE-2020-25638</cve>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[ CVE-2020-29243  ]]></notes>
+    <cve>CVE-2020-29243</cve>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[ CVE-2020-29242  ]]></notes>
+    <cve>CVE-2020-29242</cve>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[ CVE-2020-29245  ]]></notes>
+    <cve>CVE-2020-29245</cve>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[ CVE-2020-29244  ]]></notes>
+    <cve>CVE-2020-29244</cve>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[ CVE-2020-17527  ]]></notes>
+    <cve>CVE-2020-17527</cve>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[ CVE-2021-24122  ]]></notes>
+    <cve>CVE-2021-24122</cve>
+  </suppress>
+
 </suppressions>
