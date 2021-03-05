@@ -9,6 +9,7 @@ import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.PreAcceptDataModel;
+import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.RejectDataModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -77,7 +78,8 @@ public class SingleUpdateService {
     private CCDRequest getReturnedRequest(String accessToken, String caseTypeId, String jurisdiction,
                                           String caseId, UpdateCaseMsg updateCaseMsg) throws IOException {
 
-        if (updateCaseMsg.getDataModelParent() instanceof PreAcceptDataModel) {
+        if (updateCaseMsg.getDataModelParent() instanceof PreAcceptDataModel
+            || updateCaseMsg.getDataModelParent() instanceof RejectDataModel) {
 
             return ccdClient.startEventForCasePreAcceptBulkSingle(
                 accessToken,
