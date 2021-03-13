@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
+import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.ResetStateDataModel;
 import uk.gov.hmcts.ethos.ecm.consumer.helpers.Helper;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleErrors;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleCounterRepository;
@@ -103,6 +104,20 @@ public class UpdateManagementServiceTest {
             eq(updateCaseMsg.getEthosCaseReference()),
             eq(UNPROCESSABLE_MESSAGE));
         verifyNoMoreInteractions(multipleErrorsRepository);
+
+    }
+
+    @Test
+    public void updateLogicResetState() throws IOException, InterruptedException {
+
+        ResetStateDataModel resetStateDataModel = ResetStateDataModel.builder().build();
+        updateCaseMsg.setDataModelParent(resetStateDataModel);
+        updateManagementService.updateLogic(updateCaseMsg);
+
+        verify(multipleCounterRepository).deleteAllByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleErrorsRepository).deleteAllByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verifyNoMoreInteractions(multipleErrorsRepository);
+        verifyNoMoreInteractions(multipleCounterRepository);
 
     }
 

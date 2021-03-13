@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
+import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.ResetStateDataModel;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleErrors;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleCounterRepository;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleErrorsRepository;
@@ -39,9 +40,19 @@ public class UpdateManagementService {
 
     public void updateLogic(UpdateCaseMsg updateCaseMsg) throws IOException, InterruptedException {
 
-        singleUpdateService.sendUpdateToSingleLogic(updateCaseMsg);
+        if (updateCaseMsg.getDataModelParent() instanceof ResetStateDataModel) {
 
-        checkIfFinish(updateCaseMsg);
+            log.info("Resetting state of multiple to Open State");
+
+            deleteMultipleRefDatabase(updateCaseMsg.getMultipleRef());
+
+        } else {
+
+            singleUpdateService.sendUpdateToSingleLogic(updateCaseMsg);
+
+            checkIfFinish(updateCaseMsg);
+
+        }
 
     }
 
