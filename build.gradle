@@ -6,6 +6,9 @@ plugins {
   id 'org.owasp.dependencycheck' version '6.0.3'
   id 'com.github.ben-manes.versions' version '0.36.0'
   id 'org.sonarqube' version '3.0'
+  id 'uk.gov.hmcts.java' version '0.12.5'
+  id 'au.com.dius.pact' version '4.1.0'
+  id 'io.freefair.lombok' version '5.3.0'
 }
 
 group = 'uk.gov.hmcts.ethos.ecm'
@@ -52,14 +55,37 @@ sourceSets {
     compileClasspath += main.output + test.output
     runtimeClasspath += main.output + test.output
   }
+
+  contractTest {
+    java {
+      compileClasspath += main.output
+      runtimeClasspath += main.output
+      java.srcDir 'src/contractTest/java'
+      resources.srcDir 'src/contractTest/resources'
+    }
+    resources.srcDir file('src/contractTest/resources')
+  }
 }
 
 configurations {
   functionalCompile.extendsFrom testCompile
   functionalRuntime.extendsFrom testRuntime
+  contractTestCompile.extendsFrom testCompile
+  contractTestRuntime.extendsFrom testRuntime
 }
 
+tasks.withType(Test) {
+  useJUnitPlatform()
+
+  testLogging {
+    exceptionFormat = 'full'
+  }
+}
+tasks.withType(JavaCompile) {
+  options.compilerArgs << "-Xlint:unchecked" << "-Werror"
+}
 test {
+  useJUnitPlatform()
   exclude '**/*ComponentTest*'
 }
 
@@ -108,6 +134,46 @@ dependencyCheck {
   }
 }
 
+project.ext {
+  pacticipant = 'ecm_consumer'
+  pacticipantVersion = getCheckedOutGitCommitHash()
+}
+
+def getCheckedOutGitCommitHash() {
+  'git rev-parse --verify --short HEAD'.execute().text.trim()
+}
+
+task runContractTests(type: Test, description: 'Runs contract tests.', group: 'Verification') {
+  onlyIf {
+    return System.env.SKIP_CONTRACT_TESTS == null || System.env.SKIP_CONTRACT_TESTS == 'false'
+  }
+  useJUnitPlatform()
+  testClassesDirs = sourceSets.contractTest.output.classesDirs
+  classpath = sourceSets.contractTest.runtimeClasspath
+  systemProperty 'pact.rootDir', "pacts"
+  testLogging.showStandardStreams = true
+
+}
+
+task runAndPublishConsumerPactTests(type: Test, description: 'Publish pact test to broker.', group: 'Verification') {
+  logger.lifecycle("Runs pact consumer Tests")
+  testClassesDirs = sourceSets.contractTest.output.classesDirs
+  classpath = sourceSets.contractTest.runtimeClasspath
+}
+
+runAndPublishConsumerPactTests.finalizedBy pactPublish
+
+pact {
+  broker {
+    pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:80'
+  }
+  publish {
+    pactDirectory = 'pacts'
+    tags = [System.getenv("PACT_BRANCH_NAME") ?: 'Dev']
+    version = project.pacticipantVersion
+  }
+}
+
 dependencyManagement {
   dependencies {
     dependency group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.67'
@@ -131,13 +197,18 @@ def versions = [
   reformLogging   : '5.1.1',
   springBoot      : springBoot.class.package.implementationVersion,
   springfoxSwagger: '2.9.2',
-  hmctsNotify     : '3.15.1-RELEASE'
+  hmctsNotify     : '3.15.1-RELEASE',
+  pact_version    : '4.1.7'
 ]
 
 dependencies {
 
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-resource-server'
   implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
 
@@ -154,12 +225,14 @@ dependencies {
   implementation group: 'uk.gov.hmcts.reform', name: 'ecm-common', version: '0.1.42'
 
   implementation group: 'uk.gov.service.notify', name: 'notifications-java-client', version: versions.hmctsNotify
+  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.2.RELEASE'
 
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.5.RELEASE'
   implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '11.0'
   implementation group: 'io.github.openfeign', name: 'feign-core', version: '11.0'
 
   implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
+  implementation group: 'org.springframework.cloud', name: 'spring-cloud-dependencies', version: 'Hoxton.SR4'
 
   implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: '5.1.7'
   implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: '5.1.7'
@@ -189,6 +262,22 @@ dependencies {
   }
   testCompile group: 'net.serenity-bdd', name: 'serenity-junit', version: '2.3.8'
   testCompile group: 'net.serenity-bdd', name: 'serenity-spring', version: '2.3.8'
+
+  contractTestCompile group: 'uk.gov.hmcts.reform', name: 'ecm-common', version: '0.1.44'
+  contractTestCompile group: 'au.com.dius.pact.consumer', name: 'junit5', version: versions.pact_version
+  contractTestCompile group: 'au.com.dius.pact.consumer', name: 'java8', version: versions.pact_version
+  contractTestCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.3.9.RELEASE'
+  contractTestCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junit_jupiter
+  contractTestRuntime group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junit_jupiter
+  contractTestImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junit_jupiter
+  contractTestRuntime group: 'org.junit.platform', name: 'junit-platform-commons', version: '1.7.0'
+  contractTestImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.4'
+  contractTestCompile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.4'
+  contractTestImplementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.7.RELEASE'
+  contractTestImplementation group: 'org.springframework.cloud', name: 'spring-cloud-netflix-ribbon', version: '2.2.7.RELEASE'
+
+  contractTestImplementation sourceSets.main.runtimeClasspath
+  contractTestImplementation sourceSets.test.runtimeClasspath
 }
 
 mainClassName = 'uk.gov.hmcts.reform.ethos.ecm.consumer.Application'
@@ -204,5 +293,5 @@ bootJar {
 }
 
 wrapper {
-    distributionType = Wrapper.DistributionType.ALL
+  distributionType = Wrapper.DistributionType.ALL
 }
