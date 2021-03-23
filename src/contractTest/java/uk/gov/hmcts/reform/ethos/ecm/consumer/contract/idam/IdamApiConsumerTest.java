@@ -35,7 +35,7 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.IdamApi;
     properties = {"idam.api.url=localhost:8888"}
 )
 @Import(HttpClientConfiguration.class)
-@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class IdamApiConsumerTest {
     @Autowired
     private IdamApi idamApi;
