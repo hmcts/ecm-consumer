@@ -10,6 +10,7 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleCounterR
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleErrorsRepository;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.List;
 
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.SINGLE_CASE_TYPE;
@@ -76,7 +77,9 @@ public class UpdateManagementService {
 
     private int getNextCounterNumberWithDelay(String multipleRef) throws InterruptedException {
 
-        long delay = (long)(Math.random() * 1000);
+        SecureRandom random = new SecureRandom();
+
+        long delay = random.nextInt(1000);
 
         Thread.sleep(delay);
 
