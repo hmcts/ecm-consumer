@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.SINGLE_CASE_TYPE;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -52,8 +54,11 @@ public class SingleReadingService {
 
     public List<SubmitEvent> retrieveSingleCase(String authToken, UpdateCaseMsg updateCaseMsg) throws IOException {
 
-        return ccdClient.retrieveCasesElasticSearch(authToken,
-                                                    UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId()),
+        String caseType = !updateCaseMsg.getMultipleRef().equals(SINGLE_CASE_TYPE)
+            ? UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())
+            : updateCaseMsg.getCaseTypeId();
+
+        return ccdClient.retrieveCasesElasticSearch(authToken, caseType,
                                                     new ArrayList<>(Collections.singletonList(updateCaseMsg.getEthosCaseReference())));
 
     }
