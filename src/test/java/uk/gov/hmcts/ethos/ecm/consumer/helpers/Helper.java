@@ -12,6 +12,10 @@ import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
 
 public class Helper {
 
+    private Helper() {
+
+    }
+
     private static CreationDataModel creationDataModel = CreationDataModel.builder()
         .lead("4150002/2020")
         .multipleRef("4150001")

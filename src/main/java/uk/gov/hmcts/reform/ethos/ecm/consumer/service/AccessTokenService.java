@@ -36,7 +36,7 @@ public class AccessTokenService {
     public static final String CODE = "code";
 
     @Value("${idam.api.url.oidc}")
-    private String idamApiOIDCUrl;
+    private String idamApiOidcUrl;
 
     @Autowired
     public AccessTokenService(OAuth2Configuration oauth2Configuration, RestTemplate restTemplate) {
@@ -47,9 +47,10 @@ public class AccessTokenService {
     @Cacheable("token")
     public String getAccessToken(String username, String password) {
         ResponseEntity<TokenResponse> responseEntity
-            = restTemplate.postForEntity(idamApiOIDCUrl,
-                                         new HttpEntity<>(getTokenRequest(username, password), getHeaders()),
-                                         TokenResponse.class);
+            = restTemplate.postForEntity(
+            idamApiOidcUrl,
+            new HttpEntity<>(getTokenRequest(username, password), getHeaders()),
+            TokenResponse.class);
         String accessToken = "";
         if (responseEntity.getBody() != null) {
             TokenResponse tokenResponse = responseEntity.getBody();

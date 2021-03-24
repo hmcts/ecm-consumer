@@ -6,7 +6,11 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -25,20 +29,20 @@ public class AccessTokenServiceTest {
     @InjectMocks
     private AccessTokenService accessTokenService;
     @Mock
-    private OAuth2Configuration oAuth2Configuration;
+    private OAuth2Configuration oauth2Configuration;
     @Mock
     private RestTemplate restTemplate;
 
     @Before
     public void setUp() {
-        oAuth2Configuration = new OAuth2Configuration("redirectUri", "id", "secret");
-        accessTokenService = new AccessTokenService(oAuth2Configuration, restTemplate);
+        oauth2Configuration = new OAuth2Configuration("redirectUri", "id", "secret");
+        accessTokenService = new AccessTokenService(oauth2Configuration, restTemplate);
     }
 
     @Test
     public void getAccessTokenTest() {
         String url = "http://sidam-api:5000/o/token";
-        ReflectionTestUtils.setField(accessTokenService, "idamApiOIDCUrl", url);
+        ReflectionTestUtils.setField(accessTokenService, "idamApiOidcUrl", url);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         ResponseEntity<TokenResponse> responseEntity = new ResponseEntity<>(getTokenResponse(), HttpStatus.OK);
@@ -49,7 +53,7 @@ public class AccessTokenServiceTest {
     }
 
     private TokenResponse getTokenResponse() {
-       return new TokenResponse("accessToken", "expiresIn", "idToken",
+        return new TokenResponse("accessToken", "expiresIn", "idToken",
                                                         "refreshToken", "scope", "tokenType");
     }
 

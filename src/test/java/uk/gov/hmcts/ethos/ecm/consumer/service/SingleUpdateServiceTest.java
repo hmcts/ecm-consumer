@@ -20,8 +20,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.ACCEPTED_STATE;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.SUBMITTED_STATE;
 
@@ -57,7 +62,8 @@ public class SingleUpdateServiceTest {
         when(userService.getAccessToken()).thenReturn(userToken);
         when(ccdClient.retrieveCasesElasticSearch(anyString(), anyString(), anyList())).thenReturn(submitEvents);
 
-        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString())).thenReturn(submitEvent);
+        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(),
+                                          any(), anyString())).thenReturn(submitEvent);
         singleUpdateService.sendUpdateToSingleLogic(updateCaseMsg);
 
         verifyMocks();
@@ -69,12 +75,15 @@ public class SingleUpdateServiceTest {
         when(userService.getAccessToken()).thenReturn(userToken);
         when(ccdClient.retrieveCasesElasticSearch(anyString(), anyString(), anyList())).thenReturn(submitEvents);
 
-        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString())).thenReturn(submitEvent);
+        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(),
+                                          any(), anyString())).thenReturn(submitEvent);
         singleUpdateService.sendUpdateToSingleLogic(updateCaseMsg);
 
         verify(ccdClient).retrieveCasesElasticSearch(eq(userToken),
                                                      eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
-                                                     eq(new ArrayList<>(Collections.singletonList(updateCaseMsg.getEthosCaseReference()))));
+                                                     eq(new ArrayList<>(
+                                                         Collections.singletonList(updateCaseMsg.getEthosCaseReference()
+                                                         ))));
         verify(ccdClient).startEventForCasePreAcceptBulkSingle(eq(userToken),
                                                    eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
                                                    eq(updateCaseMsg.getJurisdiction()),
@@ -97,7 +106,9 @@ public class SingleUpdateServiceTest {
 
         verify(ccdClient).retrieveCasesElasticSearch(eq(userToken),
                                                      eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
-                                                     eq(new ArrayList<>(Collections.singletonList(updateCaseMsg.getEthosCaseReference()))));
+                                                     eq(new ArrayList<>(Collections.singletonList(
+                                                         updateCaseMsg.getEthosCaseReference()
+                                                     ))));
         verifyNoMoreInteractions(ccdClient);
     }
 
@@ -110,7 +121,9 @@ public class SingleUpdateServiceTest {
 
         verify(ccdClient).retrieveCasesElasticSearch(eq(userToken),
                                                      eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
-                                                     eq(new ArrayList<>(Collections.singletonList(updateCaseMsg.getEthosCaseReference()))));
+                                                     eq(new ArrayList<>(Collections.singletonList(
+                                                         updateCaseMsg.getEthosCaseReference()
+                                                     ))));
         verifyNoMoreInteractions(ccdClient);
     }
 
@@ -120,7 +133,8 @@ public class SingleUpdateServiceTest {
         when(userService.getAccessToken()).thenReturn(userToken);
         when(ccdClient.retrieveCasesElasticSearch(anyString(), anyString(), anyList())).thenReturn(submitEvents);
 
-        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString())).thenReturn(submitEvent);
+        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(),
+                                          any(), anyString())).thenReturn(submitEvent);
         singleUpdateService.sendUpdateToSingleLogic(updateCaseMsg);
 
         verifyMocks();
@@ -132,7 +146,8 @@ public class SingleUpdateServiceTest {
         when(userService.getAccessToken()).thenReturn(userToken);
         when(ccdClient.retrieveCasesElasticSearch(anyString(), anyString(), anyList())).thenReturn(submitEvents);
 
-        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString())).thenReturn(submitEvent);
+        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(),
+                                          any(), anyString())).thenReturn(submitEvent);
         singleUpdateService.sendUpdateToSingleLogic(updateCaseMsg);
 
         verifyMocks();
@@ -151,7 +166,9 @@ public class SingleUpdateServiceTest {
 
         verify(ccdClient).retrieveCasesElasticSearch(eq(userToken),
                                                      eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
-                                                     eq(new ArrayList<>(Collections.singletonList(updateCaseMsg.getEthosCaseReference()))));
+                                                     eq(new ArrayList<>(Collections.singletonList(
+                                                         updateCaseMsg.getEthosCaseReference()
+                                                     ))));
         verify(ccdClient).startEventForCaseAPIRole(eq(userToken),
                                                    eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
                                                    eq(updateCaseMsg.getJurisdiction()),

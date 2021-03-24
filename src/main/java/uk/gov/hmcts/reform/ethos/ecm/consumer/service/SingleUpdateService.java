@@ -48,11 +48,14 @@ public class SingleUpdateService {
 
         return ccdClient.retrieveCasesElasticSearch(authToken,
                                                     UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId()),
-                                                    new ArrayList<>(Collections.singletonList(updateCaseMsg.getEthosCaseReference())));
+                                                    new ArrayList<>(Collections.singletonList(
+                                                        updateCaseMsg.getEthosCaseReference()
+                                                    )));
 
     }
 
-    private void sendUpdate(SubmitEvent submitEvent, String accessToken, UpdateCaseMsg updateCaseMsg) throws IOException {
+    private void sendUpdate(SubmitEvent submitEvent, String accessToken,
+                            UpdateCaseMsg updateCaseMsg) throws IOException {
 
         String caseTypeId = UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId());
         String jurisdiction = updateCaseMsg.getJurisdiction();

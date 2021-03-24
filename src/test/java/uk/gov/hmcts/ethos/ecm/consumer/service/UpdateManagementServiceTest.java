@@ -21,7 +21,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+
 import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.UNPROCESSABLE_MESSAGE;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -49,7 +53,8 @@ public class UpdateManagementServiceTest {
 
     @Test
     public void updateLogic() throws IOException, InterruptedException {
-        when(multipleCounterRepository.persistentQGetNextMultipleCountVal(updateCaseMsg.getMultipleRef())).thenReturn(1);
+        when(multipleCounterRepository.persistentQGetNextMultipleCountVal(
+            updateCaseMsg.getMultipleRef())).thenReturn(1);
         when(multipleErrorsRepository.findByMultipleref(updateCaseMsg.getMultipleRef())).thenReturn(new ArrayList<>());
 
         updateManagementService.updateLogic(updateCaseMsg);
@@ -72,7 +77,8 @@ public class UpdateManagementServiceTest {
     @Test
     public void updateLogicWithErrorsDefaultConstructor() throws IOException, InterruptedException {
         MultipleErrors multipleErrors = new MultipleErrors();
-        when(multipleCounterRepository.persistentQGetNextMultipleCountVal(updateCaseMsg.getMultipleRef())).thenReturn(1);
+        when(multipleCounterRepository.persistentQGetNextMultipleCountVal(
+            updateCaseMsg.getMultipleRef())).thenReturn(1);
         when(multipleErrorsRepository.findByMultipleref(updateCaseMsg.getMultipleRef())).thenReturn(new ArrayList<>(
             Collections.singletonList(multipleErrors)));
 
