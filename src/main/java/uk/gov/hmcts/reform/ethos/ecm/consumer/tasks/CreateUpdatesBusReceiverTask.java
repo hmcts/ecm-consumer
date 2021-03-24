@@ -94,8 +94,7 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
             return messageCompletor
                 .completeAsync(message.getLockToken())
                 .thenRun(() ->
-                             log.info("COMPLETED RECEIVED 'Create Updates' ----> message with ID {}",
-                                      message.getMessageId())
+                             log.info("COMPLETED RECEIVED 'Create Updates' ----> message with ID {}", message.getMessageId())
                 );
         }
         log.info(

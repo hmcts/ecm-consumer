@@ -20,12 +20,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.UNPROCESSABLE_STATE;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -58,8 +54,7 @@ public class MultipleUpdateServiceTest {
     public void sendUpdateToMultipleLogic() throws IOException {
         when(userService.getAccessToken()).thenReturn(userToken);
         when(ccdClient.retrieveMultipleCasesElasticSearchWithRetries(anyString(),
-                                                                     anyString(),
-                                                                     anyString())).thenReturn(submitMultipleEvents);
+                                                                     anyString(), anyString())).thenReturn(submitMultipleEvents);
 
         when(ccdClient.submitMultipleEventForCase(anyString(), any(), anyString(),
                                                   anyString(), any(), anyString())).thenReturn(submitMultipleEvent);
@@ -72,8 +67,7 @@ public class MultipleUpdateServiceTest {
     public void sendUpdateToMultipleLogicEmptyES() throws IOException {
         when(userService.getAccessToken()).thenReturn(userToken);
         when(ccdClient.retrieveMultipleCasesElasticSearchWithRetries(anyString(),
-                                                                     anyString(),
-                                                                     anyString())).thenReturn(new ArrayList<>());
+                                                                     anyString(), anyString())).thenReturn(new ArrayList<>());
 
         multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg, new ArrayList<>());
 
@@ -86,8 +80,7 @@ public class MultipleUpdateServiceTest {
     @Test
     public void sendUpdateToMultipleLogicNullES() throws IOException {
         when(userService.getAccessToken()).thenReturn(userToken);
-        when(ccdClient.retrieveMultipleCasesElasticSearchWithRetries(anyString(), anyString(),
-                                                                     anyString())).thenReturn(null);
+        when(ccdClient.retrieveMultipleCasesElasticSearchWithRetries(anyString(), anyString(), anyString())).thenReturn(null);
 
         multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg, new ArrayList<>());
 
@@ -101,12 +94,10 @@ public class MultipleUpdateServiceTest {
     public void sendUpdateToMultipleLogicWithErrors() throws IOException {
         when(userService.getAccessToken()).thenReturn(userToken);
         when(ccdClient.retrieveMultipleCasesElasticSearchWithRetries(anyString(),
-                                                                     anyString(),
-                                                                     anyString())).thenReturn(submitMultipleEvents);
+                                                                     anyString(), anyString())).thenReturn(submitMultipleEvents);
 
         when(ccdClient.submitMultipleEventForCase(anyString(), any(),
-                                                  anyString(), anyString(), any(),
-                                                  anyString())).thenReturn(submitMultipleEvent);
+                                                  anyString(), anyString(), any(), anyString())).thenReturn(submitMultipleEvent);
         MultipleErrors multipleErrors = new MultipleErrors();
         multipleErrors.setDescription(UNPROCESSABLE_STATE);
         multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg, new ArrayList<>(Collections.singletonList(

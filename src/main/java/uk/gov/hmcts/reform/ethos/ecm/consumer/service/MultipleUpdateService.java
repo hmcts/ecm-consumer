@@ -29,8 +29,7 @@ public class MultipleUpdateService {
         this.userService = userService;
     }
 
-    public void sendUpdateToMultipleLogic(UpdateCaseMsg updateCaseMsg,
-                                          List<MultipleErrors> multipleErrorsList) throws IOException {
+    public void sendUpdateToMultipleLogic(UpdateCaseMsg updateCaseMsg, List<MultipleErrors> multipleErrorsList) throws IOException {
 
         String accessToken = userService.getAccessToken();
 
@@ -45,8 +44,7 @@ public class MultipleUpdateService {
         }
     }
 
-    private List<SubmitMultipleEvent> retrieveMultipleCase(String authToken,
-                                                           UpdateCaseMsg updateCaseMsg) throws IOException {
+    private List<SubmitMultipleEvent> retrieveMultipleCase(String authToken, UpdateCaseMsg updateCaseMsg) throws IOException {
 
         return ccdClient.retrieveMultipleCasesElasticSearchWithRetries(authToken,
                                                         updateCaseMsg.getCaseTypeId(),

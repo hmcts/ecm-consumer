@@ -22,9 +22,7 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.CreateUpdatesBusReceiverTask
 import java.io.IOException;
 
 import static java.util.Collections.singletonList;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CreateUpdatesBusReceiverTaskTest {
@@ -43,8 +41,7 @@ public class CreateUpdatesBusReceiverTaskTest {
 
     @Before
     public void setUp() {
-        createUpdatesBusReceiverTask = new CreateUpdatesBusReceiverTask(objectMapper,
-                                                                        messageCompletor, serviceBusSender);
+        createUpdatesBusReceiverTask = new CreateUpdatesBusReceiverTask(objectMapper, messageCompletor, serviceBusSender);
         msg = Helper.generateCreateUpdatesMsg();
         message = createMessage(msg);
     }

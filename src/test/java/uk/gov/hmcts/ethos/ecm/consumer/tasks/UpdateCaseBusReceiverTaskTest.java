@@ -23,8 +23,7 @@ import java.io.IOException;
 
 import static java.util.Collections.singletonList;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UpdateCaseBusReceiverTaskTest {
@@ -42,8 +41,7 @@ public class UpdateCaseBusReceiverTaskTest {
 
     @Before
     public void setUp() {
-        updateCaseBusReceiverTask = new UpdateCaseBusReceiverTask(objectMapper,
-                                                                  messageCompletor, updateManagementService);
+        updateCaseBusReceiverTask = new UpdateCaseBusReceiverTask(objectMapper, messageCompletor, updateManagementService);
         message = createMessage();
     }
 

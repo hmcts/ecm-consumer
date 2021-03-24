@@ -74,8 +74,7 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
         );
     }
 
-    private CompletableFuture<Void> tryFinaliseMessageAsync(IMessage message,
-                                                            MessageProcessingResult processingResult) {
+    private CompletableFuture<Void> tryFinaliseMessageAsync(IMessage message, MessageProcessingResult processingResult) {
         return finaliseMessageAsync(message, processingResult)
             .exceptionally(updateCaseError -> {
                 log.error(
@@ -94,8 +93,7 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
                 return messageCompletor
                     .completeAsync(message.getLockToken())
                     .thenRun(() ->
-                                 log.info("COMPLETED RECEIVED 'Update Case' ----> message with ID {}",
-                                          message.getMessageId())
+                                 log.info("COMPLETED RECEIVED 'Update Case' ----> message with ID {}", message.getMessageId())
                     );
             case UNRECOVERABLE_FAILURE:
 
@@ -105,8 +103,7 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
                 return messageCompletor
                     .completeAsync(message.getLockToken())
                     .thenRun(() ->
-                                 log.info("UNRECOVERABLE ERROR 'Update Case' ----> message with ID {}",
-                                          message.getMessageId())
+                                 log.info("UNRECOVERABLE ERROR 'Update Case' ----> message with ID {}", message.getMessageId())
                     );
             default:
 

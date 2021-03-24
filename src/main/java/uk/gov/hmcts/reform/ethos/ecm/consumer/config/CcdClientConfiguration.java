@@ -20,8 +20,7 @@ public class CcdClientConfiguration {
     @Bean
     public CcdClient ccdClient(RestTemplate restTemplate, UserService userService,
                                CaseDataBuilder caseDataBuilder, AuthTokenGenerator authTokenGenerator) {
-        return new CcdClient(restTemplate, userService, caseDataBuilder,
-                             new CcdClientConfig(ccdDataStoreApiBaseUrl), authTokenGenerator);
+        return new CcdClient(restTemplate, userService, caseDataBuilder, new CcdClientConfig(ccdDataStoreApiBaseUrl), authTokenGenerator);
     }
 
     @Bean
