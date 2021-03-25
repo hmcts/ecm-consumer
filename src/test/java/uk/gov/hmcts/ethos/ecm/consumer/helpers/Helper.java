@@ -3,12 +3,12 @@ package uk.gov.hmcts.ethos.ecm.consumer.helpers;
 import uk.gov.hmcts.ecm.common.model.servicebus.CreateUpdatesMsg;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationDataModel;
+import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationSingleDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.PreAcceptDataModel;
 
 import java.util.Arrays;
 
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.SCOTLAND_BULK_CASE_TYPE_ID;
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.*;
 
 public class Helper {
 
@@ -18,6 +18,12 @@ public class Helper {
         .build();
 
     private static PreAcceptDataModel preAcceptDataModel = PreAcceptDataModel.builder()
+        .build();
+
+    private static CreationSingleDataModel creationSingleDataModel = CreationSingleDataModel.builder()
+        .positionTypeCT("PositionTypeCT")
+        .officeCT("Manchester")
+        .ccdGatewayBaseUrl("ccdGatewayBaseUrl")
         .build();
 
     public static UpdateCaseMsg generateUpdateCaseMsg() {
@@ -59,6 +65,20 @@ public class Helper {
             .username("eric.ccdcooper@gmail.com")
             .confirmation(YES)
             .dataModelParent(creationDataModel)
+            .build();
+    }
+
+    public static UpdateCaseMsg generateCreationSingleCaseMsg() {
+        return UpdateCaseMsg.builder()
+            .msgId("1")
+            .jurisdiction("EMPLOYMENT")
+            .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
+            .multipleRef("4150001")
+            .ethosCaseReference("4150002/2020")
+            .totalCases("1")
+            .username("eric.ccdcooper@gmail.com")
+            .confirmation(NO)
+            .dataModelParent(creationSingleDataModel)
             .build();
     }
 

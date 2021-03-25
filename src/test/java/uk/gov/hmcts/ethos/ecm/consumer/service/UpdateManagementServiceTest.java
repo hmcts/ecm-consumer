@@ -12,10 +12,8 @@ import uk.gov.hmcts.ethos.ecm.consumer.helpers.Helper;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleErrors;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleCounterRepository;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleErrorsRepository;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.service.EmailService;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleUpdateService;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.service.SingleUpdateService;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UpdateManagementService;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.service.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +34,7 @@ public class UpdateManagementServiceTest {
     @Mock
     private MultipleUpdateService multipleUpdateService;
     @Mock
-    private SingleUpdateService singleUpdateService;
+    private SingleReadingService singleReadingService;
     @Mock
     private EmailService emailService;
 
@@ -54,8 +52,8 @@ public class UpdateManagementServiceTest {
 
         updateManagementService.updateLogic(updateCaseMsg);
 
-        verify(singleUpdateService).sendUpdateToSingleLogic(eq(updateCaseMsg));
-        verifyNoMoreInteractions(singleUpdateService);
+        verify(singleReadingService).sendUpdateToSingleLogic(eq(updateCaseMsg));
+        verifyNoMoreInteractions(singleReadingService);
         verify(emailService).sendConfirmationEmail(eq(updateCaseMsg.getUsername()), eq(updateCaseMsg.getMultipleRef()));
         verifyNoMoreInteractions(emailService);
         verify(multipleUpdateService).sendUpdateToMultipleLogic(eq(updateCaseMsg), any());
@@ -78,8 +76,8 @@ public class UpdateManagementServiceTest {
 
         updateManagementService.updateLogic(updateCaseMsg);
 
-        verify(singleUpdateService).sendUpdateToSingleLogic(eq(updateCaseMsg));
-        verifyNoMoreInteractions(singleUpdateService);
+        verify(singleReadingService).sendUpdateToSingleLogic(eq(updateCaseMsg));
+        verifyNoMoreInteractions(singleReadingService);
         verify(emailService).sendConfirmationErrorEmail(eq(updateCaseMsg.getUsername()),
                                                         eq(new ArrayList<>(Collections.singletonList(multipleErrors))),
                                                         eq(updateCaseMsg.getMultipleRef()));

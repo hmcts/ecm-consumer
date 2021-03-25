@@ -1,7 +1,7 @@
 package uk.gov.hmcts.reform.ethos.ecm.consumer.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.ResetStateDataModel;
@@ -10,33 +10,23 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleCounterR
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleErrorsRepository;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.List;
 
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.SINGLE_CASE_TYPE;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
 import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.UNPROCESSABLE_MESSAGE;
 
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class UpdateManagementService {
 
     private final MultipleCounterRepository multipleCounterRepository;
     private final MultipleErrorsRepository multipleErrorsRepository;
     private final MultipleUpdateService multipleUpdateService;
-    private final SingleUpdateService singleUpdateService;
+    private final SingleReadingService singleReadingService;
     private final EmailService emailService;
-
-    @Autowired
-    public UpdateManagementService(MultipleCounterRepository multipleCounterRepository,
-                                   MultipleErrorsRepository multipleErrorsRepository,
-                                   MultipleUpdateService multipleUpdateService,
-                                   SingleUpdateService singleUpdateService,
-                                   EmailService emailService) {
-        this.multipleCounterRepository = multipleCounterRepository;
-        this.multipleErrorsRepository = multipleErrorsRepository;
-        this.multipleUpdateService = multipleUpdateService;
-        this.singleUpdateService = singleUpdateService;
-        this.emailService = emailService;
-    }
 
     public void updateLogic(UpdateCaseMsg updateCaseMsg) throws IOException, InterruptedException {
 
@@ -48,9 +38,13 @@ public class UpdateManagementService {
 
         } else {
 
-            singleUpdateService.sendUpdateToSingleLogic(updateCaseMsg);
+            singleReadingService.sendUpdateToSingleLogic(updateCaseMsg);
 
-            checkIfFinish(updateCaseMsg);
+            if (!updateCaseMsg.getMultipleRef().equals(SINGLE_CASE_TYPE)) {
+
+                checkIfFinish(updateCaseMsg);
+
+            }
 
         }
 
@@ -83,7 +77,9 @@ public class UpdateManagementService {
 
     private int getNextCounterNumberWithDelay(String multipleRef) throws InterruptedException {
 
-        long delay = (long)(Math.random() * 1000);
+        SecureRandom random = new SecureRandom();
+
+        long delay = random.nextInt(1000);
 
         Thread.sleep(delay);
 
