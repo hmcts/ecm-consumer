@@ -87,6 +87,10 @@ public class UpdateCaseBusReceiverTaskTest {
 
     @Test
     public void checkIfFinishWhenError() throws IOException, InterruptedException {
+        when(objectMapper.readValue(
+            MessageBodyRetriever.getBinaryData(message.getMessageBody()),
+            UpdateCaseMsg.class
+        )).thenReturn(Helper.generateUpdateCaseMsg());
         doThrow(new IOException("Failed")).when(updateManagementService).updateLogic(any());
         updateCaseBusReceiverTask.onMessageAsync(message);
     }
