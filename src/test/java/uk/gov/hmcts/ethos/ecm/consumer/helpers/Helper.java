@@ -7,6 +7,8 @@ import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationSingleDataMode
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.PreAcceptDataModel;
 
 import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.NO;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.SCOTLAND_BULK_CASE_TYPE_ID;
@@ -90,6 +92,16 @@ public class Helper {
             .confirmation(NO)
             .dataModelParent(creationSingleDataModel)
             .build();
+    }
+
+    public static CompletableFuture<Void> getCompletableFuture() {
+        return CompletableFuture.runAsync(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                throw new IllegalStateException(e);
+            }
+        });
     }
 
 }

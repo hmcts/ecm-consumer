@@ -22,6 +22,7 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.CreateUpdatesBusReceiverTask
 import java.io.IOException;
 
 import static java.util.Collections.singletonList;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -66,8 +67,8 @@ public class CreateUpdatesBusReceiverTaskTest {
             MessageBodyRetriever.getBinaryData(message.getMessageBody()),
             CreateUpdatesMsg.class
         )).thenReturn(msg);
+        when(messageCompletor.completeAsync(any())).thenReturn(Helper.getCompletableFuture());
         createUpdatesBusReceiverTask.onMessageAsync(message);
-
         verify(objectMapper, times(2)).writeValueAsBytes(msg);
     }
 
