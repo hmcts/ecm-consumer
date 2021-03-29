@@ -79,4 +79,28 @@ public class SingleCreationServiceTest {
         verifyNoMoreInteractions(ccdClient);
     }
 
+    @Test
+    public void sendCreationSubmittedNoPreAccept() throws IOException {
+        submitEvent.getCaseData().setPreAcceptCase(null);
+        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(),
+                                          any(), anyString())).thenReturn(submitEvent);
+        singleCreationService.sendCreation(submitEvent, userToken, updateCaseMsg);
+
+        verify(ccdClient).startCaseCreationSubmitted(eq(userToken), any());
+        verify(ccdClient).submitCaseCreation(eq(userToken), any(), any());
+        verifyNoMoreInteractions(ccdClient);
+    }
+
+    @Test
+    public void sendCreationSubmittedNoCaseAccepted() throws IOException {
+        submitEvent.getCaseData().getPreAcceptCase().setCaseAccepted(null);
+        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(),
+                                          any(), anyString())).thenReturn(submitEvent);
+        singleCreationService.sendCreation(submitEvent, userToken, updateCaseMsg);
+
+        verify(ccdClient).startCaseCreationSubmitted(eq(userToken), any());
+        verify(ccdClient).submitCaseCreation(eq(userToken), any(), any());
+        verifyNoMoreInteractions(ccdClient);
+    }
+
 }

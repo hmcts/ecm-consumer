@@ -22,11 +22,11 @@ import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.UNPROCESS
 @Service
 public class UpdateManagementService {
 
-    private final transient MultipleCounterRepository multipleCounterRepository;
-    private final transient MultipleErrorsRepository multipleErrorsRepository;
-    private final transient MultipleUpdateService multipleUpdateService;
-    private final transient SingleReadingService singleReadingService;
-    private final transient EmailService emailService;
+    private final MultipleCounterRepository multipleCounterRepository;
+    private final MultipleErrorsRepository multipleErrorsRepository;
+    private final MultipleUpdateService multipleUpdateService;
+    private final SingleReadingService singleReadingService;
+    private final EmailService emailService;
 
     public void updateLogic(UpdateCaseMsg updateCaseMsg) throws IOException, InterruptedException {
 

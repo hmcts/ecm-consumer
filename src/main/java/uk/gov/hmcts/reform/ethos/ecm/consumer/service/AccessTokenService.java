@@ -19,8 +19,8 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.TokenResponse;
 @Component
 public class AccessTokenService {
 
-    private final transient OAuth2Configuration oauth2Configuration;
-    private final transient RestTemplate restTemplate;
+    private final OAuth2Configuration oauth2Configuration;
+    private final RestTemplate restTemplate;
 
     public static final String OPENID_GRANT_TYPE = "password";
     public static final String OPENID_SCOPE = "openid profile roles";
@@ -36,7 +36,7 @@ public class AccessTokenService {
     public static final String CODE = "code";
 
     @Value("${idam.api.url.oidc}")
-    private transient String idamApiOidcUrl;
+    private String idamApiOidcUrl;
 
     @Autowired
     public AccessTokenService(OAuth2Configuration oauth2Configuration, RestTemplate restTemplate) {

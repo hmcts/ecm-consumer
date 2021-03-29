@@ -52,6 +52,19 @@ public class AccessTokenServiceTest {
         assertEquals(BEARER_AUTH_TYPE + " accessToken", token);
     }
 
+    @Test
+    public void getAccessTokenTestEmptyBody() {
+        String url = "http://sidam-api:5000/o/token";
+        ReflectionTestUtils.setField(accessTokenService, "idamApiOidcUrl", url);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        ResponseEntity<TokenResponse> responseEntity = new ResponseEntity<>(null, HttpStatus.OK);
+        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(getTokenRequestMap(), headers);
+        when(restTemplate.postForEntity(eq(url), eq(httpEntity), eq(TokenResponse.class))).thenReturn(responseEntity);
+        String token = accessTokenService.getAccessToken("Username", "Password");
+        assertEquals("", token);
+    }
+
     private TokenResponse getTokenResponse() {
         return new TokenResponse("accessToken", "expiresIn", "idToken",
                                  "refreshToken", "scope", "tokenType");
