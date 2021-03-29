@@ -22,11 +22,11 @@ import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.UNPROCESS
 @Service
 public class UpdateManagementService {
 
-    private final MultipleCounterRepository multipleCounterRepository;
-    private final MultipleErrorsRepository multipleErrorsRepository;
-    private final MultipleUpdateService multipleUpdateService;
-    private final SingleReadingService singleReadingService;
-    private final EmailService emailService;
+    private final transient MultipleCounterRepository multipleCounterRepository;
+    private final transient MultipleErrorsRepository multipleErrorsRepository;
+    private final transient MultipleUpdateService multipleUpdateService;
+    private final transient SingleReadingService singleReadingService;
+    private final transient EmailService emailService;
 
     public void updateLogic(UpdateCaseMsg updateCaseMsg) throws IOException, InterruptedException {
 
@@ -60,9 +60,10 @@ public class UpdateManagementService {
 
             log.info("----- MULTIPLE UPDATE FINISHED: sending update to multiple ------");
 
-            List<MultipleErrors> multipleErrorsList = multipleErrorsRepository.findByMultipleref(updateCaseMsg.getMultipleRef());
-
             if (updateCaseMsg.getConfirmation().equals(YES)) {
+
+                List<MultipleErrors> multipleErrorsList =
+                    multipleErrorsRepository.findByMultipleref(updateCaseMsg.getMultipleRef());
 
                 multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg, multipleErrorsList);
 
@@ -91,7 +92,8 @@ public class UpdateManagementService {
 
         if (multipleErrorsList != null && !multipleErrorsList.isEmpty()) {
 
-            emailService.sendConfirmationErrorEmail(updateCaseMsg.getUsername(), multipleErrorsList, updateCaseMsg.getMultipleRef());
+            emailService.sendConfirmationErrorEmail(updateCaseMsg.getUsername(),
+                                                    multipleErrorsList, updateCaseMsg.getMultipleRef());
 
         } else {
 

@@ -22,9 +22,11 @@ public class SingleCreationService {
 
     private final CcdClient ccdClient;
 
-    public void sendCreation(SubmitEvent submitEvent, String accessToken, UpdateCaseMsg updateCaseMsg) throws IOException {
+    public void sendCreation(SubmitEvent submitEvent, String accessToken,
+                             UpdateCaseMsg updateCaseMsg) throws IOException {
 
-        CreationSingleDataModel creationSingleDataModel = ((CreationSingleDataModel) updateCaseMsg.getDataModelParent());
+        CreationSingleDataModel creationSingleDataModel =
+            ((CreationSingleDataModel) updateCaseMsg.getDataModelParent());
         String caseTypeId = creationSingleDataModel.getOfficeCT();
         String positionTypeCT = creationSingleDataModel.getPositionTypeCT();
         String ccdGatewayBaseUrl = creationSingleDataModel.getCcdGatewayBaseUrl();
@@ -51,7 +53,8 @@ public class SingleCreationService {
         CaseDetails newCaseTransferCaseDetails = new CaseDetails();
         newCaseTransferCaseDetails.setCaseTypeId(caseTypeId);
         newCaseTransferCaseDetails.setJurisdiction(jurisdiction);
-        newCaseTransferCaseDetails.setCaseData(generateCaseDataCaseTransfer(caseData, caseId, ccdGatewayBaseUrl, positionTypeCT));
+        newCaseTransferCaseDetails.setCaseData(
+            generateCaseDataCaseTransfer(caseData, caseId, ccdGatewayBaseUrl, positionTypeCT));
         return newCaseTransferCaseDetails;
 
     }
@@ -127,7 +130,7 @@ public class SingleCreationService {
 
         String url = ccdGatewayBaseUrl + "/cases/case-details/" + caseId;
 
-        return "<a target=\"_blank\" href=\"" + url + "\">" + ethosCaseRef +"</a>";
+        return "<a target=\"_blank\" href=\"" + url + "\">" + ethosCaseRef + "</a>";
 
     }
 

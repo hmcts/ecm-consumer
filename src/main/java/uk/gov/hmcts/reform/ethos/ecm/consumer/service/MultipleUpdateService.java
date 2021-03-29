@@ -20,8 +20,8 @@ import static uk.gov.hmcts.ecm.common.model.helper.Constants.OPEN_STATE;
 @Service
 public class MultipleUpdateService {
 
-    private final CcdClient ccdClient;
-    private final UserService userService;
+    private final transient CcdClient ccdClient;
+    private final transient UserService userService;
 
     @Autowired
     public MultipleUpdateService(CcdClient ccdClient, UserService userService) {
@@ -29,7 +29,8 @@ public class MultipleUpdateService {
         this.userService = userService;
     }
 
-    public void sendUpdateToMultipleLogic(UpdateCaseMsg updateCaseMsg, List<MultipleErrors> multipleErrorsList) throws IOException {
+    public void sendUpdateToMultipleLogic(UpdateCaseMsg updateCaseMsg,
+                                          List<MultipleErrors> multipleErrorsList) throws IOException {
 
         String accessToken = userService.getAccessToken();
 
@@ -44,7 +45,8 @@ public class MultipleUpdateService {
         }
     }
 
-    private List<SubmitMultipleEvent> retrieveMultipleCase(String authToken, UpdateCaseMsg updateCaseMsg) throws IOException {
+    private List<SubmitMultipleEvent> retrieveMultipleCase(String authToken,
+                                                           UpdateCaseMsg updateCaseMsg) throws IOException {
 
         return ccdClient.retrieveMultipleCasesElasticSearchWithRetries(authToken,
                                                         updateCaseMsg.getCaseTypeId(),

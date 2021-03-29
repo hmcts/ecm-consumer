@@ -16,21 +16,25 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.service.SingleUpdateService;
 
 import java.io.IOException;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.ACCEPTED_STATE;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SingleUpdateServiceTest {
 
     @InjectMocks
-    private SingleUpdateService singleUpdateService;
+    private transient SingleUpdateService singleUpdateService;
     @Mock
-    private CcdClient ccdClient;
+    private transient CcdClient ccdClient;
 
-    private SubmitEvent submitEvent;
-    private UpdateCaseMsg updateCaseMsg;
-    private String userToken;
+    private transient SubmitEvent submitEvent;
+    private transient UpdateCaseMsg updateCaseMsg;
+    private transient String userToken;
 
     @Before
     public void setUp() {
@@ -45,7 +49,8 @@ public class SingleUpdateServiceTest {
 
     @Test
     public void sendUpdate() throws IOException {
-        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString())).thenReturn(submitEvent);
+        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString()))
+            .thenReturn(submitEvent);
         singleUpdateService.sendUpdate(submitEvent, userToken, updateCaseMsg);
 
         verify(ccdClient).startEventForCaseAPIRole(eq(userToken),
@@ -64,7 +69,8 @@ public class SingleUpdateServiceTest {
     @Test
     public void sendPreAcceptToSingleLogic() throws IOException {
         updateCaseMsg = Helper.generatePreAcceptCaseMsg();
-        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString())).thenReturn(submitEvent);
+        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString()))
+            .thenReturn(submitEvent);
         singleUpdateService.sendUpdate(submitEvent, userToken, updateCaseMsg);
 
         verify(ccdClient).startEventForCasePreAcceptBulkSingle(eq(userToken),

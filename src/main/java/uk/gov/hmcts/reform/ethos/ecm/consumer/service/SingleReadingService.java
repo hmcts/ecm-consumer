@@ -58,8 +58,10 @@ public class SingleReadingService {
             ? UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())
             : updateCaseMsg.getCaseTypeId();
 
-        return ccdClient.retrieveCasesElasticSearch(authToken, caseType,
-                                                    new ArrayList<>(Collections.singletonList(updateCaseMsg.getEthosCaseReference())));
+        return ccdClient.retrieveCasesElasticSearch(
+            authToken,
+            caseType,
+            new ArrayList<>(Collections.singletonList(updateCaseMsg.getEthosCaseReference())));
 
     }
 

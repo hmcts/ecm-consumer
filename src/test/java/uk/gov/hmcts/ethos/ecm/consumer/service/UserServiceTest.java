@@ -20,12 +20,14 @@ import static org.mockito.Mockito.when;
 public class UserServiceTest {
 
     @InjectMocks
-    private UserService userService;
+    private transient UserService userService;
     @Mock
-    private IdamApi idamApi;
+    private transient IdamApi idamApi;
     @Mock
-    private AccessTokenService accessTokenService;
-    private UserDetails userDetails;
+    private transient AccessTokenService accessTokenService;
+    private transient UserDetails userDetails;
+
+    private static final String TOKEN = "accessToken";
 
     @Before
     public void setUp() {
@@ -48,17 +50,17 @@ public class UserServiceTest {
 
     @Test
     public void shouldCheckAllUserDetails() {
-        assertEquals("mail@mail.com", userService.getUserDetails("TOKEN").getEmail());
-        assertEquals("Mike", userService.getUserDetails("TOKEN").getFirstName());
-        assertEquals("Jordan", userService.getUserDetails("TOKEN").getLastName());
-        assertEquals(Collections.singletonList("role"), userService.getUserDetails("TOKEN").getRoles());
-        assertEquals(userDetails.toString(), userService.getUserDetails("TOKEN").toString());
+        assertEquals("mail@mail.com", userService.getUserDetails(TOKEN).getEmail());
+        assertEquals("Mike", userService.getUserDetails(TOKEN).getFirstName());
+        assertEquals("Jordan", userService.getUserDetails(TOKEN).getLastName());
+        assertEquals(Collections.singletonList("role"), userService.getUserDetails(TOKEN).getRoles());
+        assertEquals(userDetails.toString(), userService.getUserDetails(TOKEN).toString());
     }
 
     @Test
     public void getAccessToken() {
-        when(accessTokenService.getAccessToken(anyString(), anyString())).thenReturn("accessToken");
-        assertEquals("accessToken", userService.getAccessToken());
+        when(accessTokenService.getAccessToken(anyString(), anyString())).thenReturn(TOKEN);
+        assertEquals(TOKEN, userService.getAccessToken());
     }
 
 }

@@ -19,8 +19,8 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.TokenResponse;
 @Component
 public class AccessTokenService {
 
-    private final OAuth2Configuration oauth2Configuration;
-    private final RestTemplate restTemplate;
+    private final transient OAuth2Configuration oauth2Configuration;
+    private final transient RestTemplate restTemplate;
 
     public static final String OPENID_GRANT_TYPE = "password";
     public static final String OPENID_SCOPE = "openid profile roles";
@@ -36,7 +36,7 @@ public class AccessTokenService {
     public static final String CODE = "code";
 
     @Value("${idam.api.url.oidc}")
-    private String idamApiOIDCUrl;
+    private transient String idamApiOidcUrl;
 
     @Autowired
     public AccessTokenService(OAuth2Configuration oauth2Configuration, RestTemplate restTemplate) {
@@ -47,17 +47,16 @@ public class AccessTokenService {
     @Cacheable("token")
     public String getAccessToken(String username, String password) {
         ResponseEntity<TokenResponse> responseEntity
-            = restTemplate.postForEntity(idamApiOIDCUrl,
+            = restTemplate.postForEntity(idamApiOidcUrl,
                                          new HttpEntity<>(getTokenRequest(username, password), getHeaders()),
                                          TokenResponse.class);
-        String accessToken = "";
         if (responseEntity.getBody() != null) {
             TokenResponse tokenResponse = responseEntity.getBody();
             if (tokenResponse != null && tokenResponse.accessToken != null) {
-                accessToken = BEARER_AUTH_TYPE + " " + tokenResponse.accessToken;
+                return BEARER_AUTH_TYPE + " " + tokenResponse.accessToken;
             }
         }
-        return accessToken;
+        return "";
     }
 
     private HttpHeaders getHeaders() {

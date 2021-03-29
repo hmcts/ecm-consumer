@@ -1,6 +1,8 @@
 plugins {
   id 'application'
   id 'jacoco'
+  id 'pmd'
+  id 'checkstyle'
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
   id 'org.springframework.boot' version '2.3.9.RELEASE'
   id 'org.owasp.dependencycheck' version '6.1.2'
@@ -10,6 +12,14 @@ plugins {
 
 group = 'uk.gov.hmcts.ethos.ecm'
 version = '0.0.1'
+
+checkstyle {
+  maxWarnings = 0
+
+  toolVersion = '8.29'
+  // need to set configDir to rootDir otherwise submodule will use submodule/config/checkstyle
+  configDir = new File(rootDir, 'config/checkstyle')
+}
 
 allprojects {
   sourceCompatibility = '11.0'

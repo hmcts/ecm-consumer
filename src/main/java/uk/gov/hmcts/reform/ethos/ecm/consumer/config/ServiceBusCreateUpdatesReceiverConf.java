@@ -7,33 +7,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Configuration;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.CreateUpdatesBusReceiverTask;
-import javax.annotation.PostConstruct;
 import java.time.Duration;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import javax.annotation.PostConstruct;
 
 @AutoConfigureAfter(ServiceBusSenderConfiguration.class)
 @Configuration
 public class ServiceBusCreateUpdatesReceiverConf {
-
-    private static final ExecutorService createUpdatesListenExecutor =
-        Executors.newSingleThreadExecutor(r ->
-            new Thread(r, "create-updates-queue-listen")
-        );
-
-    private static final MessageHandlerOptions messageHandlerOptions =
-        new MessageHandlerOptions(1, false, Duration.ofMinutes(5));
-
-    private final IQueueClient createUpdatesListenClient;
-
-    private final CreateUpdatesBusReceiverTask createUpdatesBusReceiverTask;
-
-    public ServiceBusCreateUpdatesReceiverConf(
-        @Qualifier("create-updates-listen-client") IQueueClient createUpdatesListenClient,
-        CreateUpdatesBusReceiverTask createUpdatesBusReceiverTask) {
-        this.createUpdatesListenClient = createUpdatesListenClient;
-        this.createUpdatesBusReceiverTask = createUpdatesBusReceiverTask;
-    }
 
     @PostConstruct()
     public void registerMessageHandlers() throws InterruptedException, ServiceBusException {
@@ -43,4 +24,24 @@ public class ServiceBusCreateUpdatesReceiverConf {
             createUpdatesListenExecutor
         );
     }
+
+    private static final ExecutorService createUpdatesListenExecutor =
+        Executors.newSingleThreadExecutor(r ->
+            new Thread(r, "create-updates-queue-listen")
+        );
+
+    private static final MessageHandlerOptions messageHandlerOptions =
+        new MessageHandlerOptions(1, false, Duration.ofMinutes(5));
+
+    private final transient IQueueClient createUpdatesListenClient;
+
+    private final transient CreateUpdatesBusReceiverTask createUpdatesBusReceiverTask;
+
+    public ServiceBusCreateUpdatesReceiverConf(
+        @Qualifier("create-updates-listen-client") IQueueClient createUpdatesListenClient,
+        CreateUpdatesBusReceiverTask createUpdatesBusReceiverTask) {
+        this.createUpdatesListenClient = createUpdatesListenClient;
+        this.createUpdatesBusReceiverTask = createUpdatesBusReceiverTask;
+    }
+
 }

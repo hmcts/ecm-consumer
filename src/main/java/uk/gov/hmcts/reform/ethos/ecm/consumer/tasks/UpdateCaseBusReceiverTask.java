@@ -34,9 +34,9 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
 
     private static final int MAX_RETRIES = 10;
 
-    private final ObjectMapper objectMapper;
-    private final MessageAutoCompletor messageCompletor;
-    private final UpdateManagementService updateManagementService;
+    private final transient ObjectMapper objectMapper;
+    private final transient MessageAutoCompletor messageCompletor;
+    private final transient UpdateManagementService updateManagementService;
 
     public UpdateCaseBusReceiverTask(ObjectMapper objectMapper,
                                      @Qualifier("update-case-completor") MessageAutoCompletor messageCompletor,
@@ -74,7 +74,8 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
         );
     }
 
-    private CompletableFuture<Void> tryFinaliseMessageAsync(IMessage message, MessageProcessingResult processingResult) {
+    private CompletableFuture<Void> tryFinaliseMessageAsync(IMessage message,
+                                                            MessageProcessingResult processingResult) {
         return finaliseMessageAsync(message, processingResult)
             .exceptionally(updateCaseError -> {
                 log.error(
@@ -93,7 +94,8 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
                 return messageCompletor
                     .completeAsync(message.getLockToken())
                     .thenRun(() ->
-                                 log.info("COMPLETED RECEIVED 'Update Case' ----> message with ID {}", message.getMessageId())
+                                 log.info("COMPLETED RECEIVED 'Update Case' "
+                                              + "----> message with ID {}", message.getMessageId())
                     );
             case UNRECOVERABLE_FAILURE:
 
@@ -103,7 +105,8 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
                 return messageCompletor
                     .completeAsync(message.getLockToken())
                     .thenRun(() ->
-                                 log.info("UNRECOVERABLE ERROR 'Update Case' ----> message with ID {}", message.getMessageId())
+                                 log.info("UNRECOVERABLE ERROR 'Update Case' "
+                                              + "----> message with ID {}", message.getMessageId())
                     );
             default:
 

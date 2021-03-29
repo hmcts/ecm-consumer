@@ -23,25 +23,27 @@ import java.io.IOException;
 
 import static java.util.Collections.singletonList;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UpdateCaseBusReceiverTaskTest {
 
     @InjectMocks
-    private UpdateCaseBusReceiverTask updateCaseBusReceiverTask;
+    private transient UpdateCaseBusReceiverTask updateCaseBusReceiverTask;
     @Mock
-    private ObjectMapper objectMapper;
+    private transient ObjectMapper objectMapper;
     @Mock
-    private MessageAutoCompletor messageCompletor;
+    private transient MessageAutoCompletor messageCompletor;
     @Mock
-    private UpdateManagementService updateManagementService;
+    private transient UpdateManagementService updateManagementService;
 
-    private Message message;
+    private transient Message message;
 
     @Before
     public void setUp() {
-        updateCaseBusReceiverTask = new UpdateCaseBusReceiverTask(objectMapper, messageCompletor, updateManagementService);
+        updateCaseBusReceiverTask = new UpdateCaseBusReceiverTask(objectMapper,
+                                                                  messageCompletor, updateManagementService);
         message = createMessage();
     }
 

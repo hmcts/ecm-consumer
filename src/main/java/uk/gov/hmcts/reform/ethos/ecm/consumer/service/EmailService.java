@@ -7,7 +7,11 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.config.EmailClient;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleErrors;
 import uk.gov.service.notify.NotificationClientException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.CONFIRMATION_ERROR_EMAIL;
@@ -22,7 +26,7 @@ public class EmailService {
     public static final String EMAIL_DESCRIPTION = "send Confirmation email to ";
     public static final String EMAIL_DESCRIPTION_ERROR = "send Confirmation with ERRORS to ";
 
-    private final EmailClient emailClient;
+    private final transient EmailClient emailClient;
 
     @Autowired
     public EmailService(EmailClient emailClient) {
@@ -36,7 +40,8 @@ public class EmailService {
                   EMAIL_DESCRIPTION + emailAddress);
     }
 
-    public void sendConfirmationErrorEmail(String emailAddress, List<MultipleErrors> multipleErrorsList, String multipleRef) {
+    public void sendConfirmationErrorEmail(String emailAddress,
+                                           List<MultipleErrors> multipleErrorsList, String multipleRef) {
         sendEmail(CONFIRMATION_ERROR_EMAIL,
                   emailAddress,
                   buildPersonalisation(multipleErrorsList, multipleRef),
@@ -56,7 +61,8 @@ public class EmailService {
         return personalisation;
     }
 
-    private void sendEmail(String templateId, String emailAddress, Map<String, String> personalisation, String emailDescription) {
+    private void sendEmail(String templateId, String emailAddress,
+                           Map<String, String> personalisation, String emailDescription) {
 
         String referenceId = UUID.randomUUID().toString();
 

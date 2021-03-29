@@ -8,13 +8,23 @@ import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.PreAcceptDataModel;
 
 import java.util.Arrays;
 
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.*;
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.NO;
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.SCOTLAND_BULK_CASE_TYPE_ID;
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
 
 public class Helper {
 
+    private static final String CASE_NUMBER1 = "4150002/2020";
+    private static final String MULTIPLE_CASE = "4150001";
+    private static final String JURISDICTION = "EMPLOYMENT";
+    private static final String USERNAME = "eric.ccdcooper@gmail.com";
+
+    private Helper() {
+    }
+
     private static CreationDataModel creationDataModel = CreationDataModel.builder()
-        .lead("4150002/2020")
-        .multipleRef("4150001")
+        .lead(CASE_NUMBER1)
+        .multipleRef(MULTIPLE_CASE)
         .build();
 
     private static PreAcceptDataModel preAcceptDataModel = PreAcceptDataModel.builder()
@@ -29,12 +39,12 @@ public class Helper {
     public static UpdateCaseMsg generateUpdateCaseMsg() {
         return UpdateCaseMsg.builder()
             .msgId("1")
-            .jurisdiction("EMPLOYMENT")
+            .jurisdiction(JURISDICTION)
             .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
-            .multipleRef("4150001")
-            .ethosCaseReference("4150002/2020")
+            .multipleRef(MULTIPLE_CASE)
+            .ethosCaseReference(CASE_NUMBER1)
             .totalCases("1")
-            .username("eric.ccdcooper@gmail.com")
+            .username(USERNAME)
             .confirmation(YES)
             .dataModelParent(creationDataModel)
             .build();
@@ -43,12 +53,12 @@ public class Helper {
     public static UpdateCaseMsg generatePreAcceptCaseMsg() {
         return UpdateCaseMsg.builder()
             .msgId("1")
-            .jurisdiction("EMPLOYMENT")
+            .jurisdiction(JURISDICTION)
             .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
-            .multipleRef("4150001")
-            .ethosCaseReference("4150002/2020")
+            .multipleRef(MULTIPLE_CASE)
+            .ethosCaseReference(CASE_NUMBER1)
             .totalCases("1")
-            .username("eric.ccdcooper@gmail.com")
+            .username(USERNAME)
             .confirmation(YES)
             .dataModelParent(preAcceptDataModel)
             .build();
@@ -57,12 +67,12 @@ public class Helper {
     public static CreateUpdatesMsg generateCreateUpdatesMsg() {
         return CreateUpdatesMsg.builder()
             .msgId("1")
-            .jurisdiction("EMPLOYMENT")
+            .jurisdiction(JURISDICTION)
             .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
-            .multipleRef("4150001")
-            .ethosCaseRefCollection(Arrays.asList("4150001/2020", "4150002/2020", "4150003/2020"))
+            .multipleRef(MULTIPLE_CASE)
+            .ethosCaseRefCollection(Arrays.asList("4150001/2020", CASE_NUMBER1, "4150003/2020"))
             .totalCases("3")
-            .username("eric.ccdcooper@gmail.com")
+            .username(USERNAME)
             .confirmation(YES)
             .dataModelParent(creationDataModel)
             .build();
@@ -71,12 +81,12 @@ public class Helper {
     public static UpdateCaseMsg generateCreationSingleCaseMsg() {
         return UpdateCaseMsg.builder()
             .msgId("1")
-            .jurisdiction("EMPLOYMENT")
+            .jurisdiction(JURISDICTION)
             .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
-            .multipleRef("4150001")
-            .ethosCaseReference("4150002/2020")
+            .multipleRef(MULTIPLE_CASE)
+            .ethosCaseReference(CASE_NUMBER1)
             .totalCases("1")
-            .username("eric.ccdcooper@gmail.com")
+            .username(USERNAME)
             .confirmation(NO)
             .dataModelParent(creationSingleDataModel)
             .build();
