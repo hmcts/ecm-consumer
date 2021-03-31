@@ -13,8 +13,6 @@ import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationSingleDataMode
 
 import java.io.IOException;
 
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
-
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -36,9 +34,7 @@ public class SingleCreationService {
         CaseDetails newCaseDetailsCT = createCaseDetailsCaseTransfer(submitEvent.getCaseData(), caseId, caseTypeId,
                                                                      ccdGatewayBaseUrl, positionTypeCT, jurisdiction);
 
-        CCDRequest returnedRequest = getStartCaseCreationByState(accessToken,
-                                                                 submitEvent.getCaseData(),
-                                                                 newCaseDetailsCT);
+        CCDRequest returnedRequest = ccdClient.startCaseCreationTransfer(accessToken, newCaseDetailsCT);
 
         ccdClient.submitCaseCreation(accessToken,
                                      newCaseDetailsCT,
@@ -108,22 +104,6 @@ public class SingleCreationService {
 
         return newCaseData;
 
-    }
-
-    private CCDRequest getStartCaseCreationByState(String accessToken, CaseData caseData,
-                                                   CaseDetails newCaseTransferCaseDetails) throws IOException {
-
-        if (caseData.getPreAcceptCase() != null
-            && caseData.getPreAcceptCase().getCaseAccepted() != null
-            && caseData.getPreAcceptCase().getCaseAccepted().equals(YES)) {
-
-            return ccdClient.startCaseCreationAccepted(accessToken, newCaseTransferCaseDetails);
-
-        } else {
-
-            return ccdClient.startCaseCreationSubmitted(accessToken, newCaseTransferCaseDetails);
-
-        }
     }
 
     private String generateMarkUp(String ccdGatewayBaseUrl, String caseId, String ethosCaseRef) {

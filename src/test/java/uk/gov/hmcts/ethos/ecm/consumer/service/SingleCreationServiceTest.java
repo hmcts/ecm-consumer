@@ -60,7 +60,7 @@ public class SingleCreationServiceTest {
                                           any(), anyString())).thenReturn(submitEvent);
         singleCreationService.sendCreation(submitEvent, userToken, updateCaseMsg);
 
-        verify(ccdClient).startCaseCreationAccepted(eq(userToken), any());
+        verify(ccdClient).startCaseCreationTransfer(eq(userToken), any());
         verify(ccdClient).submitCaseCreation(eq(userToken), any(), any());
         verifyNoMoreInteractions(ccdClient);
     }
@@ -74,7 +74,7 @@ public class SingleCreationServiceTest {
                                           any(), anyString())).thenReturn(submitEvent);
         singleCreationService.sendCreation(submitEvent, userToken, updateCaseMsg);
 
-        verify(ccdClient).startCaseCreationSubmitted(eq(userToken), any());
+        verify(ccdClient).startCaseCreationTransfer(eq(userToken), any());
         verify(ccdClient).submitCaseCreation(eq(userToken), any(), any());
         verifyNoMoreInteractions(ccdClient);
     }
@@ -86,7 +86,7 @@ public class SingleCreationServiceTest {
                                           any(), anyString())).thenReturn(submitEvent);
         singleCreationService.sendCreation(submitEvent, userToken, updateCaseMsg);
 
-        verify(ccdClient).startCaseCreationSubmitted(eq(userToken), any());
+        verify(ccdClient).startCaseCreationTransfer(eq(userToken), any());
         verify(ccdClient).submitCaseCreation(eq(userToken), any(), any());
         verifyNoMoreInteractions(ccdClient);
     }
@@ -98,7 +98,7 @@ public class SingleCreationServiceTest {
                                           any(), anyString())).thenReturn(submitEvent);
         singleCreationService.sendCreation(submitEvent, userToken, updateCaseMsg);
 
-        verify(ccdClient).startCaseCreationSubmitted(eq(userToken), any());
+        verify(ccdClient).startCaseCreationTransfer(eq(userToken), any());
         verify(ccdClient).submitCaseCreation(eq(userToken), any(), any());
         verifyNoMoreInteractions(ccdClient);
     }
