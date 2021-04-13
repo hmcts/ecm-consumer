@@ -22,26 +22,30 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.CreateUpdatesBusReceiverTask
 import java.io.IOException;
 
 import static java.util.Collections.singletonList;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CreateUpdatesBusReceiverTaskTest {
 
     @InjectMocks
-    private CreateUpdatesBusReceiverTask createUpdatesBusReceiverTask;
+    private transient CreateUpdatesBusReceiverTask createUpdatesBusReceiverTask;
     @Mock
-    private ObjectMapper objectMapper;
+    private transient ObjectMapper objectMapper;
     @Mock
-    private MessageAutoCompletor messageCompletor;
+    private transient MessageAutoCompletor messageCompletor;
     @Mock
-    private ServiceBusSender serviceBusSender;
+    private transient ServiceBusSender serviceBusSender;
 
-    private Message message;
-    private CreateUpdatesMsg msg;
+    private transient Message message;
+    private transient CreateUpdatesMsg msg;
 
     @Before
     public void setUp() {
-        createUpdatesBusReceiverTask = new CreateUpdatesBusReceiverTask(objectMapper, messageCompletor, serviceBusSender);
+        createUpdatesBusReceiverTask = new CreateUpdatesBusReceiverTask(objectMapper,
+                                                                        messageCompletor, serviceBusSender);
         msg = Helper.generateCreateUpdatesMsg();
         message = createMessage(msg);
     }
@@ -63,8 +67,8 @@ public class CreateUpdatesBusReceiverTaskTest {
             MessageBodyRetriever.getBinaryData(message.getMessageBody()),
             CreateUpdatesMsg.class
         )).thenReturn(msg);
+        when(messageCompletor.completeAsync(any())).thenReturn(Helper.getCompletableFuture());
         createUpdatesBusReceiverTask.onMessageAsync(message);
-
         verify(objectMapper, times(2)).writeValueAsBytes(msg);
     }
 

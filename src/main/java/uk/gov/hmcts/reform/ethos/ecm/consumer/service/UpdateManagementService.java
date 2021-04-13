@@ -60,9 +60,10 @@ public class UpdateManagementService {
 
             log.info("----- MULTIPLE UPDATE FINISHED: sending update to multiple ------");
 
-            List<MultipleErrors> multipleErrorsList = multipleErrorsRepository.findByMultipleref(updateCaseMsg.getMultipleRef());
-
             if (updateCaseMsg.getConfirmation().equals(YES)) {
+
+                List<MultipleErrors> multipleErrorsList =
+                    multipleErrorsRepository.findByMultipleref(updateCaseMsg.getMultipleRef());
 
                 multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg, multipleErrorsList);
 
@@ -91,7 +92,8 @@ public class UpdateManagementService {
 
         if (multipleErrorsList != null && !multipleErrorsList.isEmpty()) {
 
-            emailService.sendConfirmationErrorEmail(updateCaseMsg.getUsername(), multipleErrorsList, updateCaseMsg.getMultipleRef());
+            emailService.sendConfirmationErrorEmail(updateCaseMsg.getUsername(),
+                                                    multipleErrorsList, updateCaseMsg.getMultipleRef());
 
         } else {
 
@@ -103,11 +105,15 @@ public class UpdateManagementService {
 
     private void deleteMultipleRefDatabase(String multipleRef) {
 
-        log.info("Clearing all multipleRef from DBs");
+        log.info("Clearing all multipleRef from DBs: " + multipleRef);
 
-        multipleCounterRepository.deleteAllByMultipleref(multipleRef);
-        multipleErrorsRepository.deleteAllByMultipleref(multipleRef);
+        log.info("Clearing multiple counter repository");
+        multipleCounterRepository.deleteByMultipleref(multipleRef);
 
+        log.info("Clearing multiple errors repository");
+        multipleErrorsRepository.deleteByMultipleref(multipleRef);
+
+        log.info("Deleted repositories");
     }
 
     public void addUnrecoverableErrorToDatabase(UpdateCaseMsg updateCaseMsg) {

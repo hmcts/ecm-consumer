@@ -16,9 +16,9 @@ import java.util.UUID;
 public class MessageAutoCompletorTest {
 
     @InjectMocks
-    private MessageAutoCompletor completor;
+    private transient MessageAutoCompletor completor;
     @Mock
-    private IQueueClient queueClient;
+    private transient IQueueClient queueClient;
 
     private static final UUID LOCK_TOKEN = UUID.randomUUID();
 

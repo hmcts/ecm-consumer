@@ -13,7 +13,7 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.MessageAutoCompletor;
 @Configuration
 public class ServiceBusSenderConfiguration {
 
-    private final ObjectMapper objectMapper;
+    private final transient ObjectMapper objectMapper;
 
     public ServiceBusSenderConfiguration(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;

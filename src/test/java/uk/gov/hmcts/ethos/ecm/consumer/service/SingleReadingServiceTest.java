@@ -21,27 +21,31 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.ACCEPTED_STATE;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SingleReadingServiceTest {
 
     @InjectMocks
-    private SingleReadingService singleReadingService;
+    private transient SingleReadingService singleReadingService;
     @Mock
-    private CcdClient ccdClient;
+    private transient CcdClient ccdClient;
     @Mock
-    private UserService userService;
+    private transient UserService userService;
     @Mock
-    private SingleUpdateService singleUpdateService;
+    private transient SingleUpdateService singleUpdateService;
     @Mock
-    private SingleCreationService singleCreationService;
+    private transient SingleCreationService singleCreationService;
 
-    private List<SubmitEvent> submitEvents;
-    private UpdateCaseMsg updateCaseMsg;
-    private String userToken;
+    private transient List<SubmitEvent> submitEvents;
+    private transient UpdateCaseMsg updateCaseMsg;
+    private transient String userToken;
 
     @Before
     public void setUp() {
@@ -82,9 +86,8 @@ public class SingleReadingServiceTest {
 
     @Test
     public void sendUpdateToSingleLogicEmptyCases() throws IOException {
-        submitEvents = null;
         when(userService.getAccessToken()).thenReturn(userToken);
-        when(ccdClient.retrieveCasesElasticSearch(anyString(), anyString(), anyList())).thenReturn(submitEvents);
+        when(ccdClient.retrieveCasesElasticSearch(anyString(), anyString(), anyList())).thenReturn(null);
 
         singleReadingService.sendUpdateToSingleLogic(updateCaseMsg);
         verifyNoMoreInteractions(singleCreationService);

@@ -13,8 +13,6 @@ import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationSingleDataMode
 
 import java.io.IOException;
 
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
-
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -22,9 +20,11 @@ public class SingleCreationService {
 
     private final CcdClient ccdClient;
 
-    public void sendCreation(SubmitEvent submitEvent, String accessToken, UpdateCaseMsg updateCaseMsg) throws IOException {
+    public void sendCreation(SubmitEvent submitEvent, String accessToken,
+                             UpdateCaseMsg updateCaseMsg) throws IOException {
 
-        CreationSingleDataModel creationSingleDataModel = ((CreationSingleDataModel) updateCaseMsg.getDataModelParent());
+        CreationSingleDataModel creationSingleDataModel =
+            ((CreationSingleDataModel) updateCaseMsg.getDataModelParent());
         String caseTypeId = creationSingleDataModel.getOfficeCT();
         String positionTypeCT = creationSingleDataModel.getPositionTypeCT();
         String ccdGatewayBaseUrl = creationSingleDataModel.getCcdGatewayBaseUrl();
@@ -34,9 +34,7 @@ public class SingleCreationService {
         CaseDetails newCaseDetailsCT = createCaseDetailsCaseTransfer(submitEvent.getCaseData(), caseId, caseTypeId,
                                                                      ccdGatewayBaseUrl, positionTypeCT, jurisdiction);
 
-        CCDRequest returnedRequest = getStartCaseCreationByState(accessToken,
-                                                                 submitEvent.getCaseData(),
-                                                                 newCaseDetailsCT);
+        CCDRequest returnedRequest = ccdClient.startCaseCreationTransfer(accessToken, newCaseDetailsCT);
 
         ccdClient.submitCaseCreation(accessToken,
                                      newCaseDetailsCT,
@@ -51,7 +49,8 @@ public class SingleCreationService {
         CaseDetails newCaseTransferCaseDetails = new CaseDetails();
         newCaseTransferCaseDetails.setCaseTypeId(caseTypeId);
         newCaseTransferCaseDetails.setJurisdiction(jurisdiction);
-        newCaseTransferCaseDetails.setCaseData(generateCaseDataCaseTransfer(caseData, caseId, ccdGatewayBaseUrl, positionTypeCT));
+        newCaseTransferCaseDetails.setCaseData(
+            generateCaseDataCaseTransfer(caseData, caseId, ccdGatewayBaseUrl, positionTypeCT));
         return newCaseTransferCaseDetails;
 
     }
@@ -107,27 +106,11 @@ public class SingleCreationService {
 
     }
 
-    private CCDRequest getStartCaseCreationByState(String accessToken, CaseData caseData,
-                                                   CaseDetails newCaseTransferCaseDetails) throws IOException {
-
-        if (caseData.getPreAcceptCase() != null
-            && caseData.getPreAcceptCase().getCaseAccepted() != null
-            && caseData.getPreAcceptCase().getCaseAccepted().equals(YES)) {
-
-            return ccdClient.startCaseCreationAccepted(accessToken, newCaseTransferCaseDetails);
-
-        } else {
-
-            return ccdClient.startCaseCreationSubmitted(accessToken, newCaseTransferCaseDetails);
-
-        }
-    }
-
     private String generateMarkUp(String ccdGatewayBaseUrl, String caseId, String ethosCaseRef) {
 
         String url = ccdGatewayBaseUrl + "/cases/case-details/" + caseId;
 
-        return "<a target=\"_blank\" href=\"" + url + "\">" + ethosCaseRef +"</a>";
+        return "<a target=\"_blank\" href=\"" + url + "\">" + ethosCaseRef + "</a>";
 
     }
 

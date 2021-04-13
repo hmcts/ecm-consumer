@@ -6,12 +6,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TokenResponse {
 
-    public final String accessToken;
-    public final String expiresIn;
-    public final String idToken;
-    public final String refreshToken;
-    public final String scope;
-    public final String tokenType;
+    public final transient String accessToken;
+    public final transient String expiresIn;
+    public final transient String idToken;
+    public final transient String refreshToken;
+    public final transient String scope;
+    public final transient String tokenType;
 
     public TokenResponse(
         @JsonProperty("access_token") String accessToken,

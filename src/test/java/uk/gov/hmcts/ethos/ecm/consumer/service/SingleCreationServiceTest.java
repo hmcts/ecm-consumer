@@ -14,24 +14,29 @@ import uk.gov.hmcts.ecm.common.model.ccd.types.CasePreAcceptType;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ethos.ecm.consumer.helpers.Helper;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.SingleCreationService;
-
 import java.io.IOException;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.ACCEPTED_STATE;
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.NO;
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SingleCreationServiceTest {
 
     @InjectMocks
-    private SingleCreationService singleCreationService;
+    private transient SingleCreationService singleCreationService;
     @Mock
-    private CcdClient ccdClient;
+    private transient CcdClient ccdClient;
 
-    private SubmitEvent submitEvent;
-    private UpdateCaseMsg updateCaseMsg;
-    private String userToken;
+    private transient SubmitEvent submitEvent;
+    private transient UpdateCaseMsg updateCaseMsg;
+    private transient String userToken;
 
     @Before
     public void setUp() {
@@ -51,10 +56,11 @@ public class SingleCreationServiceTest {
 
     @Test
     public void sendCreationAccepted() throws IOException {
-        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString())).thenReturn(submitEvent);
+        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(),
+                                          any(), anyString())).thenReturn(submitEvent);
         singleCreationService.sendCreation(submitEvent, userToken, updateCaseMsg);
 
-        verify(ccdClient).startCaseCreationAccepted(eq(userToken), any());
+        verify(ccdClient).startCaseCreationTransfer(eq(userToken), any());
         verify(ccdClient).submitCaseCreation(eq(userToken), any(), any());
         verifyNoMoreInteractions(ccdClient);
     }
@@ -64,10 +70,35 @@ public class SingleCreationServiceTest {
         CasePreAcceptType casePreAcceptType = new CasePreAcceptType();
         casePreAcceptType.setCaseAccepted(NO);
         submitEvent.getCaseData().setPreAcceptCase(casePreAcceptType);
-        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString())).thenReturn(submitEvent);
+        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(),
+                                          any(), anyString())).thenReturn(submitEvent);
         singleCreationService.sendCreation(submitEvent, userToken, updateCaseMsg);
 
-        verify(ccdClient).startCaseCreationSubmitted(eq(userToken), any());
+        verify(ccdClient).startCaseCreationTransfer(eq(userToken), any());
+        verify(ccdClient).submitCaseCreation(eq(userToken), any(), any());
+        verifyNoMoreInteractions(ccdClient);
+    }
+
+    @Test
+    public void sendCreationSubmittedNoPreAccept() throws IOException {
+        submitEvent.getCaseData().setPreAcceptCase(null);
+        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(),
+                                          any(), anyString())).thenReturn(submitEvent);
+        singleCreationService.sendCreation(submitEvent, userToken, updateCaseMsg);
+
+        verify(ccdClient).startCaseCreationTransfer(eq(userToken), any());
+        verify(ccdClient).submitCaseCreation(eq(userToken), any(), any());
+        verifyNoMoreInteractions(ccdClient);
+    }
+
+    @Test
+    public void sendCreationSubmittedNoCaseAccepted() throws IOException {
+        submitEvent.getCaseData().getPreAcceptCase().setCaseAccepted(null);
+        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(),
+                                          any(), anyString())).thenReturn(submitEvent);
+        singleCreationService.sendCreation(submitEvent, userToken, updateCaseMsg);
+
+        verify(ccdClient).startCaseCreationTransfer(eq(userToken), any());
         verify(ccdClient).submitCaseCreation(eq(userToken), any(), any());
         verifyNoMoreInteractions(ccdClient);
     }

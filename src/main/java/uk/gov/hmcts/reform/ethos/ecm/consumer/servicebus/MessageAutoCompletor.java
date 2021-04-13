@@ -9,7 +9,7 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 public class MessageAutoCompletor {
 
-    private final IQueueClient queueClient;
+    private final transient IQueueClient queueClient;
 
     public MessageAutoCompletor(IQueueClient queueClient) {
         this.queueClient = queueClient;
