@@ -52,14 +52,14 @@ public class SingleReadingService {
 
     }
 
-    public List<SubmitEvent> retrieveSingleCase(String authToken, UpdateCaseMsg updateCaseMsg) throws IOException {
+    public List<SubmitEvent> retrieveSingleCase(String accessToken, UpdateCaseMsg updateCaseMsg) throws IOException {
 
         String caseType = !updateCaseMsg.getMultipleRef().equals(SINGLE_CASE_TYPE)
             ? UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())
             : updateCaseMsg.getCaseTypeId();
 
         return ccdClient.retrieveCasesElasticSearch(
-            authToken,
+            accessToken,
             caseType,
             new ArrayList<>(Collections.singletonList(updateCaseMsg.getEthosCaseReference())));
 

@@ -66,9 +66,9 @@ public class UpdateManagementServiceTest {
         verify(multipleUpdateService).sendUpdateToMultipleLogic(eq(updateCaseMsg), any());
         verifyNoMoreInteractions(multipleUpdateService);
         verify(multipleCounterRepository).persistentQGetNextMultipleCountVal(eq(updateCaseMsg.getMultipleRef()));
-        verify(multipleCounterRepository).deleteAllByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleCounterRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
         verify(multipleErrorsRepository).findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
-        verify(multipleErrorsRepository).deleteAllByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleErrorsRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
         verifyNoMoreInteractions(multipleErrorsRepository);
         verifyNoMoreInteractions(multipleCounterRepository);
 
@@ -93,9 +93,9 @@ public class UpdateManagementServiceTest {
         verify(multipleUpdateService).sendUpdateToMultipleLogic(eq(updateCaseMsg), any());
         verifyNoMoreInteractions(multipleUpdateService);
         verify(multipleCounterRepository).persistentQGetNextMultipleCountVal(eq(updateCaseMsg.getMultipleRef()));
-        verify(multipleCounterRepository).deleteAllByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleCounterRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
         verify(multipleErrorsRepository).findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
-        verify(multipleErrorsRepository).deleteAllByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleErrorsRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
         verifyNoMoreInteractions(multipleErrorsRepository);
         verifyNoMoreInteractions(multipleCounterRepository);
 
@@ -120,8 +120,8 @@ public class UpdateManagementServiceTest {
         updateCaseMsg.setDataModelParent(resetStateDataModel);
         updateManagementService.updateLogic(updateCaseMsg);
 
-        verify(multipleCounterRepository).deleteAllByMultipleref(eq(updateCaseMsg.getMultipleRef()));
-        verify(multipleErrorsRepository).deleteAllByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleCounterRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleErrorsRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
         verifyNoMoreInteractions(multipleErrorsRepository);
         verifyNoMoreInteractions(multipleCounterRepository);
 

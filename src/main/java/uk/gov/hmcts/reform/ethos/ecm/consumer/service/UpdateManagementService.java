@@ -105,11 +105,15 @@ public class UpdateManagementService {
 
     private void deleteMultipleRefDatabase(String multipleRef) {
 
-        log.info("Clearing all multipleRef from DBs");
+        log.info("Clearing all multipleRef from DBs: " + multipleRef);
 
-        multipleCounterRepository.deleteAllByMultipleref(multipleRef);
-        multipleErrorsRepository.deleteAllByMultipleref(multipleRef);
+        log.info("Clearing multiple counter repository");
+        multipleCounterRepository.deleteByMultipleref(multipleRef);
 
+        log.info("Clearing multiple errors repository");
+        multipleErrorsRepository.deleteByMultipleref(multipleRef);
+
+        log.info("Deleted repositories");
     }
 
     public void addUnrecoverableErrorToDatabase(UpdateCaseMsg updateCaseMsg) {
