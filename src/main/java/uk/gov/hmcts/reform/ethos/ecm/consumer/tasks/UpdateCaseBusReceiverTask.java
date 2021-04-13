@@ -140,6 +140,7 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
 
         } catch (Exception e) {
             log.error("Error reading message when checking if finished", e);
+            Thread.currentThread().interrupt();
         }
 
     }
@@ -169,6 +170,7 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
                 message.getMessageId(),
                 e
             );
+            Thread.currentThread().interrupt();
             return new MessageProcessingResult(MessageProcessingResultType.POTENTIALLY_RECOVERABLE_FAILURE);
         }
 
