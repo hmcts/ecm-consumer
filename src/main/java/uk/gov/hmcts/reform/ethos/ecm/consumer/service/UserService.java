@@ -11,13 +11,13 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.IdamApi;
 @Component
 public class UserService implements uk.gov.hmcts.ecm.common.service.UserService {
 
-    private final IdamApi idamApi;
-    private final AccessTokenService accessTokenService;
+    private final transient IdamApi idamApi;
+    private final transient AccessTokenService accessTokenService;
 
     @Value("${caseWorkerUserName}")
-    private String caseWorkerUserName;
+    private transient String caseWorkerUserName;
     @Value("${caseWorkerPassword}")
-    private String caseWorkerPassword;
+    private transient String caseWorkerPassword;
 
     @Autowired
     public UserService(IdamApi idamApi, AccessTokenService accessTokenService) {

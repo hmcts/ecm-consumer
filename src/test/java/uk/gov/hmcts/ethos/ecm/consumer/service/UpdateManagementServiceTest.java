@@ -14,33 +14,37 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleCounterR
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleErrorsRepository;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.EmailService;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleUpdateService;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.service.SingleUpdateService;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.service.SingleReadingService;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UpdateManagementService;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.UNPROCESSABLE_MESSAGE;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UpdateManagementServiceTest {
 
     @InjectMocks
-    private UpdateManagementService updateManagementService;
+    private transient UpdateManagementService updateManagementService;
     @Mock
-    private MultipleCounterRepository multipleCounterRepository;
+    private transient MultipleCounterRepository multipleCounterRepository;
     @Mock
-    private MultipleErrorsRepository multipleErrorsRepository;
+    private transient MultipleErrorsRepository multipleErrorsRepository;
     @Mock
-    private MultipleUpdateService multipleUpdateService;
+    private transient MultipleUpdateService multipleUpdateService;
     @Mock
-    private SingleUpdateService singleUpdateService;
+    private transient SingleReadingService singleReadingService;
     @Mock
-    private EmailService emailService;
+    private transient EmailService emailService;
 
-    private UpdateCaseMsg updateCaseMsg;
+    private transient UpdateCaseMsg updateCaseMsg;
 
     @Before
     public void setUp() {
@@ -49,21 +53,22 @@ public class UpdateManagementServiceTest {
 
     @Test
     public void updateLogic() throws IOException, InterruptedException {
-        when(multipleCounterRepository.persistentQGetNextMultipleCountVal(updateCaseMsg.getMultipleRef())).thenReturn(1);
+        when(multipleCounterRepository.persistentQGetNextMultipleCountVal(
+            updateCaseMsg.getMultipleRef())).thenReturn(1);
         when(multipleErrorsRepository.findByMultipleref(updateCaseMsg.getMultipleRef())).thenReturn(new ArrayList<>());
 
         updateManagementService.updateLogic(updateCaseMsg);
 
-        verify(singleUpdateService).sendUpdateToSingleLogic(eq(updateCaseMsg));
-        verifyNoMoreInteractions(singleUpdateService);
+        verify(singleReadingService).sendUpdateToSingleLogic(eq(updateCaseMsg));
+        verifyNoMoreInteractions(singleReadingService);
         verify(emailService).sendConfirmationEmail(eq(updateCaseMsg.getUsername()), eq(updateCaseMsg.getMultipleRef()));
         verifyNoMoreInteractions(emailService);
         verify(multipleUpdateService).sendUpdateToMultipleLogic(eq(updateCaseMsg), any());
         verifyNoMoreInteractions(multipleUpdateService);
         verify(multipleCounterRepository).persistentQGetNextMultipleCountVal(eq(updateCaseMsg.getMultipleRef()));
-        verify(multipleCounterRepository).deleteAllByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleCounterRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
         verify(multipleErrorsRepository).findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
-        verify(multipleErrorsRepository).deleteAllByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleErrorsRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
         verifyNoMoreInteractions(multipleErrorsRepository);
         verifyNoMoreInteractions(multipleCounterRepository);
 
@@ -72,14 +77,15 @@ public class UpdateManagementServiceTest {
     @Test
     public void updateLogicWithErrorsDefaultConstructor() throws IOException, InterruptedException {
         MultipleErrors multipleErrors = new MultipleErrors();
-        when(multipleCounterRepository.persistentQGetNextMultipleCountVal(updateCaseMsg.getMultipleRef())).thenReturn(1);
+        when(multipleCounterRepository.persistentQGetNextMultipleCountVal(
+            updateCaseMsg.getMultipleRef())).thenReturn(1);
         when(multipleErrorsRepository.findByMultipleref(updateCaseMsg.getMultipleRef())).thenReturn(new ArrayList<>(
             Collections.singletonList(multipleErrors)));
 
         updateManagementService.updateLogic(updateCaseMsg);
 
-        verify(singleUpdateService).sendUpdateToSingleLogic(eq(updateCaseMsg));
-        verifyNoMoreInteractions(singleUpdateService);
+        verify(singleReadingService).sendUpdateToSingleLogic(eq(updateCaseMsg));
+        verifyNoMoreInteractions(singleReadingService);
         verify(emailService).sendConfirmationErrorEmail(eq(updateCaseMsg.getUsername()),
                                                         eq(new ArrayList<>(Collections.singletonList(multipleErrors))),
                                                         eq(updateCaseMsg.getMultipleRef()));
@@ -87,9 +93,9 @@ public class UpdateManagementServiceTest {
         verify(multipleUpdateService).sendUpdateToMultipleLogic(eq(updateCaseMsg), any());
         verifyNoMoreInteractions(multipleUpdateService);
         verify(multipleCounterRepository).persistentQGetNextMultipleCountVal(eq(updateCaseMsg.getMultipleRef()));
-        verify(multipleCounterRepository).deleteAllByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleCounterRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
         verify(multipleErrorsRepository).findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
-        verify(multipleErrorsRepository).deleteAllByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleErrorsRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
         verifyNoMoreInteractions(multipleErrorsRepository);
         verifyNoMoreInteractions(multipleCounterRepository);
 
@@ -114,8 +120,8 @@ public class UpdateManagementServiceTest {
         updateCaseMsg.setDataModelParent(resetStateDataModel);
         updateManagementService.updateLogic(updateCaseMsg);
 
-        verify(multipleCounterRepository).deleteAllByMultipleref(eq(updateCaseMsg.getMultipleRef()));
-        verify(multipleErrorsRepository).deleteAllByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleCounterRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleErrorsRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
         verifyNoMoreInteractions(multipleErrorsRepository);
         verifyNoMoreInteractions(multipleCounterRepository);
 

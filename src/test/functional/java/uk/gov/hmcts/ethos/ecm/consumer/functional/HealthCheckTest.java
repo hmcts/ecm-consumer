@@ -2,15 +2,17 @@ package uk.gov.hmcts.ethos.ecm.consumer.functional;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertEquals;
 
+@RunWith(SpringRunner.class)
+@Category(SmokeTest.class)
 public class HealthCheckTest {
 
     @Test
-    @Category(SmokeTest.class)
     public void healthCheckReturns200() {
-        assertThat("smokeTest", is("smokeTest"));
+        assertEquals("smokeTest", "smokeTest");
     }
 }
