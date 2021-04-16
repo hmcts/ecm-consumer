@@ -36,8 +36,8 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.IdamApi;
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class IdamApiConsumerTest {
     @Autowired
-    IdamApi idamApi;
-    private static final String AUTH_TOKEN = "Bearer someAuthorizationToken";
+    protected IdamApi idamApi;
+    public static final String AUTH_TOKEN = "Bearer someAuthorizationToken";
 
     @Pact(provider = "idamApi_oidc", consumer = "ecm_consumer")
     public RequestResponsePact generatePactFragment(PactDslWithProvider builder) {
@@ -69,4 +69,11 @@ public class IdamApiConsumerTest {
         Assertions.assertEquals("ia-caseofficer@fake.hmcts.net", userDetails.getEmail());
     }
 
+    public IdamApi getIdamApi() {
+        return idamApi;
+    }
+
+    public void setIdamApi(IdamApi idamApi) {
+        this.idamApi = idamApi;
+    }
 }
