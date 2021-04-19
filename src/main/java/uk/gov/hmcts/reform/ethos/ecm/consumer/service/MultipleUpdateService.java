@@ -122,7 +122,6 @@ public class MultipleUpdateService {
 
             String caseTypeId = (((CreationSingleDataModel) updateCaseMsg.getDataModelParent()).getOfficeCT());
             String jurisdiction = updateCaseMsg.getJurisdiction();
-            String caseId = String.valueOf(submitMultipleEvent.getCaseId());
 
             MultipleData multipleData = new MultipleData();
 
@@ -141,7 +140,7 @@ public class MultipleUpdateService {
                                                  caseTypeId,
                                                  jurisdiction,
                                                  returnedRequest,
-                                                 caseId);
+                                                 String.valueOf(submitMultipleEvent.getCaseId()));
 
         }
     }
