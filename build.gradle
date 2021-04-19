@@ -37,6 +37,8 @@ jacocoTestReport {
 
 def sonarExclusions = ['**/uk/gov/hmcts/reform/ethos/ecm/consumer/config/**',
                        '**/uk/gov/hmcts/reform/ethos/ecm/consumer/model/**',
+                       '**/uk/gov/hmcts/reform/ethos/ecm/consumer/domain/**',
+                       '**/uk/gov/hmcts/reform/ethos/ecm/consumer/tasks/**',
                        '**/uk/gov/hmcts/reform/ethos/ecm/consumer/Application'
 ]
 
