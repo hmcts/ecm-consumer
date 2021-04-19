@@ -19,5 +19,5 @@ public interface MultipleErrorsRepository extends JpaRepository<MultipleErrors, 
     List<MultipleErrors> findByMultipleref(String multipleRef);
 
     @Modifying
-    void deleteByMultipleref(String multipleRef);
+    void deleteInBatch(List<MultipleErrors> multipleErrors);
 }
