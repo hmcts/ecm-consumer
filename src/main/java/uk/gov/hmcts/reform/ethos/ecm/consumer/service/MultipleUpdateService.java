@@ -127,8 +127,7 @@ public class MultipleUpdateService {
             MultipleData multipleData = new MultipleData();
 
             //Used to pull the information for the old multiple on the new multiple creation
-            multipleData.setReasonForCT(updateCaseMsg.getCaseTypeId());
-            multipleData.setLinkedMultipleCT(caseId);
+            multipleData.setLinkedMultipleCT(updateCaseMsg.getCaseTypeId());
 
             multipleData.setMultipleSource(MIGRATION_CASE_SOURCE);
             multipleData.setMultipleReference(updateCaseMsg.getMultipleRef());
