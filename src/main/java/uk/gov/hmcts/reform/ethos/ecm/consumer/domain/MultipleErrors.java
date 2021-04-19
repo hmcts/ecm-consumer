@@ -12,6 +12,7 @@ import javax.persistence.Table;
 public class MultipleErrors {
 
     @Id
+    private Long id;
     protected String multipleref;
     protected String ethoscaseref;
     protected String description;
