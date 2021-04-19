@@ -23,6 +23,7 @@ import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -67,8 +68,9 @@ public class UpdateManagementServiceTest {
         verifyNoMoreInteractions(multipleUpdateService);
         verify(multipleCounterRepository).persistentQGetNextMultipleCountVal(eq(updateCaseMsg.getMultipleRef()));
         verify(multipleCounterRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
-        verify(multipleErrorsRepository).findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
-        verify(multipleErrorsRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleErrorsRepository, times(2))
+            .findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleErrorsRepository).deleteInBatch(new ArrayList<>());
         verifyNoMoreInteractions(multipleErrorsRepository);
         verifyNoMoreInteractions(multipleCounterRepository);
 
@@ -94,8 +96,10 @@ public class UpdateManagementServiceTest {
         verifyNoMoreInteractions(multipleUpdateService);
         verify(multipleCounterRepository).persistentQGetNextMultipleCountVal(eq(updateCaseMsg.getMultipleRef()));
         verify(multipleCounterRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
-        verify(multipleErrorsRepository).findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
-        verify(multipleErrorsRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleErrorsRepository, times(2))
+            .findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleErrorsRepository)
+            .deleteInBatch(new ArrayList<>(Collections.singletonList(new MultipleErrors())));
         verifyNoMoreInteractions(multipleErrorsRepository);
         verifyNoMoreInteractions(multipleCounterRepository);
 
@@ -121,7 +125,8 @@ public class UpdateManagementServiceTest {
         updateManagementService.updateLogic(updateCaseMsg);
 
         verify(multipleCounterRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
-        verify(multipleErrorsRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleErrorsRepository).findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleErrorsRepository).deleteInBatch(new ArrayList<>());
         verifyNoMoreInteractions(multipleErrorsRepository);
         verifyNoMoreInteractions(multipleCounterRepository);
 

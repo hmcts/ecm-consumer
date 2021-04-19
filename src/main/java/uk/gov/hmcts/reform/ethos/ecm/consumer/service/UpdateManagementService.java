@@ -111,7 +111,8 @@ public class UpdateManagementService {
         multipleCounterRepository.deleteByMultipleref(multipleRef);
 
         log.info("Clearing multiple errors repository");
-        multipleErrorsRepository.deleteByMultipleref(multipleRef);
+        List<MultipleErrors> multipleErrors = multipleErrorsRepository.findByMultipleref(multipleRef);
+        multipleErrorsRepository.deleteInBatch(multipleErrors);
 
         log.info("Deleted repositories");
     }
