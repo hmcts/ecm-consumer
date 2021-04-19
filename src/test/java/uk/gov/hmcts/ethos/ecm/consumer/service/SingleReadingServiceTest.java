@@ -13,6 +13,7 @@ import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ethos.ecm.consumer.helpers.Helper;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.SingleCreationService;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.SingleReadingService;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.service.SingleTransferService;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.SingleUpdateService;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UserService;
 
@@ -42,6 +43,8 @@ public class SingleReadingServiceTest {
     private transient SingleUpdateService singleUpdateService;
     @Mock
     private transient SingleCreationService singleCreationService;
+    @Mock
+    private transient SingleTransferService singleTransferService;
 
     private transient List<SubmitEvent> submitEvents;
     private transient UpdateCaseMsg updateCaseMsg;
@@ -82,6 +85,10 @@ public class SingleReadingServiceTest {
                                                eq(userToken),
                                                eq(updateCaseMsg));
         verifyNoMoreInteractions(singleCreationService);
+        verify(singleTransferService).sendTransferred(eq(submitEvents.get(0)),
+                                                   eq(userToken),
+                                                   eq(updateCaseMsg));
+        verifyNoMoreInteractions(singleTransferService);
     }
 
     @Test

@@ -115,6 +115,33 @@ public class MultipleUpdateServiceTest {
         verifyMocks();
     }
 
+    @Test
+    public void sendUpdateToMultipleTransferredLogic() throws IOException {
+        when(userService.getAccessToken()).thenReturn(userToken);
+        when(ccdClient.retrieveMultipleCasesElasticSearchWithRetries(anyString(),
+                                                                     anyString(),
+                                                                     anyString())).thenReturn(submitMultipleEvents);
+
+        updateCaseMsg = Helper.generateCreationSingleCaseMsg();
+
+        multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg, new ArrayList<>());
+
+        verify(ccdClient).retrieveMultipleCasesElasticSearchWithRetries(eq(userToken),
+                                                                        eq(updateCaseMsg.getCaseTypeId()),
+                                                                        eq(updateCaseMsg.getMultipleRef()));
+        verify(ccdClient).startBulkAmendEventForCase(eq(userToken),
+                                                     eq(updateCaseMsg.getCaseTypeId()),
+                                                     eq(updateCaseMsg.getJurisdiction()),
+                                                     any());
+        verify(ccdClient).submitMultipleEventForCase(eq(userToken),
+                                                     any(),
+                                                     eq(updateCaseMsg.getCaseTypeId()),
+                                                     eq(updateCaseMsg.getJurisdiction()),
+                                                     any(),
+                                                     any());
+
+    }
+
     @Test(expected = Exception.class)
     public void sendUpdateToMultipleLogicException() throws IOException {
         when(userService.getAccessToken()).thenReturn(userToken);
