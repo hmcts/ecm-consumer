@@ -124,10 +124,6 @@ public class MultipleUpdateService {
             String jurisdiction = updateCaseMsg.getJurisdiction();
             String caseId = String.valueOf(submitMultipleEvent.getCaseId());
 
-            CCDRequest returnedRequest = ccdClient.startCaseMultipleCreation(accessToken,
-                                                                             caseTypeId,
-                                                                             jurisdiction);
-
             MultipleData multipleData = new MultipleData();
 
             //Used to pull the information for the old multiple on the new multiple creation
@@ -136,6 +132,10 @@ public class MultipleUpdateService {
 
             multipleData.setMultipleSource(MIGRATION_CASE_SOURCE);
             multipleData.setMultipleReference(updateCaseMsg.getMultipleRef());
+
+            CCDRequest returnedRequest = ccdClient.startCaseMultipleCreation(accessToken,
+                                                                             caseTypeId,
+                                                                             jurisdiction);
 
             ccdClient.submitMultipleEventForCase(accessToken,
                                                  multipleData,
