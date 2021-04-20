@@ -67,7 +67,9 @@ public class UpdateManagementServiceTest {
         verify(multipleUpdateService).sendUpdateToMultipleLogic(eq(updateCaseMsg), any());
         verifyNoMoreInteractions(multipleUpdateService);
         verify(multipleCounterRepository).persistentQGetNextMultipleCountVal(eq(updateCaseMsg.getMultipleRef()));
-        verify(multipleCounterRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleCounterRepository, times(1))
+            .findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleCounterRepository).deleteInBatch(new ArrayList<>());
         verify(multipleErrorsRepository, times(2))
             .findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
         verify(multipleErrorsRepository).deleteInBatch(new ArrayList<>());
@@ -95,7 +97,9 @@ public class UpdateManagementServiceTest {
         verify(multipleUpdateService).sendUpdateToMultipleLogic(eq(updateCaseMsg), any());
         verifyNoMoreInteractions(multipleUpdateService);
         verify(multipleCounterRepository).persistentQGetNextMultipleCountVal(eq(updateCaseMsg.getMultipleRef()));
-        verify(multipleCounterRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleCounterRepository, times(1))
+            .findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleCounterRepository).deleteInBatch(new ArrayList<>());
         verify(multipleErrorsRepository, times(2))
             .findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
         verify(multipleErrorsRepository)
@@ -124,7 +128,8 @@ public class UpdateManagementServiceTest {
         updateCaseMsg.setDataModelParent(resetStateDataModel);
         updateManagementService.updateLogic(updateCaseMsg);
 
-        verify(multipleCounterRepository).deleteByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleCounterRepository).findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleCounterRepository).deleteInBatch(new ArrayList<>());
         verify(multipleErrorsRepository).findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
         verify(multipleErrorsRepository).deleteInBatch(new ArrayList<>());
         verifyNoMoreInteractions(multipleErrorsRepository);

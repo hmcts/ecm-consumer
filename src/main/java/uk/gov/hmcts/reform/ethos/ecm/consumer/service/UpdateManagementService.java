@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.ResetStateDataModel;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleCounter;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleErrors;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleCounterRepository;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleErrorsRepository;
@@ -108,7 +109,8 @@ public class UpdateManagementService {
         log.info("Clearing all multipleRef from DBs: " + multipleRef);
 
         log.info("Clearing multiple counter repository");
-        multipleCounterRepository.deleteByMultipleref(multipleRef);
+        List<MultipleCounter> multipleCounters = multipleCounterRepository.findByMultipleref(multipleRef);
+        multipleCounterRepository.deleteInBatch(multipleCounters);
 
         log.info("Clearing multiple errors repository");
         List<MultipleErrors> multipleErrors = multipleErrorsRepository.findByMultipleref(multipleRef);
