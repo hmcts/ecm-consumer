@@ -41,7 +41,7 @@ public class SingleReadingService {
 
                 if (!updateCaseMsg.getMultipleRef().equals(SINGLE_CASE_TYPE)) {
 
-                    log.info("Send updates to the old case");
+                    log.info("Send updates to the old case for multiples");
 
                     singleTransferService.sendTransferred(submitEvents.get(0), accessToken, updateCaseMsg);
 
