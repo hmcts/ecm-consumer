@@ -16,12 +16,13 @@ CREATE OR REPLACE FUNCTION fn_persistentQ_logMultipleError  (p_multipleRef varch
 --            :	16-JUN-2020		1.1  - Now returns arbitrary value 'ok' to prevent JPA error caused by void return
 --            :	18-JUN-2020		1.2  - Added drop function before creation to prevent error when running script against existing function 
 --                                    with void return type 
+--            :	19-APR-2021		1.3  - Added explicit column identifiers in INSERT to cater for identity column now added
 -- =============================================
 
     
 BEGIN 
     
-    INSERT INTO multipleErrors VALUES (p_multipleRef, p_ethosCaseRef, p_description);
+    INSERT INTO multipleErrors (multipleRef,ethosCaseRef,description) VALUES (p_multipleRef, p_ethosCaseRef, p_description);
     
     RETURN 'ok';
         

@@ -13,25 +13,25 @@ import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
 import uk.gov.hmcts.ecm.common.model.ccd.types.CasePreAcceptType;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ethos.ecm.consumer.helpers.Helper;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.service.SingleCreationService;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.service.SingleTransferService;
 
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.ACCEPTED_STATE;
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.MULTIPLE;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class SingleCreationServiceTest {
+public class SingleTransferServiceTest {
 
     @InjectMocks
-    private transient SingleCreationService singleCreationService;
+    private transient SingleTransferService singleTransferService;
     @Mock
     private transient CcdClient ccdClient;
 
@@ -56,23 +56,12 @@ public class SingleCreationServiceTest {
     }
 
     @Test
-    public void sendCreation() throws IOException {
-        singleCreationService.sendCreation(submitEvent, userToken, updateCaseMsg);
+    public void sendTransferred() throws IOException {
+        singleTransferService.sendTransferred(submitEvent, userToken, updateCaseMsg);
 
-        verify(ccdClient).retrieveCasesElasticSearch(eq(userToken), any(), any());
-        verify(ccdClient).startCaseCreationTransfer(eq(userToken), any());
-        verify(ccdClient).submitCaseCreation(eq(userToken), any(), any());
-        verifyNoMoreInteractions(ccdClient);
-    }
+        assertEquals(MULTIPLE, submitEvent.getCaseData().getStateAPI());
 
-    @Test
-    public void returnCaseTransfer() throws IOException {
-        when(ccdClient.retrieveCasesElasticSearch(anyString(), any(), any()))
-            .thenReturn(new ArrayList<>(Collections.singletonList(submitEvent)));
-        singleCreationService.sendCreation(submitEvent, userToken, updateCaseMsg);
-
-        verify(ccdClient).retrieveCasesElasticSearch(eq(userToken), any(), any());
-        verify(ccdClient).returnCaseCreationTransfer(eq(userToken), anyString(), anyString());
+        verify(ccdClient).startCaseTransfer(eq(userToken), any(), any());
         verify(ccdClient).submitEventForCase(eq(userToken), any(), anyString(), anyString(), any(), anyString());
         verifyNoMoreInteractions(ccdClient);
     }

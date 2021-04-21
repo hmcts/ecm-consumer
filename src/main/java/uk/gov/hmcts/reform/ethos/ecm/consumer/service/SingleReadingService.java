@@ -25,6 +25,7 @@ public class SingleReadingService {
     private final UserService userService;
     private final SingleUpdateService singleUpdateService;
     private final SingleCreationService singleCreationService;
+    private final SingleTransferService singleTransferService;
 
     public void sendUpdateToSingleLogic(UpdateCaseMsg updateCaseMsg) throws IOException {
 
@@ -35,6 +36,16 @@ public class SingleReadingService {
         if (submitEvents != null && !submitEvents.isEmpty()) {
 
             if (updateCaseMsg.getDataModelParent() instanceof CreationSingleDataModel) {
+
+                //When single case type then sendTransferred is done in ETHOS-REPL-SERVICE
+
+                if (!updateCaseMsg.getMultipleRef().equals(SINGLE_CASE_TYPE)) {
+
+                    log.info("Send updates to the old case for multiples");
+
+                    singleTransferService.sendTransferred(submitEvents.get(0), accessToken, updateCaseMsg);
+
+                }
 
                 singleCreationService.sendCreation(submitEvents.get(0), accessToken, updateCaseMsg);
 
