@@ -41,7 +41,7 @@ public class SingleCreationService {
 
         if (caseDestinationOffice != null) {
 
-            log.info("Amend case state");
+            log.info("Amend case state as it is returned");
 
             updateExistingCase(caseDestinationOffice, oldSubmitEvent, caseId, caseTypeId, jurisdiction, accessToken,
                                ccdGatewayBaseUrl, positionTypeCT);
