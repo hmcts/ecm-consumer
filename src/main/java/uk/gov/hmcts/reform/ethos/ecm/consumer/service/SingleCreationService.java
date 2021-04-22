@@ -61,7 +61,6 @@ public class SingleCreationService {
                                     String caseTypeId, String jurisdiction, String accessToken,
                                     String ccdGatewayBaseUrl, String positionTypeCT) throws IOException {
 
-
         log.info("CaseDestinationOffice: " + caseDestinationOffice);
         log.info("Updating existing case: "
                      + caseId + "  "
