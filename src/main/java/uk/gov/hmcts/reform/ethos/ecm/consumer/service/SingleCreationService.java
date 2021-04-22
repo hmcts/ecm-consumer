@@ -61,13 +61,17 @@ public class SingleCreationService {
                                     String caseTypeId, String jurisdiction, String accessToken,
                                     String ccdGatewayBaseUrl, String positionTypeCT) throws IOException {
 
+        String destinationCaseId = String.valueOf(caseDestinationOffice.getCaseId());
         log.info("CaseDestinationOffice: " + caseDestinationOffice);
         log.info("Updating existing case: "
                      + caseId + "  "
                      + caseTypeId + "  "
-                     + jurisdiction + "  ");
+                     + destinationCaseId + "  ");
 
-        CCDRequest returnedRequest = ccdClient.returnCaseCreationTransfer(accessToken, caseTypeId, jurisdiction);
+        CCDRequest returnedRequest = ccdClient.returnCaseCreationTransfer(accessToken,
+                                                                          caseTypeId,
+                                                                          jurisdiction,
+                                                                          destinationCaseId);
 
         ccdClient.submitEventForCase(accessToken,
                                      generateCaseDataCaseTransfer(caseDestinationOffice.getCaseData(),
@@ -78,7 +82,7 @@ public class SingleCreationService {
                                      caseTypeId,
                                      jurisdiction,
                                      returnedRequest,
-                                     String.valueOf(caseDestinationOffice.getCaseId()));
+                                     destinationCaseId);
 
     }
 

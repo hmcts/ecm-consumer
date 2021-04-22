@@ -72,7 +72,7 @@ public class SingleCreationServiceTest {
         singleCreationService.sendCreation(submitEvent, userToken, updateCaseMsg);
 
         verify(ccdClient).retrieveCasesElasticSearch(eq(userToken), any(), any());
-        verify(ccdClient).returnCaseCreationTransfer(eq(userToken), anyString(), anyString());
+        verify(ccdClient).returnCaseCreationTransfer(eq(userToken), anyString(), anyString(), anyString());
         verify(ccdClient).submitEventForCase(eq(userToken), any(), anyString(), anyString(), any(), anyString());
         verifyNoMoreInteractions(ccdClient);
     }
