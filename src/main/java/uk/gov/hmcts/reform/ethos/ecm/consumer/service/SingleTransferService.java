@@ -45,7 +45,8 @@ public class SingleTransferService {
                                        String jurisdiction, String accessToken, String positionTypeCT,
                                        String reasonForCT) throws IOException {
 
-        CCDRequest returnedRequest = ccdClient.startCaseTransfer(accessToken, caseTypeId, jurisdiction);
+        CCDRequest returnedRequest = ccdClient.startCaseTransfer(accessToken, caseTypeId, jurisdiction,
+                                                                 String.valueOf(submitEvent.getCaseId()));
 
         generateCaseData(submitEvent.getCaseData(), caseTypeIdCT, positionTypeCT, reasonForCT);
 

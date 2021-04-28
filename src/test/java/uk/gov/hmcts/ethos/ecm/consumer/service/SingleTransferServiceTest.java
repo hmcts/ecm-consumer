@@ -61,7 +61,7 @@ public class SingleTransferServiceTest {
 
         assertEquals(MULTIPLE, submitEvent.getCaseData().getStateAPI());
 
-        verify(ccdClient).startCaseTransfer(eq(userToken), any(), any());
+        verify(ccdClient).startCaseTransfer(eq(userToken), any(), any(), any());
         verify(ccdClient).submitEventForCase(eq(userToken), any(), anyString(), anyString(), any(), anyString());
         verifyNoMoreInteractions(ccdClient);
     }
