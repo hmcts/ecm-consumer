@@ -61,7 +61,12 @@ public class SingleCreationService {
                                     String caseTypeId, String jurisdiction, String accessToken,
                                     String ccdGatewayBaseUrl, String positionTypeCT) throws IOException {
 
-        CCDRequest returnedRequest = ccdClient.returnCaseCreationTransfer(accessToken, caseTypeId, jurisdiction);
+        String destinationCaseId = String.valueOf(caseDestinationOffice.getCaseId());
+
+        CCDRequest returnedRequest = ccdClient.returnCaseCreationTransfer(accessToken,
+                                                                          caseTypeId,
+                                                                          jurisdiction,
+                                                                          destinationCaseId);
 
         ccdClient.submitEventForCase(accessToken,
                                      generateCaseDataCaseTransfer(caseDestinationOffice.getCaseData(),
@@ -72,7 +77,7 @@ public class SingleCreationService {
                                      caseTypeId,
                                      jurisdiction,
                                      returnedRequest,
-                                     caseId);
+                                     destinationCaseId);
 
     }
 
@@ -179,6 +184,7 @@ public class SingleCreationService {
         newCaseData.setFlagsImageAltText(oldCaseData.getFlagsImageAltText());
         newCaseData.setCompanyPremises(oldCaseData.getCompanyPremises());
 
+        newCaseData.setReasonForCT(oldCaseData.getReasonForCT());
         newCaseData.setLinkedCaseCT(generateMarkUp(ccdGatewayBaseUrl, caseId, oldCaseData.getEthosCaseReference()));
         return newCaseData;
     }
