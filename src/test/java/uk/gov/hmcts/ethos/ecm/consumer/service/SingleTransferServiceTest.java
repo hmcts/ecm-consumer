@@ -24,7 +24,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.ACCEPTED_STATE;
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.MULTIPLE;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -59,7 +58,7 @@ public class SingleTransferServiceTest {
     public void sendTransferred() throws IOException {
         singleTransferService.sendTransferred(submitEvent, userToken, updateCaseMsg);
 
-        assertEquals(MULTIPLE, submitEvent.getCaseData().getStateAPI());
+        assertEquals("Transferred to Manchester", submitEvent.getCaseData().getLinkedCaseCT());
 
         verify(ccdClient).startCaseTransfer(eq(userToken), any(), any(), any());
         verify(ccdClient).submitEventForCase(eq(userToken), any(), anyString(), anyString(), any(), anyString());
