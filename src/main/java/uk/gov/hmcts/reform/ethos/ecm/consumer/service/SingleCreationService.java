@@ -184,6 +184,9 @@ public class SingleCreationService {
         newCaseData.setFlagsImageAltText(oldCaseData.getFlagsImageAltText());
         newCaseData.setCompanyPremises(oldCaseData.getCompanyPremises());
 
+        newCaseData.setMultipleReference(oldCaseData.getMultipleReference());
+        newCaseData.setLeadClaimant(oldCaseData.getLeadClaimant());
+
         newCaseData.setReasonForCT(oldCaseData.getReasonForCT());
         newCaseData.setLinkedCaseCT(generateMarkUp(ccdGatewayBaseUrl, caseId, oldCaseData.getEthosCaseReference()));
         return newCaseData;
