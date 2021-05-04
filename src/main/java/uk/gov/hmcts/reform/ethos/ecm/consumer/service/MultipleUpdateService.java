@@ -49,7 +49,7 @@ public class MultipleUpdateService {
 
                 log.info("Create new multiple");
 
-                sendMultipleCreation(submitMultipleEvents.get(0), accessToken, updateCaseMsg, multipleErrorsList);
+                sendMultipleCreation(accessToken, updateCaseMsg, multipleErrorsList);
 
             } else {
 
@@ -114,8 +114,7 @@ public class MultipleUpdateService {
                                              caseId);
     }
 
-    private void sendMultipleCreation(SubmitMultipleEvent submitMultipleEvent, String accessToken,
-                                      UpdateCaseMsg updateCaseMsg,
+    private void sendMultipleCreation(String accessToken, UpdateCaseMsg updateCaseMsg,
                                       List<MultipleErrors> multipleErrorsList) throws IOException {
 
         if (multipleErrorsList == null || multipleErrorsList.isEmpty()) {
@@ -135,12 +134,11 @@ public class MultipleUpdateService {
                                                                              caseTypeId,
                                                                              jurisdiction);
 
-            ccdClient.submitMultipleEventForCase(accessToken,
-                                                 multipleData,
-                                                 caseTypeId,
-                                                 jurisdiction,
-                                                 returnedRequest,
-                                                 String.valueOf(submitMultipleEvent.getCaseId()));
+            ccdClient.submitMultipleCreation(accessToken,
+                                             multipleData,
+                                             caseTypeId,
+                                             jurisdiction,
+                                             returnedRequest);
 
         }
     }

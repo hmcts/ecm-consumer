@@ -136,6 +136,7 @@ repositories {
   mavenCentral()
   maven { url "https://dl.bintray.com/hmcts/hmcts-maven" }
   maven { url "https://repository.apache.org/content/repositories/snapshots"}
+  maven { url "https://jitpack.io" }
 }
 
 def versions = [
@@ -167,7 +168,7 @@ dependencies {
   implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '11.1'
   implementation group: 'io.github.openfeign', name: 'feign-core', version: '11.1'
 
-  implementation group: 'uk.gov.hmcts.reform', name: 'ecm-common', version: '0.1.63'
+  implementation 'com.github.hmcts:ecm-common:0.1.65'
   implementation group: 'uk.gov.service.notify', name: 'notifications-java-client', version: versions.hmctsNotify
   implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.logging
   implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.logging
@@ -178,7 +179,6 @@ dependencies {
 
   compileOnly 'org.projectlombok:lombok'
   annotationProcessor 'org.projectlombok:lombok'
-
 
   testCompile 'org.springframework.boot:spring-boot-starter-test'
 
