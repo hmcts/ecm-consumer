@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.CLOSED_STATE;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -73,7 +75,8 @@ public class SingleCreationService {
                                                                   oldSubmitEvent.getCaseData(),
                                                                   caseId,
                                                                   ccdGatewayBaseUrl,
-                                                                  positionTypeCT),
+                                                                  positionTypeCT,
+                                                                  oldSubmitEvent.getState()),
                                      caseTypeId,
                                      jurisdiction,
                                      returnedRequest,
@@ -86,7 +89,8 @@ public class SingleCreationService {
 
         CaseDetails newCaseDetailsCT =
             createCaseDetailsCaseTransfer(oldSubmitEvent.getCaseData(), caseId, caseTypeId,
-                                          ccdGatewayBaseUrl, positionTypeCT, jurisdiction);
+                                          ccdGatewayBaseUrl, positionTypeCT, jurisdiction,
+                                          oldSubmitEvent.getState());
 
         CCDRequest returnedRequest = ccdClient.startCaseCreationTransfer(accessToken, newCaseDetailsCT);
 
@@ -116,35 +120,36 @@ public class SingleCreationService {
 
     private CaseDetails createCaseDetailsCaseTransfer(CaseData oldCaseData, String caseId, String caseTypeId,
                                                       String ccdGatewayBaseUrl, String positionTypeCT,
-                                                      String jurisdiction) {
+                                                      String jurisdiction, String state) {
 
         CaseDetails newCaseTransferCaseDetails = new CaseDetails();
         newCaseTransferCaseDetails.setCaseTypeId(caseTypeId);
         newCaseTransferCaseDetails.setJurisdiction(jurisdiction);
         newCaseTransferCaseDetails.setCaseData(
-            generateNewCaseDataCaseTransfer(oldCaseData, caseId, ccdGatewayBaseUrl, positionTypeCT));
+            generateNewCaseDataCaseTransfer(oldCaseData, caseId, ccdGatewayBaseUrl, positionTypeCT, state));
         return newCaseTransferCaseDetails;
 
     }
 
     private CaseData generateNewCaseDataCaseTransfer(CaseData oldCaseData, String caseId,
-                                                  String ccdGatewayBaseUrl, String positionTypeCT) {
+                                                     String ccdGatewayBaseUrl, String positionTypeCT,
+                                                     String state) {
 
-        return copyCaseData(oldCaseData, new CaseData(), caseId, ccdGatewayBaseUrl, positionTypeCT);
+        return copyCaseData(oldCaseData, new CaseData(), caseId, ccdGatewayBaseUrl, positionTypeCT, state);
 
     }
 
     private CaseData generateCaseDataCaseTransfer(CaseData newCaseData, CaseData oldCaseData, String caseId,
-                                                     String ccdGatewayBaseUrl, String positionTypeCT) {
+                                                  String ccdGatewayBaseUrl, String positionTypeCT,
+                                                  String state) {
 
-        return copyCaseData(oldCaseData, newCaseData, caseId, ccdGatewayBaseUrl, positionTypeCT);
+        return copyCaseData(oldCaseData, newCaseData, caseId, ccdGatewayBaseUrl, positionTypeCT, state);
 
     }
 
     private CaseData copyCaseData(CaseData oldCaseData, CaseData newCaseData, String caseId,
-                                  String ccdGatewayBaseUrl, String positionTypeCT) {
+                                  String ccdGatewayBaseUrl, String positionTypeCT, String state) {
         newCaseData.setEthosCaseReference(oldCaseData.getEthosCaseReference());
-        newCaseData.setPositionType(positionTypeCT);
         newCaseData.setCaseType(oldCaseData.getCaseType());
         newCaseData.setClaimantTypeOfClaimant(oldCaseData.getClaimantTypeOfClaimant());
         newCaseData.setClaimantCompany(oldCaseData.getClaimantCompany());
@@ -183,6 +188,13 @@ public class SingleCreationService {
         newCaseData.setCcdID(oldCaseData.getCcdID());
         newCaseData.setFlagsImageAltText(oldCaseData.getFlagsImageAltText());
         newCaseData.setCompanyPremises(oldCaseData.getCompanyPremises());
+
+        if (state != null && !state.equals(CLOSED_STATE)) {
+            newCaseData.setPositionType(positionTypeCT);
+        }
+
+        newCaseData.setMultipleReference(oldCaseData.getMultipleReference());
+        newCaseData.setLeadClaimant(oldCaseData.getLeadClaimant());
 
         newCaseData.setReasonForCT(oldCaseData.getReasonForCT());
         newCaseData.setLinkedCaseCT(generateMarkUp(ccdGatewayBaseUrl, caseId, oldCaseData.getEthosCaseReference()));

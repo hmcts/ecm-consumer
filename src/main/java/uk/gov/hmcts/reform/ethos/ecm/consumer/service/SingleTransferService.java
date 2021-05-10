@@ -5,8 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.helpers.UtilHelper;
-import uk.gov.hmcts.ecm.common.model.bulk.types.DynamicFixedListType;
-import uk.gov.hmcts.ecm.common.model.bulk.types.DynamicValueType;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
 import uk.gov.hmcts.ecm.common.model.ccd.CaseData;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
@@ -14,8 +12,6 @@ import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationSingleDataModel;
 
 import java.io.IOException;
-
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.MULTIPLE;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -45,7 +41,8 @@ public class SingleTransferService {
                                        String jurisdiction, String accessToken, String positionTypeCT,
                                        String reasonForCT) throws IOException {
 
-        CCDRequest returnedRequest = ccdClient.startCaseTransfer(accessToken, caseTypeId, jurisdiction);
+        CCDRequest returnedRequest = ccdClient.startCaseTransfer(accessToken, caseTypeId, jurisdiction,
+                                                                 String.valueOf(submitEvent.getCaseId()));
 
         generateCaseData(submitEvent.getCaseData(), caseTypeIdCT, positionTypeCT, reasonForCT);
 
@@ -60,13 +57,7 @@ public class SingleTransferService {
 
     private void generateCaseData(CaseData caseData, String caseTypeIdCT, String positionTypeCT, String reasonForCT) {
 
-        DynamicFixedListType dynamicFixedListType = new DynamicFixedListType();
-        DynamicValueType dynamicValueType = new DynamicValueType();
-        dynamicValueType.setCode(caseTypeIdCT);
-        dynamicFixedListType.setValue(dynamicValueType);
-
-        caseData.setOfficeCT(dynamicFixedListType);
-        caseData.setStateAPI(MULTIPLE);
+        caseData.setLinkedCaseCT("Transferred to " + caseTypeIdCT);
         caseData.setPositionTypeCT(positionTypeCT);
         caseData.setReasonForCT(reasonForCT);
 

@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
+import uk.gov.hmcts.ecm.common.helpers.UtilHelper;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
 import uk.gov.hmcts.ecm.common.model.multiples.MultipleData;
 import uk.gov.hmcts.ecm.common.model.multiples.SubmitMultipleEvent;
@@ -49,7 +50,7 @@ public class MultipleUpdateService {
 
                 log.info("Create new multiple");
 
-                sendMultipleCreation(submitMultipleEvents.get(0), accessToken, updateCaseMsg, multipleErrorsList);
+                sendMultipleCreation(accessToken, updateCaseMsg, multipleErrorsList);
 
             } else {
 
@@ -114,8 +115,7 @@ public class MultipleUpdateService {
                                              caseId);
     }
 
-    private void sendMultipleCreation(SubmitMultipleEvent submitMultipleEvent, String accessToken,
-                                      UpdateCaseMsg updateCaseMsg,
+    private void sendMultipleCreation(String accessToken, UpdateCaseMsg updateCaseMsg,
                                       List<MultipleErrors> multipleErrorsList) throws IOException {
 
         if (multipleErrorsList == null || multipleErrorsList.isEmpty()) {
@@ -131,16 +131,17 @@ public class MultipleUpdateService {
             multipleData.setMultipleSource(MIGRATION_CASE_SOURCE);
             multipleData.setMultipleReference(updateCaseMsg.getMultipleRef());
 
+            String multipleCaseTypeId = UtilHelper.getBulkCaseTypeId(caseTypeId);
+
             CCDRequest returnedRequest = ccdClient.startCaseMultipleCreation(accessToken,
-                                                                             caseTypeId,
+                                                                             multipleCaseTypeId,
                                                                              jurisdiction);
 
-            ccdClient.submitMultipleEventForCase(accessToken,
-                                                 multipleData,
-                                                 caseTypeId,
-                                                 jurisdiction,
-                                                 returnedRequest,
-                                                 String.valueOf(submitMultipleEvent.getCaseId()));
+            ccdClient.submitMultipleCreation(accessToken,
+                                             multipleData,
+                                             multipleCaseTypeId,
+                                             jurisdiction,
+                                             returnedRequest);
 
         }
     }
