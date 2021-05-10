@@ -36,7 +36,7 @@ public class SingleCreationService {
         String jurisdiction = updateCaseMsg.getJurisdiction();
         String caseId = String.valueOf(oldSubmitEvent.getCaseId());
 
-        log.info("Retrieve single case and check if exists");
+        log.info("Retrieve single case and check if it exists");
 
         SubmitEvent caseDestinationOffice =
             existCaseDestinationOffice(accessToken, oldSubmitEvent.getCaseData().getEthosCaseReference(), caseTypeId);
