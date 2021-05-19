@@ -178,7 +178,6 @@ public class SingleCreationService {
         newCaseData.setClaimantWorkAddress(oldCaseData.getClaimantWorkAddress());
         newCaseData.setClaimantRepresentedQuestion(oldCaseData.getClaimantRepresentedQuestion());
         newCaseData.setCaseSource(oldCaseData.getCaseSource());
-        newCaseData.setEt3Received(oldCaseData.getEt3Received());
         newCaseData.setConciliationTrack(oldCaseData.getConciliationTrack());
         newCaseData.setCounterClaim(oldCaseData.getCounterClaim());
         newCaseData.setRestrictedReporting(oldCaseData.getRestrictedReporting());
