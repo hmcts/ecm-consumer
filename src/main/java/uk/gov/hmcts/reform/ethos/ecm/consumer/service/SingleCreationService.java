@@ -194,7 +194,8 @@ public class SingleCreationService {
         }
 
         newCaseData.setMultipleReference(oldCaseData.getMultipleReference());
-        newCaseData.setLeadClaimant(oldCaseData.getLeadClaimant());
+        log.info("Setting setLeadClaimant to null ");
+        newCaseData.setLeadClaimant(null);
 
         newCaseData.setReasonForCT(oldCaseData.getReasonForCT());
         newCaseData.setLinkedCaseCT(generateMarkUp(ccdGatewayBaseUrl, caseId, oldCaseData.getEthosCaseReference()));
