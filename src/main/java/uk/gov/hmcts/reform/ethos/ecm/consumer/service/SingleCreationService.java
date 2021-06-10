@@ -198,6 +198,7 @@ public class SingleCreationService {
         newCaseData.setLeadClaimant(oldCaseData.getLeadClaimant());
 
         newCaseData.setReasonForCT(oldCaseData.getReasonForCT());
+        log.info("ReasonForCT is set to " + oldCaseData.getReasonForCT());
         newCaseData.setLinkedCaseCT(generateMarkUp(ccdGatewayBaseUrl, caseId, oldCaseData.getEthosCaseReference()));
         return newCaseData;
     }
