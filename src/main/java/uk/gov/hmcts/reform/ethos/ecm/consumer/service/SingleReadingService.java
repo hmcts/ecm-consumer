@@ -37,15 +37,9 @@ public class SingleReadingService {
 
             if (updateCaseMsg.getDataModelParent() instanceof CreationSingleDataModel) {
 
-                //When single case type then sendTransferred is done in ETHOS-REPL-SERVICE
-
-                //  if (!updateCaseMsg.getMultipleRef().equals(SINGLE_CASE_TYPE)) {
-
-                log.info("Send updates to the old case for multiples");
+                log.info("Send updates to the old case");
 
                 singleTransferService.sendTransferred(submitEvents.get(0), accessToken, updateCaseMsg);
-
-                //  }
 
                 singleCreationService.sendCreation(submitEvents.get(0), accessToken, updateCaseMsg);
 
