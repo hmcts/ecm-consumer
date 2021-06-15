@@ -10,9 +10,9 @@ import uk.gov.hmcts.ecm.common.model.ccd.CaseData;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationSingleDataModel;
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.SINGLE_CASE_TYPE;
-
 import java.io.IOException;
+
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.SINGLE_CASE_TYPE;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -31,10 +31,10 @@ public class SingleTransferService {
         String reasonForCT = creationSingleDataModel.getReasonForCT();
 
         String jurisdiction = updateCaseMsg.getJurisdiction();
-        String caseTypeId = UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId());
-       if (updateCaseMsg.getMultipleRef().equals(SINGLE_CASE_TYPE)) {
-           caseTypeId = updateCaseMsg.getCaseTypeId();
-       }
+
+        String caseTypeId = !updateCaseMsg.getMultipleRef().equals(SINGLE_CASE_TYPE)
+            ? UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())
+            : updateCaseMsg.getCaseTypeId();
 
         updateTransferredCase(submitEvent, caseTypeId, caseTypeIdCT, jurisdiction, accessToken, positionTypeCT,
                               reasonForCT);
