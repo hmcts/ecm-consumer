@@ -39,13 +39,13 @@ public class SingleReadingService {
 
                 //When single case type then sendTransferred is done in ETHOS-REPL-SERVICE
 
-                if (!updateCaseMsg.getMultipleRef().equals(SINGLE_CASE_TYPE)) {
+                //  if (!updateCaseMsg.getMultipleRef().equals(SINGLE_CASE_TYPE)) {
 
-                    log.info("Send updates to the old case for multiples");
+                log.info("Send updates to the old case for multiples");
 
-                    singleTransferService.sendTransferred(submitEvents.get(0), accessToken, updateCaseMsg);
+                singleTransferService.sendTransferred(submitEvents.get(0), accessToken, updateCaseMsg);
 
-                }
+                //  }
 
                 singleCreationService.sendCreation(submitEvents.get(0), accessToken, updateCaseMsg);
 
