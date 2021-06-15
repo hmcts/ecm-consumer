@@ -31,6 +31,9 @@ public class SingleTransferService {
 
         String jurisdiction = updateCaseMsg.getJurisdiction();
         String caseTypeId = UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId());
+       if (updateCaseMsg.getMultipleRef().equals(SINGLE_CASE_TYPE)) {
+           caseTypeId = updateCaseMsg.getCaseTypeId();
+       }
 
         updateTransferredCase(submitEvent, caseTypeId, caseTypeIdCT, jurisdiction, accessToken, positionTypeCT,
                               reasonForCT);
