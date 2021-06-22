@@ -180,6 +180,7 @@ public class SingleCreationService {
         newCaseData.setCaseSource(oldCaseData.getCaseSource());
         newCaseData.setConciliationTrack(oldCaseData.getConciliationTrack());
         newCaseData.setCounterClaim(oldCaseData.getCounterClaim());
+        newCaseData.setEccCases(oldCaseData.getEccCases());
         newCaseData.setRestrictedReporting(oldCaseData.getRestrictedReporting());
         newCaseData.setRespondent(oldCaseData.getRespondent());
         newCaseData.setClaimant(oldCaseData.getClaimant());
@@ -193,9 +194,11 @@ public class SingleCreationService {
         }
 
         newCaseData.setMultipleReference(oldCaseData.getMultipleReference());
+        log.info("setLeadClaimant is set to " + oldCaseData.getLeadClaimant());
         newCaseData.setLeadClaimant(oldCaseData.getLeadClaimant());
 
         newCaseData.setReasonForCT(oldCaseData.getReasonForCT());
+        log.info("ReasonForCT is set to " + oldCaseData.getReasonForCT());
         newCaseData.setLinkedCaseCT(generateMarkUp(ccdGatewayBaseUrl, caseId, oldCaseData.getEthosCaseReference()));
         return newCaseData;
     }
