@@ -16,3 +16,4 @@ public class HealthCheckTest {
         assertEquals("smokeTest", "smokeTest");
     }
 }
+
