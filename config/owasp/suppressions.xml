@@ -1,3 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+  <suppress>
+    <notes><![CDATA[
+   file name: elasticsearch-7.9.3.jar
+   ]]></notes>
+    <packageUrl regex="true">^pkg:maven/org\.elasticsearch/elasticsearch@.*$</packageUrl>
+    <vulnerabilityName>CVE-2020-7021</vulnerabilityName>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[
+   file name: elasticsearch-7.9.3.jar
+   ]]></notes>
+    <packageUrl regex="true">^pkg:maven/org\.elasticsearch/elasticsearch@.*$</packageUrl>
+    <vulnerabilityName>CVE-2021-22132</vulnerabilityName>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[
+   file name: elasticsearch-7.9.3.jar
+   ]]></notes>
+    <packageUrl regex="true">^pkg:maven/org\.elasticsearch/elasticsearch@.*$</packageUrl>
+    <vulnerabilityName>CVE-2021-22134</vulnerabilityName>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[
+   file name: pdfbox-2.0.22.jar
+   ]]></notes>
+    <packageUrl regex="true">^pkg:maven/org\.apache\.pdfbox/pdfbox@.*$</packageUrl>
+    <cve>CVE-2021-27807</cve>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[
+   file name: pdfbox-2.0.22.jar
+   ]]></notes>
+    <packageUrl regex="true">^pkg:maven/org\.apache\.pdfbox/pdfbox@.*$</packageUrl>
+    <cve>CVE-2021-27906</cve>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[
+   file name: pdfbox-2.0.22.jar
+   ]]></notes>
+    <packageUrl regex="true">^pkg:maven/org\.apache\.pdfbox/pdfbox@.*$</packageUrl>
+    <cve>CVE-2021-27906</cve>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[
+   file name: spring-core-5.3.6.jar
+   ]]></notes>
+    <packageUrl regex="true">^pkg:maven/org\.springframework/spring\-core@.*$</packageUrl>
+    <cve>CVE-2021-22118</cve>
+  </suppress>
 </suppressions>
