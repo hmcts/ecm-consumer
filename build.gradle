@@ -176,6 +176,12 @@ dependencies {
   // CVE-2021-27568
   implementation group: 'net.minidev', name: 'json-smart', version: '2.4.7'
 
+  // elasticsearch and pdfbox added due to multiple CVEs
+  implementation ('org.elasticsearch:elasticsearch:7.13.2') {
+    force = true
+  }
+  implementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.24'
+
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation (group: 'org.docx4j', name: 'docx4j', version: '6.1.2') {
     exclude module: 'slf4j-log4j12'
