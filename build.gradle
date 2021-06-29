@@ -15,7 +15,6 @@ version = '0.0.1'
 
 checkstyle {
   maxWarnings = 0
-
   toolVersion = '8.29'
 }
 
@@ -155,7 +154,7 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
   implementation 'org.springframework.retry:spring-retry'
 
-  implementation 'org.postgresql:postgresql:42.2.19'
+  implementation 'org.postgresql:postgresql:42.2.22'
 
   implementation group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
   implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger
