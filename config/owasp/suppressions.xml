@@ -185,4 +185,18 @@
     <notes><![CDATA[ CVE-2021-22118  ]]></notes>
     <cve>CVE-2021-22118</cve>
   </suppress>
+  <suppress>
+    <notes><![CDATA[
+   file name: pdfbox-2.0.22.jar
+   ]]></notes>
+    <packageUrl regex="true">^pkg:maven/org\.apache\.pdfbox/pdfbox@.*$</packageUrl>
+    <cve>CVE-2021-31811</cve>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[
+   file name: pdfbox-2.0.22.jar
+   ]]></notes>
+    <packageUrl regex="true">^pkg:maven/org\.apache\.pdfbox/pdfbox@.*$</packageUrl>
+    <cve>CVE-2021-31812</cve>
+  </suppress>
 </suppressions>
