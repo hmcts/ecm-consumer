@@ -181,6 +181,10 @@ dependencies {
   implementation 'org.projectlombok:lombok'
   annotationProcessor 'org.projectlombok:lombok'
 
+  // For CVEs
+  implementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.24'
+
+
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
   testImplementation (group: 'org.docx4j', name: 'docx4j', version: '6.1.2') {

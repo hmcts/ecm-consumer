@@ -28,32 +28,4 @@
     <packageUrl regex="true">^pkg:maven/org\.elasticsearch/elasticsearch@.*$</packageUrl>
     <vulnerabilityName>CVE-2021-22134</vulnerabilityName>
   </suppress>
-  <suppress>
-    <notes><![CDATA[
-   file name: pdfbox-2.0.22.jar
-   ]]></notes>
-    <packageUrl regex="true">^pkg:maven/org\.apache\.pdfbox/pdfbox@.*$</packageUrl>
-    <cve>CVE-2021-27807</cve>
-  </suppress>
-  <suppress>
-    <notes><![CDATA[
-   file name: pdfbox-2.0.22.jar
-   ]]></notes>
-    <packageUrl regex="true">^pkg:maven/org\.apache\.pdfbox/pdfbox@.*$</packageUrl>
-    <cve>CVE-2021-27906</cve>
-  </suppress>
-  <suppress>
-    <notes><![CDATA[
-   file name: pdfbox-2.0.22.jar
-   ]]></notes>
-    <packageUrl regex="true">^pkg:maven/org\.apache\.pdfbox/pdfbox@.*$</packageUrl>
-    <cve>CVE-2021-31811</cve>
-  </suppress>
-  <suppress>
-    <notes><![CDATA[
-   file name: pdfbox-2.0.22.jar
-   ]]></notes>
-    <packageUrl regex="true">^pkg:maven/org\.apache\.pdfbox/pdfbox@.*$</packageUrl>
-    <cve>CVE-2021-31812</cve>
-  </suppress>
 </suppressions>
