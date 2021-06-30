@@ -4,7 +4,7 @@ plugins {
   id 'pmd'
   id 'checkstyle'
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-  id 'org.springframework.boot' version '2.3.11.RELEASE'
+  id 'org.springframework.boot' version '2.4.5'
   id 'org.owasp.dependencycheck' version '6.2.2'
   id 'com.github.ben-manes.versions' version '0.39.0'
   id 'org.sonarqube' version '3.3'
@@ -181,7 +181,7 @@ dependencies {
   implementation 'org.projectlombok:lombok'
   annotationProcessor 'org.projectlombok:lombok'
 
-  // For pdfbox and elsaticsearch CVEs
+  // For pdfbox and elasticsearch CVEs
   implementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.24'
   implementation('org.elasticsearch:elasticsearch') {
     version {
