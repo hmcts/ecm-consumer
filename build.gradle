@@ -181,9 +181,13 @@ dependencies {
   implementation 'org.projectlombok:lombok'
   annotationProcessor 'org.projectlombok:lombok'
 
-  // For CVEs
+  // For pdfbox and elsaticsearch CVEs
   implementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.24'
-
+  implementation('org.elasticsearch:elasticsearch') {
+    version {
+      strictly '7.13.2'
+    }
+  }
 
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
