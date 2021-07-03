@@ -24,7 +24,7 @@ public class SingleTransferService {
     public void sendTransferred(SubmitEvent submitEvent, String accessToken,
                              UpdateCaseMsg updateCaseMsg) throws IOException {
 
-        CreationSingleDataModel creationSingleDataModel =
+        var creationSingleDataModel =
             ((CreationSingleDataModel) updateCaseMsg.getDataModelParent());
         String positionTypeCT = creationSingleDataModel.getPositionTypeCT();
         String caseTypeIdCT = creationSingleDataModel.getOfficeCT();
@@ -62,6 +62,8 @@ public class SingleTransferService {
     private void generateCaseData(CaseData caseData, String caseTypeIdCT, String positionTypeCT, String reasonForCT) {
 
         caseData.setLinkedCaseCT("Transferred to " + caseTypeIdCT);
+        log.info("Setting positionType to positionTypeCT: " + positionTypeCT + " for case: " + caseData.getEthosCaseReference());
+        caseData.setPositionType(positionTypeCT);
         caseData.setPositionTypeCT(positionTypeCT);
         caseData.setReasonForCT(reasonForCT);
 
