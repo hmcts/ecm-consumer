@@ -62,7 +62,8 @@ public class SingleTransferService {
     private void generateCaseData(CaseData caseData, String caseTypeIdCT, String positionTypeCT, String reasonForCT) {
 
         caseData.setLinkedCaseCT("Transferred to " + caseTypeIdCT);
-        log.info("Setting positionType to positionTypeCT: " + positionTypeCT + " for case: " + caseData.getEthosCaseReference());
+        log.info("Setting positionType to positionTypeCT: " + positionTypeCT
+                     + " for case: " + caseData.getEthosCaseReference());
         caseData.setPositionType(positionTypeCT);
         caseData.setPositionTypeCT(positionTypeCT);
         caseData.setReasonForCT(reasonForCT);
