@@ -7,11 +7,13 @@ import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.helpers.UtilHelper;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.*;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.PreAcceptDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.RejectDataModel;
 
 import java.io.IOException;
+import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.UpdateDataModel;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -23,9 +25,9 @@ public class SingleUpdateService {
     public void sendUpdate(SubmitEvent submitEvent, String accessToken,
                             UpdateCaseMsg updateCaseMsg) throws IOException {
 
-        String caseTypeId = UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId());
-        String jurisdiction = updateCaseMsg.getJurisdiction();
-        String caseId = String.valueOf(submitEvent.getCaseId());
+        var caseTypeId = UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId());
+        var jurisdiction = updateCaseMsg.getJurisdiction();
+        var caseId = String.valueOf(submitEvent.getCaseId());
 
         CCDRequest returnedRequest = getReturnedRequest(accessToken, caseTypeId,
                                                         jurisdiction, caseId, updateCaseMsg);
@@ -53,6 +55,13 @@ public class SingleUpdateService {
                 jurisdiction,
                 caseId);
 
+        } else if (updateCaseMsg.getDataModelParent() instanceof UpdateDataModel
+            && (YES.equals(((UpdateDataModel) updateCaseMsg.getDataModelParent()).getIsRespondentRepRemovalUpdate()))) {
+            return ccdClient.startEventForCase(
+                accessToken,
+                caseTypeId,
+                jurisdiction,
+                caseId);
         } else {
 
             return ccdClient.startEventForCaseAPIRole(
