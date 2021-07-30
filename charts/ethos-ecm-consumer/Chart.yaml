@@ -5,7 +5,7 @@ version: 0.1.7
 description: HMCTS ECM Consumer Updates Queue Service
 maintainers:
   - name: HMCTS ETHOS Team
-    email: javier.carretero@hmcts.net
+    email: james.turnbull@justice.gov.uk
 dependencies:
   - name: java
     version: 3.6.0
