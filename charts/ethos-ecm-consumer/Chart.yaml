@@ -1,12 +1,12 @@
 apiVersion: v2
 name: ethos-ecm-consumer
 home: https://github.com/hmcts/ecm-consumer
-version: 0.1.7
+version: 0.1.9
 description: HMCTS ECM Consumer Updates Queue Service
 maintainers:
   - name: HMCTS ETHOS Team
-    email: javier.carretero@hmcts.net
+    email: james.turnbull@justice.gov.uk
 dependencies:
   - name: java
-    version: 3.4.7
-    repository: '@hmctspublic'
+    version: 3.6.0
+    repository: https://hmctspublic.azurecr.io/helm/v1/repo/
