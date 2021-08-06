@@ -129,7 +129,6 @@ dependencyManagement {
 }
 
 repositories {
-  mavenLocal()
   jcenter()
   mavenCentral()
   maven { url "https://dl.bintray.com/hmcts/hmcts-maven" }
@@ -147,7 +146,7 @@ def versions = [
 ]
 
 dependencies {
-  implementation 'com.github.hmcts:ecm-common:0.1.117'
+  implementation 'com.github.hmcts:ecm-common:0.1.125'
 
   implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation 'org.springframework.boot:spring-boot-starter-actuator'
