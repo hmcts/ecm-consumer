@@ -83,7 +83,7 @@ public class MultipleUpdateService {
                                                                           jurisdiction,
                                                                           caseId);
 
-        MultipleData multipleData = new MultipleData();
+        var multipleData = new MultipleData();
 
         if (multipleErrorsList != null && !multipleErrorsList.isEmpty()) {
 
@@ -123,7 +123,7 @@ public class MultipleUpdateService {
             String caseTypeId = (((CreationSingleDataModel) updateCaseMsg.getDataModelParent()).getOfficeCT());
             String jurisdiction = updateCaseMsg.getJurisdiction();
 
-            MultipleData multipleData = new MultipleData();
+            var multipleData = new MultipleData();
 
             //Used to pull the information for the old multiple on the new multiple creation
             multipleData.setLinkedMultipleCT(updateCaseMsg.getCaseTypeId());
