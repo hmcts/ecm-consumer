@@ -51,7 +51,7 @@ public class AccessTokenService {
                                          new HttpEntity<>(getTokenRequest(username, password), getHeaders()),
                                          TokenResponse.class);
         if (responseEntity.getBody() != null) {
-            TokenResponse tokenResponse = responseEntity.getBody();
+            var tokenResponse = responseEntity.getBody();
             if (tokenResponse != null && tokenResponse.accessToken != null) {
                 return BEARER_AUTH_TYPE + " " + tokenResponse.accessToken;
             }
@@ -60,7 +60,7 @@ public class AccessTokenService {
     }
 
     private HttpHeaders getHeaders() {
-        HttpHeaders headers = new HttpHeaders();
+        var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         return headers;
     }
