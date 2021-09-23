@@ -30,7 +30,6 @@ public class SingleUpdateService {
 
         CCDRequest returnedRequest = getReturnedRequest(accessToken, caseTypeId,
                                                         jurisdiction, caseId, updateCaseMsg);
-
         updateCaseMsg.runTask(submitEvent);
 
         ccdClient.submitEventForCase(accessToken,
@@ -47,13 +46,11 @@ public class SingleUpdateService {
 
         if (updateCaseMsg.getDataModelParent() instanceof PreAcceptDataModel
             || updateCaseMsg.getDataModelParent() instanceof RejectDataModel) {
-
             return ccdClient.startEventForCasePreAcceptBulkSingle(
                 accessToken,
                 caseTypeId,
                 jurisdiction,
                 caseId);
-
         } else if (updateCaseMsg.getDataModelParent() instanceof UpdateDataModel
             && (YES.equals(((UpdateDataModel) updateCaseMsg.getDataModelParent()).getIsRespondentRepRemovalUpdate()))) {
             return ccdClient.startEventForCase(
@@ -62,13 +59,11 @@ public class SingleUpdateService {
                 jurisdiction,
                 caseId);
         } else {
-
             return ccdClient.startEventForCaseAPIRole(
                 accessToken,
                 caseTypeId,
                 jurisdiction,
                 caseId);
-
         }
     }
 }
