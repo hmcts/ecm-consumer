@@ -64,7 +64,7 @@ public class EmailService {
     private void sendEmail(String templateId, String emailAddress,
                            Map<String, String> personalisation, String emailDescription) {
 
-        String referenceId = UUID.randomUUID().toString();
+        var referenceId = UUID.randomUUID().toString();
 
         try {
             log.info("Attempting to send {} email. Reference ID: {}", emailDescription, referenceId);

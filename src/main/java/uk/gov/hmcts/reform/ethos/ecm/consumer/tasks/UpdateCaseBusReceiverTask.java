@@ -130,7 +130,7 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
 
         try {
 
-            UpdateCaseMsg updateCaseMsg = readMessage(message);
+            var updateCaseMsg = readMessage(message);
 
             log.info("Adding unrecoverable error to database");
             updateManagementService.addUnrecoverableErrorToDatabase(updateCaseMsg);
@@ -148,7 +148,7 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
     private MessageProcessingResult tryProcessMessage(IMessage message) {
         try {
 
-            UpdateCaseMsg updateCaseMsg = readMessage(message);
+            var updateCaseMsg = readMessage(message);
             log.info("RECEIVED 'Update Case' ------> ethosCaseRef {} - multipleRef {}",
                      updateCaseMsg.getEthosCaseReference(),
                      updateCaseMsg.getMultipleRef());
