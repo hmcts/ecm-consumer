@@ -38,7 +38,6 @@ public class SingleUpdateService {
                                     jurisdiction,
                                     returnedRequest,
                                     caseId);
-
     }
 
     private CCDRequest getReturnedRequest(String accessToken, String caseTypeId, String jurisdiction,
