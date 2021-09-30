@@ -13,4 +13,8 @@
     <packageUrl regex="true">^pkg:maven/com\.nimbusds/lang-tag@.*$</packageUrl>
     <vulnerabilityName>CVE-2020-23171</vulnerabilityName>
   </suppress>
+  <suppress>
+    <vulnerabilityName>CVE-2021-22147</vulnerabilityName>
+  </suppress>
+
 </suppressions>
