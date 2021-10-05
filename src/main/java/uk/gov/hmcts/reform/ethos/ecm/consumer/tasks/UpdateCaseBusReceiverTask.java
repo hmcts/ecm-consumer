@@ -149,9 +149,11 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
         try {
 
             var updateCaseMsg = readMessage(message);
-            log.info("RECEIVED 'Update Case' ------> ethosCaseRef {} - multipleRef {}",
+            log.info("RECEIVED 'Update Case' ------> ethosCaseRef {} - multipleRef {} - multipleRefLinkMarkUp {}",
                      updateCaseMsg.getEthosCaseReference(),
-                     updateCaseMsg.getMultipleRef());
+                     updateCaseMsg.getMultipleRef(),
+                     updateCaseMsg.getMultipleReferenceLinkMarkUp());
+
             updateManagementService.updateLogic(updateCaseMsg);
 
             return new MessageProcessingResult(MessageProcessingResultType.SUCCESS);
