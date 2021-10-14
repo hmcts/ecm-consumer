@@ -73,10 +73,12 @@ public class SingleUpdateServiceTest {
             .thenReturn(submitEvent);
         singleUpdateService.sendUpdate(submitEvent, userToken, updateCaseMsg);
 
-        verify(ccdClient).startEventForCasePreAcceptBulkSingle(eq(userToken),
-                                                               eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
-                                                               eq(updateCaseMsg.getJurisdiction()),
-                                                               any());
+        verify(ccdClient).startEventForCasePreAcceptBulkSingle(
+            eq(userToken),
+            eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
+            eq(updateCaseMsg.getJurisdiction()),
+            any()
+        );
         verify(ccdClient).submitEventForCase(eq(userToken),
                                              any(),
                                              eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
