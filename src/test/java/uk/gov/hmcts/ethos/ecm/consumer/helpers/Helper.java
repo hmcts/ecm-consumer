@@ -2,6 +2,7 @@ package uk.gov.hmcts.ethos.ecm.consumer.helpers;
 
 import uk.gov.hmcts.ecm.common.model.servicebus.CreateUpdatesMsg;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
+import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CloseDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationSingleDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.PreAcceptDataModel;
@@ -29,8 +30,9 @@ public class Helper {
         .multipleRef(MULTIPLE_CASE)
         .build();
 
-    private static PreAcceptDataModel preAcceptDataModel = PreAcceptDataModel.builder()
-        .build();
+    private static PreAcceptDataModel preAcceptDataModel = PreAcceptDataModel.builder().build();
+
+    private static CloseDataModel closeDataModel = CloseDataModel.builder().build();
 
     private static CreationSingleDataModel creationSingleDataModel = CreationSingleDataModel.builder()
         .positionTypeCT("PositionTypeCT")
@@ -63,6 +65,20 @@ public class Helper {
             .username(USERNAME)
             .confirmation(YES)
             .dataModelParent(preAcceptDataModel)
+            .build();
+    }
+
+    public static UpdateCaseMsg generateCloseCaseMsg() {
+        return UpdateCaseMsg.builder()
+            .msgId("1")
+            .jurisdiction(JURISDICTION)
+            .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
+            .multipleRef(MULTIPLE_CASE)
+            .ethosCaseReference(CASE_NUMBER1)
+            .totalCases("1")
+            .username(USERNAME)
+            .confirmation(NO)
+            .dataModelParent(closeDataModel)
             .build();
     }
 

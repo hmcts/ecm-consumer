@@ -68,12 +68,12 @@ public class SingleUpdateServiceTest {
 
     @Test
     public void sendPreAcceptToSingleLogic() throws IOException {
-        updateCaseMsg = Helper.generatePreAcceptCaseMsg();
+        updateCaseMsg = Helper.generateCloseCaseMsg();
         when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString()))
             .thenReturn(submitEvent);
         singleUpdateService.sendUpdate(submitEvent, userToken, updateCaseMsg);
 
-        verify(ccdClient).startEventForCasePreAcceptBulkSingle(eq(userToken),
+        verify(ccdClient).startDisposeEventForCase(eq(userToken),
                                                    eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
                                                    eq(updateCaseMsg.getJurisdiction()),
                                                    any());
@@ -86,4 +86,23 @@ public class SingleUpdateServiceTest {
         verifyNoMoreInteractions(ccdClient);
     }
 
+    @Test
+    public void sendDisposeToSingleLogic() throws IOException {
+        updateCaseMsg = Helper.generateUpdateCaseMsg();
+        when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString()))
+            .thenReturn(submitEvent);
+        singleUpdateService.sendUpdate(submitEvent, userToken, updateCaseMsg);
+
+        verify(ccdClient).startEventForCasePreAcceptBulkSingle(eq(userToken),
+                                                               eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
+                                                               eq(updateCaseMsg.getJurisdiction()),
+                                                               any());
+        verify(ccdClient).submitEventForCase(eq(userToken),
+                                             any(),
+                                             eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
+                                             eq(updateCaseMsg.getJurisdiction()),
+                                             any(),
+                                             any());
+        verifyNoMoreInteractions(ccdClient);
+    }
 }
