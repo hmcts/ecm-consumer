@@ -25,16 +25,16 @@ public class Helper {
     private Helper() {
     }
 
-    private static CreationDataModel creationDataModel = CreationDataModel.builder()
+    private static final CreationDataModel creationDataModel = CreationDataModel.builder()
         .lead(CASE_NUMBER1)
         .multipleRef(MULTIPLE_CASE)
         .build();
 
-    private static PreAcceptDataModel preAcceptDataModel = PreAcceptDataModel.builder().build();
+    private static final PreAcceptDataModel preAcceptDataModel = PreAcceptDataModel.builder().build();
 
-    private static CloseDataModel closeDataModel = CloseDataModel.builder().build();
+    private static final CloseDataModel closeDataModel = CloseDataModel.builder().build();
 
-    private static CreationSingleDataModel creationSingleDataModel = CreationSingleDataModel.builder()
+    private static final CreationSingleDataModel creationSingleDataModel = CreationSingleDataModel.builder()
         .positionTypeCT("PositionTypeCT")
         .officeCT("Manchester")
         .ccdGatewayBaseUrl("ccdGatewayBaseUrl")

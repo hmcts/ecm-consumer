@@ -68,15 +68,15 @@ public class SingleUpdateServiceTest {
 
     @Test
     public void sendPreAcceptToSingleLogic() throws IOException {
-        updateCaseMsg = Helper.generateCloseCaseMsg();
+        updateCaseMsg = Helper.generatePreAcceptCaseMsg();
         when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString()))
             .thenReturn(submitEvent);
         singleUpdateService.sendUpdate(submitEvent, userToken, updateCaseMsg);
 
-        verify(ccdClient).startDisposeEventForCase(eq(userToken),
-                                                   eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
-                                                   eq(updateCaseMsg.getJurisdiction()),
-                                                   any());
+        verify(ccdClient).startEventForCasePreAcceptBulkSingle(eq(userToken),
+                                                               eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
+                                                               eq(updateCaseMsg.getJurisdiction()),
+                                                               any());
         verify(ccdClient).submitEventForCase(eq(userToken),
                                              any(),
                                              eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
@@ -88,15 +88,15 @@ public class SingleUpdateServiceTest {
 
     @Test
     public void sendDisposeToSingleLogic() throws IOException {
-        updateCaseMsg = Helper.generateUpdateCaseMsg();
+        updateCaseMsg = Helper.generateCloseCaseMsg();
         when(ccdClient.submitEventForCase(anyString(), any(), anyString(), anyString(), any(), anyString()))
             .thenReturn(submitEvent);
         singleUpdateService.sendUpdate(submitEvent, userToken, updateCaseMsg);
 
-        verify(ccdClient).startEventForCasePreAcceptBulkSingle(eq(userToken),
-                                                               eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
-                                                               eq(updateCaseMsg.getJurisdiction()),
-                                                               any());
+        verify(ccdClient).startDisposeEventForCase(eq(userToken),
+                                                   eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
+                                                   eq(updateCaseMsg.getJurisdiction()),
+                                                   any());
         verify(ccdClient).submitEventForCase(eq(userToken),
                                              any(),
                                              eq(UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId())),
