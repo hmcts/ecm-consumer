@@ -8,6 +8,7 @@ import uk.gov.hmcts.ecm.common.helpers.UtilHelper;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
+import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CloseDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.PreAcceptDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.RejectDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.UpdateDataModel;
@@ -57,6 +58,12 @@ public class SingleUpdateService {
                 caseTypeId,
                 jurisdiction,
                 caseId);
+        } else if (updateCaseMsg.getDataModelParent() instanceof CloseDataModel) {
+            return ccdClient.startDisposeEventForCase(
+                    accessToken,
+                    caseTypeId,
+                    jurisdiction,
+                    caseId);
         } else {
             return ccdClient.startEventForCaseAPIRole(
                 accessToken,
