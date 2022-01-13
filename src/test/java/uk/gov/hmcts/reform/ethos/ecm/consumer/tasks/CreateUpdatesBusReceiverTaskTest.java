@@ -1,4 +1,4 @@
-package uk.gov.hmcts.ethos.ecm.consumer.tasks;
+package uk.gov.hmcts.reform.ethos.ecm.consumer.tasks;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -16,9 +16,9 @@ import uk.gov.hmcts.ecm.common.model.servicebus.CreateUpdatesMsg;
 import uk.gov.hmcts.ecm.common.model.servicebus.Msg;
 import uk.gov.hmcts.ecm.common.servicebus.MessageBodyRetriever;
 import uk.gov.hmcts.ecm.common.servicebus.ServiceBusSender;
-import uk.gov.hmcts.ethos.ecm.consumer.helpers.Helper;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Helper;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.MessageAutoCompletor;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.CreateUpdatesBusReceiverTask;
+
 import java.io.IOException;
 
 import static java.util.Collections.singletonList;

@@ -1,4 +1,4 @@
-package uk.gov.hmcts.ethos.ecm.consumer.service;
+package uk.gov.hmcts.reform.ethos.ecm.consumer.service;
 
 import org.junit.Before;
 import org.junit.Test;

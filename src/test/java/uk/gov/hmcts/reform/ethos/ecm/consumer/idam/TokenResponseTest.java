@@ -1,4 +1,4 @@
-package uk.gov.hmcts.ethos.ecm.consumer.idam;
+package uk.gov.hmcts.reform.ethos.ecm.consumer.idam;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
