@@ -1,4 +1,4 @@
-package uk.gov.hmcts.ethos.ecm.consumer.helpers;
+package uk.gov.hmcts.reform.ethos.ecm.consumer.helpers;
 
 import uk.gov.hmcts.ecm.common.model.servicebus.CreateUpdatesMsg;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;

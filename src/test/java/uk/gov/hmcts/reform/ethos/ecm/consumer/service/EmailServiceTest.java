@@ -1,4 +1,4 @@
-package uk.gov.hmcts.ethos.ecm.consumer.service;
+package uk.gov.hmcts.reform.ethos.ecm.consumer.service;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +8,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.config.EmailClient;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleErrors;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.service.EmailService;
 import uk.gov.service.notify.NotificationClientException;
 
 import java.util.ArrayList;

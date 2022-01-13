@@ -1,4 +1,4 @@
-package uk.gov.hmcts.ethos.ecm.consumer.functional;
+package uk.gov.hmcts.reform.ethos.ecm.consumer.functional;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
