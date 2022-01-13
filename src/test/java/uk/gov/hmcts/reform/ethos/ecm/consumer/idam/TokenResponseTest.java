@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.ethos.ecm.consumer.idam;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.TokenResponse;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
