@@ -1,4 +1,4 @@
-package uk.gov.hmcts.ethos.ecm.consumer.servicebus;
+package uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus;
 
 import com.microsoft.azure.servicebus.IQueueClient;
 import org.junit.Before;
@@ -8,7 +8,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.MessageAutoCompletor;
 
 import java.util.UUID;
 

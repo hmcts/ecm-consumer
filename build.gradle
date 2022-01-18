@@ -77,7 +77,7 @@ task smoke(type: Test, description: 'Runs the smoke tests.', group: 'Verificatio
   classpath = sourceSets.functional.runtimeClasspath
 
   useJUnit {
-    includeCategories 'uk.gov.hmcts.ethos.ecm.consumer.functional.SmokeTest'
+    includeCategories 'uk.gov.hmcts.reform.ethos.ecm.consumer.functional.SmokeTest'
   }
 }
 
@@ -86,8 +86,8 @@ task functional(type: Test, description: 'Runs the functional tests.', group: 'V
   classpath = sourceSets.functional.runtimeClasspath
 
   useJUnit {
-    includeCategories 'uk.gov.hmcts.ethos.ecm.consumer.functional.SmokeTest'
-    includeCategories 'uk.gov.hmcts.ethos.ecm.consumer.functional.HealthCheckTest'
+    includeCategories 'uk.gov.hmcts.reform.ethos.ecm.consumer.functional.SmokeTest'
+    includeCategories 'uk.gov.hmcts.reform.ethos.ecm.consumer.functional.HealthCheckTest'
   }
 
   maxHeapSize = '1G'
@@ -157,7 +157,7 @@ ext {
 }
 
 dependencies {
-  implementation 'com.github.hmcts:ecm-common:0.1.161'
+  implementation 'com.github.hmcts:ecm-common:0.1.163'
 
   implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -238,4 +238,3 @@ bootJar {
 wrapper {
   distributionType = Wrapper.DistributionType.ALL
 }
-

@@ -1,4 +1,4 @@
-package uk.gov.hmcts.ethos.ecm.consumer.service;
+package uk.gov.hmcts.reform.ethos.ecm.consumer.service;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,14 +8,10 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.ResetStateDataModel;
-import uk.gov.hmcts.ethos.ecm.consumer.helpers.Helper;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleErrors;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleCounterRepository;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleErrorsRepository;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.service.EmailService;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.service.MultipleUpdateService;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.service.SingleReadingService;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UpdateManagementService;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Helper;
 
 import java.io.IOException;
 import java.util.ArrayList;
