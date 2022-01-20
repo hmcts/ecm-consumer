@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 public class HttpClientConfiguration {
 
     @Value("${ccd.client.timeout}")
-    private int timeout;
+    private transient int timeout;
 
     @Bean
     public RestTemplate restTemplate() {
