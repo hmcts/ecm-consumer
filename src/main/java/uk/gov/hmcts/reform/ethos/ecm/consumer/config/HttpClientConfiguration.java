@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class HttpClientConfiguration {
 
-    @Value("60000")
+    @Value("${ccd.client.timeout}")
     private int timeout;
 
     @Bean
