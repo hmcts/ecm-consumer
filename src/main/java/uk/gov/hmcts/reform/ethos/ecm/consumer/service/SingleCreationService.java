@@ -194,6 +194,8 @@ public class SingleCreationService {
         }
 
         newCaseData.setMultipleReference(oldCaseData.getMultipleReference());
+        newCaseData.setMultipleReferenceLinkMarkUp(oldCaseData.getMultipleReferenceLinkMarkUp());
+
         log.info("setLeadClaimant is set to " + oldCaseData.getLeadClaimant());
         newCaseData.setLeadClaimant(oldCaseData.getLeadClaimant());
 
