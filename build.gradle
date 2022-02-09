@@ -156,7 +156,7 @@ ext {
 }
 
 dependencies {
-  implementation group: 'com.github.hmcts', name: 'ecm-common', version: '0.1.166'
+  implementation group: 'com.github.hmcts', name: 'ecm-common', version: '0.1.168'
   implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: reformLoggingVersion
   implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: reformLoggingVersion
   implementation group: 'com.github.hmcts', name: 'properties-volume-spring-boot-starter', version: '0.1.0'
