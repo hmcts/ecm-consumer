@@ -55,7 +55,7 @@ sourceSets {
   test {
     java.srcDir 'src/test/java'
   }
-  
+
   functional {
     java.srcDir 'src/test/functional/java'
     resources.srcDir 'src/test/functional/resources'
@@ -202,6 +202,9 @@ dependencies {
   //CVE-2021-42550
   implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.10'
   implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.10'
+
+  // CVE-2021-40690
+  implementation group: 'org.apache.santuario', name: 'xmlsec', version: '2.3.0'
 
   // CVE-2021-37136, CVE-2021-37137, CVE-2021-43797
   implementation group: 'io.netty', name: 'netty-all', version: versions.netty
