@@ -55,6 +55,7 @@ sourceSets {
   test {
     java.srcDir 'src/test/java'
   }
+
   functional {
     java.srcDir 'src/test/functional/java'
     resources.srcDir 'src/test/functional/resources'
@@ -146,16 +147,18 @@ def versions = [
   springfoxSwagger: '2.9.2',
   logging         : '5.1.7',
   hmctsNotify     : '3.15.1-RELEASE',
-  serenity        : '2.3.31'
+  serenity        : '2.3.31',
+  tomcat_embed    : '9.0.58',
+  netty           : '4.1.74.Final'
 ]
 
 ext {
   reformLoggingVersion = '5.1.9'
-  log4JVersion = '2.17.0'
+  log4JVersion = '2.17.1'
 }
 
 dependencies {
-  implementation group: 'com.github.hmcts', name: 'ecm-common', version: '0.1.166'
+  implementation group: 'com.github.hmcts', name: 'ecm-common', version: '0.1.169'
   implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: reformLoggingVersion
   implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: reformLoggingVersion
   implementation group: 'com.github.hmcts', name: 'properties-volume-spring-boot-starter', version: '0.1.0'
@@ -176,8 +179,8 @@ dependencies {
   implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
   implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4JVersion
   implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: log4JVersion
-  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.48'
-  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '9.0.48'
+  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: versions.tomcat_embed
+  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: versions.tomcat_embed
 
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.5.RELEASE'
   implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '11.1'
@@ -193,11 +196,50 @@ dependencies {
   implementation 'org.projectlombok:lombok'
   annotationProcessor 'org.projectlombok:lombok'
 
+  //CVE-2021-22060
+  implementation group: 'org.springframework', name: 'spring-core', version: '5.3.15'
+
+  //CVE-2021-42550
+  implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.10'
+  implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.10'
+
+  // CVE-2021-40690
+  implementation group: 'org.apache.santuario', name: 'xmlsec', version: '2.3.0'
+
+  // CVE-2021-37136, CVE-2021-37137, CVE-2021-43797
+  implementation group: 'io.netty', name: 'netty-all', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-buffer', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-codec', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-codec-http', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-codec-http2', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-codec-socks', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-common', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-handler', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-handler-proxy', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-resolver', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-transport', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-transport-native-epoll', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-transport-native-kqueue', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-transport-native-unix-common', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-resolver-dns-native-macos', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-codec-dns', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-codec-haproxy', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-codec-memcache', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-codec-mqtt', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-codec-redis', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-codec-smtp', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-codec-stomp', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-codec-xml', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-resolver-dns', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-transport-rxtx', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-transport-sctp', version: versions.netty
+  implementation group: 'io.netty', name: 'netty-transport-udt', version: versions.netty
+
   // For pdfbox and elasticsearch CVEs
   implementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.24'
   implementation('org.elasticsearch:elasticsearch') {
     version {
-      strictly '7.13.4'
+      strictly '7.17.0'
     }
   }
 
