@@ -8,6 +8,7 @@ import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
 import uk.gov.hmcts.ecm.common.model.ccd.CaseData;
 import uk.gov.hmcts.ecm.common.model.ccd.CaseDetails;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
+import uk.gov.hmcts.ecm.common.model.multiples.SubmitMultipleEvent;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationSingleDataModel;
 
@@ -17,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.CLOSED_STATE;
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.MULTIPLE_CASE_TYPE;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -91,6 +93,19 @@ public class SingleCreationService {
             createCaseDetailsCaseTransfer(oldSubmitEvent.getCaseData(), caseId, caseTypeId,
                                           ccdGatewayBaseUrl, positionTypeCT, jurisdiction,
                                           oldSubmitEvent.getState());
+
+        if (MULTIPLE_CASE_TYPE.equals(oldSubmitEvent.getCaseData().getEcmCaseType())) {
+            List<SubmitMultipleEvent> submitMultipleEvents =
+                ccdClient.retrieveMultipleCasesElasticSearch(accessToken,
+                                                             caseTypeId,
+                                                             oldSubmitEvent.getCaseData().getMultipleReference());
+            if (!submitMultipleEvents.isEmpty()) {
+                newCaseDetailsCT.getCaseData().setMultipleReferenceLinkMarkUp(
+                    generateMarkUp(ccdGatewayBaseUrl,
+                                   String.valueOf(submitMultipleEvents.get(0).getCaseId()),
+                                   oldSubmitEvent.getCaseData().getMultipleReference()));
+            }
+        }
 
         CCDRequest returnedRequest = ccdClient.startCaseCreationTransfer(accessToken, newCaseDetailsCT);
 
