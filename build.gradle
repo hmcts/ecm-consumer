@@ -90,7 +90,6 @@ task functional(type: Test, description: 'Runs the functional tests.', group: 'V
     includeCategories 'uk.gov.hmcts.reform.ethos.ecm.consumer.functional.SmokeTest'
     includeCategories 'uk.gov.hmcts.reform.ethos.ecm.consumer.functional.HealthCheckTest'
   }
-
   maxHeapSize = '1G'
 }
 
