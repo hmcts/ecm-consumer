@@ -6,7 +6,7 @@ plugins {
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
   id 'org.springframework.boot' version '2.3.11.RELEASE'
   id 'org.owasp.dependencycheck' version '6.2.2'
-  id 'com.github.ben-manes.versions' version '0.39.0'
+  id 'com.github.ben-manes.versions' version '0.42.0'
   id 'org.sonarqube' version '3.3'
 }
 
@@ -26,8 +26,8 @@ allprojects {
 jacocoTestReport {
   executionData(test)
   reports {
-    xml.enabled = true
-    csv.enabled = false
+    xml.required = true
+    csv.required = false
     xml.destination file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
   }
 }
@@ -126,10 +126,24 @@ dependencyCheck {
 
 dependencyManagement {
   dependencies {
-    dependency group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.68'
+    dependency group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.70'
     // CVE-2018-10237 - Unbounded memory allocation
-    dependencySet(group: 'com.google.guava', version: '30.1.1-jre') {
+    dependencySet(group: 'com.google.guava', version: '31.0.1-jre') {
       entry 'guava'
+    }
+    dependencySet(group: 'io.netty', version: '4.1.74.Final') {
+      entry 'netty-buffer'
+      entry 'netty-codec'
+      entry 'netty-codec-http'
+      entry 'netty-codec-socks'
+      entry 'netty-common'
+      entry 'netty-handler'
+      entry 'netty-handler-proxy'
+      entry 'netty-resolver'
+      entry 'netty-transport'
+      entry 'netty-transport-native-epoll'
+      entry 'netty-transport-native-kqueue'
+      entry 'netty-transport-native-unix-common'
     }
   }
 }
@@ -140,125 +154,79 @@ repositories {
   maven { url "https://jitpack.io" }
 }
 
-def versions = [
-  junitPlatform   : '1.6.2',
-  springBoot      : springBoot.class.package.implementationVersion,
-  springfoxSwagger: '2.9.2',
-  logging         : '5.1.7',
-  hmctsNotify     : '3.15.1-RELEASE',
-  serenity        : '2.3.31',
-  tomcat_embed    : '9.0.58',
-  netty           : '4.1.74.Final'
-]
-
 ext {
-  reformLoggingVersion = '5.1.9'
+  feignVersion = '11.8'
+  junitPlatform = '1.6.2'
   log4JVersion = '2.17.1'
+  logbackVersion = '1.2.10'
+  reformLoggingVersion = '5.1.9'
+  serenity = '2.3.31'
+  springBoot = springBoot.class.package.implementationVersion
+  springfoxSwagger = '2.9.2'
+  tomcatEmbedVersion = '9.0.58'
 }
 
 dependencies {
-  implementation group: 'com.github.hmcts', name: 'ecm-common', version: '0.1.169'
+  implementation group: 'com.github.hmcts', name: 'ecm-common', version: '0.1.175'
+
+  implementation group: 'ch.qos.logback', name: 'logback-core', version: logbackVersion
+  implementation group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
+  implementation group: 'com.github.hmcts', name: 'properties-volume-spring-boot-starter', version: '0.1.0'
   implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: reformLoggingVersion
   implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: reformLoggingVersion
-  implementation group: 'com.github.hmcts', name: 'properties-volume-spring-boot-starter', version: '0.1.0'
-
-  implementation 'org.springframework.boot:spring-boot-starter-web'
-  implementation 'org.springframework.boot:spring-boot-starter-actuator'
-  implementation 'org.springframework.boot:spring-boot-configuration-processor'
-  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-  implementation 'org.springframework.retry:spring-retry'
-
-  implementation 'org.postgresql:postgresql:42.2.23'
-
-  implementation group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
-  implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger
-  implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.11.3'
-  implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
-  implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+  implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.0'
+  implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.20'
+  implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: feignVersion
+  implementation group: 'io.github.openfeign', name: 'feign-core', version: feignVersion
+  implementation group: 'io.springfox', name: 'springfox-swagger2', version: springfoxSwagger
+  implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: springfoxSwagger
+  implementation group: 'junit', name: 'junit', version: '4.13.2'
+  implementation group: 'net.javacrumbs.shedlock', name: 'shedlock-spring', version: '4.33.0'
   implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
+  implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+  implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
   implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4JVersion
   implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: log4JVersion
-  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: versions.tomcat_embed
-  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: versions.tomcat_embed
-
-  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.5.RELEASE'
-  implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '11.1'
-  implementation group: 'io.github.openfeign', name: 'feign-core', version: '11.1'
-
-  implementation group: 'uk.gov.service.notify', name: 'notifications-java-client', version: versions.hmctsNotify
-  implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.7'
-  implementation group: 'net.javacrumbs.shedlock', name: 'shedlock-spring', version: '4.24.0'
-  implementation 'org.testng:testng:7.1.0'
-
-  implementation group: 'junit', name: 'junit', version: '4.13.1'
-
-  implementation 'org.projectlombok:lombok'
-  annotationProcessor 'org.projectlombok:lombok'
-
-  //CVE-2021-22060
-  implementation group: 'org.springframework', name: 'spring-core', version: '5.3.15'
-
-  //CVE-2021-42550
-  implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.10'
-  implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.10'
-
-  // CVE-2021-40690
-  implementation group: 'org.apache.santuario', name: 'xmlsec', version: '2.3.0'
-
-  // CVE-2021-37136, CVE-2021-37137, CVE-2021-43797
-  implementation group: 'io.netty', name: 'netty-all', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-buffer', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-codec', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-codec-http', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-codec-http2', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-codec-socks', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-common', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-handler', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-handler-proxy', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-resolver', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-transport', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-transport-native-epoll', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-transport-native-kqueue', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-transport-native-unix-common', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-resolver-dns-native-macos', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-codec-dns', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-codec-haproxy', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-codec-memcache', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-codec-mqtt', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-codec-redis', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-codec-smtp', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-codec-stomp', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-codec-xml', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-resolver-dns', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-transport-rxtx', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-transport-sctp', version: versions.netty
-  implementation group: 'io.netty', name: 'netty-transport-udt', version: versions.netty
-
-  // For pdfbox and elasticsearch CVEs
   implementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.24'
+  implementation group: 'org.apache.santuario', name: 'xmlsec', version: '2.3.0'
+  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: tomcatEmbedVersion
+  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: tomcatEmbedVersion
   implementation('org.elasticsearch:elasticsearch') {
     version {
       strictly '7.17.0'
     }
   }
+  implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.3'
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'org.springframework.boot:spring-boot-starter-actuator'
+  implementation 'org.springframework.boot:spring-boot-configuration-processor'
+  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.5.RELEASE'
+  implementation('org.springframework:spring-core:5.3.15') {
+    because 'CVE-2021-22060'
+  }
+  implementation 'org.springframework.retry:spring-retry'
+  implementation group: 'org.testng', name: 'testng', version: '7.5'
+  implementation group: 'uk.gov.service.notify', name: 'notifications-java-client', version: '3.15.1-RELEASE'
 
-  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  implementation 'org.projectlombok:lombok'
+  annotationProcessor 'org.projectlombok:lombok'
 
+  testImplementation group: 'com.auth0', name: 'java-jwt', version: '3.18.3'
+  testImplementation 'com.github.hmcts:fortify-client:1.2.0:all'
+  testImplementation group: 'com.warrenstrange', name: 'googleauth', version: '1.5.0'
+  testImplementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+  testImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: serenity
+  testImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: serenity
+  testImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: serenity, {
+    exclude module: 'jaxb-osgi'
+  }
+  testImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: serenity
+  testImplementation group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
   testImplementation (group: 'org.docx4j', name: 'docx4j', version: '6.1.2') {
     exclude module: 'slf4j-log4j12'
   }
-  testImplementation group: 'com.auth0', name: 'java-jwt', version: '3.18.1'
-  testImplementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
-  testImplementation group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
-  testImplementation group: 'com.warrenstrange', name: 'googleauth', version: '1.5.0'
-  testImplementation 'com.github.hmcts:fortify-client:1.2.0:all'
-
-  testImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
-  testImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity, {
-    exclude module: 'jaxb-osgi'
-  }
-  testImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
-  testImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 mainClassName = 'uk.gov.hmcts.reform.ethos.ecm.consumer.Application'
