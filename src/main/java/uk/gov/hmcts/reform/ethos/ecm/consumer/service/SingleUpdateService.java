@@ -7,12 +7,17 @@ import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.helpers.UtilHelper;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
+import uk.gov.hmcts.ecm.common.model.multiples.SubmitMultipleEvent;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CloseDataModel;
+import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationSingleDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.PreAcceptDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.RejectDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.UpdateDataModel;
 import java.io.IOException;
+import java.util.List;
+
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.MULTIPLE_CASE_TYPE;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
 
 @Slf4j
@@ -72,4 +77,55 @@ public class SingleUpdateService {
                 caseId);
         }
     }
+
+    public void sendUpdateMultipleLink(SubmitEvent submitEvent, String accessToken, UpdateCaseMsg updateCaseMsg) throws IOException {
+
+        if (MULTIPLE_CASE_TYPE.equals(submitEvent.getCaseData().getEcmCaseType())) {
+
+            CreationSingleDataModel creationSingleDataModel =
+                ((CreationSingleDataModel) updateCaseMsg.getDataModelParent());
+            String caseTypeIdSingle = creationSingleDataModel.getOfficeCT();
+            String ccdGatewayBaseUrl = creationSingleDataModel.getCcdGatewayBaseUrl();
+
+            String jurisdiction = updateCaseMsg.getJurisdiction();
+            String caseId = String.valueOf(submitEvent.getCaseId());
+
+            List<SubmitMultipleEvent> submitMultipleEvents =
+                ccdClient.retrieveMultipleCasesElasticSearch(
+                    accessToken,
+                    UtilHelper.getBulkCaseTypeId(caseTypeIdSingle),
+                    submitEvent.getCaseData().getMultipleReference());
+
+            if (!submitMultipleEvents.isEmpty() && submitEvent.getCaseData().getMultipleReferenceLinkMarkUp() == null) {
+
+                submitEvent.getCaseData().setMultipleReferenceLinkMarkUp(
+                    generateMarkUp(ccdGatewayBaseUrl,
+                                   String.valueOf(submitMultipleEvents.get(0).getCaseId()),
+                                   submitEvent.getCaseData().getMultipleReference()));
+
+                CCDRequest returnedRequest = ccdClient.startEventForCaseAPIRole(accessToken, caseTypeIdSingle, jurisdiction, caseId);
+
+                updateCaseMsg.runTask(submitEvent);
+
+                ccdClient.submitEventForCase(accessToken,
+                                             submitEvent.getCaseData(),
+                                             caseTypeIdSingle,
+                                             jurisdiction,
+                                             returnedRequest,
+                                             caseId);
+
+            }
+
+        }
+
+    }
+
+    private String generateMarkUp(String ccdGatewayBaseUrl, String caseId, String ethosCaseRef) {
+
+        String url = ccdGatewayBaseUrl + "/cases/case-details/" + caseId;
+
+        return "<a target=\"_blank\" href=\"" + url + "\">" + ethosCaseRef + "</a>";
+
+    }
+
 }

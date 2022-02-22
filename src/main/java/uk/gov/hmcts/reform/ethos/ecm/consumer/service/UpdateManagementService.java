@@ -68,6 +68,8 @@ public class UpdateManagementService {
 
                 multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg, multipleErrorsList);
 
+                singleReadingService.sendUpdateToSingleLogicMultiLink(updateCaseMsg);
+
                 sendEmailToUser(updateCaseMsg, multipleErrorsList);
 
             }
