@@ -15,6 +15,8 @@ import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.PreAcceptDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.RejectDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.UpdateDataModel;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.MULTIPLE_CASE_TYPE;
@@ -26,6 +28,7 @@ import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
 public class SingleUpdateService {
 
     private final CcdClient ccdClient;
+    private final UserService userService;
 
     public void sendUpdate(SubmitEvent submitEvent, String accessToken,
                             UpdateCaseMsg updateCaseMsg) throws IOException {
@@ -78,14 +81,35 @@ public class SingleUpdateService {
         }
     }
 
-    public void sendUpdateMultipleLink(SubmitEvent submitEvent, String accessToken, UpdateCaseMsg updateCaseMsg) throws IOException {
+    public void updateCreationSingleDataModel(UpdateCaseMsg updateCaseMsg) throws IOException {
+
+        CreationSingleDataModel creationSingleDataModel =
+            ((CreationSingleDataModel) updateCaseMsg.getDataModelParent());
+        String caseTypeIdSingle = creationSingleDataModel.getOfficeCT();
+        String ccdGatewayBaseUrl = creationSingleDataModel.getCcdGatewayBaseUrl();
+
+        String accessToken = userService.getAccessToken();
+
+        List<SubmitEvent> submitEvents =
+            ccdClient.retrieveCasesElasticSearch(
+                accessToken,
+                caseTypeIdSingle,
+                new ArrayList<>(Collections.singletonList(updateCaseMsg.getEthosCaseReference())));
+
+        if (submitEvents != null && !submitEvents.isEmpty()) {
+
+            sendUpdateMultipleReferenceLinkMarkUp(
+                submitEvents.get(0), accessToken, caseTypeIdSingle, ccdGatewayBaseUrl, updateCaseMsg);
+
+        }
+
+    }
+
+    private void sendUpdateMultipleReferenceLinkMarkUp(SubmitEvent submitEvent, String accessToken, String caseTypeId,
+                                                       String ccdGatewayBaseUrl, UpdateCaseMsg updateCaseMsg)
+        throws IOException {
 
         if (MULTIPLE_CASE_TYPE.equals(submitEvent.getCaseData().getEcmCaseType())) {
-
-            CreationSingleDataModel creationSingleDataModel =
-                ((CreationSingleDataModel) updateCaseMsg.getDataModelParent());
-            String caseTypeIdSingle = creationSingleDataModel.getOfficeCT();
-            String ccdGatewayBaseUrl = creationSingleDataModel.getCcdGatewayBaseUrl();
 
             String jurisdiction = updateCaseMsg.getJurisdiction();
             String caseId = String.valueOf(submitEvent.getCaseId());
@@ -93,8 +117,10 @@ public class SingleUpdateService {
             List<SubmitMultipleEvent> submitMultipleEvents =
                 ccdClient.retrieveMultipleCasesElasticSearch(
                     accessToken,
-                    UtilHelper.getBulkCaseTypeId(caseTypeIdSingle),
+                    UtilHelper.getBulkCaseTypeId(caseTypeId),
                     submitEvent.getCaseData().getMultipleReference());
+
+            log.info("ECM-613 - submitMultipleEvents.isEmpty() = " + submitMultipleEvents.isEmpty());
 
             if (!submitMultipleEvents.isEmpty() && submitEvent.getCaseData().getMultipleReferenceLinkMarkUp() == null) {
 
@@ -103,13 +129,14 @@ public class SingleUpdateService {
                                    String.valueOf(submitMultipleEvents.get(0).getCaseId()),
                                    submitEvent.getCaseData().getMultipleReference()));
 
-                CCDRequest returnedRequest = ccdClient.startEventForCaseAPIRole(accessToken, caseTypeIdSingle, jurisdiction, caseId);
+                CCDRequest returnedRequest = getReturnedRequest(accessToken, caseTypeId,
+                                                                jurisdiction, caseId, updateCaseMsg);
 
                 updateCaseMsg.runTask(submitEvent);
 
                 ccdClient.submitEventForCase(accessToken,
                                              submitEvent.getCaseData(),
-                                             caseTypeIdSingle,
+                                             caseTypeId,
                                              jurisdiction,
                                              returnedRequest,
                                              caseId);

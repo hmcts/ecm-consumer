@@ -57,35 +57,6 @@ public class SingleReadingService {
 
     }
 
-    public void sendUpdateToSingleLogicMultiLink(UpdateCaseMsg updateCaseMsg) throws IOException {
-
-        if (updateCaseMsg.getDataModelParent() instanceof CreationSingleDataModel) {
-
-            String accessToken = userService.getAccessToken();
-
-            CreationSingleDataModel creationSingleDataModel =
-                ((CreationSingleDataModel) updateCaseMsg.getDataModelParent());
-            String caseTypeIdSingle = creationSingleDataModel.getOfficeCT();
-
-            List<SubmitEvent> submitEvents =
-                ccdClient.retrieveCasesElasticSearch(
-                    accessToken,
-                    caseTypeIdSingle,
-                    new ArrayList<>(Collections.singletonList(updateCaseMsg.getEthosCaseReference())));
-
-            if (submitEvents != null && !submitEvents.isEmpty()) {
-
-                singleUpdateService.sendUpdateMultipleLink(submitEvents.get(0), accessToken, updateCaseMsg);
-
-            } else {
-
-                log.info("No submit events found");
-
-            }
-        }
-
-    }
-
     public List<SubmitEvent> retrieveSingleCase(String accessToken, UpdateCaseMsg updateCaseMsg) throws IOException {
 
         String caseType = !updateCaseMsg.getMultipleRef().equals(SINGLE_CASE_TYPE)

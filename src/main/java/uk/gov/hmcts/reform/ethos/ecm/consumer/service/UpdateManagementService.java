@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
+import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationSingleDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.ResetStateDataModel;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleCounter;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleErrors;
@@ -27,6 +28,7 @@ public class UpdateManagementService {
     private final MultipleErrorsRepository multipleErrorsRepository;
     private final MultipleUpdateService multipleUpdateService;
     private final SingleReadingService singleReadingService;
+    private final SingleUpdateService singleUpdateService;
     private final EmailService emailService;
 
     public void updateLogic(UpdateCaseMsg updateCaseMsg) throws IOException, InterruptedException {
@@ -68,7 +70,11 @@ public class UpdateManagementService {
 
                 multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg, multipleErrorsList);
 
-                singleReadingService.sendUpdateToSingleLogicMultiLink(updateCaseMsg);
+                if (updateCaseMsg.getDataModelParent() instanceof CreationSingleDataModel) {
+
+                    singleUpdateService.updateCreationSingleDataModel(updateCaseMsg);
+
+                }
 
                 sendEmailToUser(updateCaseMsg, multipleErrorsList);
 
