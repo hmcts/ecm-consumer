@@ -72,6 +72,8 @@ public class UpdateManagementService {
 
                 if (updateCaseMsg.getDataModelParent() instanceof CreationSingleDataModel) {
 
+                    Thread.sleep(5000);
+
                     singleUpdateService.updateCreationSingleDataModel(updateCaseMsg);
 
                 }

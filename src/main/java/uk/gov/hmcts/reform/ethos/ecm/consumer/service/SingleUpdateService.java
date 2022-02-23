@@ -120,8 +120,6 @@ public class SingleUpdateService {
                     UtilHelper.getBulkCaseTypeId(caseTypeId),
                     submitEvent.getCaseData().getMultipleReference());
 
-            log.info("ECM-613 - submitMultipleEvents.isEmpty() = " + submitMultipleEvents.isEmpty());
-
             if (!submitMultipleEvents.isEmpty() && submitEvent.getCaseData().getMultipleReferenceLinkMarkUp() == null) {
 
                 submitEvent.getCaseData().setMultipleReferenceLinkMarkUp(
@@ -131,8 +129,6 @@ public class SingleUpdateService {
 
                 CCDRequest returnedRequest = getReturnedRequest(accessToken, caseTypeId,
                                                                 jurisdiction, caseId, updateCaseMsg);
-
-                updateCaseMsg.runTask(submitEvent);
 
                 ccdClient.submitEventForCase(accessToken,
                                              submitEvent.getCaseData(),
