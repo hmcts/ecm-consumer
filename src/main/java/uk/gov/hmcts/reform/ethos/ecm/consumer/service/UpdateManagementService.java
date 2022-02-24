@@ -72,7 +72,7 @@ public class UpdateManagementService {
 
                 if (updateCaseMsg.getDataModelParent() instanceof CreationSingleDataModel) {
 
-                    Thread.sleep(5000);
+                    Thread.sleep(3000);
 
                     singleUpdateService.updateCreationSingleDataModel(updateCaseMsg);
 

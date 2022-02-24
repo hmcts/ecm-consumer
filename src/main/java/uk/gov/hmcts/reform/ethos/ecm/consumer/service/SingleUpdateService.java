@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.helpers.UtilHelper;
+import uk.gov.hmcts.ecm.common.model.bulk.SubmitBulkEvent;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
 import uk.gov.hmcts.ecm.common.model.multiples.SubmitMultipleEvent;
@@ -15,9 +16,8 @@ import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.PreAcceptDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.RejectDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.UpdateDataModel;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.MULTIPLE_CASE_TYPE;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
@@ -85,7 +85,7 @@ public class SingleUpdateService {
 
         CreationSingleDataModel creationSingleDataModel =
             ((CreationSingleDataModel) updateCaseMsg.getDataModelParent());
-        String caseTypeIdSingle = creationSingleDataModel.getOfficeCT();
+        String caseTypeId = creationSingleDataModel.getOfficeCT();
         String ccdGatewayBaseUrl = creationSingleDataModel.getCcdGatewayBaseUrl();
 
         String accessToken = userService.getAccessToken();
@@ -93,16 +93,31 @@ public class SingleUpdateService {
         List<SubmitEvent> submitEvents =
             ccdClient.retrieveCasesElasticSearch(
                 accessToken,
-                caseTypeIdSingle,
-                new ArrayList<>(Collections.singletonList(updateCaseMsg.getEthosCaseReference())));
+                caseTypeId,
+                retrieveBulkCasesEthosCaseReference(accessToken, caseTypeId, updateCaseMsg.getMultipleRef()));
 
         if (submitEvents != null && !submitEvents.isEmpty()) {
 
-            sendUpdateMultipleReferenceLinkMarkUp(
-                submitEvents.get(0), accessToken, caseTypeIdSingle, ccdGatewayBaseUrl, updateCaseMsg);
+            for (SubmitEvent submitEvent : submitEvents) {
+                sendUpdateMultipleReferenceLinkMarkUp(
+                    submitEvent, accessToken, caseTypeId, ccdGatewayBaseUrl, updateCaseMsg);
+            }
 
         }
 
+    }
+
+    private List<String> retrieveBulkCasesEthosCaseReference(String accessToken, String caseTypeId,
+                                                             String multipleRef) throws IOException {
+        List<SubmitBulkEvent> submitBulkEvents =
+            ccdClient.retrieveBulkCasesElasticSearch(
+                accessToken,
+                caseTypeId,
+                multipleRef);
+
+        return submitBulkEvents.stream()
+            .map(x -> x.getCaseData().getEthosCaseReference())
+            .collect(Collectors.toList());
     }
 
     private void sendUpdateMultipleReferenceLinkMarkUp(SubmitEvent submitEvent, String accessToken, String caseTypeId,
