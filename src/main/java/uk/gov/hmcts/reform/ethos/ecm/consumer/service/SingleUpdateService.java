@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.MULTIPLE_CASE_TYPE;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
 
 @Slf4j
@@ -81,27 +80,75 @@ public class SingleUpdateService {
         }
     }
 
-    public void updateCreationSingleDataModel(UpdateCaseMsg updateCaseMsg) throws IOException {
+    public void updateCreationSingleDataModel(UpdateCaseMsg updateCaseMsg) throws IOException, InterruptedException {
 
         CreationSingleDataModel creationSingleDataModel =
             ((CreationSingleDataModel) updateCaseMsg.getDataModelParent());
         String caseTypeId = creationSingleDataModel.getOfficeCT();
         String ccdGatewayBaseUrl = creationSingleDataModel.getCcdGatewayBaseUrl();
 
+        String multipleReference = updateCaseMsg.getMultipleRef();
+
         String accessToken = userService.getAccessToken();
 
-        List<SubmitEvent> submitEvents =
-            ccdClient.retrieveCasesElasticSearch(
+        List<SubmitMultipleEvent> submitMultipleEvents =
+            retrieveMultipleCasesWithSleep(
+                accessToken,
+                UtilHelper.getBulkCaseTypeId(caseTypeId),
+                multipleReference);
+
+        if (!submitMultipleEvents.isEmpty()) {
+
+            String generateMarkUp =
+                generateMarkUp(
+                    ccdGatewayBaseUrl,
+                    String.valueOf(submitMultipleEvents.get(0).getCaseId()),
+                    multipleReference);
+
+            List<SubmitEvent> submitEvents =
+                ccdClient.retrieveCasesElasticSearch(
+                    accessToken,
+                    caseTypeId,
+                    retrieveBulkCasesEthosCaseReference(accessToken, caseTypeId, updateCaseMsg.getMultipleRef()));
+
+            if (submitEvents != null && !submitEvents.isEmpty()) {
+
+                for (SubmitEvent submitEvent : submitEvents) {
+
+                    submitEvent.getCaseData().setMultipleReferenceLinkMarkUp(generateMarkUp);
+
+                    sendUpdate(submitEvent, accessToken, updateCaseMsg);
+
+                }
+
+            }
+
+        }
+
+    }
+
+    private List<SubmitMultipleEvent> retrieveMultipleCasesWithSleep(String accessToken, String caseTypeId,
+                                                                         String multipleReference)
+        throws IOException, InterruptedException {
+
+        List<SubmitMultipleEvent> submitMultipleEvent =
+            ccdClient.retrieveMultipleCasesElasticSearch(
                 accessToken,
                 caseTypeId,
-                retrieveBulkCasesEthosCaseReference(accessToken, caseTypeId, updateCaseMsg.getMultipleRef()));
+                multipleReference);
 
-        if (submitEvents != null && !submitEvents.isEmpty()) {
+        if (!submitMultipleEvent.isEmpty()) {
 
-            for (SubmitEvent submitEvent : submitEvents) {
-                sendUpdateMultipleReferenceLinkMarkUp(
-                    submitEvent, accessToken, caseTypeId, ccdGatewayBaseUrl, updateCaseMsg);
-            }
+            return submitMultipleEvent;
+
+        } else {
+
+            Thread.sleep(3000);
+
+            return ccdClient.retrieveMultipleCasesElasticSearch(
+                accessToken,
+                caseTypeId,
+                multipleReference);
 
         }
 
@@ -109,6 +156,7 @@ public class SingleUpdateService {
 
     private List<String> retrieveBulkCasesEthosCaseReference(String accessToken, String caseTypeId,
                                                              String multipleRef) throws IOException {
+
         List<SubmitBulkEvent> submitBulkEvents =
             ccdClient.retrieveBulkCasesElasticSearch(
                 accessToken,
@@ -118,43 +166,6 @@ public class SingleUpdateService {
         return submitBulkEvents.stream()
             .map(x -> x.getCaseData().getEthosCaseReference())
             .collect(Collectors.toList());
-    }
-
-    private void sendUpdateMultipleReferenceLinkMarkUp(SubmitEvent submitEvent, String accessToken, String caseTypeId,
-                                                       String ccdGatewayBaseUrl, UpdateCaseMsg updateCaseMsg)
-        throws IOException {
-
-        if (MULTIPLE_CASE_TYPE.equals(submitEvent.getCaseData().getEcmCaseType())) {
-
-            String jurisdiction = updateCaseMsg.getJurisdiction();
-            String caseId = String.valueOf(submitEvent.getCaseId());
-
-            List<SubmitMultipleEvent> submitMultipleEvents =
-                ccdClient.retrieveMultipleCasesElasticSearch(
-                    accessToken,
-                    UtilHelper.getBulkCaseTypeId(caseTypeId),
-                    submitEvent.getCaseData().getMultipleReference());
-
-            if (!submitMultipleEvents.isEmpty() && submitEvent.getCaseData().getMultipleReferenceLinkMarkUp() == null) {
-
-                submitEvent.getCaseData().setMultipleReferenceLinkMarkUp(
-                    generateMarkUp(ccdGatewayBaseUrl,
-                                   String.valueOf(submitMultipleEvents.get(0).getCaseId()),
-                                   submitEvent.getCaseData().getMultipleReference()));
-
-                CCDRequest returnedRequest = getReturnedRequest(accessToken, caseTypeId,
-                                                                jurisdiction, caseId, updateCaseMsg);
-
-                ccdClient.submitEventForCase(accessToken,
-                                             submitEvent.getCaseData(),
-                                             caseTypeId,
-                                             jurisdiction,
-                                             returnedRequest,
-                                             caseId);
-
-            }
-
-        }
 
     }
 
