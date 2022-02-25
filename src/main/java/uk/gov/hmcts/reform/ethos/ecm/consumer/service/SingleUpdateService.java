@@ -91,29 +91,29 @@ public class SingleUpdateService {
 
         String accessToken = userService.getAccessToken();
 
-        List<SubmitMultipleEvent> submitMultipleEvents =
+        List<SubmitMultipleEvent> listSubmitMultipleEvent =
             retrieveMultipleCasesWithSleep(
                 accessToken,
                 UtilHelper.getBulkCaseTypeId(caseTypeId),
                 multipleReference);
 
-        if (!submitMultipleEvents.isEmpty()) {
+        if (!listSubmitMultipleEvent.isEmpty()) {
 
             String generateMarkUp =
                 generateMarkUp(
                     ccdGatewayBaseUrl,
-                    String.valueOf(submitMultipleEvents.get(0).getCaseId()),
+                    String.valueOf(listSubmitMultipleEvent.get(0).getCaseId()),
                     multipleReference);
 
-            List<SubmitEvent> submitEvents =
+            List<SubmitEvent> listSubmitEvent =
                 ccdClient.retrieveCasesElasticSearch(
                     accessToken,
                     caseTypeId,
                     retrieveBulkCasesEthosCaseReference(accessToken, caseTypeId, updateCaseMsg.getMultipleRef()));
 
-            if (submitEvents != null && !submitEvents.isEmpty()) {
+            if (listSubmitEvent != null && !listSubmitEvent.isEmpty()) {
 
-                for (SubmitEvent submitEvent : submitEvents) {
+                for (SubmitEvent submitEvent : listSubmitEvent) {
 
                     submitEvent.getCaseData().setMultipleReferenceLinkMarkUp(generateMarkUp);
 
@@ -131,15 +131,15 @@ public class SingleUpdateService {
                                                                          String multipleReference)
         throws IOException, InterruptedException {
 
-        List<SubmitMultipleEvent> submitMultipleEvent =
+        List<SubmitMultipleEvent> listSubmitMultipleEvent =
             ccdClient.retrieveMultipleCasesElasticSearch(
                 accessToken,
                 caseTypeId,
                 multipleReference);
 
-        if (!submitMultipleEvent.isEmpty()) {
+        if (!listSubmitMultipleEvent.isEmpty()) {
 
-            return submitMultipleEvent;
+            return listSubmitMultipleEvent;
 
         } else {
 
