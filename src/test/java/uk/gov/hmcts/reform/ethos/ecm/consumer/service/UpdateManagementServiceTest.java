@@ -23,6 +23,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
 import static uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Constants.UNPROCESSABLE_MESSAGE;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -38,6 +39,8 @@ public class UpdateManagementServiceTest {
     private transient MultipleUpdateService multipleUpdateService;
     @Mock
     private transient SingleReadingService singleReadingService;
+    @Mock
+    private transient SingleUpdateService singleUpdateService;
     @Mock
     private transient EmailService emailService;
 
@@ -71,6 +74,24 @@ public class UpdateManagementServiceTest {
         verify(multipleErrorsRepository).deleteInBatch(new ArrayList<>());
         verifyNoMoreInteractions(multipleErrorsRepository);
         verifyNoMoreInteractions(multipleCounterRepository);
+
+    }
+
+    @Test
+    public void updateLogic_CreationSingleCaseMsg() throws IOException, InterruptedException {
+
+        UpdateCaseMsg updateCaseMsgThis = Helper.generateCreationSingleCaseMsg();
+        updateCaseMsgThis.setConfirmation(YES);
+
+        when(multipleCounterRepository.persistentQGetNextMultipleCountVal(
+            updateCaseMsgThis.getMultipleRef())).thenReturn(1);
+        when(multipleErrorsRepository.findByMultipleref(
+            updateCaseMsgThis.getMultipleRef())).thenReturn(new ArrayList<>());
+
+        updateManagementService.updateLogic(updateCaseMsgThis);
+
+        verify(singleUpdateService).updateCreationSingleDataModel(eq(updateCaseMsgThis));
+        verifyNoMoreInteractions(singleUpdateService);
 
     }
 

@@ -81,14 +81,14 @@ public class SingleUpdateService {
         }
     }
 
-    public void updateCreationSingleDataModel(UpdateCaseMsg updateCaseMsg) throws IOException, InterruptedException {
+    public void updateCreationSingleDataModel(UpdateCaseMsg updateCaseMsg) throws IOException {
 
         String caseTypeId = (((CreationSingleDataModel) updateCaseMsg.getDataModelParent()).getOfficeCT());
         String multipleReference = updateCaseMsg.getMultipleRef();
         String accessToken = userService.getAccessToken();
 
         List<SubmitMultipleEvent> listSubmitMultipleEvent =
-            retrieveMultipleCasesWithSleep(
+            ccdClient.retrieveMultipleCasesElasticSearch(
                 accessToken,
                 UtilHelper.getBulkCaseTypeId(caseTypeId),
                 multipleReference);
@@ -118,33 +118,6 @@ public class SingleUpdateService {
                 }
 
             }
-
-        }
-
-    }
-
-    private List<SubmitMultipleEvent> retrieveMultipleCasesWithSleep(String accessToken, String caseTypeId,
-                                                                         String multipleReference)
-        throws IOException, InterruptedException {
-
-        List<SubmitMultipleEvent> listSubmitMultipleEvent =
-            ccdClient.retrieveMultipleCasesElasticSearch(
-                accessToken,
-                caseTypeId,
-                multipleReference);
-
-        if (!listSubmitMultipleEvent.isEmpty()) {
-
-            return listSubmitMultipleEvent;
-
-        } else {
-
-            Thread.sleep(3000);
-
-            return ccdClient.retrieveMultipleCasesElasticSearch(
-                accessToken,
-                caseTypeId,
-                multipleReference);
 
         }
 
