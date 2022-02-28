@@ -15,6 +15,7 @@ import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationSingleDataMode
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.PreAcceptDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.RejectDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.UpdateDataModel;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -82,13 +83,8 @@ public class SingleUpdateService {
 
     public void updateCreationSingleDataModel(UpdateCaseMsg updateCaseMsg) throws IOException, InterruptedException {
 
-        CreationSingleDataModel creationSingleDataModel =
-            ((CreationSingleDataModel) updateCaseMsg.getDataModelParent());
-        String caseTypeId = creationSingleDataModel.getOfficeCT();
-        String ccdGatewayBaseUrl = creationSingleDataModel.getCcdGatewayBaseUrl();
-
+        String caseTypeId = (((CreationSingleDataModel) updateCaseMsg.getDataModelParent()).getOfficeCT());
         String multipleReference = updateCaseMsg.getMultipleRef();
-
         String accessToken = userService.getAccessToken();
 
         List<SubmitMultipleEvent> listSubmitMultipleEvent =
@@ -101,7 +97,7 @@ public class SingleUpdateService {
 
             String generateMarkUp =
                 generateMarkUp(
-                    ccdGatewayBaseUrl,
+                    (((CreationSingleDataModel) updateCaseMsg.getDataModelParent()).getCcdGatewayBaseUrl()),
                     String.valueOf(listSubmitMultipleEvent.get(0).getCaseId()),
                     multipleReference);
 
