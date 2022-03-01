@@ -201,7 +201,7 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-configuration-processor'
   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.5.RELEASE'
-  implementation('org.springframework:spring-core:5.3.15') {
+  implementation('org.springframework:spring-core:5.3.16') {
     because 'CVE-2021-22060'
   }
   implementation 'org.springframework.retry:spring-retry'
