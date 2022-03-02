@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import springfox.documentation.annotations.Cacheable;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.config.OAuth2Configuration;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.TokenResponse;
 
@@ -44,7 +43,6 @@ public class AccessTokenService {
         this.restTemplate = restTemplate;
     }
 
-    @Cacheable("token")
     public String getAccessToken(String username, String password) {
         ResponseEntity<TokenResponse> responseEntity
             = restTemplate.postForEntity(idamApiOidcUrl,
