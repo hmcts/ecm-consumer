@@ -6,21 +6,36 @@ java:
     ethos-shared:
       resourceGroup: ethos
       secrets:
-        - AppInsightsInstrumentationKey
-        - ecm-consumer-s2s-key
-        - caseworker-user-name
-        - caseworker-password
-        - gov-notify-api-key
-        - create-updates-queue-send-connection-string
-        - create-updates-queue-listen-connection-string
-        - update-case-queue-send-connection-string
-        - update-case-queue-listen-connection-string
-        - idam-client-secret
-        - ecm-consumer-postgres-password
-        - ecm-consumer-postgres-user
-        - ecm-consumer-postgres-host
-        - ecm-consumer-postgres-port
-        - ecm-consumer-postgres-database
+        - name: AppInsightsInstrumentationKey
+          alias: APP_INSIGHTS_KEY
+        - name: ecm-consumer-s2s-key
+          alias: ECM_CONSUMER_S2S_KEY
+        - name: caseworker-user-name
+          alias: CASEWORKER_USER_NAME
+        - name: caseworker-password
+          alias: CASEWORKER_PASSWORD
+        - name: gov-notify-api-key
+          alias: GOV_NOTIFY_API_KEY
+        - name: create-updates-queue-send-connection-string
+          alias: CREATE_UPDATES_QUEUE_SEND_CONNECTION_STRING
+        - name: create-updates-queue-listen-connection-string
+          alias: CREATE_UPDATES_QUEUE_LISTEN_CONNECTION_STRING
+        - name: update-case-queue-send-connection-string
+          alias: UPDATE_CASE_QUEUE_SEND_CONNECTION_STRING
+        - name: update-case-queue-listen-connection-string
+          alias: UPDATE_CASE_QUEUE_LISTEN_CONNECTION_STRING
+        - name: idam-client-secret
+          alias: IDAM_CLIENT_SECRET
+        - name: ecm-consumer-postgres-password
+          alias: ECM_CONSUMER_POSTGRES_PASSWORD
+        - name: ecm-consumer-postgres-user
+          alias: ECM_CONSUMER_POSTGRES_USER
+        - name: ecm-consumer-postgres-host
+          alias: ECM_CONSUMER_POSTGRES_HOST
+        - name: ecm-consumer-postgres-port
+          alias: ECM_CONSUMER_POSTGRES_PORT
+        - name: ecm-consumer-postgres-database
+          alias: ECM_CONSUMER_POSTGRES_DATABASE
   aadIdentityName: ethos
   environment:
     REFORM_TEAM: ethos
