@@ -10,8 +10,8 @@ public class SwaggerConfiguration {
     @Bean
     public OpenAPI api() {
         return new OpenAPI()
-            .info(new Info().title("ET Message Handler API")
-                      .description("Message Handler for Employment Tribunal")
+            .info(new Info().title("ECM Consumer API")
+                      .description("Message consumer for ECM")
                       .version("v0.0.1"));
     }
 }
