@@ -17,6 +17,7 @@ import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.RejectDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.UpdateDataModel;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -88,7 +89,7 @@ public class SingleUpdateService {
         String accessToken = userService.getAccessToken();
 
         List<SubmitMultipleEvent> listSubmitMultipleEvent =
-            ccdClient.retrieveMultipleCasesElasticSearch(
+            retrieveMultipleCasesWithDelay(
                 accessToken,
                 UtilHelper.getBulkCaseTypeId(caseTypeId),
                 multipleReference);
@@ -120,6 +121,25 @@ public class SingleUpdateService {
             }
 
         }
+
+    }
+
+    private List<SubmitMultipleEvent> retrieveMultipleCasesWithDelay(String accessToken, String bulkCaseTypeId,
+                                                                     String multipleReference) throws IOException {
+
+        try {
+            Thread.sleep(3000);
+            return ccdClient.retrieveMultipleCasesElasticSearch(
+                accessToken,
+                bulkCaseTypeId,
+                multipleReference
+            );
+        } catch (InterruptedException e) {
+            log.error("Error in retrieveMultipleCasesWithDelay");
+            Thread.currentThread().interrupt();
+        }
+
+        return new ArrayList<>();
 
     }
 
