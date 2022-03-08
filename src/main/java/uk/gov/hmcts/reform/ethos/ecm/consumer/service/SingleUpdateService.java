@@ -127,19 +127,24 @@ public class SingleUpdateService {
     private List<SubmitMultipleEvent> retrieveMultipleCasesWithDelay(String accessToken, String bulkCaseTypeId,
                                                                      String multipleReference) throws IOException {
 
-        try {
-            Thread.sleep(3000);
-            return ccdClient.retrieveMultipleCasesElasticSearch(
-                accessToken,
-                bulkCaseTypeId,
-                multipleReference
-            );
-        } catch (InterruptedException e) {
-            log.error("Error in retrieveMultipleCasesWithDelay");
-            Thread.currentThread().interrupt();
+        List<SubmitMultipleEvent> listSubmitMultipleEvent = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+
+            listSubmitMultipleEvent =
+                ccdClient.retrieveMultipleCasesElasticSearch(
+                    accessToken,
+                    bulkCaseTypeId,
+                    multipleReference
+                );
+
+            if (!listSubmitMultipleEvent.isEmpty()) {
+                return listSubmitMultipleEvent;
+            }
+
         }
 
-        return new ArrayList<>();
+        return listSubmitMultipleEvent;
 
     }
 
