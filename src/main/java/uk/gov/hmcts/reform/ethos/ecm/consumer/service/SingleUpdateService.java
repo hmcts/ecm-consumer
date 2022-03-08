@@ -96,12 +96,6 @@ public class SingleUpdateService {
 
         if (!listSubmitMultipleEvent.isEmpty()) {
 
-            String generateMarkUp =
-                generateMarkUp(
-                    (((CreationSingleDataModel) updateCaseMsg.getDataModelParent()).getCcdGatewayBaseUrl()),
-                    String.valueOf(listSubmitMultipleEvent.get(0).getCaseId()),
-                    multipleReference);
-
             List<SubmitEvent> listSubmitEvent =
                 ccdClient.retrieveCasesElasticSearch(
                     accessToken,
@@ -111,6 +105,12 @@ public class SingleUpdateService {
             if (listSubmitEvent != null && !listSubmitEvent.isEmpty()) {
 
                 for (SubmitEvent submitEvent : listSubmitEvent) {
+
+                    String generateMarkUp =
+                        generateMarkUp(
+                            (((CreationSingleDataModel) updateCaseMsg.getDataModelParent()).getCcdGatewayBaseUrl()),
+                            String.valueOf(listSubmitMultipleEvent.get(0).getCaseId()),
+                            multipleReference);
 
                     submitEvent.getCaseData().setMultipleReferenceLinkMarkUp(generateMarkUp);
 
