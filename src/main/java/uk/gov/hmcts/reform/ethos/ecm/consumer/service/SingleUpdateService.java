@@ -127,11 +127,9 @@ public class SingleUpdateService {
     private List<SubmitMultipleEvent> retrieveMultipleCasesWithDelay(String accessToken, String bulkCaseTypeId,
                                                                      String multipleReference) throws IOException {
 
-        List<SubmitMultipleEvent> listSubmitMultipleEvent = new ArrayList<>();
-
         for (int i = 0; i < 10; i++) {
 
-            listSubmitMultipleEvent =
+            List<SubmitMultipleEvent> listSubmitMultipleEvent =
                 ccdClient.retrieveMultipleCasesElasticSearch(
                     accessToken,
                     bulkCaseTypeId,
@@ -144,7 +142,7 @@ public class SingleUpdateService {
 
         }
 
-        return listSubmitMultipleEvent;
+        return new ArrayList<>();
 
     }
 
