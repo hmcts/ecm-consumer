@@ -130,7 +130,7 @@ dependencyManagement {
     dependencySet(group: 'com.google.guava', version: '31.1-jre') {
       entry 'guava'
     }
-    dependencySet(group: 'io.netty', version: '4.1.74.Final') {
+    dependencySet(group: 'io.netty', version: '4.1.75.Final') {
       entry 'netty-buffer'
       entry 'netty-codec'
       entry 'netty-codec-http'
@@ -200,12 +200,12 @@ dependencies {
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.1'
   implementation 'org.springframework.retry:spring-retry'
   implementation group: 'org.testng', name: 'testng', version: '7.5'
-  implementation group: 'uk.gov.service.notify', name: 'notifications-java-client', version: '3.17.2-RELEASE'
+  implementation group: 'uk.gov.service.notify', name: 'notifications-java-client', version: '3.17.3-RELEASE'
 
   implementation 'org.projectlombok:lombok'
   annotationProcessor 'org.projectlombok:lombok'
 
-  testImplementation group: 'com.auth0', name: 'java-jwt', version: '3.18.3'
+  testImplementation group: 'com.auth0', name: 'java-jwt', version: '3.19.0'
   testImplementation 'com.github.hmcts:fortify-client:1.2.0:all'
   testImplementation group: 'com.warrenstrange', name: 'googleauth', version: '1.5.0'
   testImplementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
