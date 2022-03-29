@@ -13,6 +13,7 @@ import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.PreAcceptDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.RejectDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.UpdateDataModel;
 import java.io.IOException;
+
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
 
 @Slf4j
@@ -72,4 +73,5 @@ public class SingleUpdateService {
                 caseId);
         }
     }
+
 }
