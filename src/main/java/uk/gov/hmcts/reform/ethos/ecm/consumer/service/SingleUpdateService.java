@@ -1,5 +1,7 @@
 package uk.gov.hmcts.reform.ethos.ecm.consumer.service;
 
+import java.io.IOException;
+import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,8 +14,6 @@ import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CloseDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.PreAcceptDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.RejectDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.UpdateDataModel;
-import java.io.IOException;
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -72,4 +72,5 @@ public class SingleUpdateService {
                 caseId);
         }
     }
+    
 }
