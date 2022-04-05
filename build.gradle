@@ -165,7 +165,7 @@ ext {
 }
 
 dependencies {
-  implementation group: 'com.github.hmcts', name: 'ecm-common', version: '0.1.181'
+  implementation group: 'com.github.hmcts', name: 'ecm-common', version: '0.1.185'
 
   implementation group: 'ch.qos.logback', name: 'logback-core', version: logbackVersion
   implementation group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
