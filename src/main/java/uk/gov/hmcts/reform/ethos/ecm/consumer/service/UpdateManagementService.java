@@ -11,7 +11,6 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleCounterR
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleErrorsRepository;
 
 import java.io.IOException;
-import java.security.SecureRandom;
 import java.util.List;
 
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.SINGLE_CASE_TYPE;
