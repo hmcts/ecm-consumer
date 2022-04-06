@@ -77,16 +77,8 @@ public class UpdateManagementService {
 
     }
 
-    private int getNextCounterNumberWithDelay(String multipleRef) throws InterruptedException {
-
-        SecureRandom random = new SecureRandom();
-
-        long delay = random.nextInt(1000);
-
-        Thread.sleep(delay);
-
+    private int getNextCounterNumberWithDelay(String multipleRef) {
         return multipleCounterRepository.persistentQGetNextMultipleCountVal(multipleRef);
-
     }
 
     private void sendEmailToUser(UpdateCaseMsg updateCaseMsg, List<MultipleErrors> multipleErrorsList) {
