@@ -52,7 +52,7 @@ public class UpdateManagementService {
 
     public void checkIfFinish(UpdateCaseMsg updateCaseMsg) throws IOException, InterruptedException {
 
-        int counter = getNextCounterNumberWithDelay(updateCaseMsg.getMultipleRef());
+        int counter = getNextCounterNumber(updateCaseMsg.getMultipleRef());
 
         log.info("COUNTER: " + counter + " TOTAL CASES: " + updateCaseMsg.getTotalCases());
 
@@ -76,7 +76,7 @@ public class UpdateManagementService {
 
     }
 
-    private int getNextCounterNumberWithDelay(String multipleRef) {
+    private int getNextCounterNumber(String multipleRef) {
         return multipleCounterRepository.persistentQGetNextMultipleCountVal(multipleRef);
     }
 

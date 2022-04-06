@@ -24,7 +24,7 @@ BEGIN
     CASE
 
     WHEN currentval IS NULL THEN
-        currentval := 1;
+    currentval := 1;
     INSERT INTO multipleCounter(counter, multipleRef) VALUES (currentval, p_multipleRef);
 
     ELSE
