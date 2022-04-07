@@ -88,13 +88,13 @@ public class SingleUpdateService {
 
         if (isNullOrEmpty(submitEvent.getCaseData().getMultipleReferenceLinkMarkUp())) {
 
-            List<SubmitMultipleEvent> listSubmitMultipleEvent = retrieveMultipleCase(accessToken, updateCaseMsg);
+            List<SubmitMultipleEvent> submitMultipleEvents = retrieveMultipleCase(accessToken, updateCaseMsg);
 
-            if (!listSubmitMultipleEvent.isEmpty()) {
+            if (!submitMultipleEvents.isEmpty()) {
 
                 submitEvent.getCaseData().setMultipleReferenceLinkMarkUp(
                     generateMarkUp(ccdGatewayBaseUrl,
-                                   String.valueOf(listSubmitMultipleEvent.get(0).getCaseId()),
+                                   String.valueOf(submitMultipleEvents.get(0).getCaseId()),
                                    submitEvent.getCaseData().getMultipleReference()));
 
             }
