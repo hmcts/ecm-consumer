@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.ethos.ecm.consumer.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.helpers.UtilHelper;
@@ -25,6 +26,9 @@ import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
 public class SingleUpdateService {
 
     private final CcdClient ccdClient;
+
+    @Value("${ccd_gateway_base_url}")
+    private String ccdGatewayBaseUrl;
 
     public void sendUpdate(SubmitEvent submitEvent, String accessToken,
                             UpdateCaseMsg updateCaseMsg) throws IOException {
@@ -87,8 +91,6 @@ public class SingleUpdateService {
             List<SubmitMultipleEvent> listSubmitMultipleEvent = retrieveMultipleCase(accessToken, updateCaseMsg);
 
             if (!listSubmitMultipleEvent.isEmpty()) {
-
-                String ccdGatewayBaseUrl = "ccdGatewayBaseUrl";
 
                 submitEvent.getCaseData().setMultipleReferenceLinkMarkUp(
                     generateMarkUp(ccdGatewayBaseUrl,
