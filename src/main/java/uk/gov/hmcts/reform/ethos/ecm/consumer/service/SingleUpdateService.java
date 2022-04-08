@@ -87,20 +87,14 @@ public class SingleUpdateService {
                                                    UpdateCaseMsg updateCaseMsg) throws IOException {
 
         if (isNullOrEmpty(submitEvent.getCaseData().getMultipleReferenceLinkMarkUp())) {
-
             List<SubmitMultipleEvent> submitMultipleEvents = retrieveMultipleCase(accessToken, updateCaseMsg);
-
             if (!submitMultipleEvents.isEmpty()) {
-
                 submitEvent.getCaseData().setMultipleReferenceLinkMarkUp(
                     generateMarkUp(ccdGatewayBaseUrl,
                                    String.valueOf(submitMultipleEvents.get(0).getCaseId()),
                                    submitEvent.getCaseData().getMultipleReference()));
-
             }
-
         }
-
     }
 
     private List<SubmitMultipleEvent> retrieveMultipleCase(String authToken,
@@ -110,15 +104,12 @@ public class SingleUpdateService {
             authToken,
             updateCaseMsg.getCaseTypeId(),
             updateCaseMsg.getMultipleRef());
-
     }
 
     private String generateMarkUp(String ccdGatewayBaseUrl, String caseId, String ethosCaseRef) {
 
         String url = ccdGatewayBaseUrl + "/cases/case-details/" + caseId;
-
         return "<a target=\"_blank\" href=\"" + url + "\">" + ethosCaseRef + "</a>";
-
     }
 
 }
