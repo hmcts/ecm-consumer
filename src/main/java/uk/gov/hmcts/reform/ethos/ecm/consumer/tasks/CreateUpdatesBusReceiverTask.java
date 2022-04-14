@@ -152,6 +152,7 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
             .multipleRef(createUpdatesMsg.getMultipleRef())
             .ethosCaseReference(ethosCaseReference)
             .totalCases(createUpdatesMsg.getTotalCases())
+            .multipleReferenceLinkMarkUp(createUpdatesMsg.getMultipleReferenceLinkMarkUp())
             .jurisdiction(createUpdatesMsg.getJurisdiction())
             .caseTypeId(createUpdatesMsg.getCaseTypeId())
             .username(createUpdatesMsg.getUsername())

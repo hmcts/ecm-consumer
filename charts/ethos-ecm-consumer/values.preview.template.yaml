@@ -11,14 +11,23 @@ java:
     ethos-shared:
       resourceGroup: ethos
       secrets:
-        - ecm-consumer-s2s-key
-        - caseworker-user-name
-        - caseworker-password
-        - gov-notify-api-key
-        - create-updates-queue-send-connection-string
-        - create-updates-queue-listen-connection-string
-        - update-case-queue-send-connection-string
-        - update-case-queue-listen-connection-string
-        - idam-client-secret
+        - name: ecm-consumer-s2s-key
+          alias: ECM_CONSUMER_S2S_KEY
+        - name: caseworker-user-name
+          alias: CASEWORKER_USER_NAME
+        - name: caseworker-password
+          alias: CASEWORKER_PASSWORD
+        - name: gov-notify-api-key
+          alias: GOV_NOTIFY_API_KEY
+        - name: create-updates-queue-send-connection-string
+          alias: CREATE_UPDATES_QUEUE_SEND_CONNECTION_STRING
+        - name: create-updates-queue-listen-connection-string
+          alias: CREATE_UPDATES_QUEUE_LISTEN_CONNECTION_STRING
+        - name: update-case-queue-send-connection-string
+          alias: UPDATE_CASE_QUEUE_SEND_CONNECTION_STRING
+        - name: update-case-queue-listen-connection-string
+          alias: UPDATE_CASE_QUEUE_LISTEN_CONNECTION_STRING
+        - name: idam-client-secret
+          alias: IDAM_CLIENT_SECRET
   postgresql:
     enabled: true
