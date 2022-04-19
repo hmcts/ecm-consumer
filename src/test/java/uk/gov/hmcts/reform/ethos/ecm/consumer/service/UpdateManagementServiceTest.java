@@ -63,7 +63,6 @@ public class UpdateManagementServiceTest {
         verify(multipleUpdateService).sendUpdateToMultipleLogic(eq(updateCaseMsg), any());
         verifyNoMoreInteractions(multipleUpdateService);
         verify(multipleCounterRepository).persistentQGetNextMultipleCountVal(updateCaseMsg.getMultipleRef());
-        verify(multipleCounterRepository).persistentQInsertFirstMultipleCountVal(updateCaseMsg.getMultipleRef());
         verify(multipleCounterRepository, times(1))
             .findByMultipleref(updateCaseMsg.getMultipleRef());
         verify(multipleCounterRepository).deleteInBatch(new ArrayList<>());
@@ -94,7 +93,6 @@ public class UpdateManagementServiceTest {
         verify(multipleUpdateService).sendUpdateToMultipleLogic(eq(updateCaseMsg), any());
         verifyNoMoreInteractions(multipleUpdateService);
         verify(multipleCounterRepository).persistentQGetNextMultipleCountVal(updateCaseMsg.getMultipleRef());
-        verify(multipleCounterRepository).persistentQInsertFirstMultipleCountVal(updateCaseMsg.getMultipleRef());
         verify(multipleCounterRepository, times(1))
             .findByMultipleref(updateCaseMsg.getMultipleRef());
         verify(multipleCounterRepository).deleteInBatch(new ArrayList<>());

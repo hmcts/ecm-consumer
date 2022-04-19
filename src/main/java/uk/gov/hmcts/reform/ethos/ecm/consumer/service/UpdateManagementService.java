@@ -53,8 +53,6 @@ public class UpdateManagementService {
 
     public void checkIfFinish(UpdateCaseMsg updateCaseMsg) throws IOException, InterruptedException {
 
-        multipleCounterRepository.persistentQInsertFirstMultipleCountVal(
-            updateCaseMsg.getMultipleRef());
         int counter = getNextCounterNumberWithDelay(updateCaseMsg.getMultipleRef());
 
         log.info("COUNTER: " + counter + " TOTAL CASES: " + updateCaseMsg.getTotalCases());

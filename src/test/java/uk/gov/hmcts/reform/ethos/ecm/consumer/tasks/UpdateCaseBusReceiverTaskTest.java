@@ -15,6 +15,7 @@ import uk.gov.hmcts.ecm.common.exceptions.InvalidMessageException;
 import uk.gov.hmcts.ecm.common.model.servicebus.Msg;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ecm.common.servicebus.MessageBodyRetriever;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleCounterRepository;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Helper;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UpdateManagementService;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.servicebus.MessageAutoCompletor;
@@ -38,12 +39,17 @@ public class UpdateCaseBusReceiverTaskTest {
     @Mock
     private transient UpdateManagementService updateManagementService;
 
+    @Mock
+    private transient MultipleCounterRepository multipleCounterRepository;
+
     private transient Message message;
 
     @Before
     public void setUp() {
         updateCaseBusReceiverTask = new UpdateCaseBusReceiverTask(objectMapper,
-                                                                  messageCompletor, updateManagementService);
+                                                                  messageCompletor,
+                                                                  updateManagementService,
+                                                                  multipleCounterRepository);
         message = createMessage();
     }
 

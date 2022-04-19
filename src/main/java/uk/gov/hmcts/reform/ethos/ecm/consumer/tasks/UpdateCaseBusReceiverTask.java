@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.exceptions.InvalidMessageException;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ecm.common.servicebus.MessageBodyRetriever;
+import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleCounterRepository;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.MessageProcessingResult;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.MessageProcessingResultType;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UpdateManagementService;
@@ -37,13 +38,16 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
     private final transient ObjectMapper objectMapper;
     private final transient MessageAutoCompletor messageCompletor;
     private final transient UpdateManagementService updateManagementService;
+    private final MultipleCounterRepository multipleCounterRepository;
 
     public UpdateCaseBusReceiverTask(ObjectMapper objectMapper,
                                      @Qualifier("update-case-completor") MessageAutoCompletor messageCompletor,
-                                     UpdateManagementService updateManagementService) {
+                                     UpdateManagementService updateManagementService,
+                                     MultipleCounterRepository multipleCounterRepository) {
         this.objectMapper = objectMapper;
         this.messageCompletor = messageCompletor;
         this.updateManagementService = updateManagementService;
+        this.multipleCounterRepository = multipleCounterRepository;
     }
 
     @Override
@@ -153,7 +157,8 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
                      updateCaseMsg.getEthosCaseReference(),
                      updateCaseMsg.getMultipleRef(),
                      updateCaseMsg.getMultipleReferenceLinkMarkUp());
-
+            multipleCounterRepository.persistentQInsertFirstMultipleCountVal(
+                updateCaseMsg.getMultipleRef());
             updateManagementService.updateLogic(updateCaseMsg);
 
             return new MessageProcessingResult(MessageProcessingResultType.SUCCESS);
