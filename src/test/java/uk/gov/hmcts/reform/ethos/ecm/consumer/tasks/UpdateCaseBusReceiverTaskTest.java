@@ -39,17 +39,13 @@ public class UpdateCaseBusReceiverTaskTest {
     @Mock
     private transient UpdateManagementService updateManagementService;
 
-    @Mock
-    private transient MultipleCounterRepository multipleCounterRepository;
-
     private transient Message message;
 
     @Before
     public void setUp() {
         updateCaseBusReceiverTask = new UpdateCaseBusReceiverTask(objectMapper,
                                                                   messageCompletor,
-                                                                  updateManagementService,
-                                                                  multipleCounterRepository);
+                                                                  updateManagementService);
         message = createMessage();
     }
 

@@ -38,16 +38,13 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
     private final transient ObjectMapper objectMapper;
     private final transient MessageAutoCompletor messageCompletor;
     private final transient UpdateManagementService updateManagementService;
-    private final MultipleCounterRepository multipleCounterRepository;
 
     public UpdateCaseBusReceiverTask(ObjectMapper objectMapper,
                                      @Qualifier("update-case-completor") MessageAutoCompletor messageCompletor,
-                                     UpdateManagementService updateManagementService,
-                                     MultipleCounterRepository multipleCounterRepository) {
+                                     UpdateManagementService updateManagementService) {
         this.objectMapper = objectMapper;
         this.messageCompletor = messageCompletor;
         this.updateManagementService = updateManagementService;
-        this.multipleCounterRepository = multipleCounterRepository;
     }
 
     @Override
@@ -157,8 +154,6 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
                      updateCaseMsg.getEthosCaseReference(),
                      updateCaseMsg.getMultipleRef(),
                      updateCaseMsg.getMultipleReferenceLinkMarkUp());
-            multipleCounterRepository.persistentQInsertFirstMultipleCountVal(
-                updateCaseMsg.getMultipleRef());
             updateManagementService.updateLogic(updateCaseMsg);
 
             return new MessageProcessingResult(MessageProcessingResultType.SUCCESS);
