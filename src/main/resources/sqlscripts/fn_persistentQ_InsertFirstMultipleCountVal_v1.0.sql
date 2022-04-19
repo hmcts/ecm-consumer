@@ -6,7 +6,7 @@ BEGIN
 
 LOCK table multipleCounter;
 INSERT into multipleCounter
-SELECT p_multipleRef, 1
+SELECT p_multipleRef, 0
 WHERE
     not exists (select 1 from multipleCounter where multipleref = p_multipleRef);
 
