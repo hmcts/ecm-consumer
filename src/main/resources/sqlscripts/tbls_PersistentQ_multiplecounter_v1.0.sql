@@ -20,7 +20,7 @@ CREATE TABLE multipleCounter
 
 ALTER TABLE multipleCounter
     ADD CONSTRAINT multipleCounter_pk
-        PRIMARY KEY (multipleRef, counter);
+        PRIMARY KEY (multipleRef);
 
 CREATE INDEX IX_multipleCounter_multipleRef ON multipleCounter(multipleRef);
 
