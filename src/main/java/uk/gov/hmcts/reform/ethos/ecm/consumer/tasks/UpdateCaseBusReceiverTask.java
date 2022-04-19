@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.exceptions.InvalidMessageException;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ecm.common.servicebus.MessageBodyRetriever;
-import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository.MultipleCounterRepository;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.MessageProcessingResult;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.model.servicebus.MessageProcessingResultType;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UpdateManagementService;
@@ -154,6 +153,7 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
                      updateCaseMsg.getEthosCaseReference(),
                      updateCaseMsg.getMultipleRef(),
                      updateCaseMsg.getMultipleReferenceLinkMarkUp());
+
             updateManagementService.updateLogic(updateCaseMsg);
 
             return new MessageProcessingResult(MessageProcessingResultType.SUCCESS);
