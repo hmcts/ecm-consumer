@@ -56,18 +56,18 @@ public class UpdateManagementServiceTest {
 
         updateManagementService.updateLogic(updateCaseMsg);
 
-        verify(singleReadingService).sendUpdateToSingleLogic(eq(updateCaseMsg));
+        verify(singleReadingService).sendUpdateToSingleLogic(updateCaseMsg);
         verifyNoMoreInteractions(singleReadingService);
         verify(emailService).sendConfirmationEmail(eq(updateCaseMsg.getUsername()), eq(updateCaseMsg.getMultipleRef()));
         verifyNoMoreInteractions(emailService);
         verify(multipleUpdateService).sendUpdateToMultipleLogic(eq(updateCaseMsg), any());
         verifyNoMoreInteractions(multipleUpdateService);
-        verify(multipleCounterRepository).persistentQGetNextMultipleCountVal(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleCounterRepository).persistentQGetNextMultipleCountVal(updateCaseMsg.getMultipleRef());
         verify(multipleCounterRepository, times(1))
-            .findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+            .findByMultipleref(updateCaseMsg.getMultipleRef());
         verify(multipleCounterRepository).deleteInBatch(new ArrayList<>());
         verify(multipleErrorsRepository, times(2))
-            .findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+            .findByMultipleref(updateCaseMsg.getMultipleRef());
         verify(multipleErrorsRepository).deleteInBatch(new ArrayList<>());
         verifyNoMoreInteractions(multipleErrorsRepository);
         verifyNoMoreInteractions(multipleCounterRepository);
@@ -84,7 +84,7 @@ public class UpdateManagementServiceTest {
 
         updateManagementService.updateLogic(updateCaseMsg);
 
-        verify(singleReadingService).sendUpdateToSingleLogic(eq(updateCaseMsg));
+        verify(singleReadingService).sendUpdateToSingleLogic(updateCaseMsg);
         verifyNoMoreInteractions(singleReadingService);
         verify(emailService).sendConfirmationErrorEmail(eq(updateCaseMsg.getUsername()),
                                                         eq(new ArrayList<>(Collections.singletonList(multipleErrors))),
@@ -92,12 +92,12 @@ public class UpdateManagementServiceTest {
         verifyNoMoreInteractions(emailService);
         verify(multipleUpdateService).sendUpdateToMultipleLogic(eq(updateCaseMsg), any());
         verifyNoMoreInteractions(multipleUpdateService);
-        verify(multipleCounterRepository).persistentQGetNextMultipleCountVal(eq(updateCaseMsg.getMultipleRef()));
+        verify(multipleCounterRepository).persistentQGetNextMultipleCountVal(updateCaseMsg.getMultipleRef());
         verify(multipleCounterRepository, times(1))
-            .findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+            .findByMultipleref(updateCaseMsg.getMultipleRef());
         verify(multipleCounterRepository).deleteInBatch(new ArrayList<>());
         verify(multipleErrorsRepository, times(2))
-            .findByMultipleref(eq(updateCaseMsg.getMultipleRef()));
+            .findByMultipleref(updateCaseMsg.getMultipleRef());
         verify(multipleErrorsRepository)
             .deleteInBatch(new ArrayList<>(Collections.singletonList(new MultipleErrors())));
         verifyNoMoreInteractions(multipleErrorsRepository);
