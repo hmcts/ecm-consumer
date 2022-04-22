@@ -177,7 +177,7 @@ dependencies {
   implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: reformLoggingVersion
   implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: reformLoggingVersion
   implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.0'
-  implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.21'
+  implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.21.1'
   implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: feignVersion
   implementation group: 'io.github.openfeign', name: 'feign-core', version: feignVersion
   implementation group: 'junit', name: 'junit', version: '4.13.2'
