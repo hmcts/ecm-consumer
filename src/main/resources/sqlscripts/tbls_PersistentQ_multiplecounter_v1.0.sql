@@ -17,6 +17,12 @@ CREATE TABLE multipleCounter
   multipleRef  varchar(25),
   counter integer DEFAULT 1
   );
+-- clean up - removing duplicates before adding constraint
+DELETE   FROM "multiplecounter" T1
+USING       "multiplecounter" T2
+WHERE  T1.ctid    < T2.ctid       -- delete the "older" ones
+  AND  T1.multipleRef    = T2.multipleRef
+  AND  T1.counter = T2.counter;
 
 ALTER TABLE multipleCounter
     ADD CONSTRAINT multipleCounter_pk
