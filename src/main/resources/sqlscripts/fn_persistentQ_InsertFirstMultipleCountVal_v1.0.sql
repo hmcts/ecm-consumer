@@ -1,5 +1,4 @@
 /* CREATE FUNCTION */
-DROP FUNCTION IF EXISTS fn_persistentq_insertfirstmultiplecountval(character varying);
 CREATE OR REPLACE FUNCTION fn_persistentQ_InsertFirstMultipleCountVal (p_multipleRef varchar(25)) RETURNS INTEGER AS $$
 
 BEGIN
