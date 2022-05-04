@@ -43,7 +43,8 @@ public class UpdateCaseBusReceiverTaskTest {
     @Before
     public void setUp() {
         updateCaseBusReceiverTask = new UpdateCaseBusReceiverTask(objectMapper,
-                                                                  messageCompletor, updateManagementService);
+                                                                  messageCompletor,
+                                                                  updateManagementService);
         message = createMessage();
     }
 
