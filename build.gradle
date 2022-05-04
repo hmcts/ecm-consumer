@@ -166,7 +166,7 @@ ext {
 
 dependencies {
 
-  implementation group: 'com.github.hmcts', name: 'ecm-common', version: '0.1.187'
+  implementation group: 'com.github.hmcts', name: 'ecm-common', version: '0.1.189'
   implementation group: 'com.github.hmcts', name: 'ecm-data-model', version: '0.0.4'
 
 
