@@ -116,9 +116,9 @@ public class CreateUpdatesBusReceiverTask implements IMessageHandler {
 
             CreateUpdatesMsg createUpdatesMsg = readMessage(message);
             log.info("RECEIVED 'Create Updates' ------>  message with ID {}", createUpdatesMsg);
-            multipleCounterRepository.persistentQInsertFirstMultipleCountVal(
-                createUpdatesMsg.getMultipleRef());
-            sendUpdateCaseMessages(createUpdatesMsg);
+           // multipleCounterRepository.persistentQInsertFirstMultipleCountVal(
+             //   createUpdatesMsg.getMultipleRef());
+            //sendUpdateCaseMessages(createUpdatesMsg);
 
             return new MessageProcessingResult(MessageProcessingResultType.SUCCESS);
 
