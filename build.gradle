@@ -167,7 +167,7 @@ ext {
 dependencies {
 
   implementation group: 'com.github.hmcts', name: 'ecm-common', version: '0.1.189'
-  implementation group: 'com.github.hmcts', name: 'ecm-data-model', version: '0.0.4'
+  implementation group: 'com.github.hmcts', name: 'ecm-data-model', version: '0.0.5'
 
 
   implementation group: 'ch.qos.logback', name: 'logback-core', version: logbackVersion
@@ -191,13 +191,13 @@ dependencies {
   implementation group: 'org.apache.santuario', name: 'xmlsec', version: '3.0.0'
   implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: tomcatEmbedVersion
   implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: tomcatEmbedVersion
-  implementation group: 'org.springframework', name: 'spring-beans', version: '5.3.18'
+  implementation group: 'org.springframework', name: 'spring-beans', version: '5.3.19'
   implementation('org.elasticsearch:elasticsearch') {
     version {
       strictly '7.17.2'
     }
   }
-  implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.4'
+  implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.5'
   implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.8'
   implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation 'org.springframework.boot:spring-boot-starter-actuator'
