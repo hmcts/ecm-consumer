@@ -161,7 +161,7 @@ ext {
   reformLoggingVersion = '5.1.9'
   serenity = '2.3.31'
   springBoot = springBoot.class.package.implementationVersion
-  tomcatEmbedVersion = '9.0.58'
+  tomcatEmbedVersion = '9.0.63'
 }
 
 dependencies {
