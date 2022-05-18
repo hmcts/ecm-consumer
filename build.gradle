@@ -157,7 +157,7 @@ ext {
   feignVersion = '11.8'
   junitPlatform = '1.6.2'
   log4JVersion = '2.17.1'
-  logbackVersion = '1.2.10'
+  logbackVersion = '1.2.11'
   reformLoggingVersion = '5.1.9'
   serenity = '2.3.31'
   springBoot = springBoot.class.package.implementationVersion
