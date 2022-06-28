@@ -13,9 +13,6 @@ EOSQL
 
 set -e
 
-echo "Running fn_persistentQ_InsertFirstMultipleCountVal_v1.0.sql"
-psql postgresql://localhost:5050/ecmconsumer -U ecmconsumer -f ./fn_persistentQ_InsertFirstMultipleCountVal_v1.0.sql
-
 echo "Running tbls_PersistentQ_multiplecounter_v1.0.sql"
 psql postgresql://localhost:5050/ecmconsumer -U ecmconsumer -f ./tbls_PersistentQ_multiplecounter_v1.0.sql
 
@@ -27,3 +24,6 @@ psql postgresql://localhost:5050/ecmconsumer -U ecmconsumer -f ./fn_persistentQ_
 
 echo "Running fn_persistentQ_logMultipleError_v1.3.sql"
 psql postgresql://localhost:5050/ecmconsumer -U ecmconsumer -f ./fn_persistentQ_logMultipleError_v1.3.sql
+
+echo "Running fn_persistentQ_InsertFirstMultipleCountVal_v1.0.sql"
+psql postgresql://localhost:5050/ecmconsumer -U ecmconsumer -f ./fn_persistentQ_InsertFirstMultipleCountVal_v1.0.sql
