@@ -60,8 +60,10 @@ public class SingleCreationServiceTest {
         singleCreationService.sendCreation(submitEvent, userToken, updateCaseMsg);
 
         verify(ccdClient).retrieveCasesElasticSearch(eq(userToken), any(), any());
-        verify(ccdClient).startCaseCreationTransfer(eq(userToken), any());
-        verify(ccdClient).submitCaseCreation(eq(userToken), any(), any());
+        verify(ccdClient).startCaseCreationTransfer(eq(userToken),
+                                                    any(uk.gov.hmcts.ecm.common.model.ccd.CaseDetails.class));
+        verify(ccdClient).submitCaseCreation(eq(userToken),
+                                             any(uk.gov.hmcts.ecm.common.model.ccd.CaseDetails.class), any());
         verifyNoMoreInteractions(ccdClient);
     }
 
