@@ -43,31 +43,19 @@ public class SingleReadingService {
                 log.info("Send updates to the old case");
 
                 singleTransferService.sendTransferred(submitEvents.get(0), accessToken, updateCaseMsg);
-
                 singleCreationService.sendCreation(submitEvents.get(0), accessToken, updateCaseMsg);
 
-            } else if(updateCaseMsg.getDataModelParent() instanceof TransferToReformECMDataModel) {
+            } else if (updateCaseMsg.getDataModelParent() instanceof TransferToReformECMDataModel) {
+                SubmitEvent submitEvent = submitEvents.get(0);
+                reformEcmSingleCreationService.sendCreation(submitEvent, accessToken, updateCaseMsg);
+                singleTransferToReformEcmService.sendEcmCaseTransferred(submitEvent, accessToken, updateCaseMsg);
 
-            //create new ret1ecm case
-            reformEcmSingleCreationService.sendCreation(submitEvents.get(0), accessToken, updateCaseMsg);
-
-            //update transferred
-            singleTransferToReformEcmService.sendEcmCaseTransferred(submitEvents.get(0), accessToken, updateCaseMsg);
-
-
-        }
-            else {
-
+            } else {
                 singleUpdateService.sendUpdate(submitEvents.get(0), accessToken, updateCaseMsg);
-
             }
-
         } else {
-
             log.info("No submit events found");
-
         }
-
     }
 
     public List<SubmitEvent> retrieveSingleCase(String accessToken, UpdateCaseMsg updateCaseMsg) throws IOException {

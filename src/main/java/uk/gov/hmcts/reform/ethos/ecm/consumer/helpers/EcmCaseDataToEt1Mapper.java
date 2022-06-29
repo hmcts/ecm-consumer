@@ -2,33 +2,34 @@ package uk.gov.hmcts.reform.ethos.ecm.consumer.helpers;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.util.StringUtils;
+import uk.gov.hmcts.et.common.model.bulk.types.DynamicFixedListType;
+import uk.gov.hmcts.et.common.model.ccd.Address;
+import uk.gov.hmcts.et.common.model.ccd.CaseData;
+import uk.gov.hmcts.et.common.model.ccd.items.DocumentTypeItem;
+import uk.gov.hmcts.et.common.model.ccd.items.RespondentSumTypeItem;
+import uk.gov.hmcts.et.common.model.ccd.types.CasePreAcceptType;
+import uk.gov.hmcts.et.common.model.ccd.types.ClaimantIndType;
+import uk.gov.hmcts.et.common.model.ccd.types.ClaimantOtherType;
+import uk.gov.hmcts.et.common.model.ccd.types.ClaimantType;
+import uk.gov.hmcts.et.common.model.ccd.types.ClaimantWorkAddressType;
+import uk.gov.hmcts.et.common.model.ccd.types.RepresentedTypeC;
+import uk.gov.hmcts.et.common.model.ccd.types.RespondentSumType;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.util.StringUtils;
-import uk.gov.hmcts.et.common.model.ccd.Address;
-import uk.gov.hmcts.et.common.model.ccd.items.DocumentTypeItem;
-import uk.gov.hmcts.et.common.model.ccd.CaseData;
-import uk.gov.hmcts.et.common.model.ccd.types.ClaimantIndType;
-import uk.gov.hmcts.et.common.model.ccd.types.ClaimantType;
-import uk.gov.hmcts.et.common.model.ccd.types.ClaimantOtherType;
-import uk.gov.hmcts.et.common.model.ccd.types.CasePreAcceptType;
-import uk.gov.hmcts.et.common.model.ccd.types.RepresentedTypeC;
-import uk.gov.hmcts.et.common.model.ccd.types.ClaimantWorkAddressType;
-import uk.gov.hmcts.et.common.model.ccd.items.RespondentSumTypeItem;
-import uk.gov.hmcts.et.common.model.bulk.types.DynamicFixedListType;
 
 public class EcmCaseDataToEt1Mapper {
-    private static final String SAME_COUNTRY_CASE_TRANSFER = "Case transferred - same country";
-    private static final String ET_SCOTLAND = "ET_Scotland";
-    private static final String ET_ENGLAND_AND_WALES = "ET_EnglandWales";
-    public static CaseData getEt1CaseData(uk.gov.hmcts.ecm.common.model.ccd.CaseData oldCaseData, String caseId,
-                                        String ccdGatewayBaseUrl, String positionTypeCT, String reasonForCT,
-                                          String caseState,
-                                          String sourceOffice) {
-        var caseData = new uk.gov.hmcts.et.common.model.ccd.CaseData();
 
+    private EcmCaseDataToEt1Mapper() {
+        // All access through static methods
+    }
+
+    public static CaseData getEt1CaseData(uk.gov.hmcts.ecm.common.model.ccd.CaseData oldCaseData, String caseId,
+                                          String ccdGatewayBaseUrl, String positionType, String reasonForCT,
+                                          String sourceOffice) {
         var etTribunalAddress = new Address();
         var ecmTribunalAddress = oldCaseData.getTribunalCorrespondenceAddress();
         etTribunalAddress.setAddressLine1(ecmTribunalAddress.getAddressLine1());
@@ -36,20 +37,22 @@ public class EcmCaseDataToEt1Mapper {
         etTribunalAddress.setCounty(ecmTribunalAddress.getCounty());
         etTribunalAddress.setCountry(ecmTribunalAddress.getCountry());
         etTribunalAddress.setPostCode(ecmTribunalAddress.getPostCode());
+
+        var caseData = new uk.gov.hmcts.et.common.model.ccd.CaseData();
         caseData.setTribunalCorrespondenceAddress(etTribunalAddress);
         caseData.setTribunalCorrespondenceTelephone(oldCaseData.getTribunalCorrespondenceTelephone());
         caseData.setTribunalCorrespondenceDX(oldCaseData.getTribunalCorrespondenceDX());
 
         caseData.setReceiptDate(oldCaseData.getReceiptDate());
         caseData.setFeeGroupReference(oldCaseData.getFeeGroupReference());
+        caseData.setPositionType(positionType);
 
         caseData.setEthosCaseReference(oldCaseData.getEthosCaseReference());
         caseData.setEcmCaseType(oldCaseData.getEcmCaseType());
-        caseData.setPositionTypeCT(positionTypeCT);
 
         setManagingOffice(oldCaseData, caseData, sourceOffice);
 
-        if(oldCaseData.getPreAcceptCase() != null){
+        if (oldCaseData.getPreAcceptCase() != null) {
             var preAccept = new CasePreAcceptType();
             preAccept.setDateAccepted(oldCaseData.getPreAcceptCase().getDateAccepted());
             preAccept.setCaseAccepted(oldCaseData.getPreAcceptCase().getCaseAccepted());
@@ -84,7 +87,7 @@ public class EcmCaseDataToEt1Mapper {
                                                                                ClaimantWorkAddressType.class));
         caseData.setLinkedCaseCT(generateMarkUp(ccdGatewayBaseUrl, caseId, oldCaseData.getEthosCaseReference()));
         caseData.setReasonForCT(reasonForCT);
-        createDocumentCollection(oldCaseData.getDocumentCollection());
+        caseData.setDocumentCollection(createDocumentCollection(oldCaseData.getDocumentCollection()));
 
         return caseData;
     }
@@ -92,23 +95,21 @@ public class EcmCaseDataToEt1Mapper {
     private static void setManagingOffice(uk.gov.hmcts.ecm.common.model.ccd.CaseData oldCaseData,
                                    uk.gov.hmcts.et.common.model.ccd.CaseData caseData,
                                           String sourceOffice) {
-        if(StringUtils.hasLength(oldCaseData.getManagingOffice())) {
-            caseData.setAllocatedOffice(ET_SCOTLAND);
+        if (StringUtils.hasLength(oldCaseData.getManagingOffice())) {
             caseData.setManagingOffice("Glasgow");
         } else {
-            caseData.setAllocatedOffice(ET_ENGLAND_AND_WALES);
             caseData.setManagingOffice(sourceOffice);
         }
     }
 
-    private static List<uk.gov.hmcts.et.common.model.ccd.items.RespondentSumTypeItem> createRespondentCollection(
+    private static List<RespondentSumTypeItem> createRespondentCollection(
         List<uk.gov.hmcts.ecm.common.model.ccd.items.RespondentSumTypeItem> respondentCollection) {
 
         List<RespondentSumTypeItem> respondentSumTypeItems = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(respondentCollection)) {
             for (var respondent : respondentCollection) {
-                var respondentSumType = (uk.gov.hmcts.et.common.model.ccd.types.RespondentSumType) objectMapper(
-                    respondent.getValue(), uk.gov.hmcts.et.common.model.ccd.types.RespondentSumType.class);
+                var respondentSumType = (RespondentSumType) objectMapper(respondent.getValue(),
+                                                                         RespondentSumType.class);
                 var respondentSumTypeItem = new RespondentSumTypeItem();
                 respondentSumTypeItem.setId(UUID.randomUUID().toString());
                 respondentSumTypeItem.setValue(respondentSumType);
