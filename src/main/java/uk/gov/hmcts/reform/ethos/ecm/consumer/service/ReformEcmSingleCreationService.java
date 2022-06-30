@@ -58,7 +58,7 @@ public class ReformEcmSingleCreationService {
                                                                                        String jurisdiction,
                                                                                        String sourceOffice) {
         var caseTypeId = dataModel.getOfficeCT();
-        var positionType = dataModel.getPositionTypeCT();
+        var positionType = dataModel.getPositionType();
         var reasonForCT = dataModel.getReasonForCT();
         var newCaseTransferCaseDetails = new uk.gov.hmcts.et.common.model.ccd.CaseDetails();
         newCaseTransferCaseDetails.setCaseTypeId(caseTypeId);
