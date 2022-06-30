@@ -73,8 +73,7 @@ public class EcmCaseDataToEt1Mapper {
         caseData.setClaimant(oldCaseData.getClaimant());
         caseData.setClaimantTypeOfClaimant(oldCaseData.getClaimantTypeOfClaimant());
         caseData.setClaimantCompany(oldCaseData.getClaimantCompany());
-        caseData.setPreAcceptCase((CasePreAcceptType) objectMapper(oldCaseData.getClaimantType(),
-                                                                   CasePreAcceptType.class));
+
         caseData.setClaimantWorkAddressQuestion(oldCaseData.getClaimantWorkAddressQuestion());
         caseData.setClaimantWorkAddressQRespondent(
             (DynamicFixedListType) objectMapper(oldCaseData.getClaimantWorkAddressQRespondent(),

@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.ethos.ecm.consumer.service;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -34,8 +33,8 @@ public class ReformEcmSingleCreationServiceTest {
     private transient UpdateCaseMsg updateCaseMsg;
     private transient String userToken;
 
-    @Before
-    public void setUp() {
+    @Test
+    public void sendCreation() throws IOException {
         submitEvent = new SubmitEvent();
         CaseData caseData = new CaseData();
         caseData.setEthosCaseReference("1800032/2021");
@@ -56,10 +55,6 @@ public class ReformEcmSingleCreationServiceTest {
         caseDetails.setCaseData(caseData);
         updateCaseMsg = Helper.generateReformEcmCreationSingleCaseMsg();
         userToken = "accessToken";
-    }
-
-    @Test
-    public void sendCreation() throws IOException {
         reformEcmSingleCreationService.sendCreation(submitEvent, userToken, updateCaseMsg);
         verify(ccdClient).startCaseCreationTransfer(eq(userToken),
                                                     any(uk.gov.hmcts.et.common.model.ccd.CaseDetails.class));
