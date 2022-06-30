@@ -22,7 +22,7 @@ public class SingleTransferToReformEcmService {
                                        UpdateCaseMsg updateCaseMsg) throws IOException {
         var transferToReformECMDataModel =
             ((TransferToReformECMDataModel) updateCaseMsg.getDataModelParent());
-        var positionType = transferToReformECMDataModel.getPositionTypeCT();
+        var positionType = transferToReformECMDataModel.getPositionType();
         var caseTypeIdCT = transferToReformECMDataModel.getOfficeCT();
         var reasonForCT = transferToReformECMDataModel.getReasonForCT();
         var jurisdiction = updateCaseMsg.getJurisdiction();
@@ -36,12 +36,12 @@ public class SingleTransferToReformEcmService {
     }
 
     private void updateEcmCaseTransferredToReformEcm(SubmitEvent submitEvent, String caseTypeId, String caseTypeIdCT,
-                                                     String jurisdiction, String accessToken, String positionTypeCT,
+                                                     String jurisdiction, String accessToken, String positionType,
                                                      String reasonForCT) throws IOException {
         submitEvent.getCaseData().setLinkedCaseCT("Transferred to Reform ECM : " + caseTypeIdCT);
-        log.info("Setting positionType to Reform ECM positionTypeCT: " + positionTypeCT
+        log.info("Setting positionType to Reform ECM positionTypeCT: " + positionType
                      + " for ECM case: " + submitEvent.getCaseData().getEthosCaseReference());
-        submitEvent.getCaseData().setPositionType(positionTypeCT);
+        submitEvent.getCaseData().setPositionType(positionType);
         submitEvent.getCaseData().setPositionTypeCT("Case transferred to Reform ECM");
         submitEvent.getCaseData().setReasonForCT(reasonForCT);
 
