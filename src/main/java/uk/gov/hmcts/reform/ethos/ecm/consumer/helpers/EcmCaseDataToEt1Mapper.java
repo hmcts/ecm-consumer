@@ -42,11 +42,9 @@ public class EcmCaseDataToEt1Mapper {
         caseData.setTribunalCorrespondenceAddress(etTribunalAddress);
         caseData.setTribunalCorrespondenceTelephone(oldCaseData.getTribunalCorrespondenceTelephone());
         caseData.setTribunalCorrespondenceDX(oldCaseData.getTribunalCorrespondenceDX());
-
         caseData.setReceiptDate(oldCaseData.getReceiptDate());
         caseData.setFeeGroupReference(oldCaseData.getFeeGroupReference());
         caseData.setPositionType(positionType);
-
         caseData.setEthosCaseReference(oldCaseData.getEthosCaseReference());
         caseData.setEcmCaseType(oldCaseData.getEcmCaseType());
 
@@ -61,7 +59,6 @@ public class EcmCaseDataToEt1Mapper {
 
         caseData.setEcmCaseType(oldCaseData.getEcmCaseType());
         caseData.setCaseSource(oldCaseData.getCaseSource());
-
         caseData.setClaimantRepresentedQuestion(oldCaseData.getClaimantRepresentedQuestion());
         caseData.setClaimantIndType((ClaimantIndType) objectMapper(oldCaseData.getClaimantIndType(),
                                                                    ClaimantIndType.class));
@@ -73,7 +70,6 @@ public class EcmCaseDataToEt1Mapper {
                                                                        ClaimantOtherType.class));
         caseData.setRespondentCollection(createRespondentCollection(oldCaseData.getRespondentCollection()));
         caseData.setRespondent(oldCaseData.getRespondent());
-
         caseData.setClaimant(oldCaseData.getClaimant());
         caseData.setClaimantTypeOfClaimant(oldCaseData.getClaimantTypeOfClaimant());
         caseData.setClaimantCompany(oldCaseData.getClaimantCompany());

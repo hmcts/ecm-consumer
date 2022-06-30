@@ -9,7 +9,6 @@ import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.TransferToReformECMDataModel;
-
 import java.io.IOException;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.SINGLE_CASE_TYPE;
 
@@ -23,7 +22,7 @@ public class SingleTransferToReformEcmService {
                                        UpdateCaseMsg updateCaseMsg) throws IOException {
         var transferToReformECMDataModel =
             ((TransferToReformECMDataModel) updateCaseMsg.getDataModelParent());
-        var positionType = transferToReformECMDataModel.getPositionType();
+        var positionType = transferToReformECMDataModel.getPositionTypeCT();
         var caseTypeIdCT = transferToReformECMDataModel.getOfficeCT();
         var reasonForCT = transferToReformECMDataModel.getReasonForCT();
         var jurisdiction = updateCaseMsg.getJurisdiction();
