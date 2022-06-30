@@ -39,7 +39,7 @@ public class SingleTransferToReformEcmService {
                                                      String jurisdiction, String accessToken, String positionType,
                                                      String reasonForCT) throws IOException {
         submitEvent.getCaseData().setLinkedCaseCT("Transferred to Reform ECM : " + caseTypeIdCT);
-        log.info("Setting positionType to Reform ECM positionTypeCT: " + positionType
+        log.info("Setting positionType to Reform ECM positionType: " + positionType
                      + " for ECM case: " + submitEvent.getCaseData().getEthosCaseReference());
         submitEvent.getCaseData().setPositionType(positionType);
         submitEvent.getCaseData().setPositionTypeCT("Case transferred to Reform ECM");

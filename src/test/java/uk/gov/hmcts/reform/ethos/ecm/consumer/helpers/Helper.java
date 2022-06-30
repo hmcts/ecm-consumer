@@ -43,7 +43,7 @@ public class Helper {
 
     private static final TransferToReformECMDataModel reformEcmCreationSingleDataModel =
         TransferToReformECMDataModel.builder()
-        .positionTypeCT("Case transferred to Reform ECM")
+        .positionType("Case transferred to Reform ECM")
         .officeCT("Leeds")
         .ccdGatewayBaseUrl("ccdGatewayBaseUrl")
         .build();
