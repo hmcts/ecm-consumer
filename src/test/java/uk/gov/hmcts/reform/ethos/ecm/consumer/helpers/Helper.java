@@ -6,6 +6,7 @@ import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CloseDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationSingleDataModel;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.PreAcceptDataModel;
+import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.TransferToReformECMDataModel;
 
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
@@ -37,6 +38,13 @@ public class Helper {
     private static final CreationSingleDataModel creationSingleDataModel = CreationSingleDataModel.builder()
         .positionTypeCT("PositionTypeCT")
         .officeCT("Manchester")
+        .ccdGatewayBaseUrl("ccdGatewayBaseUrl")
+        .build();
+
+    private static final TransferToReformECMDataModel reformEcmCreationSingleDataModel =
+        TransferToReformECMDataModel.builder()
+        .positionType("Case transferred to Reform ECM")
+        .officeCT("Leeds")
         .ccdGatewayBaseUrl("ccdGatewayBaseUrl")
         .build();
 
@@ -107,6 +115,20 @@ public class Helper {
             .username(USERNAME)
             .confirmation(NO)
             .dataModelParent(creationSingleDataModel)
+            .build();
+    }
+
+    public static UpdateCaseMsg generateReformEcmCreationSingleCaseMsg() {
+        return UpdateCaseMsg.builder()
+            .msgId("1")
+            .jurisdiction(JURISDICTION)
+            .caseTypeId(SCOTLAND_BULK_CASE_TYPE_ID)
+            .multipleRef(MULTIPLE_CASE)
+            .ethosCaseReference(CASE_NUMBER1)
+            .totalCases("1")
+            .username(USERNAME)
+            .confirmation(NO)
+            .dataModelParent(reformEcmCreationSingleDataModel)
             .build();
     }
 

@@ -13,37 +13,35 @@ import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
 import uk.gov.hmcts.ecm.common.model.ccd.types.CasePreAcceptType;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Helper;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.ACCEPTED_STATE;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class SingleCreationServiceTest {
+public class SingleTransferToReformEcmServiceTest {
 
     @InjectMocks
-    private transient SingleCreationService singleCreationService;
+    private transient SingleTransferToReformEcmService singleTransferToReformEcmService;
+
     @Mock
     private transient CcdClient ccdClient;
-
     private transient SubmitEvent submitEvent;
     private transient UpdateCaseMsg updateCaseMsg;
     private transient String userToken;
+    static final String TRANSFERRED_POSITION_TYPE = "Case transferred to Reform ECM";
 
     @Before
     public void setUp() {
         submitEvent = new SubmitEvent();
         CaseData caseData = new CaseData();
-        caseData.setEthosCaseReference("4150002/2020");
+        caseData.setEthosCaseReference("180002/2020");
         CasePreAcceptType casePreAcceptType = new CasePreAcceptType();
         casePreAcceptType.setCaseAccepted(YES);
         caseData.setPreAcceptCase(casePreAcceptType);
@@ -51,32 +49,17 @@ public class SingleCreationServiceTest {
         submitEvent.setState(ACCEPTED_STATE);
         CaseDetails caseDetails = new CaseDetails();
         caseDetails.setCaseData(caseData);
-        updateCaseMsg = Helper.generateCreationSingleCaseMsg();
+        updateCaseMsg = Helper.generateReformEcmCreationSingleCaseMsg();
         userToken = "accessToken";
     }
 
     @Test
-    public void sendCreation() throws IOException {
-        singleCreationService.sendCreation(submitEvent, userToken, updateCaseMsg);
+    public void sendEcmCaseTransferred() throws IOException {
+        singleTransferToReformEcmService.sendEcmCaseTransferred(submitEvent, userToken, updateCaseMsg);
 
-        verify(ccdClient).retrieveCasesElasticSearch(eq(userToken), any(), any());
-        verify(ccdClient).startCaseCreationTransfer(eq(userToken),
-                                                    any(uk.gov.hmcts.ecm.common.model.ccd.CaseDetails.class));
-        verify(ccdClient).submitCaseCreation(eq(userToken),
-                                             any(uk.gov.hmcts.ecm.common.model.ccd.CaseDetails.class), any());
-        verifyNoMoreInteractions(ccdClient);
-    }
-
-    @Test
-    public void returnCaseTransfer() throws IOException {
-        when(ccdClient.retrieveCasesElasticSearch(anyString(), any(), any()))
-            .thenReturn(new ArrayList<>(Collections.singletonList(submitEvent)));
-        singleCreationService.sendCreation(submitEvent, userToken, updateCaseMsg);
-
-        verify(ccdClient).retrieveCasesElasticSearch(eq(userToken), any(), any());
-        verify(ccdClient).returnCaseCreationTransfer(eq(userToken), anyString(), anyString(), anyString());
+        assertEquals(TRANSFERRED_POSITION_TYPE, submitEvent.getCaseData().getPositionTypeCT());
+        verify(ccdClient).startCaseTransfer(eq(userToken), any(), any(), any());
         verify(ccdClient).submitEventForCase(eq(userToken), any(), anyString(), anyString(), any(), anyString());
         verifyNoMoreInteractions(ccdClient);
     }
-
 }
