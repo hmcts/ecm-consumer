@@ -45,7 +45,6 @@ public class EcmCaseDataToEt1Mapper {
         caseData.setReceiptDate(oldCaseData.getReceiptDate());
         caseData.setFeeGroupReference(oldCaseData.getFeeGroupReference());
         caseData.setPositionType(positionType);
-        caseData.setEthosCaseReference(oldCaseData.getEthosCaseReference());
         caseData.setEcmCaseType(oldCaseData.getEcmCaseType());
 
         setManagingOffice(oldCaseData, caseData, sourceOffice);

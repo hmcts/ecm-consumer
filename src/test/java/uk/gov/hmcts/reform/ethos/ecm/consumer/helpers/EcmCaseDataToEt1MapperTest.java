@@ -18,6 +18,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -54,7 +55,7 @@ public class EcmCaseDataToEt1MapperTest {
                             REASON_FOR_TRANSFER, "Leeds");
 
         assertEquals(expectedCaseData.getClass(), uk.gov.hmcts.et.common.model.ccd.CaseData.class);
-        assertEquals(expectedCaseData.getEthosCaseReference(), caseData.getEthosCaseReference());
+        assertNull(expectedCaseData.getEthosCaseReference());
         assertEquals(REASON_FOR_TRANSFER, expectedCaseData.getReasonForCT());
     }
 
