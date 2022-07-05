@@ -29,7 +29,7 @@ public class ReformEcmSingleCreationService {
         String caseId = String.valueOf(oldSubmitEvent.getCaseId());
         String caseSourceOffice = updateCaseMsg.getCaseTypeId();
 
-        log.info("Transferring new case to Reform Ecm");
+        log.info(String.format("Transferring %s to Reform ECM", oldSubmitEvent.getCaseData().getEthosCaseReference()));
         transferCase(oldSubmitEvent, transferToReformECMDataModel, caseId, ccdGatewayBaseUrl, jurisdiction,
                      accessToken, caseSourceOffice
         );
