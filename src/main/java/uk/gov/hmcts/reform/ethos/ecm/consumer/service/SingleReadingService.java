@@ -27,7 +27,6 @@ public class SingleReadingService {
     private final SingleUpdateService singleUpdateService;
     private final SingleCreationService singleCreationService;
     private final SingleTransferService singleTransferService;
-    private final SingleTransferToReformEcmService singleTransferToReformEcmService;
     private final ReformEcmSingleCreationService reformEcmSingleCreationService;
 
     public void sendUpdateToSingleLogic(UpdateCaseMsg updateCaseMsg) throws IOException {
@@ -48,8 +47,6 @@ public class SingleReadingService {
             } else if (updateCaseMsg.getDataModelParent() instanceof TransferToReformECMDataModel) {
                 SubmitEvent submitEvent = submitEvents.get(0);
                 reformEcmSingleCreationService.sendCreation(submitEvent, accessToken, updateCaseMsg);
-                singleTransferToReformEcmService.sendEcmCaseTransferred(submitEvent, accessToken, updateCaseMsg);
-
             } else {
                 singleUpdateService.sendUpdate(submitEvents.get(0), accessToken, updateCaseMsg);
             }
