@@ -96,4 +96,15 @@ public class SingleReadingServiceTest {
         verifyNoMoreInteractions(singleUpdateService);
     }
 
+    @Test
+    public void sendUpdateToSingleLogicForTransferToReformECM() throws IOException {
+        updateCaseMsg = Helper.generateReformEcmCreationSingleCaseMsg();
+        when(userService.getAccessToken()).thenReturn(userToken);
+        when(ccdClient.retrieveCasesElasticSearch(anyString(), anyString(), anyList())).thenReturn(null);
+
+        singleReadingService.sendUpdateToSingleLogic(updateCaseMsg);
+        verifyNoMoreInteractions(singleCreationService);
+        verifyNoMoreInteractions(singleUpdateService);
+    }
+
 }

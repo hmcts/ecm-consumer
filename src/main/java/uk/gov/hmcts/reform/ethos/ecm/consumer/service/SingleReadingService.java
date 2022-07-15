@@ -8,6 +8,7 @@ import uk.gov.hmcts.ecm.common.helpers.UtilHelper;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationSingleDataModel;
+import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.TransferToReformECMDataModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class SingleReadingService {
     private final SingleUpdateService singleUpdateService;
     private final SingleCreationService singleCreationService;
     private final SingleTransferService singleTransferService;
+    private final ReformEcmSingleCreationService reformEcmSingleCreationService;
 
     public void sendUpdateToSingleLogic(UpdateCaseMsg updateCaseMsg) throws IOException {
 
@@ -40,21 +42,17 @@ public class SingleReadingService {
                 log.info("Send updates to the old case");
 
                 singleTransferService.sendTransferred(submitEvents.get(0), accessToken, updateCaseMsg);
-
                 singleCreationService.sendCreation(submitEvents.get(0), accessToken, updateCaseMsg);
 
+            } else if (updateCaseMsg.getDataModelParent() instanceof TransferToReformECMDataModel) {
+                SubmitEvent submitEvent = submitEvents.get(0);
+                reformEcmSingleCreationService.sendCreation(submitEvent, accessToken, updateCaseMsg);
             } else {
-
                 singleUpdateService.sendUpdate(submitEvents.get(0), accessToken, updateCaseMsg);
-
             }
-
         } else {
-
             log.info("No submit events found");
-
         }
-
     }
 
     public List<SubmitEvent> retrieveSingleCase(String accessToken, UpdateCaseMsg updateCaseMsg) throws IOException {
@@ -67,7 +65,6 @@ public class SingleReadingService {
             accessToken,
             caseType,
             new ArrayList<>(Collections.singletonList(updateCaseMsg.getEthosCaseReference())));
-
     }
 
 }
