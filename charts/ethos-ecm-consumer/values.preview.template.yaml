@@ -4,9 +4,9 @@ java:
   environment:
     ECM_CONSUMER_DB_CONN_OPTIONS: ""
     ECM_CONSUMER_POSTGRES_HOST: "{{ .Release.Name }}-postgresql"
-    ECM_CONSUMER_POSTGRES_DATABASE: "{{ .Values.postgresql.postgresqlDatabase}}"
-    ECM_CONSUMER_POSTGRES_USER: "{{ .Values.postgresql.postgresqlUsername}}"
-    ECM_CONSUMER_POSTGRES_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
+    ECM_CONSUMER_POSTGRES_DATABASE: "{{ .Values.postgresql.auth.database}}"
+    ECM_CONSUMER_POSTGRES_USER: "{{ .Values.postgresql.auth.username}}"
+    ECM_CONSUMER_POSTGRES_PASSWORD: "{{ .Values.postgresql.auth.password}}"
   keyVaults:
     ethos-shared:
       resourceGroup: ethos
