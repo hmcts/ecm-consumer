@@ -23,13 +23,6 @@
   </suppress>
   <suppress>
     <notes><![CDATA[
-   file name: spring-web-5.3.21.jar
-   ]]></notes>
-    <packageUrl regex="true">^pkg:maven/org.springframework/spring-web@.*$</packageUrl>
-    <cve>CVE-2016-1000027</cve>
-  </suppress>
-  <suppress>
-    <notes><![CDATA[
    file name: tomcat-embed-core-9.0.58.jar
    ]]></notes>
     <packageUrl regex="true">^pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@.*$</packageUrl>
@@ -62,5 +55,26 @@
    ]]></notes>
     <packageUrl regex="true">^pkg:maven/com\.microsoft\.azure/adal4j@.*$</packageUrl>
     <cve>CVE-2021-42306</cve>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[
+   file name: xalan-2.7.2.jar
+   ]]></notes>
+    <packageUrl regex="true">^pkg:maven/xalan/xalan@.*$</packageUrl>
+    <cve>CVE-2022-34169</cve>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[
+   file name: spring-web-5.3.22.jar
+   ]]></notes>
+    <packageUrl regex="true">^pkg:maven/org\.springframework/spring\-web@.*$</packageUrl>
+    <cve>CVE-2016-1000027</cve>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[
+   file name: spring-security-crypto-5.7.2.jar
+   ]]></notes>
+    <packageUrl regex="true">^pkg:maven/org\.springframework\.security/spring\-security\-crypto@.*$</packageUrl>
+    <vulnerabilityName>CVE-2020-5408</vulnerabilityName>
   </suppress>
 </suppressions>
