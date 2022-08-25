@@ -2,9 +2,9 @@ plugins {
   id 'application'
   id 'jacoco'
   id 'checkstyle'
-  id 'io.spring.dependency-management' version '1.0.12.RELEASE'
-  id 'org.springframework.boot' version '2.7.2'
-  id 'org.owasp.dependencycheck' version '7.1.1'
+  id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+  id 'org.springframework.boot' version '2.7.3'
+  id 'org.owasp.dependencycheck' version '7.1.2'
   id 'com.github.ben-manes.versions' version '0.42.0'
   id 'org.sonarqube' version '3.4.0.2513'
 }
@@ -177,12 +177,12 @@ dependencies {
   implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.3'
   implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: reformLoggingVersion
   implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: reformLoggingVersion
-  implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.0'
-  implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.23'
+  implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.1'
+  implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.24.2'
   implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: feignVersion
   implementation group: 'io.github.openfeign', name: 'feign-core', version: feignVersion
   implementation group: 'junit', name: 'junit', version: '4.13.2'
-  implementation group: 'net.javacrumbs.shedlock', name: 'shedlock-spring', version: '4.38.0'
+  implementation group: 'net.javacrumbs.shedlock', name: 'shedlock-spring', version: '4.41.0'
   implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
   implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
   implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
@@ -194,11 +194,11 @@ dependencies {
   implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: tomcatEmbedVersion
   implementation('org.elasticsearch:elasticsearch') {
     version {
-      strictly '7.17.2'
+      strictly '7.17.3'
     }
   }
-  implementation group: 'org.postgresql', name: 'postgresql', version: '42.4.1'
-  implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.9'
+  implementation group: 'org.postgresql', name: 'postgresql', version: '42.5.0'
+  implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.11'
   implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation 'org.springframework.boot:spring-boot-starter-actuator'
   implementation 'org.springframework.boot:spring-boot-configuration-processor'
