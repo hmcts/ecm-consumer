@@ -17,8 +17,6 @@ java:
           alias: CASEWORKER_USER_NAME
         - name: caseworker-password
           alias: CASEWORKER_PASSWORD
-        - name: gov-notify-api-key
-          alias: GOV_NOTIFY_API_KEY
         - name: create-updates-queue-send-connection-string
           alias: CREATE_UPDATES_QUEUE_SEND_CONNECTION_STRING
         - name: create-updates-queue-listen-connection-string

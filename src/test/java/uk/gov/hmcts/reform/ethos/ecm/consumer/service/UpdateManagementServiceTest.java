@@ -38,8 +38,6 @@ public class UpdateManagementServiceTest {
     private transient MultipleUpdateService multipleUpdateService;
     @Mock
     private transient SingleReadingService singleReadingService;
-    @Mock
-    private transient EmailService emailService;
 
     private transient UpdateCaseMsg updateCaseMsg;
 
@@ -58,8 +56,6 @@ public class UpdateManagementServiceTest {
 
         verify(singleReadingService).sendUpdateToSingleLogic(updateCaseMsg);
         verifyNoMoreInteractions(singleReadingService);
-        verify(emailService).sendConfirmationEmail(eq(updateCaseMsg.getUsername()), eq(updateCaseMsg.getMultipleRef()));
-        verifyNoMoreInteractions(emailService);
         verify(multipleUpdateService).sendUpdateToMultipleLogic(eq(updateCaseMsg), any());
         verifyNoMoreInteractions(multipleUpdateService);
         verify(multipleCounterRepository).persistentQGetNextMultipleCountVal(updateCaseMsg.getMultipleRef());
@@ -86,10 +82,6 @@ public class UpdateManagementServiceTest {
 
         verify(singleReadingService).sendUpdateToSingleLogic(updateCaseMsg);
         verifyNoMoreInteractions(singleReadingService);
-        verify(emailService).sendConfirmationErrorEmail(eq(updateCaseMsg.getUsername()),
-                                                        eq(new ArrayList<>(Collections.singletonList(multipleErrors))),
-                                                        eq(updateCaseMsg.getMultipleRef()));
-        verifyNoMoreInteractions(emailService);
         verify(multipleUpdateService).sendUpdateToMultipleLogic(eq(updateCaseMsg), any());
         verifyNoMoreInteractions(multipleUpdateService);
         verify(multipleCounterRepository).persistentQGetNextMultipleCountVal(updateCaseMsg.getMultipleRef());

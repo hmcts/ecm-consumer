@@ -172,11 +172,15 @@ dependencies {
   implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: reformLoggingVersion
   implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: reformLoggingVersion
   implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.1'
+
   implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.25.3'
+  implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: feignVersion
+  implementation group: 'io.github.openfeign', name: 'feign-core', version: feignVersion
   implementation group: 'junit', name: 'junit', version: '4.13.2'
   implementation group: 'net.javacrumbs.shedlock', name: 'shedlock-spring', version: '4.42.0'
   implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
   implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+  implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
   implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
   implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4JVersion
   implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: log4JVersion
@@ -198,9 +202,11 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.4'
   implementation 'org.springframework.retry:spring-retry'
+
   implementation group: 'org.testng', name: 'testng', version: '7.6.1'
   implementation group: 'uk.gov.service.notify', name: 'notifications-java-client', version: '3.17.3-RELEASE'
   implementation group: 'org.yaml', name: 'snakeyaml', version: '1.33'
+
   implementation 'org.projectlombok:lombok'
   annotationProcessor 'org.projectlombok:lombok'
 

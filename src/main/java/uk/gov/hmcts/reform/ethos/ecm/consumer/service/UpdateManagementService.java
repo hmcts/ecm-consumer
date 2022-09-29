@@ -27,7 +27,6 @@ public class UpdateManagementService {
     private final MultipleErrorsRepository multipleErrorsRepository;
     private final MultipleUpdateService multipleUpdateService;
     private final SingleReadingService singleReadingService;
-    private final EmailService emailService;
 
     public void updateLogic(UpdateCaseMsg updateCaseMsg) throws IOException, InterruptedException {
 
@@ -67,9 +66,6 @@ public class UpdateManagementService {
                     multipleErrorsRepository.findByMultipleref(updateCaseMsg.getMultipleRef());
 
                 multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg, multipleErrorsList);
-
-                sendEmailToUser(updateCaseMsg, multipleErrorsList);
-
             }
 
             deleteMultipleRefDatabase(updateCaseMsg.getMultipleRef());
@@ -86,21 +82,6 @@ public class UpdateManagementService {
         Thread.sleep(delay);
 
         return multipleCounterRepository.persistentQGetNextMultipleCountVal(multipleRef);
-
-    }
-
-    private void sendEmailToUser(UpdateCaseMsg updateCaseMsg, List<MultipleErrors> multipleErrorsList) {
-
-        if (multipleErrorsList != null && !multipleErrorsList.isEmpty()) {
-
-            emailService.sendConfirmationErrorEmail(updateCaseMsg.getUsername(),
-                                                    multipleErrorsList, updateCaseMsg.getMultipleRef());
-
-        } else {
-
-            emailService.sendConfirmationEmail(updateCaseMsg.getUsername(), updateCaseMsg.getMultipleRef());
-
-        }
 
     }
 
