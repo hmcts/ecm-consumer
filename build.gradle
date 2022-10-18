@@ -202,7 +202,6 @@ dependencies {
   implementation 'org.springframework.retry:spring-retry'
 
   implementation group: 'org.testng', name: 'testng', version: '7.6.1'
-  implementation group: 'uk.gov.service.notify', name: 'notifications-java-client', version: '3.19.0-RELEASE'
   implementation group: 'org.yaml', name: 'snakeyaml', version: '1.33'
 
   implementation 'org.projectlombok:lombok'
