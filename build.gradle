@@ -168,7 +168,7 @@ ext["rest-assured.version"] = '5.1.0'
 dependencies {
   implementation group: 'com.github.hmcts', name: 'ecm-common', version: '0.1.194'
   implementation group: 'com.github.hmcts', name: 'ecm-data-model', version: '0.0.6'
-  implementation group: 'com.github.hmcts', name: 'et-data-model', version: '1.0.41'
+  implementation group: 'com.github.hmcts', name: 'et-data-model', version: '1.0.77'
   implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: reformLoggingVersion
   implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: reformLoggingVersion
   implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.1'
@@ -186,7 +186,7 @@ dependencies {
   implementation group: 'org.apache.santuario', name: 'xmlsec', version: '3.0.1'
   implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: tomcatEmbedVersion
   implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: tomcatEmbedVersion
-  implementation group: 'org.apache.xmlgraphics', name: 'batik-all', version: '1.15', ext: 'pom'
+  implementation group: 'org.apache.xmlgraphics', name: 'batik-all', version: '1.16', ext: 'pom'
   implementation('org.elasticsearch:elasticsearch') {
     version {
       strictly '7.17.3'
@@ -200,6 +200,7 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.4'
   implementation 'org.springframework.retry:spring-retry'
+  implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '5.7.5'
 
   implementation group: 'org.testng', name: 'testng', version: '7.6.1'
   implementation group: 'org.yaml', name: 'snakeyaml', version: '1.33'
