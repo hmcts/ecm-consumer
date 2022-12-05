@@ -30,7 +30,7 @@ public class EcmCaseDataToEt1Mapper {
     public static CaseData getEt1CaseData(uk.gov.hmcts.ecm.common.model.ccd.CaseData oldCaseData, String caseId,
                                           String ccdGatewayBaseUrl, String positionType, String reasonForCT,
                                           String sourceOffice) {
-        var etTribunalAddress = new Address();
+        Address etTribunalAddress = new Address();
         var ecmTribunalAddress = oldCaseData.getTribunalCorrespondenceAddress();
         etTribunalAddress.setAddressLine1(ecmTribunalAddress.getAddressLine1());
         etTribunalAddress.setAddressLine2(ecmTribunalAddress.getAddressLine2());
