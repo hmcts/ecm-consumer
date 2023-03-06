@@ -47,7 +47,7 @@ public class SingleTransferService {
 
         CCDRequest returnedRequest = ccdClient.startCaseTransfer(accessToken, caseTypeId, jurisdiction,
                                                                  String.valueOf(submitEvent.getCaseId()));
-
+        System.out.println(returnedRequest);
         generateCaseData(submitEvent.getCaseData(), caseTypeIdCT, positionTypeCT, reasonForCT);
 
         ccdClient.submitEventForCase(accessToken,

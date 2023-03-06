@@ -166,7 +166,7 @@ ext {
 ext["rest-assured.version"] = '5.1.0'
 
 dependencies {
-  implementation group: 'com.github.hmcts', name: 'ecm-common', version: '0.1.194'
+  implementation group: 'com.github.hmcts', name: 'ecm-common', version: '0.1.197'
   implementation group: 'com.github.hmcts', name: 'ecm-data-model', version: '0.0.7'
   implementation group: 'com.github.hmcts', name: 'et-data-model', version: '1.0.77'
   implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: reformLoggingVersion
