@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.*;
+import org.mockito.Mockito;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
@@ -15,9 +15,7 @@ import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
 import uk.gov.hmcts.ecm.common.model.ccd.types.CasePreAcceptType;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Helper;
-
 import java.io.IOException;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -59,16 +57,20 @@ public class SingleTransferServiceTest {
         CaseDetails caseDetails = new CaseDetails();
         caseDetails.setCaseData(submitEvent.getCaseData());
         ccdRequest.setCaseDetails(caseDetails);
-        when(ccdClient.startCaseTransfer(anyString(), anyString(), anyString(),
-                                         anyString()))
+        Mockito.when(ccdClient.startCaseTransfer(anyString(), anyString(), anyString(),
+                                                 anyString()))
             .thenReturn(ccdRequest);
         singleTransferService.sendTransferred(submitEvent, userToken, updateCaseMsg);
 
         assertEquals("Transferred to Manchester", submitEvent.getCaseData().getLinkedCaseCT());
 
-        verify(ccdClient).startCaseTransfer(eq(userToken), any(), any(), any());
-        verify(ccdClient).submitEventForCase(eq(userToken), any(), anyString(), anyString(), any(), anyString());
-        verifyNoMoreInteractions(ccdClient);
+        Mockito.verify(ccdClient).startCaseTransfer(eq(userToken), any(), any(), any());
+        Mockito.verify(ccdClient).submitEventForCase(eq(userToken), any(),
+                                                     anyString(),
+                                                     anyString(),
+                                                     any(),
+                                                     anyString());
+        Mockito.verifyNoMoreInteractions(ccdClient);
     }
 
 }
