@@ -32,7 +32,7 @@ public class SingleUpdateService {
     private String ccdGatewayBaseUrl;
 
     public void sendUpdate(SubmitEvent submitEvent, String accessToken,
-                            UpdateCaseMsg updateCaseMsg) throws IOException {
+                           UpdateCaseMsg updateCaseMsg) throws IOException {
 
         var caseTypeId = UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId());
         var jurisdiction = updateCaseMsg.getJurisdiction();
@@ -42,10 +42,9 @@ public class SingleUpdateService {
                                                         jurisdiction, caseId, updateCaseMsg);
         updateMultipleReferenceLinkMarkUp(returnedRequest.getCaseDetails().getCaseData(),
                                           accessToken, updateCaseMsg);
-
         updateCaseMsg.runTask(submitEvent);
         ccdClient.submitEventForCase(accessToken,
-                                    submitEvent.getCaseData(),
+                                     submitEvent.getCaseData(),
                                     caseTypeId,
                                     jurisdiction,
                                     returnedRequest,
