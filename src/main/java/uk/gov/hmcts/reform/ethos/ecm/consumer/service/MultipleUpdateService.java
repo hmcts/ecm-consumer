@@ -100,7 +100,6 @@ public class MultipleUpdateService {
                 String reasonForCT = (((CreationSingleDataModel) updateCaseMsg.getDataModelParent()).getReasonForCT());
                 multipleData.setLinkedMultipleCT("Transferred to " + officeCT);
                 multipleData.setReasonForCT(reasonForCT);
-
             }
 
             multipleData.setState(multipleState);
@@ -137,13 +136,11 @@ public class MultipleUpdateService {
             CCDRequest returnedRequest = ccdClient.startCaseMultipleCreation(accessToken,
                                                                              multipleCaseTypeId,
                                                                              jurisdiction);
-
             ccdClient.submitMultipleCreation(accessToken,
                                              multipleData,
                                              multipleCaseTypeId,
                                              jurisdiction,
                                              returnedRequest);
-
         }
     }
 

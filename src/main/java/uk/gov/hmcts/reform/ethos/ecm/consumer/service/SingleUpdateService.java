@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.helpers.UtilHelper;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
+import uk.gov.hmcts.ecm.common.model.ccd.CaseData;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
 import uk.gov.hmcts.ecm.common.model.multiples.SubmitMultipleEvent;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
@@ -37,12 +38,12 @@ public class SingleUpdateService {
         var jurisdiction = updateCaseMsg.getJurisdiction();
         var caseId = String.valueOf(submitEvent.getCaseId());
 
-        updateMultipleReferenceLinkMarkUp(submitEvent, accessToken, updateCaseMsg);
-
         CCDRequest returnedRequest = getReturnedRequest(accessToken, caseTypeId,
                                                         jurisdiction, caseId, updateCaseMsg);
-        updateCaseMsg.runTask(submitEvent);
+        updateMultipleReferenceLinkMarkUp(returnedRequest.getCaseDetails().getCaseData(),
+                                          accessToken, updateCaseMsg);
 
+        updateCaseMsg.runTask(submitEvent);
         ccdClient.submitEventForCase(accessToken,
                                     submitEvent.getCaseData(),
                                     caseTypeId,
@@ -83,16 +84,16 @@ public class SingleUpdateService {
         }
     }
 
-    private void updateMultipleReferenceLinkMarkUp(SubmitEvent submitEvent, String accessToken,
+    private void updateMultipleReferenceLinkMarkUp(CaseData caseData, String accessToken,
                                                    UpdateCaseMsg updateCaseMsg) throws IOException {
 
-        if (isNullOrEmpty(submitEvent.getCaseData().getMultipleReferenceLinkMarkUp())) {
+        if (isNullOrEmpty(caseData.getMultipleReferenceLinkMarkUp())) {
             List<SubmitMultipleEvent> submitMultipleEvents = retrieveMultipleCase(accessToken, updateCaseMsg);
             if (!submitMultipleEvents.isEmpty()) {
-                submitEvent.getCaseData().setMultipleReferenceLinkMarkUp(
+                caseData.setMultipleReferenceLinkMarkUp(
                     generateMarkUp(ccdGatewayBaseUrl,
                                    String.valueOf(submitMultipleEvents.get(0).getCaseId()),
-                                   submitEvent.getCaseData().getMultipleReference()));
+                                   caseData.getMultipleReference()));
             }
         }
     }
