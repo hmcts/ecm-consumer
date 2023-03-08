@@ -78,6 +78,7 @@ public class MultipleUpdateService {
         String jurisdiction = updateCaseMsg.getJurisdiction();
         String caseId = String.valueOf(submitMultipleEvent.getCaseId());
 
+        // Using start for event token only and no data
         CCDRequest returnedRequest = ccdClient.startBulkAmendEventForCase(accessToken,
                                                                           caseTypeId,
                                                                           jurisdiction,
@@ -99,7 +100,6 @@ public class MultipleUpdateService {
                 String reasonForCT = (((CreationSingleDataModel) updateCaseMsg.getDataModelParent()).getReasonForCT());
                 multipleData.setLinkedMultipleCT("Transferred to " + officeCT);
                 multipleData.setReasonForCT(reasonForCT);
-
             }
 
             multipleData.setState(multipleState);
@@ -136,13 +136,11 @@ public class MultipleUpdateService {
             CCDRequest returnedRequest = ccdClient.startCaseMultipleCreation(accessToken,
                                                                              multipleCaseTypeId,
                                                                              jurisdiction);
-
             ccdClient.submitMultipleCreation(accessToken,
                                              multipleData,
                                              multipleCaseTypeId,
                                              jurisdiction,
                                              returnedRequest);
-
         }
     }
 
