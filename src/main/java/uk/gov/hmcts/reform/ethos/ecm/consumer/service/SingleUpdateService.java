@@ -38,11 +38,10 @@ public class SingleUpdateService {
         var jurisdiction = updateCaseMsg.getJurisdiction();
         var caseId = String.valueOf(submitEvent.getCaseId());
 
+        updateMultipleReferenceLinkMarkUp(submitEvent.getCaseData(),
+                                          accessToken, updateCaseMsg);
         CCDRequest returnedRequest = getReturnedRequest(accessToken, caseTypeId,
                                                         jurisdiction, caseId, updateCaseMsg);
-        updateMultipleReferenceLinkMarkUp(returnedRequest.getCaseDetails().getCaseData(),
-                                          accessToken, updateCaseMsg);
-        submitEvent.setCaseData(returnedRequest.getCaseDetails().getCaseData());
         updateCaseMsg.runTask(submitEvent);
         ccdClient.submitEventForCase(accessToken,
                                      submitEvent.getCaseData(),
