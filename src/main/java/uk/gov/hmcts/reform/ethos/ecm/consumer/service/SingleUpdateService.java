@@ -37,8 +37,9 @@ public class SingleUpdateService {
         var caseTypeId = UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId());
         var jurisdiction = updateCaseMsg.getJurisdiction();
         var caseId = String.valueOf(submitEvent.getCaseId());
-
-        updateMultipleReferenceLinkMarkUp(submitEvent.getCaseData(),
+        log.info("Ref link markup is to be updated for case: "
+                     + submitEvent.getCaseData().getEthosCaseReference());
+        updateMultipleReferenceLinkMarkUp(submitEvent,
                                           accessToken, updateCaseMsg);
         CCDRequest returnedRequest = getReturnedRequest(accessToken, caseTypeId,
                                                         jurisdiction, caseId, updateCaseMsg);
@@ -83,16 +84,16 @@ public class SingleUpdateService {
         }
     }
 
-    private void updateMultipleReferenceLinkMarkUp(CaseData caseData, String accessToken,
+    private void updateMultipleReferenceLinkMarkUp(SubmitEvent submitEvent, String accessToken,
                                                    UpdateCaseMsg updateCaseMsg) throws IOException {
 
-        if (isNullOrEmpty(caseData.getMultipleReferenceLinkMarkUp())) {
+        if (isNullOrEmpty(submitEvent.getCaseData().getMultipleReferenceLinkMarkUp())) {
             List<SubmitMultipleEvent> submitMultipleEvents = retrieveMultipleCase(accessToken, updateCaseMsg);
             if (!submitMultipleEvents.isEmpty()) {
-                caseData.setMultipleReferenceLinkMarkUp(
+                submitEvent.getCaseData().setMultipleReferenceLinkMarkUp(
                     generateMarkUp(ccdGatewayBaseUrl,
                                    String.valueOf(submitMultipleEvents.get(0).getCaseId()),
-                                   caseData.getMultipleReference()));
+                                   submitEvent.getCaseData().getMultipleReference()));
             }
         }
     }
