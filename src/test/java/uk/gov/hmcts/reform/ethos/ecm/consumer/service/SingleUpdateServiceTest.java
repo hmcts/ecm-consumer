@@ -89,7 +89,6 @@ public class SingleUpdateServiceTest {
                                              eq(updateCaseMsg.getJurisdiction()),
                                              any(),
                                              any());
-        verifyNoMoreInteractions(ccdClient);
     }
 
     @Test
@@ -118,7 +117,6 @@ public class SingleUpdateServiceTest {
                                              eq(updateCaseMsg.getJurisdiction()),
                                              any(),
                                              any());
-        verifyNoMoreInteractions(ccdClient);
     }
 
     @Test
@@ -145,7 +143,6 @@ public class SingleUpdateServiceTest {
                                              eq(updateCaseMsg.getJurisdiction()),
                                              any(),
                                              any());
-        verifyNoMoreInteractions(ccdClient);
     }
 
     @Test

@@ -18,7 +18,6 @@ import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.UpdateDataModel;
 import java.io.IOException;
 import java.util.List;
 
-import static com.google.common.base.Strings.isNullOrEmpty;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
 
 @Slf4j
@@ -88,16 +87,14 @@ public class SingleUpdateService {
     private void updateMultipleReferenceLinkMarkUp(SubmitEvent submitEvent, String accessToken,
                                                    UpdateCaseMsg updateCaseMsg) throws IOException {
 
-        if (isNullOrEmpty(submitEvent.getCaseData().getMultipleReferenceLinkMarkUp())) {
-            List<SubmitMultipleEvent> submitMultipleEvents = retrieveMultipleCase(accessToken, updateCaseMsg);
-            log.info("size of submitMultipleEvent is:"
-                         + (CollectionUtils.isEmpty(submitMultipleEvents) ? 0 : submitMultipleEvents.size()));
-            if (!submitMultipleEvents.isEmpty()) {
-                submitEvent.getCaseData().setMultipleReferenceLinkMarkUp(
-                    generateMarkUp(ccdGatewayBaseUrl,
-                                   String.valueOf(submitMultipleEvents.get(0).getCaseId()),
-                                   submitEvent.getCaseData().getMultipleReference()));
-            }
+        List<SubmitMultipleEvent> submitMultipleEvents = retrieveMultipleCase(accessToken, updateCaseMsg);
+        log.info("size of submitMultipleEvent is:"
+                      + (CollectionUtils.isEmpty(submitMultipleEvents) ? 0 : submitMultipleEvents.size()));
+        if (!submitMultipleEvents.isEmpty()) {
+            submitEvent.getCaseData().setMultipleReferenceLinkMarkUp(
+                generateMarkUp(ccdGatewayBaseUrl,
+                               String.valueOf(submitMultipleEvents.get(0).getCaseId()),
+                               submitEvent.getCaseData().getMultipleReference()));
         }
     }
 
