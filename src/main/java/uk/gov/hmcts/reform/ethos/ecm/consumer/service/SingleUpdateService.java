@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.helpers.UtilHelper;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
@@ -43,6 +44,7 @@ public class SingleUpdateService {
         CCDRequest returnedRequest = getReturnedRequest(accessToken, caseTypeId,
                                                         jurisdiction, caseId, updateCaseMsg);
         updateCaseMsg.runTask(submitEvent);
+        log.info("Multiple ref markup is:" + submitEvent.getCaseData().getMultipleReferenceLinkMarkUp());
         ccdClient.submitEventForCase(accessToken,
                                      submitEvent.getCaseData(),
                                     caseTypeId,
@@ -88,6 +90,8 @@ public class SingleUpdateService {
 
         if (isNullOrEmpty(submitEvent.getCaseData().getMultipleReferenceLinkMarkUp())) {
             List<SubmitMultipleEvent> submitMultipleEvents = retrieveMultipleCase(accessToken, updateCaseMsg);
+            log.info("size of submitMultipleEvent is:"
+                         + (CollectionUtils.isEmpty(submitMultipleEvents) ? 0 : submitMultipleEvents.size()));
             if (!submitMultipleEvents.isEmpty()) {
                 submitEvent.getCaseData().setMultipleReferenceLinkMarkUp(
                     generateMarkUp(ccdGatewayBaseUrl,
