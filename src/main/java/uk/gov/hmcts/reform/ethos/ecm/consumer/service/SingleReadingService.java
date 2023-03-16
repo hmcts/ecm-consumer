@@ -48,6 +48,7 @@ public class SingleReadingService {
                 SubmitEvent submitEvent = submitEvents.get(0);
                 reformEcmSingleCreationService.sendCreation(submitEvent, accessToken, updateCaseMsg);
             } else {
+                log.info("Update linked markup");
                 singleUpdateService.sendUpdate(submitEvents.get(0), accessToken, updateCaseMsg);
             }
         } else {

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.helpers.UtilHelper;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
@@ -17,7 +18,6 @@ import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.UpdateDataModel;
 import java.io.IOException;
 import java.util.List;
 
-import static com.google.common.base.Strings.isNullOrEmpty;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
 
 @Slf4j
@@ -31,20 +31,21 @@ public class SingleUpdateService {
     private String ccdGatewayBaseUrl;
 
     public void sendUpdate(SubmitEvent submitEvent, String accessToken,
-                            UpdateCaseMsg updateCaseMsg) throws IOException {
+                           UpdateCaseMsg updateCaseMsg) throws IOException {
 
         var caseTypeId = UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId());
         var jurisdiction = updateCaseMsg.getJurisdiction();
         var caseId = String.valueOf(submitEvent.getCaseId());
-
-        updateMultipleReferenceLinkMarkUp(submitEvent, accessToken, updateCaseMsg);
-
+        log.info("Ref link markup is to be updated for case: "
+                     + submitEvent.getCaseData().getEthosCaseReference());
+        updateMultipleReferenceLinkMarkUp(submitEvent,
+                                          accessToken, updateCaseMsg);
         CCDRequest returnedRequest = getReturnedRequest(accessToken, caseTypeId,
                                                         jurisdiction, caseId, updateCaseMsg);
         updateCaseMsg.runTask(submitEvent);
-
+        log.info("Multiple ref markup is:" + submitEvent.getCaseData().getMultipleReferenceLinkMarkUp());
         ccdClient.submitEventForCase(accessToken,
-                                    submitEvent.getCaseData(),
+                                     submitEvent.getCaseData(),
                                     caseTypeId,
                                     jurisdiction,
                                     returnedRequest,
@@ -86,14 +87,14 @@ public class SingleUpdateService {
     private void updateMultipleReferenceLinkMarkUp(SubmitEvent submitEvent, String accessToken,
                                                    UpdateCaseMsg updateCaseMsg) throws IOException {
 
-        if (isNullOrEmpty(submitEvent.getCaseData().getMultipleReferenceLinkMarkUp())) {
-            List<SubmitMultipleEvent> submitMultipleEvents = retrieveMultipleCase(accessToken, updateCaseMsg);
-            if (!submitMultipleEvents.isEmpty()) {
-                submitEvent.getCaseData().setMultipleReferenceLinkMarkUp(
-                    generateMarkUp(ccdGatewayBaseUrl,
-                                   String.valueOf(submitMultipleEvents.get(0).getCaseId()),
-                                   submitEvent.getCaseData().getMultipleReference()));
-            }
+        List<SubmitMultipleEvent> submitMultipleEvents = retrieveMultipleCase(accessToken, updateCaseMsg);
+        log.info("size of submitMultipleEvent is:"
+                      + (CollectionUtils.isEmpty(submitMultipleEvents) ? 0 : submitMultipleEvents.size()));
+        if (!submitMultipleEvents.isEmpty()) {
+            submitEvent.getCaseData().setMultipleReferenceLinkMarkUp(
+                generateMarkUp(ccdGatewayBaseUrl,
+                               String.valueOf(submitMultipleEvents.get(0).getCaseId()),
+                               submitEvent.getCaseData().getMultipleReference()));
         }
     }
 
