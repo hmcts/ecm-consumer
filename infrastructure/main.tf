@@ -19,7 +19,7 @@ locals {
     "Destroy Me"   = var.destroy_me
     "application"  = var.product
   }
-  tags = merge(local.common_tags, tomap("lastUpdated", timestamp()))
+  tags = merge(local.common_tags, tomap({"lastUpdated" = timestamp()}))
 }
 
 data "azurerm_key_vault" "ethos_key_vault" {
