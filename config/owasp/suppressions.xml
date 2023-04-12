@@ -204,6 +204,20 @@
     <packageUrl regex="true">^pkg:maven/org\.apache\.tomcat\.embed/tomcat\-embed\-websocket@.*$</packageUrl>
     <cve>CVE-2022-45143</cve>
   </suppress>
+  <suppress>
+    <notes><![CDATA[
+   file name: snakeyaml-1.33.jar
+   ]]></notes>
+    <packageUrl regex="true">^pkg:maven/org.yaml/snakeyaml@.*$</packageUrl>
+    <cve>CVE-2022-1471</cve>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[
+   file name: accessors-smart-2.4.8.jar
+   ]]></notes>
+    <packageUrl regex="true">^pkg:maven/net.minidev/accessors-smart@.*$</packageUrl>
+    <cve>CVE-2022-45688</cve>
+  </suppress>
   <suppress until="2023-04-18">
         <cve>CVE-2022-45688</cve>
         <cve>CVE-2022-1471</cve>
