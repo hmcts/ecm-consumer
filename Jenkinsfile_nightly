@@ -14,7 +14,7 @@ def component = "ecm-consumer"
 withNightlyPipeline(type, product, component) {
   enableSlackNotifications('#ethos-repl-service')
 
-  enableFortifyScan()
+  enableFortifyScan('ethos-shared-aat')
 
   after('fortify-scan') {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
