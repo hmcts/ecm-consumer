@@ -3,7 +3,7 @@ plugins {
   id 'jacoco'
   id 'checkstyle'
   id 'io.spring.dependency-management' version '1.1.0'
-  id 'org.springframework.boot' version '2.7.10'
+  id 'org.springframework.boot' version '2.7.11'
   id 'org.owasp.dependencycheck' version '8.0.1'
   id 'com.github.ben-manes.versions' version '0.43.0'
   id 'org.sonarqube' version '3.5.0.2730'
@@ -204,18 +204,6 @@ dependencies {
   implementation 'org.springframework.retry:spring-retry'
   implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '5.7.5'
 
-  // CVE-2023-20863
-  implementation group: 'org.springframework', name: 'spring-aop', version: '5.3.27'
-  implementation group: 'org.springframework', name: 'spring-aspects', version: '5.3.27'
-  implementation group: 'org.springframework', name: 'spring-beans', version: '5.3.27'
-  implementation group: 'org.springframework', name: 'spring-context', version: '5.3.27'
-  implementation group: 'org.springframework', name: 'spring-core', version: '5.3.27'
-  implementation group: 'org.springframework', name: 'spring-expression', version: '5.3.27'
-  implementation group: 'org.springframework', name: 'spring-jcl', version: '5.3.27'
-  implementation group: 'org.springframework', name: 'spring-jdbc', version: '5.3.27'
-  implementation group: 'org.springframework', name: 'spring-webmvc', version: '5.3.27'
-  implementation group: 'org.springframework', name: 'spring-orm', version: '5.3.27'
-  implementation group: 'org.springframework', name: 'spring-tx', version: '5.3.27'
 
   implementation group: 'org.testng', name: 'testng', version: '7.6.1'
   implementation group: 'org.yaml', name: 'snakeyaml', version: '1.33'
