@@ -51,6 +51,13 @@
   </suppress>
   <suppress>
     <notes><![CDATA[
+   file name: spring-security-crypto-5.7.5.jar
+   ]]></notes>
+    <packageUrl regex="true">^pkg:maven/org\.springframework\.security/spring\-security\-crypto@.*$</packageUrl>
+    <vulnerabilityName>CVE-2023-20862</vulnerabilityName>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[
    file name: xalan-2.7.2.jar
    ]]></notes>
     <packageUrl regex="true">^pkg:maven/xalan/xalan@.*$</packageUrl>
