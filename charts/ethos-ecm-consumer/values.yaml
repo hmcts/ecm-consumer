@@ -1,13 +1,13 @@
 java:
   image: 'hmctspublic.azurecr.io/ethos/ecm-consumer:latest'
   applicationPort: 8085
-  ingressHost: ecm-consumer-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+  ingressHost: ethos-ecm-consumer-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
   keyVaults:
     ethos-shared:
       resourceGroup: ethos
       secrets:
-        - name: AppInsightsInstrumentationKey
-          alias: APP_INSIGHTS_KEY
+        - name: app-insights-connection-string
+          alias: app-insights-connection-string
         - name: ecm-consumer-s2s-key
           alias: ECM_CONSUMER_S2S_KEY
         - name: caseworker-user-name
@@ -42,7 +42,7 @@ java:
     REFORM_ENVIRONMENT: preview
     ROOT_LOGGING_LEVEL: INFO
     LOG_OUTPUT: single
-    ECM_CONSUMER_URL: "http://ecm-consumer-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
+    ECM_CONSUMER_URL: "http://ethos-ecm-consumer-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
     IDAM_API_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
     IDAM_API_JWK_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net/jwks"
     IDAM_API_OIDC_URL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net/o/token"
