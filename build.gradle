@@ -202,7 +202,7 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.5'
   implementation 'org.springframework.retry:spring-retry'
-  implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '5.7.5'
+  implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '5.8.3'
 
 
   implementation group: 'org.testng', name: 'testng', version: '7.6.1'
