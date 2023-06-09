@@ -3,7 +3,7 @@ plugins {
   id 'jacoco'
   id 'checkstyle'
   id 'io.spring.dependency-management' version '1.1.0'
-  id 'org.springframework.boot' version '2.7.11'
+  id 'org.springframework.boot' version '2.7.12'
   id 'org.owasp.dependencycheck' version '8.0.1'
   id 'com.github.ben-manes.versions' version '0.43.0'
   id 'org.sonarqube' version '3.5.0.2730'
@@ -160,7 +160,7 @@ ext {
   log4JVersion = '2.19.0'
   serenity = '3.4.1'
   springBoot = springBoot.class.package.implementationVersion
-  tomcatEmbedVersion = '9.0.75'
+  tomcatEmbedVersion = '11.0.0-M5'
 }
 
 ext["rest-assured.version"] = '5.1.0'
