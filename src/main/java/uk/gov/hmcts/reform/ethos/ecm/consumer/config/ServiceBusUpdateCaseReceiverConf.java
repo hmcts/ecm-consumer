@@ -11,7 +11,7 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.UpdateCaseBusReceiverTask;
 import java.time.Duration;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import jakarta.annotation.PostConstruct;
+import javax.annotation.PostConstruct;
 
 @AutoConfigureAfter(ServiceBusCreateUpdatesReceiverConf.class)
 @Configuration
@@ -28,7 +28,7 @@ public class ServiceBusUpdateCaseReceiverConf {
 
     private static final ExecutorService updateCaseListenExecutor =
         Executors.newSingleThreadExecutor(r ->
-            new Thread(r, "update-case-queue-listen")
+                                              new Thread(r, "update-case-queue-listen")
         );
 
     private static final MessageHandlerOptions messageHandlerOptions =
