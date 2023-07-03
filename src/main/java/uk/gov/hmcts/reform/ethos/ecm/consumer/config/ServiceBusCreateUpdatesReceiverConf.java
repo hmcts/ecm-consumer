@@ -10,7 +10,7 @@ import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.CreateUpdatesBusReceiverTask
 import java.time.Duration;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 @AutoConfigureAfter(ServiceBusSenderConfiguration.class)
 @Configuration
