@@ -32,7 +32,7 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
 
     private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
 
-    private static final int MAX_RETRIES = 10;
+    private static final int MAX_RETRIES = 1;
 
     private final transient ObjectMapper objectMapper;
     private final transient MessageAutoCompletor messageCompletor;
