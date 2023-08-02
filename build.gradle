@@ -170,7 +170,7 @@ dependencies {
   implementation group: 'com.github.hmcts', name: 'ecm-common', version: '2.0.2'
   implementation group: 'com.github.hmcts', name: 'ecm-data-model', version: '1.0.1'
   implementation group: 'com.github.hmcts', name: 'et-data-model', version: '1.0.77'
-  implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '5.1.9'
+  implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '6.0.1'
   implementation group: 'com.google.code.gson', name: 'gson', version: '2.10'
 
   implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.25.6'
