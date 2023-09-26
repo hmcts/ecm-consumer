@@ -1,6 +1,6 @@
 {
   "extends": [
-    "local>hmcts/.github//renovate/global",
+    "local>hmcts/.github:renovate-config",
     "local>hmcts/.github//renovate/automerge-all"
   ],
   "separateMajorMinor": false,
