@@ -232,4 +232,18 @@
         <cve>CVE-2023-20860</cve>
         <cve>CVE-2023-28708</cve>
   </suppress>
+<suppress>
+   <notes><![CDATA[
+   file name: accessors-smart-2.5.0.jar
+   ]]></notes>
+   <packageUrl regex="true">^pkg:maven/net\.minidev/accessors\-smart@.*$</packageUrl>
+   <cve>CVE-2023-5072</cve>
+</suppress>
+  <suppress>
+   <notes><![CDATA[
+   file name: jackson-core-2.15.3.jar
+   ]]></notes>
+   <packageUrl regex="true">^pkg:maven/com\.fasterxml\.jackson\.core/jackson\-core@.*$</packageUrl>
+   <cve>CVE-2023-5072</cve>
+</suppress>
 </suppressions>
