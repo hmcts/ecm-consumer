@@ -34,29 +34,6 @@ data "azurerm_key_vault" "s2s_key_vault" {
   resource_group_name = local.s2sRG
 }
 
-resource "azurerm_key_vault_secret" "AZURE_APPINSGHTS_KEY" {
-  name         = "AppInsightsInstrumentationKey"
-  value        = azurerm_application_insights.appinsights.instrumentation_key
-  key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
-}
-
-resource "azurerm_application_insights" "appinsights" {
-  name                = "${var.product}-${var.component}-appinsights-${var.env}"
-  location            = var.appinsights_location
-  resource_group_name = local.resourceGroup
-  application_type    = "web"
-
-  tags = var.common_tags
-
-  lifecycle {
-    ignore_changes = [
-      # Ignore changes to appinsights as otherwise upgrading to the Azure provider 2.x
-      # destroys and re-creates this appinsights instance
-      application_type,
-    ]
-  }
-}
-
 data "azurerm_key_vault_secret" "microservicekey_ecm_consumer" {
   name         = "microservicekey-ecm-consumer"
   key_vault_id = data.azurerm_key_vault.s2s_key_vault.id
