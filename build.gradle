@@ -174,6 +174,8 @@ dependencies {
   implementation group: 'com.github.hmcts', name: 'et-data-model', version: '1.0.77'
   implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '5.1.9'
   implementation group: 'com.google.code.gson', name: 'gson', version: '2.10'
+  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.15.3'
+  implementation group: 'net.minidev', name: 'accessors-smart', version: '2.5.0'
 
   implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.25.6'
   implementation group: 'junit', name: 'junit', version: '4.13.2'
