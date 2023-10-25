@@ -108,7 +108,6 @@ public class SingleCreationService {
         String url = ccdGatewayBaseUrl + "/cases/case-details/" + newCase.getCaseId();
         String transferredCaseLink = "<a target=\"_blank\" href=\"" + url + "\">"
             + oldSubmitEvent.getCaseData().getEthosCaseReference() + "</a>";
-        //oldSubmitEvent.getCaseData().setTransferredCaseLink(transferredCaseLink);
         CCDRequest updateCCDRequest = ccdClient.startEventForCase(accessToken, caseTypeId, jurisdiction, caseId);
         updateCCDRequest.getCaseDetails().getCaseData().setTransferredCaseLink(transferredCaseLink);
         ccdClient.submitEventForCase(accessToken, updateCCDRequest.getCaseDetails().getCaseData(), caseTypeId,
