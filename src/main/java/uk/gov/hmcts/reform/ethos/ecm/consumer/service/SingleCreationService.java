@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.ethos.ecm.consumer.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
@@ -24,6 +25,8 @@ import static uk.gov.hmcts.ecm.common.model.helper.Constants.CLOSED_STATE;
 public class SingleCreationService {
 
     private final CcdClient ccdClient;
+    @Value("${ccd_gateway_base_url}")
+    private String ccdGatewayBaseUrl;
 
     public void sendCreation(SubmitEvent oldSubmitEvent, String accessToken,
                              UpdateCaseMsg updateCaseMsg) throws IOException {
@@ -91,11 +94,25 @@ public class SingleCreationService {
             createCaseDetailsCaseTransfer(oldSubmitEvent.getCaseData(), caseId, caseTypeId,
                                           ccdGatewayBaseUrl, positionTypeCT, jurisdiction,
                                           oldSubmitEvent.getState());
-
         CCDRequest returnedRequest = ccdClient.startCaseCreationTransfer(accessToken, newCaseDetailsCT);
+        SubmitEvent newCase = ccdClient.submitCaseCreation(accessToken, newCaseDetailsCT, returnedRequest);
+        if (newCase != null) {
+            updateSourceCaseTransferLink(newCase, oldSubmitEvent, accessToken, caseTypeId,
+                                         jurisdiction, caseId);
+        }
+    }
 
-        ccdClient.submitCaseCreation(accessToken, newCaseDetailsCT, returnedRequest);
-
+    private void updateSourceCaseTransferLink(SubmitEvent newCase, SubmitEvent oldSubmitEvent, String accessToken,
+                                              String caseTypeId, String jurisdiction, String caseId) throws
+        IOException {
+        String url = ccdGatewayBaseUrl + "/cases/case-details/" + newCase.getCaseId();
+        String transferredCaseLink = "<a target=\"_blank\" href=\"" + url + "\">"
+            + oldSubmitEvent.getCaseData().getEthosCaseReference() + "</a>";
+        //oldSubmitEvent.getCaseData().setTransferredCaseLink(transferredCaseLink);
+        CCDRequest updateCCDRequest = ccdClient.startEventForCase(accessToken, caseTypeId, jurisdiction, caseId);
+        updateCCDRequest.getCaseDetails().getCaseData().setTransferredCaseLink(transferredCaseLink);
+        ccdClient.submitEventForCase(accessToken, updateCCDRequest.getCaseDetails().getCaseData(), caseTypeId,
+                                     jurisdiction, updateCCDRequest, caseId);
     }
 
     private SubmitEvent existCaseDestinationOffice(String accessToken, String ethosCaseReference,
