@@ -160,7 +160,7 @@ repositories {
 ext {
   junitPlatform = '1.6.2'
   log4JVersion = '2.21.1'
-  serenity = '3.8.1'
+  serenity = '3.9.8'
   springBoot = springBoot.class.package.implementationVersion
   tomcatEmbedVersion = '9.0.82'
 }
