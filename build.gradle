@@ -179,7 +179,7 @@ dependencies {
   implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '7.4'
   implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.37'
   implementation group: 'junit', name: 'junit', version: '4.13.2'
-  implementation group: 'net.javacrumbs.shedlock', name: 'shedlock-spring', version: '5.9.1'
+  implementation group: 'net.javacrumbs.shedlock', name: 'shedlock-spring', version: '5.10.0'
   implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.24.0'
   implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.13.0'
   implementation group: 'commons-io', name: 'commons-io', version: '2.15.0'
