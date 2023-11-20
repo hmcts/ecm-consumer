@@ -174,7 +174,7 @@ dependencies {
   implementation group: 'com.github.hmcts', name: 'et-data-model', version: '4.0.0'
   implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '6.0.1'
   implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
-  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.15.3'
+  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.16.0'
   implementation group: 'net.minidev', name: 'accessors-smart', version: '2.5.0'
   implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '7.4'
   implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.37.1'
