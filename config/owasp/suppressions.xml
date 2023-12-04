@@ -247,27 +247,6 @@
    <cve>CVE-2023-5072</cve>
   </suppress>
   <suppress>
-    <notes><![CDATA[
-   file name: azure-client-authentication-1.7.14.jar
-   ]]></notes>
-    <packageUrl regex="true">^pkg:maven/com\.microsoft\.azure\azure\-client\-authentication@.*$</packageUrl>
-    <cpe>cpe:2.3:a:microsoft:azure_cli</cpe>
-    <cve>CVE-2023-36052</cve>
-  </suppress>
-  <suppress>
-    <notes><![CDATA[
-   file name: azure-client-runtime-1.7.14.jar
-   ]]></notes>
-    <packageUrl regex="true">^pkg:maven/com\.microsoft\.azure\azure\-client\-runtime@.*$</packageUrl>
-    <cpe>cpe:2.3:a:microsoft:azure_cli</cpe>
-    <cve>CVE-2023-36052</cve>
-  </suppress>
-  <suppress>
-    <notes><![CDATA[
-   file name: client-runtime-1.7.14.jar
-   ]]></notes>
-    <packageUrl regex="true">^pkg:maven/com\.microsoft\.rest\client\-runtime@.*$</packageUrl>
-    <cpe>cpe:2.3:a:microsoft:azure_cli</cpe>
     <cve>CVE-2023-36052</cve>
   </suppress>
   <suppress>
