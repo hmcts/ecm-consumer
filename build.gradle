@@ -177,7 +177,7 @@ dependencies {
   implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.16.0'
   implementation group: 'net.minidev', name: 'accessors-smart', version: '2.5.0'
   implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '7.4'
-  implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.37.1'
+  implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.37.2'
   implementation group: 'junit', name: 'junit', version: '4.13.2'
   implementation group: 'net.javacrumbs.shedlock', name: 'shedlock-spring', version: '5.10.0'
   implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.25.0'
