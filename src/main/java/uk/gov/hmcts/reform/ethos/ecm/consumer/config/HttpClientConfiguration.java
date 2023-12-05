@@ -1,7 +1,7 @@
 package uk.gov.hmcts.reform.ethos.ecm.consumer.config;
 
+import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.http.client.config.RequestConfig;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -22,14 +22,14 @@ public class HttpClientConfiguration {
         return restTemplate;
     }
 
-    private CloseableHttpClient getHttpClient() {
+    private HttpClient getHttpClient() {
         RequestConfig config = RequestConfig.custom()
             .setConnectTimeout(timeout)
             .setConnectionRequestTimeout(timeout)
             .setSocketTimeout(timeout)
             .build();
 
-        return HttpClientBuilder
+        return (HttpClient)HttpClientBuilder
             .create()
             .useSystemProperties()
             .setDefaultRequestConfig(config)
