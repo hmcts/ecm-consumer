@@ -19,15 +19,10 @@ println '*****************************************'
 
 println '*****************************************'
 println 'FILE LIST'
-
-def list = []
-
-def dir = new File("/mnt/secrets/ethos-shared/")
-dir.eachFileRecurse (FileType.FILES) { file ->
-  list << file
+dh = new File('/mnt/secrets/ethos-shared/')
+dh.eachFile {
+  println(it)
 }
-
-list.each {println it.path}
 println '*****************************************'
 
 checkstyle {
@@ -64,7 +59,7 @@ sonarqube {
     property "sonar.projectKey", "ecm-consumer"
     property "sonar.dynamicAnalysis", "reuseReports"
     property "sonar.dependencyCheck.reportPath", "${project.getBuildFile().getAbsolutePath()}/reports/dependency-check-report.xml"
-    property "sonar.coverage.jacoco.xmlReportPaths", "${project.getBuildFile().getAbsolutePath()}/reposts/jacoco_reports.xml"
+    property "sonar.coverage.jacoco.xmlReportPaths", "${project.getBuildFile().getAbsolutePath()}/reports/jacoco_reports.xml"
   }
 }
 
