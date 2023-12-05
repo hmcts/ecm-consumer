@@ -11,19 +11,6 @@ plugins {
 
 group = 'uk.gov.hmcts.ethos.ecm'
 version = '0.0.1'
-println '*****************************************'
-println 'GRADLE VERSION : '
-println GradleVersion.current().getVersion()
-println '*****************************************'
-
-
-println '*****************************************'
-println 'FILE LIST'
-dh = new File('/mnt/secrets/ethos-shared/')
-dh.eachFile {
-  println(it)
-}
-println '*****************************************'
 
 checkstyle {
   maxWarnings = 0
@@ -42,7 +29,7 @@ jacocoTestReport {
   reports {
     xml.required = true
     csv.required = false
-    xml.destination file("${getBuildFile().getAbsolutePath()}/reports/jacoco/test/jacocoTestReport.xml")
+    xml.destination file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
   }
 }
 
@@ -58,8 +45,8 @@ sonarqube {
     property "sonar.exclusions", sonarExclusions.join(', ')
     property "sonar.projectKey", "ecm-consumer"
     property "sonar.dynamicAnalysis", "reuseReports"
-    property "sonar.dependencyCheck.reportPath", "${project.getBuildFile().getAbsolutePath()}/reports/dependency-check-report.xml"
-    property "sonar.coverage.jacoco.xmlReportPaths", "${project.getBuildFile().getAbsolutePath()}/reports/jacoco_reports.xml"
+    property "sonar.dependencyCheck.reportPath", "${project.buildDir}/reports/dependency-check-report.xml"
+    property "sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/jacoco-report.xml"
   }
 }
 
