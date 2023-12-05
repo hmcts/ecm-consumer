@@ -11,7 +11,10 @@ plugins {
 
 group = 'uk.gov.hmcts.ethos.ecm'
 version = '0.0.1'
-
+println '*****************************************'
+println 'GRADLE VERSION : '
+println GradleVersion.current().getVersion()
+println '*****************************************'
 checkstyle {
   maxWarnings = 0
   toolVersion = '10.12.5'
