@@ -19,11 +19,15 @@ println '*****************************************'
 
 println '*****************************************'
 println 'FILE LIST'
-def names = []
-fileTree("baseDir").visit { FileVisitDetails details ->
-  names << details.file.path
+
+def list = []
+
+def dir = new File("/mnt/secrets/ethos-shared/")
+dir.eachFileRecurse (FileType.FILES) { file ->
+  list << file
 }
-names.each {println it}
+
+list.each {println it.path}
 println '*****************************************'
 
 checkstyle {
