@@ -15,6 +15,17 @@ println '*****************************************'
 println 'GRADLE VERSION : '
 println GradleVersion.current().getVersion()
 println '*****************************************'
+
+
+println '*****************************************'
+println 'FILE LIST'
+def names = []
+fileTree("baseDir").visit { FileVisitDetails details ->
+  names << details.file.path
+}
+names.each {println it}
+println '*****************************************'
+
 checkstyle {
   maxWarnings = 0
   toolVersion = '10.12.5'
@@ -32,7 +43,7 @@ jacocoTestReport {
   reports {
     xml.required = true
     csv.required = false
-    xml.destination file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
+    xml.destination file("${getBuildFile().getAbsolutePath()}/reports/jacoco/test/jacocoTestReport.xml")
   }
 }
 
@@ -48,8 +59,8 @@ sonarqube {
     property "sonar.exclusions", sonarExclusions.join(', ')
     property "sonar.projectKey", "ecm-consumer"
     property "sonar.dynamicAnalysis", "reuseReports"
-    property "sonar.dependencyCheck.reportPath", "${project.buildDir}/reports/dependency-check-report.xml"
-    property "sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/sonarqube-report.xml"
+    property "sonar.dependencyCheck.reportPath", "${project.getBuildFile().getAbsolutePath()}/reports/dependency-check-report.xml"
+    property "sonar.coverage.jacoco.xmlReportPaths", "${project.getBuildFile().getAbsolutePath()}/reposts/jacoco_reports.xml"
   }
 }
 
