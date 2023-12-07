@@ -14,7 +14,7 @@ version = '0.0.1'
 
 checkstyle {
   maxWarnings = 0
-  toolVersion = '10.12.5'
+  toolVersion = '10.12.6'
   getConfigDirectory().set(new File(rootDir, 'config/checkstyle'))
 }
 
