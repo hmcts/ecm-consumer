@@ -15,7 +15,7 @@ version = '0.0.1'
 
 checkstyle {
   maxWarnings = 0
-  toolVersion = '10.12.5'
+  toolVersion = '10.12.6'
 }
 
 java {
@@ -192,7 +192,7 @@ dependencies {
   implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: feignVersion
   implementation group: 'io.github.openfeign', name: 'feign-core', version: feignVersion
   implementation group: 'junit', name: 'junit', version: '4.13.2'
-  implementation group: 'net.javacrumbs.shedlock', name: 'shedlock-spring', version: '5.10.0'
+  implementation group: 'net.javacrumbs.shedlock', name: 'shedlock-spring', version: '5.10.1'
   implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.25.0'
   implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.14.0'
   implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
