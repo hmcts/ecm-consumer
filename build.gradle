@@ -224,6 +224,7 @@ dependencies {
   implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.0'
   // CVE-2022-25857
   implementation group: 'org.yaml', name: 'snakeyaml', version: '2.2'
+
   implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.7.0'
   implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
   implementation group: 'com.microsoft.azure', name: 'adal4j', version: '1.6.7'
