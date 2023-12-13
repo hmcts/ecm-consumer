@@ -162,7 +162,7 @@ ext {
   log4JVersion = '2.22.0'
   serenity = '4.0.28'
   springBoot = springBoot.class.package.implementationVersion
-  tomcatEmbedVersion = '10.1.16'
+  tomcatEmbedVersion = '10.1.17'
 }
 
 ext["rest-assured.version"] = '5.1.0'
