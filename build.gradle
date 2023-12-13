@@ -125,7 +125,9 @@ dependencyCheck {
     // Disable scanning of .NET related binaries
     assemblyEnabled = false
   }
+
   analyzers.nodeAudit.yarnEnabled = false
+
 }
 
 repositories {
@@ -141,7 +143,7 @@ ext {
   logbackVersion = '1.2.11'
   serenity = '4.0.24'
   springBoot = springBoot.class.package.implementationVersion
-  tomcatEmbedVersion = '9.0.83'
+  tomcatEmbedVersion = '10.1.17'
   nettyVersion = '4.1.100.Final'
 }
 
