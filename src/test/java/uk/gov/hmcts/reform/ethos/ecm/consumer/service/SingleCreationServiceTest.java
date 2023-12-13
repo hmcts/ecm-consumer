@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
+import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
 import uk.gov.hmcts.ecm.common.model.ccd.CaseData;
 import uk.gov.hmcts.ecm.common.model.ccd.CaseDetails;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
@@ -34,7 +35,7 @@ public class SingleCreationServiceTest {
     private transient SingleCreationService singleCreationService;
     @Mock
     private transient CcdClient ccdClient;
-
+    private transient CCDRequest ccdRequest;
     private transient SubmitEvent submitEvent;
     private transient UpdateCaseMsg updateCaseMsg;
     private transient String userToken;
@@ -57,13 +58,27 @@ public class SingleCreationServiceTest {
 
     @Test
     public void sendCreation() throws IOException {
+        ccdRequest = new CCDRequest();
+        CaseData caseData = new CaseData();
+        caseData.setEthosCaseReference("4450008/2022");
+        CaseDetails caseDetails = new CaseDetails();
+        caseDetails.setCaseData(caseData);
+        ccdRequest.setCaseDetails(caseDetails);
+        when(ccdClient.startEventForCase(eq(userToken), any(), any(), any())).thenReturn(ccdRequest);
+        when(ccdClient.startCaseCreationTransfer(eq(userToken),
+                                                 any(uk.gov.hmcts.ecm.common.model.ccd.CaseDetails.class)))
+            .thenReturn(ccdRequest);
+        when(ccdClient.submitCaseCreation(eq(userToken), any(uk.gov.hmcts.ecm.common.model.ccd.CaseDetails.class),
+                                          any())).thenReturn(submitEvent);
         singleCreationService.sendCreation(submitEvent, userToken, updateCaseMsg);
-
         verify(ccdClient).retrieveCasesElasticSearch(eq(userToken), any(), any());
         verify(ccdClient).startCaseCreationTransfer(eq(userToken),
                                                     any(uk.gov.hmcts.ecm.common.model.ccd.CaseDetails.class));
         verify(ccdClient).submitCaseCreation(eq(userToken),
                                              any(uk.gov.hmcts.ecm.common.model.ccd.CaseDetails.class), any());
+        verify(ccdClient).startEventForCase(eq(userToken), any(), any(), any());
+        verify(ccdClient).submitEventForCase(eq(userToken), any(uk.gov.hmcts.ecm.common.model.ccd.CaseData.class),
+                                             any(), any(), any(), any());
         verifyNoMoreInteractions(ccdClient);
     }
 
@@ -78,5 +93,4 @@ public class SingleCreationServiceTest {
         verify(ccdClient).submitEventForCase(eq(userToken), any(), anyString(), anyString(), any(), anyString());
         verifyNoMoreInteractions(ccdClient);
     }
-
 }

@@ -28,6 +28,7 @@ public class EcmCaseDataToEt1MapperTest {
     private transient CaseData caseData;
     static final String TRANSFERRED_POSITION_TYPE = "Case transferred to Reform ECM";
     static final String REASON_FOR_TRANSFER = "Reform Ecm Transfer test";
+    static final String TEST_BASE_URL = "test_base_url";
 
     @Before
     public void setUp() {
@@ -51,7 +52,7 @@ public class EcmCaseDataToEt1MapperTest {
     @Test
     public void shouldGetEt1CaseDataFromEcmCaseData() {
         uk.gov.hmcts.et.common.model.ccd.CaseData expectedCaseData = EcmCaseDataToEt1Mapper
-            .getEt1CaseData(caseData, userToken, "test_base_url", TRANSFERRED_POSITION_TYPE,
+            .getEt1CaseData(caseData, userToken, TEST_BASE_URL, TRANSFERRED_POSITION_TYPE,
                             REASON_FOR_TRANSFER, "Leeds");
 
         assertEquals(expectedCaseData.getClass(), uk.gov.hmcts.et.common.model.ccd.CaseData.class);
@@ -62,7 +63,7 @@ public class EcmCaseDataToEt1MapperTest {
     @Test
     public void shouldGetEt1CaseDataFromEcmCaseDataWithPreAcceptSet() {
         uk.gov.hmcts.et.common.model.ccd.CaseData expectedCaseData = EcmCaseDataToEt1Mapper
-            .getEt1CaseData(caseData, userToken, "test_base_url", TRANSFERRED_POSITION_TYPE,
+            .getEt1CaseData(caseData, userToken, TEST_BASE_URL, TRANSFERRED_POSITION_TYPE,
                             REASON_FOR_TRANSFER, "Leeds");
 
         assertEquals(expectedCaseData.getClass(), uk.gov.hmcts.et.common.model.ccd.CaseData.class);
@@ -76,7 +77,7 @@ public class EcmCaseDataToEt1MapperTest {
     public void shouldGetEt1CaseDataFromEcmCaseDataWithManagingOfficeSet() {
         caseData.setManagingOffice("Aberdeen");
         uk.gov.hmcts.et.common.model.ccd.CaseData expectedCaseData = EcmCaseDataToEt1Mapper
-            .getEt1CaseData(caseData, userToken, "test_base_url", TRANSFERRED_POSITION_TYPE,
+            .getEt1CaseData(caseData, userToken, TEST_BASE_URL, TRANSFERRED_POSITION_TYPE,
                             REASON_FOR_TRANSFER, "Scotland");
 
         assertEquals(expectedCaseData.getClass(), uk.gov.hmcts.et.common.model.ccd.CaseData.class);
@@ -96,7 +97,7 @@ public class EcmCaseDataToEt1MapperTest {
 
         caseData.setRespondentCollection(respondentSumTypeItems);
         uk.gov.hmcts.et.common.model.ccd.CaseData expectedCaseData = EcmCaseDataToEt1Mapper
-            .getEt1CaseData(caseData, userToken, "test_base_url", TRANSFERRED_POSITION_TYPE,
+            .getEt1CaseData(caseData, userToken, TEST_BASE_URL, TRANSFERRED_POSITION_TYPE,
                             REASON_FOR_TRANSFER, "Scotland");
 
         assertEquals(expectedCaseData.getClass(), uk.gov.hmcts.et.common.model.ccd.CaseData.class);
@@ -117,7 +118,7 @@ public class EcmCaseDataToEt1MapperTest {
         caseData.setDocumentCollection(docs);
 
         uk.gov.hmcts.et.common.model.ccd.CaseData expectedCaseData = EcmCaseDataToEt1Mapper
-            .getEt1CaseData(caseData, userToken, "test_base_url", TRANSFERRED_POSITION_TYPE,
+            .getEt1CaseData(caseData, userToken, TEST_BASE_URL, TRANSFERRED_POSITION_TYPE,
                             REASON_FOR_TRANSFER, "Scotland");
 
         assertEquals(expectedCaseData.getClass(), uk.gov.hmcts.et.common.model.ccd.CaseData.class);
