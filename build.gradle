@@ -245,7 +245,7 @@ dependencies {
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.8'
   implementation 'org.springframework.retry:spring-retry'
   implementation group: 'org.testng', name: 'testng', version: '7.8.0'
-  implementation group: 'uk.gov.service.notify', name: 'notifications-java-client', version: '4.1.0-RELEASE'
+  implementation group: 'uk.gov.service.notify', name: 'notifications-java-client', version: '4.1.1-RELEASE'
   implementation 'org.projectlombok:lombok'
   annotationProcessor 'org.projectlombok:lombok'
 
