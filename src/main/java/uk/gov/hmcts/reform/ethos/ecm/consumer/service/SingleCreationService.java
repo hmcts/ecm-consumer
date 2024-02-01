@@ -83,7 +83,7 @@ public class SingleCreationService {
             oldSubmitEvent.getCaseData(), caseId, caseTypeId,
             ccdGatewayBaseUrl, positionTypeCT, jurisdiction, oldSubmitEvent.getState());
         CCDRequest returnedRequest = ccdClient.startCaseCreationTransfer(accessToken, newCaseDetailsCT);
-        SubmitEvent newCase = ccdClient.submitCaseCreation(accessToken, newCaseDetailsCT, returnedRequest);
+        ccdClient.submitCaseCreation(accessToken, newCaseDetailsCT, returnedRequest);
     }
 
     private SubmitEvent existCaseDestinationOffice(String accessToken, String ethosCaseReference,

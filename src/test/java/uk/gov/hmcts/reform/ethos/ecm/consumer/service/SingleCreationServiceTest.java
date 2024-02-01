@@ -64,21 +64,20 @@ public class SingleCreationServiceTest {
         CaseDetails caseDetails = new CaseDetails();
         caseDetails.setCaseData(caseData);
         ccdRequest.setCaseDetails(caseDetails);
-        when(ccdClient.startEventForCase(eq(userToken), any(), any(), any())).thenReturn(ccdRequest);
         when(ccdClient.startCaseCreationTransfer(eq(userToken),
                                                  any(uk.gov.hmcts.ecm.common.model.ccd.CaseDetails.class)))
             .thenReturn(ccdRequest);
         when(ccdClient.submitCaseCreation(eq(userToken), any(uk.gov.hmcts.ecm.common.model.ccd.CaseDetails.class),
                                           any())).thenReturn(submitEvent);
+
         singleCreationService.sendCreation(submitEvent, userToken, updateCaseMsg);
+
         verify(ccdClient).retrieveCasesElasticSearch(eq(userToken), any(), any());
         verify(ccdClient).startCaseCreationTransfer(eq(userToken),
                                                     any(uk.gov.hmcts.ecm.common.model.ccd.CaseDetails.class));
         verify(ccdClient).submitCaseCreation(eq(userToken),
                                              any(uk.gov.hmcts.ecm.common.model.ccd.CaseDetails.class), any());
-        verify(ccdClient).startEventForCase(eq(userToken), any(), any(), any());
-        verify(ccdClient).submitEventForCase(eq(userToken), any(uk.gov.hmcts.ecm.common.model.ccd.CaseData.class),
-                                             any(), any(), any(), any());
+
         verifyNoMoreInteractions(ccdClient);
     }
 
