@@ -72,3 +72,9 @@ variable "destroy_me" {
   description = "Here be dragons! In the future if this is set to Yes then automation will delete this resource on a schedule. Please set to No unless you know what you are doing"
   default     = "No"
 }
+
+variable "aks_subscription_id" {}
+
+variable "businessArea" {
+  default = "CFT"
+}
