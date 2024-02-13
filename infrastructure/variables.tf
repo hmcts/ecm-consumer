@@ -74,3 +74,7 @@ variable "destroy_me" {
 }
 
 variable "aks_subscription_id" {}
+
+variable "businessArea" {
+  default = "CFT"
+}
