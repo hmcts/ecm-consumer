@@ -22,6 +22,7 @@ locals {
   s2sRG               = "rpe-service-auth-provider-${local.localEnv}"
   tagEnv              = var.env == "aat" ? "staging" : var.env == "perftest" ? "testing" : var.env
   common_tags = {
+    "businessArea" = var.businessArea
     "environment"  = local.tagEnv
     "Team Name"    = var.team_name
     "Team Contact" = var.team_contact
