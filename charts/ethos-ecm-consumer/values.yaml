@@ -38,13 +38,13 @@ java:
         # ABOVE TO BE REMOVED ONCE DATA HAS BEEN MIGRATED TO V15 DB
         # TO BE ACTIVATED ONCE DATA HAS BEEN MIGRATED TO V15 DB
         - name: ecm-consumer-postgres-user-v15
-         alias: ECM_CONSUMER_POSTGRES_USER
+          alias: ECM_CONSUMER_POSTGRES_USER
         - name: ecm-consumer-postgres-password-v15
-         alias: ECM_CONSUMER_POSTGRES_PASSWORD
+          alias: ECM_CONSUMER_POSTGRES_PASSWORD
         - name: ecm-consumer-postgres-host-v15
-         alias: ECM_CONSUMER_POSTGRES_HOST
+          alias: ECM_CONSUMER_POSTGRES_HOST
         - name: ecm-consumer-postgres-port-v15
-         alias: ECM_CONSUMER_POSTGRES_PORT
+          alias: ECM_CONSUMER_POSTGRES_PORT
   aadIdentityName: ethos
   environment:
     REFORM_TEAM: ethos
