@@ -1,5 +1,5 @@
 module "postgres" {
-  source = "git@github.com:hmcts/terraform-module-postgresql-flexible?ref=dtspo-16806-automate-db-owner"
+  source = "git@github.com:hmcts/terraform-module-postgresql-flexible?ref=dtspo-16806-schema-owner"
   env    = var.env
   providers = {
     azurerm.postgres_network = azurerm.private_endpoint
