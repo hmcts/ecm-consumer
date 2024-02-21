@@ -18,7 +18,6 @@ module "postgres" {
   pgsql_version        = "15"
   admin_user_object_id = var.jenkins_AAD_objectId
 
-  # force_schema_ownership_trigger = "1"
   kv_subscription = var.subscription
   kv_name = data.azurerm_key_vault.ethos_key_vault.name
   user_secret_name = data.azurerm_key_vault_secret.ecm_postgres_user.name
