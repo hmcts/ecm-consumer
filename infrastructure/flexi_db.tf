@@ -1,5 +1,5 @@
 module "postgres" {
-  source = "git@github.com:hmcts/terraform-module-postgresql-flexible?ref=dtspo-16806-schema-owner"
+  source = "git@github.com:hmcts/terraform-module-postgresql-flexible?ref=master"
   env    = var.env
   providers = {
     azurerm.postgres_network = azurerm.private_endpoint
@@ -17,12 +17,6 @@ module "postgres" {
   ]
   pgsql_version        = "15"
   admin_user_object_id = var.jenkins_AAD_objectId
-
-  # force_schema_ownership_trigger = "1"
-  kv_subscription = var.subscription
-  kv_name = data.azurerm_key_vault.ethos_key_vault.name
-  user_secret_name = data.azurerm_key_vault_secret.ecm_postgres_user.name
-  pass_secret_name = data.azurerm_key_vault_secret.ecm_postgres_password.name
 }
 
 resource "azurerm_key_vault_secret" "ecm_consumer_postgres_user_v15" {
