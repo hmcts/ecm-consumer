@@ -25,26 +25,26 @@ java:
         - name: idam-client-secret
           alias: IDAM_CLIENT_SECRET
         # TO BE REMOVED ONCE DATA HAS BEEN MIGRATED TO V15 DB
-        - name: ecm-consumer-postgres-password
-          alias: ECM_CONSUMER_POSTGRES_PASSWORD
-        - name: ecm-consumer-postgres-user
-          alias: ECM_CONSUMER_POSTGRES_USER
-        - name: ecm-consumer-postgres-host
-          alias: ECM_CONSUMER_POSTGRES_HOST
-        - name: ecm-consumer-postgres-port
-          alias: ECM_CONSUMER_POSTGRES_PORT
-        - name: ecm-consumer-postgres-database
-          alias: ECM_CONSUMER_POSTGRES_DATABASE
+        # - name: ecm-consumer-postgres-password
+        #   alias: ECM_CONSUMER_POSTGRES_PASSWORD
+        # - name: ecm-consumer-postgres-user
+        #   alias: ECM_CONSUMER_POSTGRES_USER
+        # - name: ecm-consumer-postgres-host
+        #   alias: ECM_CONSUMER_POSTGRES_HOST
+        # - name: ecm-consumer-postgres-port
+        #   alias: ECM_CONSUMER_POSTGRES_PORT
+        # - name: ecm-consumer-postgres-database
+        #   alias: ECM_CONSUMER_POSTGRES_DATABASE
         # ABOVE TO BE REMOVED ONCE DATA HAS BEEN MIGRATED TO V15 DB
         # TO BE ACTIVATED ONCE DATA HAS BEEN MIGRATED TO V15 DB
-#        - name: ecm-consumer-postgres-user-v15
-#          alias: ECM_CONSUMER_POSTGRES_USER
-#        - name: ecm-consumer-postgres-password-v15
-#          alias: ECM_CONSUMER_POSTGRES_PASSWORD
-#        - name: ecm-consumer-postgres-host-v15
-#          alias: ECM_CONSUMER_POSTGRES_HOST
-#        - name: ecm-consumer-postgres-port-v15
-#          alias: ECM_CONSUMER_POSTGRES_PORT
+        - name: ecm-consumer-postgres-user-v15
+          alias: ECM_CONSUMER_POSTGRES_USER
+        - name: ecm-consumer-postgres-password-v15
+          alias: ECM_CONSUMER_POSTGRES_PASSWORD
+        - name: ecm-consumer-postgres-host-v15
+          alias: ECM_CONSUMER_POSTGRES_HOST
+        - name: ecm-consumer-postgres-port-v15
+          alias: ECM_CONSUMER_POSTGRES_PORT
   aadIdentityName: ethos
   environment:
     REFORM_TEAM: ethos
