@@ -299,4 +299,11 @@
     <cpe>cpe:/a:qos:logback</cpe>
     <cve>CVE-2023-6378</cve>
   </suppress>
+  <suppress>
+   <notes><![CDATA[
+   file name: commons-compress-1.25.0.jar
+   ]]></notes>
+   <packageUrl regex="true">^pkg:maven/org\.apache\.commons/commons\-compress@.*$</packageUrl>
+   <cpe>cpe:/a:apache:commons_compress</cpe>
+</suppress>
 </suppressions>
