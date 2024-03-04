@@ -7,9 +7,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
+import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
 import uk.gov.hmcts.ecm.common.model.ccd.CaseData;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
+import uk.gov.hmcts.ecm.common.model.ccd.CaseDetails;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Helper;
 
 import java.io.IOException;
@@ -44,6 +46,7 @@ public class SingleReadingServiceTest {
     private transient List<SubmitEvent> submitEvents;
     private transient UpdateCaseMsg updateCaseMsg;
     private transient String userToken;
+    private CCDRequest returnedRequest;
 
     @Before
     public void setUp() {
@@ -52,6 +55,12 @@ public class SingleReadingServiceTest {
         caseData.setEthosCaseReference("4150002/2020");
         submitEvent.setCaseData(caseData);
         submitEvent.setState(ACCEPTED_STATE);
+
+        CaseDetails caseDetails = new CaseDetails();
+        caseDetails.setCaseData(caseData);
+        returnedRequest = new CCDRequest();
+        returnedRequest.setCaseDetails(caseDetails);
+
         submitEvents = new ArrayList<>(Collections.singletonList(submitEvent));
         updateCaseMsg = Helper.generateUpdateCaseMsg();
         userToken = "Token";
@@ -60,6 +69,7 @@ public class SingleReadingServiceTest {
     @Test
     public void sendUpdateToSingleLogic() throws IOException {
         when(userService.getAccessToken()).thenReturn(userToken);
+        when(ccdClient.startEventForCase(anyString(), anyString(), anyString(), anyString())).thenReturn(returnedRequest);
         when(ccdClient.retrieveCasesElasticSearch(anyString(), anyString(), anyList())).thenReturn(submitEvents);
 
         singleReadingService.sendUpdateToSingleLogic(updateCaseMsg);

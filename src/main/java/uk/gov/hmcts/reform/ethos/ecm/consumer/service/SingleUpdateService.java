@@ -42,6 +42,7 @@ public class SingleUpdateService {
                                           accessToken, updateCaseMsg);
         CCDRequest returnedRequest = getReturnedRequest(accessToken, caseTypeId,
                                                         jurisdiction, caseId, updateCaseMsg);
+        submitEvent.setCaseData(returnedRequest.getCaseDetails().getCaseData());
         updateCaseMsg.runTask(submitEvent);
         log.info("Multiple ref markup is:" + submitEvent.getCaseData().getMultipleReferenceLinkMarkUp());
         ccdClient.submitEventForCase(accessToken,
