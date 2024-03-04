@@ -9,9 +9,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import uk.gov.hmcts.ecm.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
 import uk.gov.hmcts.ecm.common.model.ccd.CaseData;
+import uk.gov.hmcts.ecm.common.model.ccd.CaseDetails;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
 import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
-import uk.gov.hmcts.ecm.common.model.ccd.CaseDetails;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.Helper;
 
 import java.io.IOException;
@@ -69,7 +69,8 @@ public class SingleReadingServiceTest {
     @Test
     public void sendUpdateToSingleLogic() throws IOException {
         when(userService.getAccessToken()).thenReturn(userToken);
-        when(ccdClient.startEventForCase(anyString(), anyString(), anyString(), anyString())).thenReturn(returnedRequest);
+        when(ccdClient.startEventForCase(anyString(), anyString(), anyString(), anyString()))
+            .thenReturn(returnedRequest);
         when(ccdClient.retrieveCasesElasticSearch(anyString(), anyString(), anyList())).thenReturn(submitEvents);
 
         singleReadingService.sendUpdateToSingleLogic(updateCaseMsg);
