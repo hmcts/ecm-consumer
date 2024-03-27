@@ -196,7 +196,7 @@ dependencies {
   implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.37.3'
   implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: feignVersion
   implementation group: 'io.github.openfeign', name: 'feign-core', version: feignVersion
-  implementation group: 'net.minidev', name: 'accessors-smart', version: '2.5.0'
+  implementation group: 'net.minidev', name: 'accessors-smart', version: '2.5.1'
   implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '7.4'
 
   implementation group: 'junit', name: 'junit', version: '4.13.2'
@@ -218,7 +218,7 @@ dependencies {
   implementation group: 'com.fasterxml.woodstox', name: 'woodstox-core', version: '6.5.1'
 
   implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '7.4'
-  implementation group: 'net.minidev', name: 'accessors-smart', version: '2.5.0'
+  implementation group: 'net.minidev', name: 'accessors-smart', version: '2.5.1'
   implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '6.2.0'
   implementation group: 'commons-io', name: 'commons-io', version: '2.15.1'
 
