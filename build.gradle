@@ -229,7 +229,7 @@ dependencies {
   }
   implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.5.3'
   implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.5.3'
-  implementation group: 'com.squareup.okio', name: 'okio', version: '3.6.0'
+  implementation group: 'com.squareup.okio', name: 'okio', version: '3.9.0'
   implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.3'
   // CVE-2022-25857
   implementation group: 'org.yaml', name: 'snakeyaml', version: '2.2'
