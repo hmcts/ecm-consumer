@@ -2,6 +2,14 @@ provider "azurerm" {
   features {}
 }
 
+
+provider "azurerm" {
+  features {}
+  skip_provider_registration = true
+  alias                      = "private_endpoint"
+  subscription_id            = var.aks_subscription_id
+}
+
 locals {
   previewVaultName    = "${var.product}-shared-aat"
   nonPreviewVaultName = "${var.product}-shared-${var.env}"
@@ -14,6 +22,7 @@ locals {
   s2sRG               = "rpe-service-auth-provider-${local.localEnv}"
   tagEnv              = var.env == "aat" ? "staging" : var.env == "perftest" ? "testing" : var.env
   common_tags = {
+    "businessArea" = var.businessArea
     "environment"  = local.tagEnv
     "Team Name"    = var.team_name
     "Team Contact" = var.team_contact
