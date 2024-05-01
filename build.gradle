@@ -140,7 +140,6 @@ ext {
   feignVersion = '13.1'
   junitPlatform = '1.6.2'
   log4JVersion = '2.22.0'
-  logbackVersion = '1.2.11'
   serenity = '4.0.24'
   springBoot = springBoot.class.package.implementationVersion
   tomcatEmbedVersion = '9.0.83'
@@ -191,8 +190,6 @@ dependencies {
   implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
   implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.16.0'
 
-  implementation group: 'ch.qos.logback', name: 'logback-core', version: logbackVersion
-  implementation group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
   implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.37.3'
   implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: feignVersion
   implementation group: 'io.github.openfeign', name: 'feign-core', version: feignVersion
