@@ -140,7 +140,7 @@ ext {
   feignVersion = '13.1'
   junitPlatform = '1.6.2'
   log4JVersion = '2.22.0'
-  logbackVersion = '1.2.11'
+  logbackVersion = '1.5.6'
   serenity = '4.0.24'
   springBoot = springBoot.class.package.implementationVersion
   tomcatEmbedVersion = '9.0.83'
