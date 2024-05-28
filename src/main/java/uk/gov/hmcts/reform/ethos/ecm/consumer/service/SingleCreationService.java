@@ -83,23 +83,8 @@ public class SingleCreationService {
             oldSubmitEvent.getCaseData(), caseId, caseTypeId,
             ccdGatewayBaseUrl, positionTypeCT, jurisdiction, oldSubmitEvent.getState());
         CCDRequest returnedRequest = ccdClient.startCaseCreationTransfer(accessToken, newCaseDetailsCT);
-        SubmitEvent newCase = ccdClient.submitCaseCreation(accessToken, newCaseDetailsCT, returnedRequest);
-        if (newCase != null) {
-            updateSourceCaseTransferLink(newCase, oldSubmitEvent, accessToken, caseTypeId,
-                                         jurisdiction, caseId);
-        }
-    }
 
-    private void updateSourceCaseTransferLink(SubmitEvent newCase, SubmitEvent oldSubmitEvent, String accessToken,
-                                              String caseTypeId, String jurisdiction, String caseId) throws
-        IOException {
-        String url = ccdGatewayBaseUrl + "/cases/case-details/" + newCase.getCaseId();
-        String transferredCaseLink = "<a target=\"_blank\" href=\"" + url + "\">"
-            + oldSubmitEvent.getCaseData().getEthosCaseReference() + "</a>";
-        CCDRequest updateCCDRequest = ccdClient.startEventForCase(accessToken, caseTypeId, jurisdiction, caseId);
-        updateCCDRequest.getCaseDetails().getCaseData().setTransferredCaseLink(transferredCaseLink);
-        ccdClient.submitEventForCase(accessToken, updateCCDRequest.getCaseDetails().getCaseData(), caseTypeId,
-                                     jurisdiction, updateCCDRequest, caseId);
+        ccdClient.submitCaseCreation(accessToken, newCaseDetailsCT, returnedRequest);
     }
 
     private SubmitEvent existCaseDestinationOffice(String accessToken, String ethosCaseReference,
