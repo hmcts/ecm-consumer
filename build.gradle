@@ -140,7 +140,7 @@ ext {
   feignVersion = '13.1'
   junitPlatform = '1.6.2'
   log4JVersion = '2.22.0'
-  logbackVersion = '1.2.11'
+  logbackVersion = '1.2.13'
   serenity = '4.0.24'
   springBoot = springBoot.class.package.implementationVersion
   tomcatEmbedVersion = '9.0.83'
@@ -227,7 +227,7 @@ dependencies {
       strictly '7.17.4'
     }
   }
-  
+
   implementation group: 'com.squareup.okio', name: 'okio', version: '3.9.0'
   implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.3'
   // CVE-2022-25857
