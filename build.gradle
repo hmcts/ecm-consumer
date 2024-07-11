@@ -193,6 +193,7 @@ dependencies {
 
   implementation group: 'ch.qos.logback', name: 'logback-core', version: logbackVersion
   implementation group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
+  implementation group: 'ch.qos.logback', name: 'logback-access', version: '1.4.14'
   implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.37.3'
   implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: feignVersion
   implementation group: 'io.github.openfeign', name: 'feign-core', version: feignVersion
