@@ -1,11 +1,11 @@
 apiVersion: v2
 name: ethos-ecm-consumer
 home: https://github.com/hmcts/ecm-consumer
-version: 0.2.30
+version: 0.2.31
 description: HMCTS ECM Consumer Updates Queue Service
 maintainers:
   - name: HMCTS ETHOS Team
 dependencies:
   - name: java
-    version: 5.2.0
+    version: 5.2.1
     repository: https://hmctspublic.azurecr.io/helm/v1/repo/
