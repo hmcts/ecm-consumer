@@ -32,7 +32,7 @@ public class ServiceBusUpdateCaseReceiverConf {
         );
 
     private static final MessageHandlerOptions messageHandlerOptions =
-        new MessageHandlerOptions(1, false, Duration.ofMinutes(5));
+        new MessageHandlerOptions(8, false, Duration.ofMinutes(5));
 
     private final transient IQueueClient updateCaseListenClient;
 
