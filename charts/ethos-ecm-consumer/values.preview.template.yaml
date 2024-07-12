@@ -27,5 +27,7 @@ java:
           alias: UPDATE_CASE_QUEUE_LISTEN_CONNECTION_STRING
         - name: idam-client-secret
           alias: IDAM_CLIENT_SECRET
+        - name: app-insights-connection-string
+          alias: app-insights-connection-string
   postgresql:
     enabled: true
