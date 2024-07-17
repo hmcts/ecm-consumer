@@ -8,6 +8,7 @@ import com.microsoft.azure.servicebus.IMessage;
 import com.microsoft.azure.servicebus.IMessageHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.exceptions.InvalidMessageException;
@@ -33,30 +34,29 @@ import java.util.concurrent.Executors;
 @Service
 @Slf4j
 public class CreateUpdatesBusReceiverTask implements IMessageHandler {
-
-    private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
-
+    private final ExecutorService executorService;
     private final transient ObjectMapper objectMapper;
     private final transient MessageAutoCompletor messageCompletor;
     private final transient ServiceBusSender serviceBusSender;
     private final MultipleCounterRepository multipleCounterRepository;
 
-    public CreateUpdatesBusReceiverTask(
-        ObjectMapper objectMapper,
-        @Qualifier("create-updates-completor") MessageAutoCompletor messageCompletor,
-        @Qualifier("update-case-send-helper") ServiceBusSender serviceBusSender,
-        MultipleCounterRepository multipleCounterRepository) {
+    public CreateUpdatesBusReceiverTask(ObjectMapper objectMapper,
+                                        @Qualifier("create-updates-completor") MessageAutoCompletor messageCompletor,
+                                        @Qualifier("update-case-send-helper") ServiceBusSender serviceBusSender,
+                                        MultipleCounterRepository multipleCounterRepository,
+                                        @Value("${multithreading.create-updates-bus-receiver.threads}") int threads) {
         this.objectMapper = objectMapper;
         this.messageCompletor = messageCompletor;
         this.serviceBusSender = serviceBusSender;
         this.multipleCounterRepository = multipleCounterRepository;
+        executorService = Executors.newFixedThreadPool(threads);
     }
 
     @Override
     public CompletableFuture<Void> onMessageAsync(IMessage message) {
         return CompletableFuture
-            .supplyAsync(() -> tryProcessMessage(message), EXECUTOR)
-            .thenComposeAsync(processingResult -> tryFinaliseMessage(message, processingResult), EXECUTOR)
+            .supplyAsync(() -> tryProcessMessage(message), executorService)
+            .thenComposeAsync(processingResult -> tryFinaliseMessage(message, processingResult), executorService)
             .handleAsync((v, error) -> {
                 // Individual steps are supposed to handle their exceptions themselves.
                 // This code is here to make sure errors are logged even when they fail to do that.
