@@ -31,8 +31,6 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CreateUpdatesBusReceiverTaskTest {
 
-    @InjectMocks
-    private transient CreateUpdatesBusReceiverTask createUpdatesBusReceiverTask;
     @Mock
     private transient ObjectMapper objectMapper;
     @Mock
@@ -41,16 +39,18 @@ public class CreateUpdatesBusReceiverTaskTest {
     private transient ServiceBusSender serviceBusSender;
     @Mock
     private transient MultipleCounterRepository multipleCounterRepository;
+    @InjectMocks
+    private transient CreateUpdatesBusReceiverTask createUpdatesBusReceiverTask
+        = new CreateUpdatesBusReceiverTask(objectMapper,
+                                           messageCompletor,
+                                           serviceBusSender,
+                                           multipleCounterRepository, 10);
 
     private transient Message message;
     private transient CreateUpdatesMsg msg;
 
     @Before
     public void setUp() {
-        createUpdatesBusReceiverTask = new CreateUpdatesBusReceiverTask(objectMapper,
-                                                                        messageCompletor,
-                                                                        serviceBusSender,
-                                                                        multipleCounterRepository);
         msg = Helper.generateCreateUpdatesMsg();
         message = createMessage(msg);
     }

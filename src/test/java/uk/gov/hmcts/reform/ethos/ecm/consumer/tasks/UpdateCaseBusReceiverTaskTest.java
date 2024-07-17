@@ -29,8 +29,6 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UpdateCaseBusReceiverTaskTest {
 
-    @InjectMocks
-    private transient UpdateCaseBusReceiverTask updateCaseBusReceiverTask;
     @Mock
     private transient ObjectMapper objectMapper;
     @Mock
@@ -38,13 +36,14 @@ public class UpdateCaseBusReceiverTaskTest {
     @Mock
     private transient UpdateManagementService updateManagementService;
 
+    @InjectMocks
+    private transient UpdateCaseBusReceiverTask updateCaseBusReceiverTask = new UpdateCaseBusReceiverTask(objectMapper,
+                                                                  messageCompletor,
+                                                                  updateManagementService, 10);
     private transient Message message;
 
     @Before
     public void setUp() {
-        updateCaseBusReceiverTask = new UpdateCaseBusReceiverTask(objectMapper,
-                                                                  messageCompletor,
-                                                                  updateManagementService);
         message = createMessage();
     }
 
