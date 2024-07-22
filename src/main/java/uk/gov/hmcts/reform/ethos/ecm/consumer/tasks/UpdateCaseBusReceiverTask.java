@@ -8,6 +8,7 @@ import com.microsoft.azure.servicebus.IMessage;
 import com.microsoft.azure.servicebus.IMessageHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.common.exceptions.InvalidMessageException;
@@ -30,7 +31,7 @@ import java.util.concurrent.Executors;
 @Slf4j
 public class UpdateCaseBusReceiverTask implements IMessageHandler {
 
-    private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
+    private final ExecutorService executorService;
 
     private static final int MAX_RETRIES = 3;
 
@@ -40,17 +41,19 @@ public class UpdateCaseBusReceiverTask implements IMessageHandler {
 
     public UpdateCaseBusReceiverTask(ObjectMapper objectMapper,
                                      @Qualifier("update-case-completor") MessageAutoCompletor messageCompletor,
-                                     UpdateManagementService updateManagementService) {
+                                     UpdateManagementService updateManagementService,
+                                     @Value("${multithreading.update-case-bus-receiver.threads}") int threads) {
         this.objectMapper = objectMapper;
         this.messageCompletor = messageCompletor;
         this.updateManagementService = updateManagementService;
+        executorService = Executors.newFixedThreadPool(threads);
     }
 
     @Override
     public CompletableFuture<Void> onMessageAsync(IMessage message) {
         return CompletableFuture
-            .supplyAsync(() -> tryProcessMessage(message), EXECUTOR)
-            .thenComposeAsync(processingResult -> tryFinaliseMessageAsync(message, processingResult), EXECUTOR)
+            .supplyAsync(() -> tryProcessMessage(message), executorService)
+            .thenComposeAsync(processingResult -> tryFinaliseMessageAsync(message, processingResult), executorService)
             .handleAsync((v, error) -> {
                 // Individual steps are supposed to handle their exceptions themselves.
                 // This code is here to make sure errors are logged even when they fail to do that.
