@@ -22,8 +22,6 @@ public class UserServiceTest {
     @InjectMocks
     private transient UserService userService;
     @Mock
-    private transient IdamApi idamApi;
-    @Mock
     private transient AccessTokenService accessTokenService;
     private transient UserDetails userDetails;
 
