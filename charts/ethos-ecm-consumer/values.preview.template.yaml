@@ -11,6 +11,8 @@ java:
     ethos-shared:
       resourceGroup: ethos
       secrets:
+        - name: app-insights-connection-string
+          alias: app-insights-connection-string
         - name: ecm-consumer-s2s-key
           alias: ECM_CONSUMER_S2S_KEY
         - name: caseworker-user-name
