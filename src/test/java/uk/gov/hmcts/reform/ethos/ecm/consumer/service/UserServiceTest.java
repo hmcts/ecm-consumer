@@ -9,7 +9,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.ecm.common.idam.models.UserDetails;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.IdamApi;
+
 import java.util.Collections;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -20,8 +22,6 @@ public class UserServiceTest {
     @InjectMocks
     private transient UserService userService;
     @Mock
-    private transient IdamApi idamApi;
-    @Mock
     private transient AccessTokenService accessTokenService;
     private transient UserDetails userDetails;
 
@@ -30,7 +30,17 @@ public class UserServiceTest {
     @Before
     public void setUp() {
         userDetails = getUserDetails();
-        idamApi = authorisation -> getUserDetails();
+        IdamApi idamApi = new IdamApi() {
+            @Override
+            public UserDetails retrieveUserDetails(String authorisation) {
+                return getUserDetails();
+            }
+
+            @Override
+            public UserDetails getUserByUserId(String authorisation, String userId) {
+                return getUserDetails();
+            }
+        };
         userService = new UserService(idamApi, accessTokenService);
         ReflectionTestUtils.setField(userService, "caseWorkerUserName", "example@gmail.com");
         ReflectionTestUtils.setField(userService, "caseWorkerPassword", "123456");
@@ -59,6 +69,11 @@ public class UserServiceTest {
     public void getAccessToken() {
         when(accessTokenService.getAccessToken(anyString(), anyString())).thenReturn(TOKEN);
         assertEquals(TOKEN, userService.getAccessToken());
+    }
+
+    @Test
+    public void shouldGetUserById() {
+        assertEquals(userDetails, userService.getUserDetailsById("TOKEN", "id"));
     }
 
 }
