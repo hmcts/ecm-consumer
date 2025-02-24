@@ -313,4 +313,18 @@
     <packageUrl regex="true">^pkg:maven/ch\.qos\.logback/logback\-access@.*$</packageUrl>
     <cpe>cpe:/a:qos:logback</cpe>
   </suppress>
+  <suppress>
+   <notes><![CDATA[
+   file name: azure-client-runtime-1.7.14.jar
+   ]]></notes>
+   <packageUrl regex="true">^pkg:maven/com\.microsoft\.azure/azure\-client\-runtime@.*$</packageUrl>
+   <cve>CVE-2024-43591</cve>
+</suppress>
+  <suppress>
+   <notes><![CDATA[
+   file name: azure-client-authentication-1.7.14.jar
+   ]]></notes>
+   <packageUrl regex="true">^pkg:maven/com\.microsoft\.azure/azure\-client\-authentication@.*$</packageUrl>
+   <cve>CVE-2024-43591</cve>
+</suppress>
 </suppressions>
