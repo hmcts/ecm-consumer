@@ -212,7 +212,7 @@ dependencies {
   implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: tomcatEmbedVersion
 
   //to remove CVEs
-  implementation group: 'org.apache.xmlgraphics', name: 'batik-all', version: '1.17', ext: 'pom'
+  implementation group: 'org.apache.xmlgraphics', name: 'batik-all', version: '1.18', ext: 'pom'
   implementation group: 'org.apache.xmlgraphics', name: 'xmlgraphics-commons', version: '2.9'
   implementation group: 'commons-net', name: 'commons-net', version: '3.11.1'
   implementation group: 'com.fasterxml.woodstox', name: 'woodstox-core', version: '6.7.0'
