@@ -231,7 +231,7 @@ dependencies {
   implementation group: 'com.squareup.okio', name: 'okio', version: '3.10.2'
   implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.5'
   // CVE-2022-25857
-  implementation group: 'org.yaml', name: 'snakeyaml', version: '2.2'
+  implementation group: 'org.yaml', name: 'snakeyaml', version: '2.4'
 
   implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.8.0'
   implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
