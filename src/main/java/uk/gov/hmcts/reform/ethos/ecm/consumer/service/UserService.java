@@ -29,6 +29,11 @@ public class UserService implements uk.gov.hmcts.ecm.common.service.UserService 
         return idamApi.retrieveUserDetails(authorisation);
     }
 
+    @Override
+    public UserDetails getUserDetailsById(String authorisation, String userId) {
+        return idamApi.getUserByUserId(authorisation, userId);
+    }
+
     public String getAccessToken() {
         return accessTokenService.getAccessToken(caseWorkerUserName, caseWorkerPassword);
     }

@@ -1,7 +1,7 @@
 apiVersion: v2
 name: ethos-ecm-consumer
 home: https://github.com/hmcts/ecm-consumer
-version: 0.2.33
+version: 0.2.34
 description: HMCTS ECM Consumer Updates Queue Service
 maintainers:
   - name: HMCTS ETHOS Team

@@ -50,3 +50,4 @@ java:
     CCD_GATEWAY_BASE_URL: "https://manage-case.{{ .Values.global.environment }}.platform.hmcts.net"
     MICRO_SERVICE: "ecm_consumer"
     ECM_CONSUMER_DB_CONN_OPTIONS: ?sslmode=require
+    CRON_MIGRATE_TO_REFORM_ENABLED: "false"
