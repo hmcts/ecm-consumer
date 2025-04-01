@@ -66,12 +66,7 @@ public class MigrateToReformTask {
                 log.info("Migrating cases for case type: {}", caseTypeId);
                 List<SubmitEvent> cases = ccdClient.buildAndGetElasticSearchRequest(adminUserToken, caseTypeId, query);
                 log.info("{} - Migrate to Reform task - Retrieved {} cases", caseTypeId, cases.size());
-                while (isNotEmpty(cases)) {
-                    executeUpdates(caseTypeId, cases, adminUserToken);
-                    cases.clear();
-                    cases = ccdClient.buildAndGetElasticSearchRequest(adminUserToken, caseTypeId, query);
-                    log.info("{} - Migrate to Reform task - Retrieved {} cases", caseTypeId, cases.size());
-                }
+                executeUpdates(caseTypeId, cases, adminUserToken);
                 log.info("Migrated cases for case type: {}", caseTypeId);
             } catch (Exception e) {
                 log.error(e.getMessage());
