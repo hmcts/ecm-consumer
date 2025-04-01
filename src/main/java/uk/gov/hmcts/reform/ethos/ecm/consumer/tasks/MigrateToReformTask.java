@@ -24,7 +24,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.ACCEPTED_STATE;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.CLOSED_STATE;
 import static uk.gov.hmcts.ecm.common.model.helper.Constants.REJECTED_STATE;
@@ -66,12 +65,7 @@ public class MigrateToReformTask {
                 log.info("Migrating cases for case type: {}", caseTypeId);
                 List<SubmitEvent> cases = ccdClient.buildAndGetElasticSearchRequest(adminUserToken, caseTypeId, query);
                 log.info("{} - Migrate to Reform task - Retrieved {} cases", caseTypeId, cases.size());
-                while (isNotEmpty(cases)) {
-                    executeUpdates(caseTypeId, cases, adminUserToken);
-                    cases.clear();
-                    cases = ccdClient.buildAndGetElasticSearchRequest(adminUserToken, caseTypeId, query);
-                    log.info("{} - Migrate to Reform task - Retrieved {} cases", caseTypeId, cases.size());
-                }
+                executeUpdates(caseTypeId, cases, adminUserToken);
                 log.info("Migrated cases for case type: {}", caseTypeId);
             } catch (Exception e) {
                 log.error(e.getMessage());
