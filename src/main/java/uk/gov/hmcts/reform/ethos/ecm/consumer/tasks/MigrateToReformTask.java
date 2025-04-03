@@ -16,7 +16,6 @@ import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.service.UserService;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -128,7 +127,7 @@ public class MigrateToReformTask {
                     .must(new TermsQueryBuilder(STATE_KEYWORD, CLOSED_STATE))
                     .must(new MatchQueryBuilder(DATA_CASE_TYPE, SINGLE_CASE_TYPE))
                     .must(new RangeQueryBuilder("last_state_modified_date")
-                          .from(LocalDate.now().minusYears(1).toString())))
+                          .from("2024-04-01")))
                 .should(new BoolQueryBuilder()
                     .must(new TermsQueryBuilder(STATE_KEYWORD, SUBMITTED_STATE, ACCEPTED_STATE,
                                                 REJECTED_STATE, CLOSED_STATE))
