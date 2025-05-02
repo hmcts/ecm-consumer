@@ -149,6 +149,66 @@ public class MultipleUpdateServiceTest {
         multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg, new ArrayList<>());
     }
 
+    @Test
+    public void sendUpdateToMultipleLogicWithNullUpdateCaseMsg() throws IOException {
+        multipleUpdateService.sendUpdateToMultipleLogic(null, new ArrayList<>());
+        verifyNoMoreInteractions(ccdClient);
+    }
+
+    @Test
+    public void sendUpdateToMultipleLogicWithNullCaseIdCollectionInNewMultiple() throws IOException {
+        when(userService.getAccessToken()).thenReturn(userToken);
+        when(ccdClient.retrieveMultipleCasesElasticSearchWithRetries(anyString(),
+                                                                     anyString(),
+                                                                     anyString())).thenReturn(submitMultipleEvents);
+
+        updateCaseMsg = Helper.generateCreationSingleCaseMsg();
+        submitMultipleEvent.getCaseData().setCaseIdCollection(null);
+
+        multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg, new ArrayList<>());
+
+        verify(ccdClient).retrieveMultipleCasesElasticSearchWithRetries(eq(userToken),
+                                                                        eq(updateCaseMsg.getCaseTypeId()),
+                                                                        eq(updateCaseMsg.getMultipleRef()));
+        verify(ccdClient).startBulkAmendEventForCase(eq(userToken),
+                                                     eq(updateCaseMsg.getCaseTypeId()),
+                                                     eq(updateCaseMsg.getJurisdiction()),
+                                                     any());
+        verify(ccdClient).submitMultipleEventForCase(eq(userToken),
+                                                     any(),
+                                                     eq(updateCaseMsg.getCaseTypeId()),
+                                                     eq(updateCaseMsg.getJurisdiction()),
+                                                     any(),
+                                                     any());
+    }
+
+    @Test
+    public void sendUpdateToMultipleLogicWithEmptyCaseIdCollectionInNewMultiple() throws IOException {
+        when(userService.getAccessToken()).thenReturn(userToken);
+        when(ccdClient.retrieveMultipleCasesElasticSearchWithRetries(anyString(),
+                                                                     anyString(),
+                                                                     anyString())).thenReturn(submitMultipleEvents);
+
+        updateCaseMsg = Helper.generateCreationSingleCaseMsg();
+        submitMultipleEvent.getCaseData().setCaseIdCollection(new ArrayList<>());
+
+        multipleUpdateService.sendUpdateToMultipleLogic(updateCaseMsg, new ArrayList<>());
+
+        verify(ccdClient).retrieveMultipleCasesElasticSearchWithRetries(eq(userToken),
+                                                                        eq(updateCaseMsg.getCaseTypeId()),
+                                                                        eq(updateCaseMsg.getMultipleRef()));
+        verify(ccdClient).startBulkAmendEventForCase(eq(userToken),
+                                                     eq(updateCaseMsg.getCaseTypeId()),
+                                                     eq(updateCaseMsg.getJurisdiction()),
+                                                     any());
+        verify(ccdClient).submitMultipleEventForCase(eq(userToken),
+                                                     any(),
+                                                     eq(updateCaseMsg.getCaseTypeId()),
+                                                     eq(updateCaseMsg.getJurisdiction()),
+                                                     any(),
+                                                     any());
+    }
+
     private void verifyMocks() throws IOException {
 
         verify(ccdClient).retrieveMultipleCasesElasticSearchWithRetries(eq(userToken),
@@ -165,7 +225,6 @@ public class MultipleUpdateServiceTest {
                                                      any(),
                                                      any());
         verifyNoMoreInteractions(ccdClient);
-
     }
 
 }
