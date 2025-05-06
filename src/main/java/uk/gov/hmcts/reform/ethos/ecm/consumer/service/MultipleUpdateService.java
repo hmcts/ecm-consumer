@@ -75,7 +75,7 @@ public class MultipleUpdateService {
         }
     }
 
-    private static String generateMarkUp(String ccdGatewayBaseUrl, String caseId, String multipleCaseRef) {
+    private String generateMarkUp(String ccdGatewayBaseUrl, String caseId, String multipleCaseRef) {
         String url = ccdGatewayBaseUrl + "/cases/case-details/" + caseId;
         return "<a target=\"_blank\" href=\"" + url + "\">" + multipleCaseRef + "</a>";
     }
