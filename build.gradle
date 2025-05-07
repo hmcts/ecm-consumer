@@ -236,7 +236,6 @@ dependencies {
   implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.8.0'
   implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
   implementation group: 'com.microsoft.azure', name: 'adal4j', version: '1.6.7'
-
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation 'org.springframework.boot:spring-boot-starter-actuator'
