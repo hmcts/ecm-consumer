@@ -142,9 +142,9 @@ ext {
   log4JVersion = '2.24.3'
   logbackVersion = '1.5.6'
   serenity = '4.0.24'
-  springBoot = springBoot.class.package.implementationVersion
   tomcatEmbedVersion = '10.1.44'
   nettyVersion = '4.2.4.Final'
+  springCloudVersion = '2023.0.4'
 }
 
 ext["rest-assured.version"] = '5.1.0'
@@ -157,6 +157,9 @@ dependencies {
 
   //To Remove vulnerabilities CVE-2023-31582, CVE-2023-4586
   dependencyManagement {
+    imports {
+      mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
     dependencies {
       dependencySet(group: 'io.netty', version: '4.2.4.Final') {
         entry 'netty-buffer'
@@ -242,7 +245,7 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-actuator'
   implementation 'org.springframework.boot:spring-boot-configuration-processor'
   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.8'
+  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign'
   implementation 'org.springframework.retry:spring-retry'
   implementation group: 'org.testng', name: 'testng', version: '7.11.0'
   implementation group: 'uk.gov.service.notify', name: 'notifications-java-client', version: '5.2.1-RELEASE'

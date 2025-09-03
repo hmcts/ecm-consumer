@@ -6,7 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"uk.gov.hmcts.reform.ethos", "uk.gov.hmcts.ecm.common",
+    "uk.gov.hmcts.reform.authorisation", "uk.gov.hmcts.reform.ccd"})
 @EnableFeignClients(basePackages =
     {"uk.gov.hmcts.reform.ethos.ecm"
     })
