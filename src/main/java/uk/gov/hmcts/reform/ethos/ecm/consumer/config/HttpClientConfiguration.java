@@ -18,6 +18,7 @@ import reactor.netty.resources.ConnectionProvider;
 import java.time.Duration;
 
 @Configuration
+@SuppressWarnings("deprecation")
 public class HttpClientConfiguration {
 
     @Value("${ccd.client.timeout}")

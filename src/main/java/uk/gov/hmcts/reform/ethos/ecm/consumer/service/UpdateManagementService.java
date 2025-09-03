@@ -54,7 +54,7 @@ public class UpdateManagementService {
 
         int counter = getNextCounterNumberWithDelay(updateCaseMsg.getMultipleRef());
 
-        log.info("COUNTER: " + counter + " TOTAL CASES: " + updateCaseMsg.getTotalCases());
+        log.info("COUNTER: {} TOTAL CASES: {}", counter, updateCaseMsg.getTotalCases());
 
         if (counter == Integer.parseInt(updateCaseMsg.getTotalCases())) {
 
@@ -91,11 +91,11 @@ public class UpdateManagementService {
 
         log.info("Clearing multiple counter repository");
         List<MultipleCounter> multipleCounters = multipleCounterRepository.findByMultipleref(multipleRef);
-        multipleCounterRepository.deleteInBatch(multipleCounters);
+        multipleCounterRepository.deleteAllInBatch(multipleCounters);
 
         log.info("Clearing multiple errors repository");
         List<MultipleErrors> multipleErrors = multipleErrorsRepository.findByMultipleref(multipleRef);
-        multipleErrorsRepository.deleteInBatch(multipleErrors);
+        multipleErrorsRepository.deleteAllInBatch(multipleErrors);
 
         log.info("Deleted repositories");
     }
