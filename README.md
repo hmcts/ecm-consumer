@@ -1,6 +1,6 @@
 # ECM Consumer
 
-[![Build Status](https://travis-ci.org/hmcts/spring-boot-template.svg?branch=master)](https://travis-ci.org/hmcts/spring-boot-template)
+
 
 ## Purpose
 
