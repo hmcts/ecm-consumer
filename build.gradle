@@ -6,7 +6,7 @@ plugins {
   id 'org.springframework.boot' version '2.7.18'
   id 'org.owasp.dependencycheck' version '12.1.0'
   id 'com.github.ben-manes.versions' version '0.52.0'
-  id 'org.sonarqube' version '6.1.0.5360'
+  id 'org.sonarqube' version '6.2.0.5505'
   id 'pmd'
 }
 
@@ -202,6 +202,7 @@ dependencies {
   implementation group: 'junit', name: 'junit', version: '4.13.2'
   implementation group: 'net.javacrumbs.shedlock', name: 'shedlock-spring', version: '6.3.1'
   implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.27.1'
+  implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.5.0'
   implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.17.0'
   implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
   implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4JVersion
