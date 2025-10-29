@@ -1,7 +1,6 @@
 # ECM Consumer
 
 
-
 ## Purpose
 
 The purpose of this template is to speed up the creation of new Spring applications within HMCTS
