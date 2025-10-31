@@ -161,7 +161,7 @@ dependencies {
       mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
     dependencies {
-      dependencySet(group: 'io.netty', version: '4.2.4.Final') {
+      dependencySet(group: 'io.netty', version: '4.2.7.Final') {
         entry 'netty-buffer'
         entry 'netty-codec'
         entry 'netty-codec-http'
