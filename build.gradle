@@ -141,7 +141,7 @@ ext {
   junitPlatform = '1.6.2'
   log4JVersion = '2.24.3'
   logbackVersion = '1.5.20'
-  serenity = '4.0.24'
+  serenity = '4.3.2'
   tomcatEmbedVersion = '10.1.44'
   nettyVersion = '4.2.4.Final'
   springCloudVersion = '2023.0.4'
