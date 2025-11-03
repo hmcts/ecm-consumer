@@ -237,7 +237,7 @@ dependencies {
   implementation group: 'org.yaml', name: 'snakeyaml', version: '2.4'
 
   implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.8.0'
-  implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
+  implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.6.0'
   implementation group: 'com.microsoft.azure', name: 'adal4j', version: '1.6.7'
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
