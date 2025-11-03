@@ -197,7 +197,7 @@ dependencies {
   implementation group: 'org.apache.httpcomponents.core5', name: 'httpcore5', version: '5.3.6'
   implementation group: 'ch.qos.logback', name: 'logback-core', version: logbackVersion
   implementation group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
-  implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '10.0.2'
+  implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '10.5'
   implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: feignVersion
   implementation group: 'io.github.openfeign', name: 'feign-core', version: feignVersion
   implementation group: 'net.minidev', name: 'accessors-smart', version: '2.5.2'
