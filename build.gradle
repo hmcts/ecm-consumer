@@ -223,7 +223,7 @@ dependencies {
   implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '8.0'
   implementation group: 'net.minidev', name: 'accessors-smart', version: '2.5.2'
   implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '6.2.2'
-  implementation group: 'commons-io', name: 'commons-io', version: '2.18.0'
+  implementation group: 'commons-io', name: 'commons-io', version: '2.20.0'
 
   implementation('org.elasticsearch:elasticsearch') {
     version {
