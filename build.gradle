@@ -205,7 +205,7 @@ dependencies {
 
   implementation group: 'junit', name: 'junit', version: '4.13.2'
   implementation group: 'net.javacrumbs.shedlock', name: 'shedlock-spring', version: '6.10.0'
-  implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.27.1'
+  implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.28.0'
   implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.5.0'
   implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.18.0'
   implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
