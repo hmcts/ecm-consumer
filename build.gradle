@@ -233,7 +233,7 @@ dependencies {
     }
   }
 
-  implementation group: 'com.squareup.okio', name: 'okio', version: '3.16.2'
+  implementation group: 'com.squareup.okio', name: 'okio', version: '3.16.3'
   implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.8'
   // CVE-2022-25857
   implementation group: 'org.yaml', name: 'snakeyaml', version: '2.5'
