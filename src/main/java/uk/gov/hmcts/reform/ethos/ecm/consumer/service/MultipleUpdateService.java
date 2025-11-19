@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.ethos.ecm.consumer.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -51,7 +52,7 @@ public class MultipleUpdateService {
                 // retrieve list of child case ids from the old multiple
                 SubmitMultipleEvent newMultiple = sendMultipleCreation(
                     accessToken, updateCaseMsg, multipleErrorsList,
-                    submitMultipleEvents.get(0).getCaseData().getCaseIdCollection());
+                    submitMultipleEvents.getFirst().getCaseData().getCaseIdCollection());
                 if (newMultiple != null) {
                     updateCaseMsg.setMultipleReferenceLinkMarkUp(
                         generateMarkUp(ccdGatewayBaseUrl,
@@ -62,11 +63,11 @@ public class MultipleUpdateService {
 
                 if (multipleErrorsList == null || multipleErrorsList.isEmpty()) {
                     log.info("Send update to multiple updating to transferred");
-                    sendUpdate(submitMultipleEvents.get(0), accessToken, updateCaseMsg,
+                    sendUpdate(submitMultipleEvents.getFirst(), accessToken, updateCaseMsg,
                         multipleErrorsList, TRANSFERRED_STATE);
                 }
             } else {
-                sendUpdate(submitMultipleEvents.get(0), accessToken, updateCaseMsg, multipleErrorsList, OPEN_STATE);
+                sendUpdate(submitMultipleEvents.getFirst(), accessToken, updateCaseMsg, multipleErrorsList, OPEN_STATE);
             }
 
         } else {
@@ -102,10 +103,11 @@ public class MultipleUpdateService {
                                                                           caseId);
         var multipleData = new MultipleData();
 
-        if (multipleErrorsList != null && !multipleErrorsList.isEmpty()) {
+        if (CollectionUtils.isNotEmpty(multipleErrorsList)) {
             multipleData.setState(ERRORED_STATE);
-            log.info("Updating the multiple STATE: " + ERRORED_STATE);
-
+            log.info("Updating the multiple {} STATE: {}", submitMultipleEvent.getCaseData().getMultipleReference(),
+                ERRORED_STATE);
+            multipleErrorsList.stream().map(MultipleErrors::toString).forEach(log::info);
         } else {
             if (multipleState.equals(TRANSFERRED_STATE)) {
                 String officeCT = (((CreationSingleDataModel) updateCaseMsg.getDataModelParent()).getOfficeCT());
@@ -119,7 +121,7 @@ public class MultipleUpdateService {
             }
 
             multipleData.setState(multipleState);
-            log.info("Updating the multiple STATE: " + multipleState);
+            log.info("Updating the multiple STATE: {}", multipleState);
         }
 
         ccdClient.submitMultipleEventForCase(accessToken,
