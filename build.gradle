@@ -144,7 +144,7 @@ ext {
   serenity = '4.0.24'
   tomcatEmbedVersion = '10.1.44'
   nettyVersion = '4.2.4.Final'
-  springCloudVersion = '2023.0.4'
+  springCloudVersion = '2025.0.0'
 }
 
 ext["rest-assured.version"] = '5.1.0'
