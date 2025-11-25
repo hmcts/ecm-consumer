@@ -107,7 +107,7 @@ public class MultipleUpdateService {
             multipleData.setState(ERRORED_STATE);
             log.info("Updating the multiple {} STATE: {}", submitMultipleEvent.getCaseData().getMultipleReference(),
                 ERRORED_STATE);
-            multipleErrorsList.stream().map(MultipleErrors::toString).forEach(log::info);
+            multipleErrorsList.stream().map(MultipleErrors::toString).forEach(log::error);
         } else {
             if (multipleState.equals(TRANSFERRED_STATE)) {
                 String officeCT = (((CreationSingleDataModel) updateCaseMsg.getDataModelParent()).getOfficeCT());

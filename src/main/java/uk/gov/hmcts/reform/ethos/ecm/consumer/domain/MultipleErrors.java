@@ -17,7 +17,8 @@ public class MultipleErrors {
     protected String description;
 
     public String toString() {
-        return "MultipleRef: " + multipleref + "\n\nEthosCaseRef: " + ethoscaseref + " \n\nDescription:";
+        return "MultipleRef: " + multipleref + "\n\nEthosCaseRef: " + ethoscaseref + " \n\nDescription:"
+            + description + "\n\n";
     }
 
 }
