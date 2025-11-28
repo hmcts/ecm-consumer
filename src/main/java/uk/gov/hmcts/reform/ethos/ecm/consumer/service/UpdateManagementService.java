@@ -77,7 +77,7 @@ public class UpdateManagementService {
 
         SecureRandom random = new SecureRandom();
 
-        long delay = random.nextInt(1000);
+        long delay = random.nextInt(5000);
 
         Thread.sleep(delay);
 
