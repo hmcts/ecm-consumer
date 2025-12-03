@@ -87,15 +87,15 @@ public class UpdateManagementService {
 
     private void deleteMultipleRefDatabase(String multipleRef) {
 
-        log.info("Clearing all multipleRef from DBs: " + multipleRef);
+        log.info("Clearing all multipleRef from DBs: {}", multipleRef);
 
         log.info("Clearing multiple counter repository");
         List<MultipleCounter> multipleCounters = multipleCounterRepository.findByMultipleref(multipleRef);
-        multipleCounterRepository.deleteAllInBatch(multipleCounters);
+        multipleCounterRepository.deleteAll(multipleCounters);
 
         log.info("Clearing multiple errors repository");
         List<MultipleErrors> multipleErrors = multipleErrorsRepository.findByMultipleref(multipleRef);
-        multipleErrorsRepository.deleteAllInBatch(multipleErrors);
+        multipleErrorsRepository.deleteAll(multipleErrors);
 
         log.info("Deleted repositories");
     }

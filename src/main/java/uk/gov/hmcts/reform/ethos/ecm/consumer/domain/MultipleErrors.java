@@ -12,12 +12,12 @@ public class MultipleErrors {
 
     @Id
     private Long id;
-    protected String multipleref;
-    protected String ethoscaseref;
-    protected String description;
+    private String multipleref;
+    private String ethoscaseref;
+    private String description;
 
     public String toString() {
-        return "MultipleRef: " + multipleref + "\n\nEthosCaseRef: " + ethoscaseref + " \n\nDescription:"
+        return "MultipleRef: " + multipleref + "\n\nEthosCaseRef: " + ethoscaseref + " \n\nDescription: "
             + description + "\n\n";
     }
 
