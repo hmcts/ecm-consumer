@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.ethos.ecm.consumer.domain.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -21,6 +22,8 @@ public interface MultipleCounterRepository extends JpaRepository<MultipleCounter
 
     List<MultipleCounter> findByMultipleref(String multipleRef);
 
-    void deleteByMultipleref(String multipleRef);
+    @Modifying
+    @Query(value = "DELETE FROM multiplecounter WHERE multipleref = :multipleRef", nativeQuery = true)
+    void deleteByMultipleref(@Param("multipleRef") String multipleRef);
 
 }
