@@ -15,7 +15,7 @@ version = '0.0.1'
 
 checkstyle {
   maxWarnings = 0
-  toolVersion = '10.26.1'
+  toolVersion = '12.2.0'
 }
 
 java {
@@ -153,7 +153,7 @@ dependencies {
 
   implementation group: 'com.github.hmcts', name: 'ecm-common', version: '3.0.1'
   implementation group: 'com.github.hmcts', name: 'ecm-data-model', version: '2.0.4'
-  implementation group: 'com.github.hmcts', name: 'et-data-model', version: '4.3.4'
+  implementation group: 'com.github.hmcts', name: 'et-data-model', version: '4.3.5'
 
   //To Remove vulnerabilities CVE-2023-31582, CVE-2023-4586
   dependencyManagement {
@@ -204,7 +204,7 @@ dependencies {
   implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '8.1'
 
   implementation group: 'junit', name: 'junit', version: '4.13.2'
-  implementation group: 'net.javacrumbs.shedlock', name: 'shedlock-spring', version: '6.10.0'
+  implementation group: 'net.javacrumbs.shedlock', name: 'shedlock-spring', version: '7.2.1'
   implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.28.0'
   implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.5.0'
   implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.20.0'
