@@ -90,12 +90,10 @@ public class UpdateManagementService {
         log.info("Clearing all multipleRef from DBs: {}", multipleRef);
 
         log.info("Clearing multiple counter repository");
-        List<MultipleCounter> multipleCounters = multipleCounterRepository.findByMultipleref(multipleRef);
-        multipleCounterRepository.deleteAll(multipleCounters);
+        multipleCounterRepository.deleteByMultipleref(multipleRef);
 
         log.info("Clearing multiple errors repository");
-        List<MultipleErrors> multipleErrors = multipleErrorsRepository.findByMultipleref(multipleRef);
-        multipleErrorsRepository.deleteAll(multipleErrors);
+        multipleErrorsRepository.deleteByMultipleref(multipleRef);
 
         log.info("Deleted repositories");
     }

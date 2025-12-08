@@ -21,4 +21,6 @@ public interface MultipleCounterRepository extends JpaRepository<MultipleCounter
 
     List<MultipleCounter> findByMultipleref(String multipleRef);
 
+    void deleteByMultipleref(String multipleRef);
+
 }
