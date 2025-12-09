@@ -201,7 +201,7 @@ dependencies {
   implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: feignVersion
   implementation group: 'io.github.openfeign', name: 'feign-core', version: feignVersion
   implementation group: 'net.minidev', name: 'accessors-smart', version: '2.6.0'
-  implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '8.1'
+  implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '9.0'
 
   implementation group: 'junit', name: 'junit', version: '4.13.2'
   implementation group: 'net.javacrumbs.shedlock', name: 'shedlock-spring', version: '7.2.1'
@@ -222,7 +222,7 @@ dependencies {
   implementation group: 'commons-net', name: 'commons-net', version: '3.12.0'
   implementation group: 'com.fasterxml.woodstox', name: 'woodstox-core', version: '7.1.1'
 
-  implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '8.1'
+  implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '9.0'
   implementation group: 'net.minidev', name: 'accessors-smart', version: '2.6.0'
   implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '6.2.2'
   implementation group: 'commons-io', name: 'commons-io', version: '2.21.0'
