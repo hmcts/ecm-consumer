@@ -224,7 +224,7 @@ dependencies {
 
   implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '9.0'
   implementation group: 'net.minidev', name: 'accessors-smart', version: '2.6.0'
-  implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '6.2.2'
+  implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '7.0.0'
   implementation group: 'commons-io', name: 'commons-io', version: '2.21.0'
 
   implementation('org.elasticsearch:elasticsearch') {
