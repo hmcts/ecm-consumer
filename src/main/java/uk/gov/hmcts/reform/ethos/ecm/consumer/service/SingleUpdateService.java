@@ -26,6 +26,7 @@ import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
 public class SingleUpdateService {
 
     private final CcdClient ccdClient;
+    private final ConciliationTrackService conciliationTrackService;
 
     @Value("${ccd_gateway_base_url}")
     private String ccdGatewayBaseUrl;
@@ -36,15 +37,11 @@ public class SingleUpdateService {
         var caseTypeId = UtilHelper.getCaseTypeId(updateCaseMsg.getCaseTypeId());
         var jurisdiction = updateCaseMsg.getJurisdiction();
         var caseId = String.valueOf(submitEvent.getCaseId());
-        log.info("Ref link markup is to be updated for case: "
-                     + submitEvent.getCaseData().getEthosCaseReference());
-        updateMultipleReferenceLinkMarkUp(submitEvent,
-                                          accessToken, updateCaseMsg);
-        CCDRequest returnedRequest = getReturnedRequest(accessToken, caseTypeId,
-                                                        jurisdiction, caseId, updateCaseMsg);
+        updateMultipleReferenceLinkMarkUp(submitEvent, accessToken, updateCaseMsg);
+        CCDRequest returnedRequest = getReturnedRequest(accessToken, caseTypeId, jurisdiction, caseId, updateCaseMsg);
         submitEvent.setCaseData(returnedRequest.getCaseDetails().getCaseData());
         updateCaseMsg.runTask(submitEvent);
-        log.info("Multiple ref markup is:" + submitEvent.getCaseData().getMultipleReferenceLinkMarkUp());
+        conciliationTrackService.populateConciliationTrackForJurisdiction(submitEvent);
         ccdClient.submitEventForCase(accessToken,
                                      submitEvent.getCaseData(),
                                     caseTypeId,
