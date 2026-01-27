@@ -142,7 +142,7 @@ ext {
   log4JVersion = '2.25.3'
   logbackVersion = '1.5.22'
   serenity = '4.0.24'
-  tomcatEmbedVersion = '10.1.44'
+  tomcatEmbedVersion = '10.1.52'
   nettyVersion = '4.2.4.Final'
   springCloudVersion = '2023.0.4'
 }
