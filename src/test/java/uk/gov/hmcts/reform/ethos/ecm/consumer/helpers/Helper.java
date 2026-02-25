@@ -1,20 +1,20 @@
 package uk.gov.hmcts.reform.ethos.ecm.consumer.helpers;
 
-import uk.gov.hmcts.ecm.common.model.servicebus.CreateUpdatesMsg;
-import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
-import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CloseDataModel;
-import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationDataModel;
-import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationSingleDataModel;
-import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.PreAcceptDataModel;
-import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.TransferToReformECMDataModel;
+import uk.gov.hmcts.ecm.compat.common.model.servicebus.CreateUpdatesMsg;
+import uk.gov.hmcts.ecm.compat.common.model.servicebus.UpdateCaseMsg;
+import uk.gov.hmcts.ecm.compat.common.model.servicebus.datamodel.CloseDataModel;
+import uk.gov.hmcts.ecm.compat.common.model.servicebus.datamodel.CreationDataModel;
+import uk.gov.hmcts.ecm.compat.common.model.servicebus.datamodel.CreationSingleDataModel;
+import uk.gov.hmcts.ecm.compat.common.model.servicebus.datamodel.PreAcceptDataModel;
+import uk.gov.hmcts.ecm.compat.common.model.servicebus.datamodel.TransferToReformECMDataModel;
 
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.NO;
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.SCOTLAND_BULK_CASE_TYPE_ID;
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
+import static uk.gov.hmcts.ecm.compat.common.model.helper.Constants.NO;
+import static uk.gov.hmcts.ecm.compat.common.model.helper.Constants.SCOTLAND_BULK_CASE_TYPE_ID;
+import static uk.gov.hmcts.ecm.compat.common.model.helper.Constants.YES;
 
 public class Helper {
 

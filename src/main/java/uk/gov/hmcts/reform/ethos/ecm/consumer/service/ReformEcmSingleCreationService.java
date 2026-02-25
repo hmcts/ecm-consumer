@@ -3,12 +3,12 @@ package uk.gov.hmcts.reform.ethos.ecm.consumer.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import uk.gov.hmcts.ecm.common.client.CcdClient;
+import uk.gov.hmcts.ecm.compat.common.client.CcdClient;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
 import uk.gov.hmcts.ecm.common.model.ccd.CaseData;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
-import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
-import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.TransferToReformECMDataModel;
+import uk.gov.hmcts.ecm.compat.common.model.servicebus.UpdateCaseMsg;
+import uk.gov.hmcts.ecm.compat.common.model.servicebus.datamodel.TransferToReformECMDataModel;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.helpers.EcmCaseDataToEt1Mapper;
 
 import java.io.IOException;
