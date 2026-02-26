@@ -3,19 +3,19 @@ package uk.gov.hmcts.reform.ethos.ecm.consumer.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import uk.gov.hmcts.ecm.common.client.CcdClient;
-import uk.gov.hmcts.ecm.common.helpers.UtilHelper;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
-import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
-import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationSingleDataModel;
-import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.TransferToReformECMDataModel;
+import uk.gov.hmcts.ecm.compat.common.client.CcdClient;
+import uk.gov.hmcts.ecm.compat.common.helpers.UtilHelper;
+import uk.gov.hmcts.ecm.compat.common.model.servicebus.UpdateCaseMsg;
+import uk.gov.hmcts.ecm.compat.common.model.servicebus.datamodel.CreationSingleDataModel;
+import uk.gov.hmcts.ecm.compat.common.model.servicebus.datamodel.TransferToReformECMDataModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.SINGLE_CASE_TYPE;
+import static uk.gov.hmcts.ecm.compat.common.model.helper.Constants.SINGLE_CASE_TYPE;
 
 @Slf4j
 @RequiredArgsConstructor

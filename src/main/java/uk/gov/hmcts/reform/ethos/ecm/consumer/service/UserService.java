@@ -4,12 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import uk.gov.hmcts.ecm.common.idam.models.UserDetails;
+import uk.gov.hmcts.ecm.compat.common.idam.models.UserDetails;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.idam.IdamApi;
 
 @Slf4j
 @Component
-public class UserService implements uk.gov.hmcts.ecm.common.service.UserService {
+public class UserService implements uk.gov.hmcts.ecm.compat.common.service.UserService {
 
     private final transient IdamApi idamApi;
     private final transient AccessTokenService accessTokenService;

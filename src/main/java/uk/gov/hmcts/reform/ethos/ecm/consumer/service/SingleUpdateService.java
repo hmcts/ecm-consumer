@@ -5,20 +5,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import uk.gov.hmcts.ecm.common.client.CcdClient;
-import uk.gov.hmcts.ecm.common.helpers.UtilHelper;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
 import uk.gov.hmcts.ecm.common.model.ccd.SubmitEvent;
 import uk.gov.hmcts.ecm.common.model.multiples.SubmitMultipleEvent;
-import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
-import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CloseDataModel;
-import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.PreAcceptDataModel;
-import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.RejectDataModel;
-import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.UpdateDataModel;
+import uk.gov.hmcts.ecm.compat.common.client.CcdClient;
+import uk.gov.hmcts.ecm.compat.common.helpers.UtilHelper;
+import uk.gov.hmcts.ecm.compat.common.model.servicebus.UpdateCaseMsg;
+import uk.gov.hmcts.ecm.compat.common.model.servicebus.datamodel.CloseDataModel;
+import uk.gov.hmcts.ecm.compat.common.model.servicebus.datamodel.PreAcceptDataModel;
+import uk.gov.hmcts.ecm.compat.common.model.servicebus.datamodel.RejectDataModel;
+import uk.gov.hmcts.ecm.compat.common.model.servicebus.datamodel.UpdateDataModel;
 import java.io.IOException;
 import java.util.List;
 
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.YES;
+import static uk.gov.hmcts.ecm.compat.common.model.helper.Constants.YES;
 
 @Slf4j
 @RequiredArgsConstructor

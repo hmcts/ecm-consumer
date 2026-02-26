@@ -5,23 +5,23 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import uk.gov.hmcts.ecm.common.client.CcdClient;
-import uk.gov.hmcts.ecm.common.helpers.UtilHelper;
 import uk.gov.hmcts.ecm.common.model.bulk.items.CaseIdTypeItem;
 import uk.gov.hmcts.ecm.common.model.ccd.CCDRequest;
 import uk.gov.hmcts.ecm.common.model.multiples.MultipleData;
 import uk.gov.hmcts.ecm.common.model.multiples.SubmitMultipleEvent;
-import uk.gov.hmcts.ecm.common.model.servicebus.UpdateCaseMsg;
-import uk.gov.hmcts.ecm.common.model.servicebus.datamodel.CreationSingleDataModel;
+import uk.gov.hmcts.ecm.compat.common.client.CcdClient;
+import uk.gov.hmcts.ecm.compat.common.helpers.UtilHelper;
+import uk.gov.hmcts.ecm.compat.common.model.servicebus.UpdateCaseMsg;
+import uk.gov.hmcts.ecm.compat.common.model.servicebus.datamodel.CreationSingleDataModel;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.domain.MultipleErrors;
 
 import java.io.IOException;
 import java.util.List;
 
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.ERRORED_STATE;
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.MIGRATION_CASE_SOURCE;
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.OPEN_STATE;
-import static uk.gov.hmcts.ecm.common.model.helper.Constants.TRANSFERRED_STATE;
+import static uk.gov.hmcts.ecm.compat.common.model.helper.Constants.ERRORED_STATE;
+import static uk.gov.hmcts.ecm.compat.common.model.helper.Constants.MIGRATION_CASE_SOURCE;
+import static uk.gov.hmcts.ecm.compat.common.model.helper.Constants.OPEN_STATE;
+import static uk.gov.hmcts.ecm.compat.common.model.helper.Constants.TRANSFERRED_STATE;
 
 @Slf4j
 @Service
