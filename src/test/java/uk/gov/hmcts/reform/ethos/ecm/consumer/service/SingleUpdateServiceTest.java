@@ -38,6 +38,8 @@ public class SingleUpdateServiceTest {
     private transient SingleUpdateService singleUpdateService;
     @Mock
     private transient CcdClient ccdClient;
+    @Mock
+    private transient ConciliationTrackService conciliationTrackService;
 
     private transient SubmitEvent submitEvent;
     private transient List<SubmitMultipleEvent> submitMultipleEvents;
@@ -89,6 +91,7 @@ public class SingleUpdateServiceTest {
                                              eq(updateCaseMsg.getJurisdiction()),
                                              any(),
                                              any());
+        verify(conciliationTrackService).populateConciliationTrackForJurisdiction(eq(submitEvent));
     }
 
     @Test
@@ -117,6 +120,7 @@ public class SingleUpdateServiceTest {
                                              eq(updateCaseMsg.getJurisdiction()),
                                              any(),
                                              any());
+        verify(conciliationTrackService).populateConciliationTrackForJurisdiction(eq(submitEvent));
     }
 
     @Test
@@ -143,6 +147,7 @@ public class SingleUpdateServiceTest {
                                              eq(updateCaseMsg.getJurisdiction()),
                                              any(),
                                              any());
+        verify(conciliationTrackService).populateConciliationTrackForJurisdiction(eq(submitEvent));
     }
 
     @Test
@@ -174,6 +179,7 @@ public class SingleUpdateServiceTest {
         verify(ccdClient).retrieveMultipleCasesElasticSearchWithRetries(eq(userToken),
                                                    eq(updateCaseMsg.getCaseTypeId()),
                                                    any());
+        verify(conciliationTrackService).populateConciliationTrackForJurisdiction(eq(submitEvent));
         verifyNoMoreInteractions(ccdClient);
     }
 
