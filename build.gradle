@@ -167,7 +167,7 @@ configurations.configureEach {
 
 dependencies {
 
-  implementation group: 'com.github.hmcts', name: 'et-shared', version: '1.0.1'
+  implementation group: 'com.github.hmcts', name: 'et-shared', version: '1.0.14'
 
   //To Remove vulnerabilities CVE-2023-31582, CVE-2023-4586
   dependencyManagement {
