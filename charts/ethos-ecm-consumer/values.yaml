@@ -1,5 +1,5 @@
 java:
-  image: 'hmctspublic.azurecr.io/ethos/ecm-consumer:latest'
+  image: 'hmctsprod.azurecr.io/ethos/ecm-consumer:latest'
   applicationPort: 8085
   ingressHost: ethos-ecm-consumer-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
   keyVaults:
