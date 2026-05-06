@@ -14,24 +14,8 @@ java:
           alias: CASEWORKER_USER_NAME
         - name: caseworker-password
           alias: CASEWORKER_PASSWORD
-        - name: create-updates-queue-send-connection-string
-          alias: CREATE_UPDATES_QUEUE_SEND_CONNECTION_STRING
-        - name: create-updates-queue-listen-connection-string
-          alias: CREATE_UPDATES_QUEUE_LISTEN_CONNECTION_STRING
-        - name: update-case-queue-send-connection-string
-          alias: UPDATE_CASE_QUEUE_SEND_CONNECTION_STRING
-        - name: update-case-queue-listen-connection-string
-          alias: UPDATE_CASE_QUEUE_LISTEN_CONNECTION_STRING
         - name: idam-client-secret
           alias: IDAM_CLIENT_SECRET
-        - name: ecm-consumer-postgres-user-v15
-          alias: ECM_CONSUMER_POSTGRES_USER
-        - name: ecm-consumer-postgres-password-v15
-          alias: ECM_CONSUMER_POSTGRES_PASSWORD
-        - name: ecm-consumer-postgres-host-v15
-          alias: ECM_CONSUMER_POSTGRES_HOST
-        - name: ecm-consumer-postgres-port-v15
-          alias: ECM_CONSUMER_POSTGRES_PORT
   aadIdentityName: ethos
   environment:
     REFORM_TEAM: ethos
@@ -49,5 +33,4 @@ java:
     CCD_DATA_STORE_API_URL: "http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
     CCD_GATEWAY_BASE_URL: "https://manage-case.{{ .Values.global.environment }}.platform.hmcts.net"
     MICRO_SERVICE: "ecm_consumer"
-    ECM_CONSUMER_DB_CONN_OPTIONS: ?sslmode=require
     CRON_MIGRATE_TO_REFORM_ENABLED: "false"
