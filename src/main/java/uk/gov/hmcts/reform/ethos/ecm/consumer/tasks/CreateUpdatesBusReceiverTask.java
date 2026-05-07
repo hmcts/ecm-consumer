@@ -9,6 +9,7 @@ import com.microsoft.azure.servicebus.IMessageHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.ecm.compat.common.exceptions.InvalidMessageException;
@@ -32,6 +33,7 @@ import java.util.concurrent.Executors;
  */
 @DependsOn({"create-updates-completor", "update-case-send-helper"})
 @Service
+@ConditionalOnProperty(prefix = "queue", name = "enabled", havingValue = "true")
 @Slf4j
 public class CreateUpdatesBusReceiverTask implements IMessageHandler {
     private final ExecutorService executorService;
