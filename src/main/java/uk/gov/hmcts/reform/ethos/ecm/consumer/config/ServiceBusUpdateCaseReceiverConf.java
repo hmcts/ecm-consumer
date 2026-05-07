@@ -7,6 +7,7 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import uk.gov.hmcts.reform.ethos.ecm.consumer.tasks.UpdateCaseBusReceiverTask;
 
@@ -16,6 +17,7 @@ import java.util.concurrent.Executors;
 
 @AutoConfigureAfter(ServiceBusCreateUpdatesReceiverConf.class)
 @Configuration
+@ConditionalOnProperty(prefix = "queue", name = "enabled", havingValue = "true")
 public class ServiceBusUpdateCaseReceiverConf {
 
     @Value("${multithreading.update-case-bus-receiver.maxConcurrentCalls}")

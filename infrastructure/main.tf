@@ -2,14 +2,6 @@ provider "azurerm" {
   features {}
 }
 
-
-provider "azurerm" {
-  features {}
-  skip_provider_registration = true
-  alias                      = "private_endpoint"
-  subscription_id            = var.aks_subscription_id
-}
-
 locals {
   previewVaultName    = "${var.product}-shared-aat"
   nonPreviewVaultName = "${var.product}-shared-${var.env}"
@@ -53,25 +45,3 @@ resource "azurerm_key_vault_secret" "ecm_consumer_s2s_key" {
   value        = data.azurerm_key_vault_secret.microservicekey_ecm_consumer.value
   key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
 }
-
-# SERVICE BUS
-data "azurerm_key_vault_secret" "create_updates_queue_send_conn_str" {
-  name         = "create-updates-queue-send-connection-string"
-  key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
-}
-
-data "azurerm_key_vault_secret" "create_updates_queue_listen_conn_str" {
-  name         = "create-updates-queue-listen-connection-string"
-  key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
-}
-
-data "azurerm_key_vault_secret" "update_case_queue_send_conn_str" {
-  name         = "update-case-queue-send-connection-string"
-  key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
-}
-
-data "azurerm_key_vault_secret" "update_case_queue_listen_conn_str" {
-  name         = "update-case-queue-listen-connection-string"
-  key_vault_id = data.azurerm_key_vault.ethos_key_vault.id
-}
-
